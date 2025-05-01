@@ -22,8 +22,6 @@ jobs:
       - name: See other project pipeline for Tests
         run: echo " See other project pipeline for Tests this is a placeholder"
     
-    
-    
   branch-name-check:
     name: PR Check Enforce Branch Name Convention 
     runs-on: ubuntu-latest

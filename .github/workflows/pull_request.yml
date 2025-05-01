@@ -10,4 +10,6 @@ on:
 jobs:
   call-reusable-ci-checks-workflow:
     name: Run CI Checks
-    uses: ./.github/workflows/ci-checks.yml
+    uses: ./.github/workflows/reuseable-ci-checks.yml
+    with:
+      runall: true
