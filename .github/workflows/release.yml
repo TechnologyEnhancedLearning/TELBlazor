@@ -62,7 +62,7 @@ jobs:
             # git fetch --tags
             # git tag -l  # List all tags to see if there are any conflicts
 
-          ##configured with .releaseseec
+      #configured with .releaseseec
       - name: run semantic release
         id: set-semantic-version
         # should need qqqq

@@ -111,7 +111,7 @@ jobs:
   # Hence explicit "if" and "needs"
   generate-dev-semantic-version:
     if: success()
-    needs: [commitlint, gitguardian-scan, Unit-Tests, E2E-Tests, Code-Coverage, branch-name-check]
+    needs: [commitlint, Unit-Tests, E2E-Tests, Code-Coverage, branch-name-check]
     runs-on: ubuntu-latest
     outputs:
       dev-package-version: ${{ steps.set-dev-semantic-version.outputs.dev-semantic-version }}
@@ -245,7 +245,7 @@ jobs:
   Make-WasmStaticClient-DevShowCase-Artifact-Trigger-GH-Pages-In-TELBlazor-DevShowCase-Repo:
   
     if: success() #not needed but being explicit
-    needs: [ branch-name-check, build-telblazor-dev-package-and-publish,generate-dev-semantic-version, commitlint, gitguardian-scan, Unit-Tests, E2E-Tests]
+    needs: [ branch-name-check, build-telblazor-dev-package-and-publish,generate-dev-semantic-version, commitlint, Unit-Tests, E2E-Tests]
     runs-on: ubuntu-latest
     env:
       DEV_TELBLAZOR_PACKAGE_VERSION: ${{ needs.generate-dev-semantic-version.outputs.dev-package-version }}
