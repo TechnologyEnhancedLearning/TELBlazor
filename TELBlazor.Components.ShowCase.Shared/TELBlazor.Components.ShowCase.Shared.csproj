@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+	</PropertyGroup>
+	<ItemGroup>
+		<SupportedPlatform Include="browser" />
+	</ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.AspNetCore.Components.Web" />
+		<PackageReference Include="TELBlazor.Components" />
+	</ItemGroup>
+	<ItemGroup>
+		<Content Remove="packages.lock.json" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\TELBlazor.Components\TELBlazor.Components.csproj" Condition="'$(UseTELBlazorComponentsProjectReference)' == 'true'" />
+	</ItemGroup>
+</Project>

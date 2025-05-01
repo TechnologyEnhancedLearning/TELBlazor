@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <!-- Define the output path where the package will be stored -->
+	 
+	<!-- being set in csproj directly in cicd at the moment -->
+    <NupkgOutputPath>$(NupkgOutputPath)</NupkgOutputPath>
+	<TELBlazorPackageSource>$(TELBlazorPackageSource)</TELBlazorPackageSource>
+
+	<UseTELBlazorComponentsProjectReference Condition="'$(UseTELBlazorComponentsProjectReference)' == '' ">false</UseTELBlazorComponentsProjectReference>
+	<UseTELBlazorComponentsProjectReference Condition="'$(UseTELBlazorComponentsProjectReference)' != '' ">$(UseTELBlazorComponentsProjectReference)</UseTELBlazorComponentsProjectReference>
+
+	<TELBlazorPackageVersion>$(TELBlazorPackageVersion)</TELBlazorPackageVersion>
+
+    <DisablePackageGeneration>$(DisablePackageGeneration)</DisablePackageGeneration>
+
+  </PropertyGroup>
+
+</Project>

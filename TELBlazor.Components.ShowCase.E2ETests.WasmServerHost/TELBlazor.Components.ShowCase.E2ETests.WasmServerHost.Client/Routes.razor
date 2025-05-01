@@ -1,0 +1,10 @@
+﻿<Router AppAssembly="typeof(Program).Assembly"
+        AdditionalAssemblies="new[]
+            {
+                typeof(TELBlazor.Components.ShowCase.Shared._Imports).Assembly
+            }">
+    <Found Context="routeData">
+        <RouteView RouteData="routeData" DefaultLayout="typeof(TELBlazor.Components.ShowCase.Shared.Layouts.MainLayout)" />
+        <FocusOnNavigate RouteData="routeData" Selector="h1" />
+    </Found>
+</Router>

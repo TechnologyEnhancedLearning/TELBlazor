@@ -1,0 +1,64 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+	<ItemGroup>
+		<None Include="..\README.md" Pack="true" PackagePath="\" />
+	</ItemGroup>
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+
+		<EnableDefaultEmbeddedResources>true</EnableDefaultEmbeddedResources>
+		<AddRazorSupportForMvc>true</AddRazorSupportForMvc>
+
+		<GeneratePackageOnBuild Condition="'$(DisablePackageGeneration)' != 'true'">true</GeneratePackageOnBuild>
+		<PackageId>TELBlazor.Components</PackageId>
+		<Version>$(TELBlazorPackageVersion)</Version>
+		<Authors>TEL</Authors>
+		<Company>NHS</Company>
+		<Description>WCAG Progressive Enhancement Blazor Component Library</Description>
+		<PackageTags>NHS, TEL, Blazor, components, library, WCAG</PackageTags>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<RepositoryUrl>https://github.com/TechnologyEnhancedLearning/TELBlazor</RepositoryUrl>
+		<RepositoryType>git</RepositoryType>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<PackageOutputPath>$(NupkgOutputPath)</PackageOutputPath>
+
+	</PropertyGroup>
+
+	<ItemGroup>
+		<SupportedPlatform Include="browser" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.AspNetCore.Components.Web" />
+		<PackageReference Include="Microsoft.Extensions.Http" />
+	</ItemGroup>
+	<ItemGroup>
+		<Content Remove="packages.lock.json" />
+		<Content Remove="wwwroot\background.png" />
+	</ItemGroup>
+	<!--So cicd can test against a package in its container rather than a reference which isnt as close to the final product as the package-->
+	<ItemGroup>
+		<Compile Remove="..\CICDPackageLocation\**\*.cs" />
+		<Content Remove="..\CICDPackageLocation\**\*" />
+		<None Remove="..\CICDPackageLocation\**\*" />
+	</ItemGroup>
+	<ItemGroup>
+		<Folder Include="Assets\" />
+		<Folder Include="wwwroot\css\" />
+		<Folder Include="wwwroot\js\" />
+	</ItemGroup>
+	<ItemGroup>
+		<Content Update="wwwroot\**\*.*">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+	</ItemGroup>
+	<Target Name="WriteTELBlazorPackageVersionToFile" BeforeTargets="PrepareForBuild">
+		<WriteLinesToFile File="wwwroot/TELBlazorPackageVersion.txt" Lines="$(TELBlazorPackageVersion)" Overwrite="true" Encoding="UTF-8" />
+		<WriteLinesToFile File="TELBlazorPackageVersion/VersionInfo.cs" Lines="namespace TELBlazor.Components.TELBlazorPackageVersion { public static class VersionInfo { public static string Version = &quot;$(TELBlazorPackageVersion)&quot; %3B; } }" Overwrite="true" Encoding="UTF-8" />
+	</Target>
+	<Target Name="RunGulp" BeforeTargets="Build">
+		<Exec Command="npx gulp" WorkingDirectory="$(ProjectDir)" />
+	</Target>
+</Project>
+

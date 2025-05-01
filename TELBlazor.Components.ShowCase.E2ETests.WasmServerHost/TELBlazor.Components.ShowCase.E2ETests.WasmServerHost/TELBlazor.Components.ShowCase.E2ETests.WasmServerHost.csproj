@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\TELBlazor.Components.ShowCase.Shared\TELBlazor.Components.ShowCase.Shared.csproj" />
+    <ProjectReference Include="..\TELBlazor.Components.ShowCase.E2ETests.WasmServerHost.Client\TELBlazor.Components.ShowCase.E2ETests.WasmServerHost.Client.csproj" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" />
+  </ItemGroup>
+
+</Project>

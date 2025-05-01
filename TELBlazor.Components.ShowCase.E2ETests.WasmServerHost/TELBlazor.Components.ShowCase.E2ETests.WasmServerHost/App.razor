@@ -1,0 +1,26 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    @* <base href="/" /> qqqq why comment out *@
+    @*intention is to get nhsuk from shared and the scoped css from it too i expect we could have piped them together but dont want to
+        qqqq need to check getting all css *@
+
+    <!--scoped css from the nuget package via shared pages project reference-->
+    <link rel="stylesheet" href="TELBlazor.Components.ShowCase.E2ETests.WasmServerHost.styles.css" />
+    <!--A little css for the loader-->
+    <link rel="stylesheet" href="_content/TELBlazor.Components.ShowCase.Shared/css/app.css" />
+    <!--SharedPages puts this into the content via the import in app.css-->
+    <link rel="stylesheet" href="_content/TELBlazor.Components/css/nhsuk.css" />
+
+    <HeadOutlet @rendermode="InteractiveWebAssembly" />
+</head>
+
+<body>
+    <Routes @rendermode="InteractiveWebAssembly" />
+    <script src="_framework/blazor.web.js"></script>
+</body>
+
+</html>
