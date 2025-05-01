@@ -1,0 +1,18 @@
+version: 2
+updates:
+  # Configuration for GitPageBlazorWASMProgressive
+  - package-ecosystem: "nuget"
+    directory: "/"
+    schedule:
+      interval: "daily"
+    open-pull-requests-limit: 100
+    target-branch: "Automatic_version_update_dependabot"  
+    
+  - package-ecosystem: "npm"
+    directory: "/TELBlazor/TELBlazor.Components"
+    schedule:
+      interval: "daily"
+    open-pull-requests-limit: 100
+    target-branch: "Automatic_version_update_dependabot"
+
+

@@ -4,8 +4,14 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-  </PropertyGroup>
 
+	<PublishDir>$(MSBuildProjectDirectory)\..\..\docs\</PublishDir>
+  </PropertyGroup>
+	
+  <Target Name="AddNoJekyllForGitHubPagesDeployment" AfterTargets="Publish">
+	<Touch Files="$(PublishDir).nojekyll" AlwaysCreate="true" />
+  </Target>
+	
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" PrivateAssets="all" />

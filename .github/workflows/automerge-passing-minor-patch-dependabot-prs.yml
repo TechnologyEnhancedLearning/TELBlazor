@@ -1,0 +1,38 @@
+# The intention is minor and patch should be merged into the dependabot branch automatically
+# qqqq normal pr checks should be used either by the pull-request script, the checks set up in git, or by referencing the checks from another workflow here
+
+name: Dependabot Auto-Merge
+
+on:
+  pull_request:
+    branches: [ Automatic_version_update_dependabot ]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+# qqqq need branch protection rules to ensure checks passed before this runs and ensure its passed
+  auto-merge-minor-and-patch:
+    runs-on: ubuntu-latest
+    if: ${{ github.actor == 'dependabot[bot]' }}
+    steps:
+      - name: Extract update type
+        id: extract
+        run: |
+          PR_TITLE="${{ github.event.pull_request.title }}"
+          if [[ $PR_TITLE == *"(major)"* ]]; then
+            echo "update_type=major" >> $GITHUB_OUTPUT
+          else
+            echo "update_type=minor_or_patch" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Set up GitHub CLI
+        uses: cli/cli-action@v2
+
+      - name: Auto-merge non-major updates
+        if: ${{ steps.extract.outputs.update_type == 'minor_or_patch' }}
+        run: gh pr merge --auto --merge "$PR_URL"
+        env:
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -1,0 +1,363 @@
+name: Dev Check Test Package TELBlazor.Components Trigger TELBlazor-DevShowCase Deployment 
+on:
+  push:
+    branches-ignore:
+      - 'main'
+      - 'master'
+
+permissions:
+  contents: write
+  actions: write
+
+env:
+
+  # Permission
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  PACKAGES_TOKEN: ${{ secrets.PACKAGES_TOKEN }}
+  GITHUB_USERNAME: "Phil-NHS"
+
+  # Nuget Set Up
+  TELBLAZOR_PACKAGE_LOCAL_OUTPUT_PATH: ${{ github.workspace }}/CICDPackageLocation
+  TELBLAZOR_PACKAGE_SOURCE: "https://nuget.pkg.github.com/TechnologyEnhancedLearning/index.json"
+  
+  # Build Set Up
+  USE_TEL_BLAZOR_COMPONENTS_PROJECT_REFERENCE: false
+  
+
+
+
+jobs:
+#qqqq put back in
+  call-reusable-ci-checks-workflow:
+    name: run ci checks
+    uses: ./.github/workflows/reuseable-ci-checks.yml
+    with:
+      runall: true
+    
+  branch-name-check:
+    name: Enforce Branch Name Convention
+    if: success() || failure()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Validate Branch Name
+        run: |
+          #BRANCH_NAME="${GITHUB_HEAD_REF}"
+          BRANCH_NAME="${GITHUB_HEAD_REF:-${GITHUB_REF_NAME}}"
+          echo "Validating branch name: $BRANCH_NAME"
+
+          if [[ "$BRANCH_NAME" =~ ^(build|chore|ci|docs|feat|fix|perf|refactor|revert|style|test|sample|security|config|bugfix|hotfix)-[a-zA-Z0-9._/-]+$ ]] || [[ "$BRANCH_NAME" == "master" ]]; then
+            echo "✅ Branch name is valid"
+          else
+            echo "❌ Invalid branch name: $BRANCH_NAME"
+            echo "Branch names must follow one of the allowed prefixes:"
+            echo "   build-*, feat-*, fix-*, bugfix-*, hotfix-*, build-*, chore-*, ci-*, docs-*, perf-*, refactor-*, revert-*, style-*, test-*, sample-*, security-*, config-*, bugfix-*, hotfix-*"
+            exit 1
+          fi
+        continue-on-error: false
+
+  commitlint:
+    runs-on: ubuntu-latest
+    if: success() || failure()
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: wagoid/commitlint-github-action@v5
+        with:
+          configFile: .commitlintrc.json
+        continue-on-error: false 
+        
+  # Global and better as prehook     
+  # gitguardian-scan:
+    # runs-on: ubuntu-latest
+    # if: success() || failure()
+    # steps:
+      # - uses: actions/checkout@v3
+
+      # - name: GitGuardian Scan
+        # uses: GitGuardian/gg-shield-action@v1
+        # env:
+          # GITGUARDIAN_API_KEY: ${{ secrets.GITGUARDIAN_API_KEY  }}
+        # continue-on-error: false
+
+  Unit-Tests:
+      runs-on: ubuntu-latest
+      if: success() || failure()
+      steps:
+        - name: See other project pipeline for Tests
+          run: echo " See other project pipeline for Tests this is a placeholder"
+          continue-on-error: false
+          
+  
+  E2E-Tests:
+      runs-on: ubuntu-latest
+      if: success() || failure()
+      steps:
+        - name: See other project pipeline for Tests
+          run: echo " See other project pipeline for Tests this is a placeholder"
+          continue-on-error: false
+ 
+  Code-Coverage:
+      runs-on: ubuntu-latest
+      if: success() || failure()
+      steps:
+        - name: See other project pipeline for Tests
+          run: echo " See other project pipeline for Tests this is a placeholder"
+          continue-on-error: false 
+
+  # Now we've done due diligence
+  # The checks have been allowed to run if the workflow fails so if there a multiple fails we know. 
+  # We do not proceed from the point if there is a fail.
+  # Hence explicit "if" and "needs"
+  generate-dev-semantic-version:
+    if: success()
+    needs: [commitlint, gitguardian-scan, Unit-Tests, E2E-Tests, Code-Coverage, branch-name-check]
+    runs-on: ubuntu-latest
+    outputs:
+      dev-package-version: ${{ steps.set-dev-semantic-version.outputs.dev-semantic-version }}
+    steps:
+    
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+            fetch-depth: 0  # Required for Semantic Release to analyze commit history
+          
+          
+      - name: Install Semantic Release Packages
+        #qqqq shouldnt need
+        # env:
+          # GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # PACKAGES_TOKEN: ${{ secrets.PACKAGES_TOKEN }}
+        run: |
+          echo "Installing semantic-release packages..."
+          npm install -D \
+            semantic-release \
+            @semantic-release/changelog \
+            @semantic-release/git \
+            @semantic-release/commit-analyzer \
+            @semantic-release/release-notes-generator \
+            @semantic-release/github
+          echo "Semantic Release packages installed."
+          npm ls --depth=0 # Debug: List installed packages
+       
+      
+
+
+      - name: Run Semantic Version (None Blocking)
+        # remove if not needed qqqq
+        # env:
+          # GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # PACKAGES_TOKEN: ${{ secrets.PACKAGES_TOKEN }}
+        run: |
+          # If no version is required we can get an error so here we handle it
+          set +e
+          
+          SEMVER_OUTPUT_RAW=$(npx semantic-release)
+          echo "Raw SEMVER_OUTPUT_RAW=$SEMVER_OUTPUT_RAW"
+          
+          SEMVER_OUTPUT=$(echo "$SEMVER_OUTPUT_RAW" | grep -oP 'Published release \K[^\s]+')
+
+          # In development, we always package and update the website—even if there’s no version change.
+          # This ensures the CI process runs consistently and the latest code is deployed.
+          # It's especially useful when squashing commits, as it guarantees the package is still rebuilt and published.
+          echo "Packaging and updating the website in development, even without version changes, to ensure consistent CI behavior and updated packages after squashed commits."
+          
+          STATUS=$?
+          if [ -z "$SEMVER_OUTPUT" ]; then
+            SEMVER_OUTPUT=$(echo "$SEMVER_OUTPUT_RAW" | grep -oP 'Found git tag v\K[^\s]+')
+            # Note: If Semver falls back to using a Git tag, it will pick the most recent one.
+            # This tag may not belong to the current branch, so the result isn't guaranteed to reflect the latest changes on this branch.
+            echo "Semver fallback: using latest Git tag, which may not be from the current branch."
+          fi
+         
+          # Export the result to the environment
+          echo "SEMVER_OUTPUT=$SEMVER_OUTPUT" >> $GITHUB_ENV
+          set -e
+
+          
+      - name: Rename Semver Version With Date Time Dev
+        id: set-dev-semantic-version
+        run: |        
+          echo "Semantic Release Output $SEMVER_OUTPUT"
+
+          # In development, we always package and update the website—even if there’s no version change.
+          # This ensures the CI process runs consistently and the latest code is deployed.
+          # It's especially useful when squashing commits, as it guarantees the package is still rebuilt and published.
+          timestamp=$(date +"%y%m%d-%H%M")
+          echo "Timestamp $timestamp"
+          
+          full_version="${SEMVER_OUTPUT}-${timestamp}"
+          echo "extracted version $full_version"
+          echo "dev-semantic-version=$full_version" >> $GITHUB_OUTPUT
+    
+
+  build-telblazor-dev-package-and-publish:
+    if: success() 
+    needs: [generate-dev-semantic-version, commitlint, Unit-Tests,E2E-Tests, Code-Coverage, branch-name-check]
+    runs-on: ubuntu-latest
+    env:
+      DEV_TELBLAZOR_PACKAGE_VERSION: ${{ needs.generate-dev-semantic-version.outputs.dev-package-version }}
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          global-json-file: global.json
+        
+      - name: Debug Version Output DEV_TELBLAZOR_PACKAGE_VERSION var
+        run: echo "Extracted Version $DEV_TELBLAZOR_PACKAGE_VERSION "
+        
+      - name: Replace local environment variable in nuget config because cant provide it as a parameter
+        run: sed -i "s|%TELBlazorPackageSource%|$TELBLAZOR_PACKAGE_LOCAL_OUTPUT_PATH|g" nuget.config
+       
+      - name: Clean lock files because the newly generated package file will superseed the locks
+        run: |
+          find . -name "packages.lock.json" -type f -exec rm -f {} \;
+      
+      - name: Set up Node.js so we have gulp for retrieving TEL Frontend Css
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+    
+      - name: Install npm packages so we have gulp for retrieving TEL Frontend Css
+        working-directory: ./TELBlazor.Components
+        run: npm ci
+        #CI is an install that adheres to package-lock
+      
+      - name: Build BlazorComponentLibrary (it publishes on build)
+        run: |
+          dotnet build Package.BlazorComponentLibrary -c Release \
+            /p:TELBlazorPackageVersion=$DEV_TELBLAZOR_PACKAGE_VERSION \
+            /p:NupkgOutputPath=$TELBLAZOR_PACKAGE_LOCAL_OUTPUT_PATH \
+            /p:UseTELBlazorComponentsProjectReference=$USE_TEL_BLAZOR_COMPONENTS_PROJECT_REFERENCE
+ 
+      - name: Publish to TechnologyEnhancedLearning as a Dev Package
+        run: |
+          dotnet nuget push "$TELBLAZOR_PACKAGE_LOCAL_OUTPUT_PATH/TELBlazor.Components.*.nupkg" \
+          --source "$TELBLAZOR_PACKAGE_SOURCE" \
+          --api-key $PACKAGES_TOKEN \
+          --skip-duplicate      
+          
+  
+       
+  Make-WasmStaticClient-DevShowCase-Artifact-Trigger-GH-Pages-In-TELBlazor-DevShowCase-Repo:
+  
+    if: success() #not needed but being explicit
+    needs: [ branch-name-check, build-telblazor-dev-package-and-publish,generate-dev-semantic-version, commitlint, gitguardian-scan, Unit-Tests, E2E-Tests]
+    runs-on: ubuntu-latest
+    env:
+      DEV_TELBLAZOR_PACKAGE_VERSION: ${{ needs.generate-dev-semantic-version.outputs.dev-package-version }}
+
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          global-json-file: global.json
+          
+      - name: Clean Solution
+        run: |
+          echo "Cleaning the solution..."
+          dotnet clean TELBlazor.sln
+          
+        
+      - name: Replace local environment variable in nuget config because cant provide it as a parameter
+        run: |
+          sed -i "s|%TELBlazorPackageSource%|$TELBLAZOR_PACKAGE_SOURCE|g" nuget.config
+          sed -i "s|%GITHUB_USERNAME%|$GITHUB_USERNAME|g" nuget.config
+          sed -i "s|%GITHUB_PACKAGES_TOKEN%|$PACKAGES_TOKEN|g" nuget.config
+        
+      - name: debug DEV_TELBLAZOR_PACKAGE_VERSION
+        run: |
+          echo "DEV_TELBLAZOR_PACKAGE_VERSION  $DEV_TELBLAZOR_PACKAGE_VERSION"
+      
+      - name: Clean lock files because the newly generated package file will superseed the locks
+        run: |
+          echo "Listing packages.lock.json files:"
+          find . -name "packages.lock.json" -type f -print
+          echo ""
+          echo "Deleting packages.lock.json files:"
+          find . -name "packages.lock.json" -type f -exec rm -f {} \;
+          
+          echo "Listing packages.lock.json files:"
+          find . -name "packages.lock.json" -type f -print
+
+
+      #qqqq with recent changes can we just build the solution now if this works then check     
+      - name: Build Shared Pages
+        run: |
+          dotnet build SharedPages -c Release \
+            /p:TELBlazorPackageVersion=$DEV_TELBLAZOR_PACKAGE_VERSION \
+            /p:NupkgOutputPath=$TELBLAZOR_PACKAGE_LOCAL_OUTPUT_PATH \
+            /p:UseTELBlazorComponentsProjectReference=$USE_TEL_BLAZOR_COMPONENTS_PROJECT_REFERENCE \
+            /p:TELBlazorPackageSource=$TELBLAZOR_PACKAGE_SOURCE
+        #  /p:GhPageRelease=false \ qqqq is it still a thing?
+
+   
+          
+
+# qqqq no longer needed
+      # Hardcoding here the INDEPENDENT_CLIENT_GH_PAGES value
+      # - name: Modify appsettings.json with hardcoded value
+        # run: |
+          # jq '.INDEPENDENT_CLIENT_GH_PAGES = "true"' TestHostPrerenderWASM/TestHostPrerenderWASM.Client/wwwroot/appsettings.json > tmp.json && mv tmp.json TestHostPrerenderWASM/TestHostPrerenderWASM.Client/wwwroot/appsettings.json
+      # # Print the contents of appsettings.json inside 'TestHostPrerenderWASM.Client' folder
+      # - name: Display appsettings.json content
+        # run: cat TestHostPrerenderWASM/TestHostPrerenderWASM.Client/wwwroot/appsettings.json
+
+      - name: Publish WasmStaticClient
+        run: |
+          dotnet publish ./TELBlazor/TELBlazor.Components.ShowCase.WasmStaticClient/TELBlazor.Components.ShowCase.WasmStaticClient.csproj --configuration Release \
+            /p:TELBlazorPackageVersion=$DEV_TELBLAZOR_PACKAGE_VERSION \
+            /p:NupkgOutputPath=$TELBLAZOR_PACKAGE_LOCAL_OUTPUT_PATH \
+            /p:UseTELBlazorComponentsProjectReference=$USE_TEL_BLAZOR_COMPONENTS_PROJECT_REFERENCE \
+            /p:TELBlazorPackageSource=$TELBLAZOR_PACKAGE_SOURCE
+        # qqqq no longer needed             /p:GhPageRelease=true \
+
+        
+      # - name: Debug - List all files in docs folder qqqq
+        # run: |
+          # echo "Listing contents of ./docs directory"
+          # ls -alh ./docs
+          # echo "Listing contents of ./docs/wwwroot directory"
+          # ls -alh ./docs/wwwroot || echo "wwwroot directory not found"
+          # echo "Checking for bclversion.txt in ./docs"
+          # if [ -f "./docs/bclversion.txt" ]; then
+            # echo "Contents of ./docs/bclversion.txt:"
+            # cat ./docs/bclversion.txt
+          # else
+            # echo "bclversion.txt not found in ./docs"
+          # fi
+
+        
+
+      #include hidden so we get jekyll
+      - name: Creating artifact of publish folder for test gh page workflow
+        uses: actions/upload-artifact@v4
+        with:
+          name: gh-blazor-components-wiki-site-using-package-${{env.DEV_TELBLAZOR_PACKAGE_VERSION}}
+          include-hidden-files: true
+          path: | 
+            ./docs
+            ./docs/.nojekyll  # explicitly include the .nojekyll file
+          retention-days: 90
+
+      - name: Trigger Workflow in TELBlazor-DevShowCase Repository
+        run: |
+          repo_owner="TechnologyEnhancedLearning"
+          repo_name="TELBlazor-DevShowCase"
+          event_type="artifact_ready" 
+          # Trigger the workflow
+          curl -L \
+            -X POST \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer $PACKAGES_TOKEN" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            https://api.github.com/repos/$repo_owner/$repo_name/dispatches \
+            -d "{\"event_type\": \"$event_type\", \"client_payload\": {\"artifact_url\": \"$artifact_url\"}}"      
+        

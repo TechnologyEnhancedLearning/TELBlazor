@@ -1,0 +1,200 @@
+name: release
+on:
+  push:
+    branches:
+      - master
+
+permissions:
+  contents: write
+  actions: write
+
+env:
+
+
+  # Permission
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  PACKAGES_TOKEN: ${{ secrets.PACKAGES_TOKEN }}
+  GITHUB_USERNAME: "Phil-NHS"
+
+  # Nuget Set Up
+  TELBLAZOR_PACKAGE_LOCAL_OUTPUT_PATH: ${{ github.workspace }}/CICDPackageLocation
+  TELBLAZOR_PACKAGE_SOURCE: "https://nuget.pkg.github.com/TechnologyEnhancedLearning/index.json"
+  
+  # Build Set Up
+  USE_TEL_BLAZOR_COMPONENTS_PROJECT_REFERENCE: false
+
+
+jobs:
+  generate-semantic-version:
+    runs-on: ubuntu-latest
+    outputs:
+      semantic-release-version: ${{ steps.set-semantic-version.outputs.semantic-release-version }}
+    steps:
+      - name: checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # required for semantic release to analyze commit history
+
+      - name: Install Semantic Release Packages
+        # qqqq shouldnt need
+        # env:
+          # GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # PACKAGES_TOKEN: ${{ secrets.PACKAGES_TOKEN }}
+        run: |
+          echo "Installing semantic-release packages..."
+          npm install -D \
+            semantic-release \
+            @semantic-release/changelog \
+            @semantic-release/git \
+            @semantic-release/commit-analyzer \
+            @semantic-release/release-notes-generator \
+            @semantic-release/github
+          echo "Semantic Release packages installed."
+          npm ls --depth=0 # Debug: List installed packages
+       
+#qqqq       
+      # - name: Debug Git Remote Branches
+        # run: git remote show origin
+          
+      # - name: Check Existing Tags
+        # run: |
+            # echo "Checking existing tags..."
+            # git fetch --tags
+            # git tag -l  # List all tags to see if there are any conflicts
+
+          ##configured with .releaseseec
+      - name: run semantic release
+        id: set-semantic-version
+        # should need qqqq
+        # env:
+          # github_token: ${{ secrets.github_token }}
+        run: |
+          set +e
+          SEMVER_VERSION=$(npx semantic-release | grep -oP 'Published release \K[\d.]+')
+          echo "semantic-release-version=$SEMVER_VERSION" >> $GITHUB_OUTPUT
+          
+          # Check if SEMVER_VERSION is empty and echo the message if so
+          if [ -z "$SEMVER_VERSION" ]; then
+            echo "Changes do not warrant a version change. gh_pages and packages won't be updated."
+          fi
+          set -e
+    
+
+    
+  build-telblazor-package-and-publish:
+    needs: [generate-semantic-version]
+    runs-on: ubuntu-latest
+    if: ${{ needs.generate-semantic-version.outputs.semantic-release-version != '' }}  # Only run if there's a version
+    env:
+      TELBLAZOR_PACKAGE_VERSION: ${{ needs.generate-semantic-version.outputs.semantic-release-version }}
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          global-json-file: global.json
+        
+
+      # the restore cant be given env values to override values like it can in build so we need to remove this file so we use the env values
+      - name: Remove Local PackageSettings (CI Only)
+        run: rm -f PackageSettings.props.local
+        
+
+      - name: Replace local environment variable in nuget config because cant provide it as a parameter
+        run: sed -i "s|%TELBlazorPackageSource%|$TELBLAZOR_PACKAGE_LOCAL_OUTPUT_PATH|g" nuget.config
+
+      - name: Clean lock files because the newly generated package file will superseed the locks
+        run: |
+          find . -name "packages.lock.json" -type f -exec rm -f {} \;
+          
+      - name: Restore NuGet Packages for Specifically the BCL Package Library Project
+        run: dotnet restore Package.BlazorComponentLibrary/Package.BlazorComponentLibrary.csproj
+       
+      - name: Set up Node.js so we have gulp for retrieving TEL Frontend Css
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+    
+      - name: Install npm packages so we have gulp for retrieving TEL Frontend Css
+        working-directory: ./Package.BlazorComponentLibrary
+        run: npm ci
+        #CI is an install with adhering to package-lock
+        
+      - name: Build and Pack BlazorComponentLibrary
+        run: |
+          dotnet build Package.BlazorComponentLibrary -c Release \
+            /p:TELBlazorPackageVersion=$TELBLAZOR_PACKAGE_VERSION  \
+            /p:NupkgOutputPath=$TELBLAZOR_PACKAGE_LOCAL_OUTPUT_PATH
+
+
+      - name: Publish to TechnologyEnhancedLearning Package
+        run: |
+          dotnet nuget push "$TELBLAZOR_PACKAGE_LOCAL_OUTPUT_PATH/TELBlazor.Components.*.nupkg" \
+          --source "$TELBLAZOR_PACKAGE_SOURCE" \
+          --api-key $PACKAGES_TOKEN \
+          --skip-duplicate      
+
+
+
+  Update-gh-pages-site:
+      needs: [build-telblazor-package-and-publish, generate-semantic-version]
+      runs-on: ubuntu-latest
+      if: ${{ needs.generate-semantic-version.outputs.semantic-release-version != '' }}  # Only run if there's a version
+      env:
+        TELBLAZOR_PACKAGE_VERSION: ${{ needs.generate-semantic-version.outputs.semantic-release-version }}
+      steps:
+        - name: Checkout Code
+          uses: actions/checkout@v4
+
+        - name: Setup .NET
+          uses: actions/setup-dotnet@v4
+          with:
+            global-json-file: global.json
+          
+        - name: Remove Local PackageSettings (CI Only)
+          run: rm -f PackageSettings.props.local
+        
+        - name: Replace local environment variable in nuget config because cant provide it as a parameter
+          run: |
+            sed -i "s|%TELBlazorPackageSource%|$TELBLAZOR_PACKAGE_SOURCE|g" nuget.config
+            sed -i "s|%GITHUB_USERNAME%|$GITHUB_USERNAME|g" nuget.config
+            sed -i "s|%GITHUB_PACKAGES_TOKEN%|$PACKAGES_TOKEN |g" nuget.config
+        
+      
+        - name: Clean lock files because the newly generated package file will superseed the locks
+          run: |
+            echo "Listing packages.lock.json files:"
+            find . -name "packages.lock.json" -type f -print
+            echo ""
+            echo "Deleting packages.lock.json files:"
+            find . -name "packages.lock.json" -type f -exec rm -f {} \;
+          
+            echo "Listing packages.lock.json files:"
+            find . -name "packages.lock.json" -type f -print
+        
+        - name: Build Shared Pages
+          run: |
+            dotnet build SharedPages -c Release \
+              /p:TELBlazorPackageVersion=$TELBLAZOR_PACKAGE_VERSION \
+              /p:NupkgOutputPath=$TELBLAZOR_PACKAGE_LOCAL_OUTPUT_PATH \
+              /p:UseTELBlazorComponentsProjectReference=$USE_BCL_PROJECT_REFERENCE \
+              /p:TELBlazorPackageSource=$TELBLAZOR_PACKAGE_SOURCE
+              
+
+        - name: Publish WasmStaticClient
+          run: |
+            dotnet publish ./TELBlazor/TELBlazor.Components.ShowCase.WasmStaticClient/TELBlazor.Components.ShowCase.WasmStaticClient.csproj --configuration Release \
+              /p:TELBlazorPackageVersion=$TELBLAZOR_PACKAGE_VERSION \
+              /p:NupkgOutputPath=$TELBLAZOR_PACKAGE_LOCAL_OUTPUT_PATH \
+              /p:UseTELBlazorComponentsProjectReference=$USE_BCL_PROJECT_REFERENCE \
+              /p:TELBlazorPackageSource=$TELBLAZOR_PACKAGE_SOURCE
+                  
+      
+      # No this will be in the release branch that we do a prod wiki host
+        - name: Deploy to GitHub Pages
+          uses: JamesIves/github-pages-deploy-action@v4
+          with:
+            folder: docs  # The folder the action should deploy
+            branch: gh-pages  # The branch the action should deploy to

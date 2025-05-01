@@ -1,0 +1,13 @@
+# qqqq to do
+
+
+name: Pull Request Checks
+
+on:
+  pull_request:
+    branches: ['**']  # Run on all branches
+
+jobs:
+  call-reusable-ci-checks-workflow:
+    name: Run CI Checks
+    uses: ./.github/workflows/ci-checks.yml
