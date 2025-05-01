@@ -179,7 +179,7 @@ jobs:
             dotnet build SharedPages -c Release \
               /p:TELBlazorPackageVersion=$TELBLAZOR_PACKAGE_VERSION \
               /p:NupkgOutputPath=$TELBLAZOR_PACKAGE_LOCAL_OUTPUT_PATH \
-              /p:UseTELBlazorComponentsProjectReference=$USE_BCL_PROJECT_REFERENCE \
+              /p:UseTELBlazorComponentsProjectReference=$USE_TEL_BLAZOR_COMPONENTS_PROJECT_REFERENCE \
               /p:TELBlazorPackageSource=$TELBLAZOR_PACKAGE_SOURCE
               
 
@@ -188,7 +188,7 @@ jobs:
             dotnet publish ./TELBlazor/TELBlazor.Components.ShowCase.WasmStaticClient/TELBlazor.Components.ShowCase.WasmStaticClient.csproj --configuration Release \
               /p:TELBlazorPackageVersion=$TELBLAZOR_PACKAGE_VERSION \
               /p:NupkgOutputPath=$TELBLAZOR_PACKAGE_LOCAL_OUTPUT_PATH \
-              /p:UseTELBlazorComponentsProjectReference=$USE_BCL_PROJECT_REFERENCE \
+              /p:UseTELBlazorComponentsProjectReference=$USE_TEL_BLAZOR_COMPONENTS_PROJECT_REFERENCE \
               /p:TELBlazorPackageSource=$TELBLAZOR_PACKAGE_SOURCE
                   
       
