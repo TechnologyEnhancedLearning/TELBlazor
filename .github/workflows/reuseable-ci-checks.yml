@@ -1,7 +1,5 @@
 #qqqq to do refactor to here
 
-
-
 name: Reusable CI Checks
 
 on:
@@ -22,8 +20,66 @@ jobs:
       - name: See other project pipeline for Tests
         run: echo " See other project pipeline for Tests this is a placeholder"
     
-  branch-name-check:
-    name: PR Check Enforce Branch Name Convention 
+  # branch-name-check:
+    # name: PR Check Enforce Branch Name Convention 
+    # runs-on: ubuntu-latest
+    # steps:
+      # - name: Validate Branch Name
+        # run: |
+          # #BRANCH_NAME="${GITHUB_HEAD_REF}"
+          # BRANCH_NAME="${GITHUB_HEAD_REF:-${GITHUB_REF_NAME}}"
+          # echo "Validating branch name: $BRANCH_NAME"
+
+          # if [[ "$BRANCH_NAME" =~ ^(build|chore|ci|docs|feat|fix|perf|refactor|revert|style|test|sample|security|config|bugfix|hotfix)-[a-zA-Z0-9._/-]+$ ]] || [[ "$BRANCH_NAME" == "master" ]] || [[ "$BRANCH_NAME" == "Automatic_version_update_dependabot" ]]; then
+            # echo "✅ Branch name is valid"
+          # else
+            # echo "❌ Invalid branch name: $BRANCH_NAME"
+            # echo "Branch names must follow one of the allowed prefixes:"
+            # echo "   build-*, feat-*, fix-*, bugfix-*, hotfix-*, build-*, chore-*, ci-*, docs-*, perf-*, refactor-*, revert-*, style-*, test-*, sample-*, security-*, config-*, bugfix-*, hotfix-*"
+            # exit 1
+          # fi
+        # continue-on-error:  ${{ inputs.runall }}
+          
+  # commitlint:
+    # name: PR Check commitlint
+    # runs-on: ubuntu-latest
+    # steps:
+      # - uses: actions/checkout@v4
+        # with:
+          # fetch-depth: 0
+      # - uses: wagoid/commitlint-github-action@v5
+        # with:
+          # configFile: .commitlintrc.json
+    # continue-on-error:  ${{ inputs.runall }}
+  
+  # Unit-Tests:
+      # name: PR Check Unit Tests
+      # runs-on: ubuntu-latest
+      # steps:
+        # - name: See other project pipeline for Tests
+          # run: echo " See other project pipeline for Tests this is a placeholder"
+      # continue-on-error:  ${{ inputs.runall }}
+  
+  # E2E-Tests:
+    # name: PR Check E2E Tests
+    # runs-on: ubuntu-latest
+    # steps:
+      # - name: See other project pipeline for Tests
+        # run: echo " See other project pipeline for Tests this is a placeholder"
+    # continue-on-error:  ${{ inputs.runall }}
+          
+  # Code-Coverage:
+    # name: PR Check Code Coverage
+    # runs-on: ubuntu-latest
+    # steps:
+      # - name: Code Coverage
+        # run: echo "TODO Code Coverage"
+    # continue-on-error:  ${{ inputs.runall }}
+      
+      
+branch-name-check:
+    name: Enforce Branch Name Convention
+    if: success() || failure()
     runs-on: ubuntu-latest
     steps:
       - name: Validate Branch Name
@@ -32,7 +88,7 @@ jobs:
           BRANCH_NAME="${GITHUB_HEAD_REF:-${GITHUB_REF_NAME}}"
           echo "Validating branch name: $BRANCH_NAME"
 
-          if [[ "$BRANCH_NAME" =~ ^(build|chore|ci|docs|feat|fix|perf|refactor|revert|style|test|sample|security|config|bugfix|hotfix)-[a-zA-Z0-9._/-]+$ ]] || [[ "$BRANCH_NAME" == "master" ]] || [[ "$BRANCH_NAME" == "Automatic_version_update_dependabot" ]]; then
+          if [[ "$BRANCH_NAME" =~ ^(build|chore|ci|docs|feat|fix|perf|refactor|revert|style|test|sample|security|config|bugfix|hotfix)-[a-zA-Z0-9._/-]+$ ]] || [[ "$BRANCH_NAME" == "master" ]]; then
             echo "✅ Branch name is valid"
           else
             echo "❌ Invalid branch name: $BRANCH_NAME"
@@ -41,75 +97,76 @@ jobs:
             exit 1
           fi
         continue-on-error:  ${{ inputs.runall }}
+
+    commitlint:
+      runs-on: ubuntu-latest
+      if: success() || failure()
+      steps:
+        - uses: actions/checkout@v4
+          with:
+            fetch-depth: 0
+        - uses: wagoid/commitlint-github-action@v5
+          with:
+            configFile: .commitlintrc.json
+          continue-on-error:  ${{ inputs.runall }}
+
+    Unit-Tests:
+        runs-on: ubuntu-latest
+        if: success() || failure()
+        steps:
+          - name: See other project pipeline for Tests
+            run: echo " See other project pipeline for Tests this is a placeholder"
+            continue-on-error:  ${{ inputs.runall }}
           
-  commitlint:
-    name: PR Check commitlint
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-      - uses: wagoid/commitlint-github-action@v5
-        with:
-          configFile: .commitlintrc.json
-    continue-on-error:  ${{ inputs.runall }}
   
-  Unit-Tests:
-      name: PR Check Unit Tests
+    E2E-Tests:
+        runs-on: ubuntu-latest
+        if: success() || failure()
+        steps:
+          - name: See other project pipeline for Tests
+            run: echo " See other project pipeline for Tests this is a placeholder"
+            continue-on-error:  ${{ inputs.runall }}
+ 
+    Code-Coverage:
+        runs-on: ubuntu-latest
+        if: success() || failure()
+        steps:
+          - name: See other project pipeline for Tests
+            run: echo " See other project pipeline for Tests this is a placeholder"
+            continue-on-error:  ${{ inputs.runall }}       
+          
+    Check-For-Fails:
+      name: Fail check if running allowed
+      if: ${{ inputs.runall }}
+      needs:
+        - solution-build
+        - branch-name-check
+        - commitlint
+        - Unit-Tests
+        - E2E-Tests
+        - Code-Coverage
+      
       runs-on: ubuntu-latest
       steps:
-        - name: See other project pipeline for Tests
-          run: echo " See other project pipeline for Tests this is a placeholder"
-      continue-on-error:  ${{ inputs.runall }}
-  
-  E2E-Tests:
-    name: PR Check E2E Tests
-    runs-on: ubuntu-latest
-    steps:
-      - name: See other project pipeline for Tests
-        run: echo " See other project pipeline for Tests this is a placeholder"
-    continue-on-error:  ${{ inputs.runall }}
+        - name: Check-For-Fails
+          run: echo "TODO Code Coverage"
           
-  Code-Coverage:
-    name: PR Check Code Coverage
-    runs-on: ubuntu-latest
-    steps:
-      - name: Code Coverage
-        run: echo "TODO Code Coverage"
-    continue-on-error:  ${{ inputs.runall }}
-      
-  Check-For-Fails:
-    name: Fail check if running allowed
-    if: ${{ inputs.runall }}
-    needs:
-      - solution-build
-      - branch-name-check
-      - commitlint
-      - Unit-Tests
-      - E2E-Tests
-      - Code-Coverage
-      
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check-For-Fails
-        run: echo "TODO Code Coverage"
-          
-      - name: Check Job Results
-        run: |
-          echo "Solution Build: ${{ needs.solution-build.result }}"
-          echo "Branch Name Check: ${{ needs.branch-name-check.result }}"
-          echo "Commitlint: ${{ needs.commitlint.result }}"
-          echo "Unit Tests: ${{ needs.Unit-Tests.result }}"
-          echo "E2E Tests: ${{ needs.E2E-Tests.result }}"
-          echo "Code Coverage: ${{ needs.Code-Coverage.result }}"
+        - name: Check Job Results
+          run: |
+            echo "Solution Build: ${{ needs.solution-build.result }}"
+            echo "Branch Name Check: ${{ needs.branch-name-check.result }}"
+            echo "Commitlint: ${{ needs.commitlint.result }}"
+            echo "Unit Tests: ${{ needs.Unit-Tests.result }}"
+            echo "E2E Tests: ${{ needs.E2E-Tests.result }}"
+            echo "Code Coverage: ${{ needs.Code-Coverage.result }}"
 
-          if [[ "${{ needs.solution-build.result }}" != "success" || \
-                "${{ needs.branch-name-check.result }}" != "success" || \
-                "${{ needs.commitlint.result }}" != "success" || \
-                "${{ needs.Unit-Tests.result }}" != "success" || \
-                "${{ needs.E2E-Tests.result }}" != "success" || \
-                "${{ needs.Code-Coverage.result }}" != "success" ]]; then
-            echo "❌ One or more jobs failed."
-            exit 1
-          fi
-        continue-on-error: false
+            if [[ "${{ needs.solution-build.result }}" != "success" || \
+                  "${{ needs.branch-name-check.result }}" != "success" || \
+                  "${{ needs.commitlint.result }}" != "success" || \
+                  "${{ needs.Unit-Tests.result }}" != "success" || \
+                  "${{ needs.E2E-Tests.result }}" != "success" || \
+                  "${{ needs.Code-Coverage.result }}" != "success" ]]; then
+              echo "❌ One or more jobs failed."
+              exit 1
+            fi
+          continue-on-error: false

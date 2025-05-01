@@ -34,76 +34,6 @@ jobs:
     with:
       runall: true
     
-  branch-name-check:
-    name: Enforce Branch Name Convention
-    if: success() || failure()
-    runs-on: ubuntu-latest
-    steps:
-      - name: Validate Branch Name
-        run: |
-          #BRANCH_NAME="${GITHUB_HEAD_REF}"
-          BRANCH_NAME="${GITHUB_HEAD_REF:-${GITHUB_REF_NAME}}"
-          echo "Validating branch name: $BRANCH_NAME"
-
-          if [[ "$BRANCH_NAME" =~ ^(build|chore|ci|docs|feat|fix|perf|refactor|revert|style|test|sample|security|config|bugfix|hotfix)-[a-zA-Z0-9._/-]+$ ]] || [[ "$BRANCH_NAME" == "master" ]]; then
-            echo "✅ Branch name is valid"
-          else
-            echo "❌ Invalid branch name: $BRANCH_NAME"
-            echo "Branch names must follow one of the allowed prefixes:"
-            echo "   build-*, feat-*, fix-*, bugfix-*, hotfix-*, build-*, chore-*, ci-*, docs-*, perf-*, refactor-*, revert-*, style-*, test-*, sample-*, security-*, config-*, bugfix-*, hotfix-*"
-            exit 1
-          fi
-        continue-on-error: false
-
-  commitlint:
-    runs-on: ubuntu-latest
-    if: success() || failure()
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-      - uses: wagoid/commitlint-github-action@v5
-        with:
-          configFile: .commitlintrc.json
-        continue-on-error: false 
-        
-  # Global and better as prehook     
-  # gitguardian-scan:
-    # runs-on: ubuntu-latest
-    # if: success() || failure()
-    # steps:
-      # - uses: actions/checkout@v3
-
-      # - name: GitGuardian Scan
-        # uses: GitGuardian/gg-shield-action@v1
-        # env:
-          # GITGUARDIAN_API_KEY: ${{ secrets.GITGUARDIAN_API_KEY  }}
-        # continue-on-error: false
-
-  Unit-Tests:
-      runs-on: ubuntu-latest
-      if: success() || failure()
-      steps:
-        - name: See other project pipeline for Tests
-          run: echo " See other project pipeline for Tests this is a placeholder"
-          continue-on-error: false
-          
-  
-  E2E-Tests:
-      runs-on: ubuntu-latest
-      if: success() || failure()
-      steps:
-        - name: See other project pipeline for Tests
-          run: echo " See other project pipeline for Tests this is a placeholder"
-          continue-on-error: false
- 
-  Code-Coverage:
-      runs-on: ubuntu-latest
-      if: success() || failure()
-      steps:
-        - name: See other project pipeline for Tests
-          run: echo " See other project pipeline for Tests this is a placeholder"
-          continue-on-error: false 
 
   # Now we've done due diligence
   # The checks have been allowed to run if the workflow fails so if there a multiple fails we know. 
@@ -226,12 +156,15 @@ jobs:
         run: npm ci
         #CI is an install that adheres to package-lock
       
-      - name: Build BlazorComponentLibrary (it publishes on build)
+      - name: Build TELBlazor.Components (it publishes on build)
+        env:
+          DISABLE_PACKAGE_GENERATION: false
         run: |
-          dotnet build Package.BlazorComponentLibrary -c Release \
+          dotnet build TELBlazor.Components -c Release \
             /p:TELBlazorPackageVersion=$DEV_TELBLAZOR_PACKAGE_VERSION \
             /p:NupkgOutputPath=$TELBLAZOR_PACKAGE_LOCAL_OUTPUT_PATH \
-            /p:UseTELBlazorComponentsProjectReference=$USE_TEL_BLAZOR_COMPONENTS_PROJECT_REFERENCE
+            /p:UseTELBlazorComponentsProjectReference=$USE_TEL_BLAZOR_COMPONENTS_PROJECT_REFERENCE \
+            /p:DisablePackageGeneration=$DISABLE_PACKAGE_GENERATION
  
       - name: Publish to TechnologyEnhancedLearning as a Dev Package
         run: |
