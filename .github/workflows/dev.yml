@@ -98,6 +98,11 @@ jobs:
             # This tag may not belong to the current branch, so the result isn't guaranteed to reflect the latest changes on this branch.
             echo "Semver fallback: using latest Git tag, which may not be from the current branch."
           fi
+          
+          if [ -z "$SEMVER_OUTPUT" ]; then
+            SEMVER_OUTPUT="0.0.0"
+            echo "No semantic version or tag, defaulting to 0.0.0 $SEMVER_OUTPUT"
+          fi
          
           # Export the result to the environment
           echo "SEMVER_OUTPUT=$SEMVER_OUTPUT" >> $GITHUB_ENV
