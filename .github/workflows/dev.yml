@@ -228,9 +228,9 @@ jobs:
 
 
       #qqqq with recent changes can we just build the solution now if this works then check     
-      - name: Build Shared Pages
+      - name: Build TELBlazor.Components.ShowCase.Shared
         run: |
-          dotnet build SharedPages -c Release \
+          dotnet build TELBlazor.Components.ShowCase.Shared -c Release \
             /p:TELBlazorPackageVersion=$DEV_TELBLAZOR_PACKAGE_VERSION \
             /p:NupkgOutputPath=$TELBLAZOR_PACKAGE_LOCAL_OUTPUT_PATH \
             /p:UseTELBlazorComponentsProjectReference=$USE_TEL_BLAZOR_COMPONENTS_PROJECT_REFERENCE \
