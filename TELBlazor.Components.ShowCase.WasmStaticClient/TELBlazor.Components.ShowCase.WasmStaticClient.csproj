@@ -6,12 +6,28 @@
     <ImplicitUsings>enable</ImplicitUsings>
 
 	<PublishDir>$(MSBuildProjectDirectory)\..\docs\</PublishDir>
+	<WWWRootDir>$(PublishDir)\wwwroot\</WWWRootDir>
   </PropertyGroup>
 	
   <Target Name="AddNoJekyllForGitHubPagesDeployment" AfterTargets="Publish">
 	<Touch Files="$(PublishDir).nojekyll" AlwaysCreate="true" />
   </Target>
-	
+
+	<Target Name="PostPublishGitPageFileStructureReconfiguration" AfterTargets="Publish">
+
+		<ItemGroup>
+			<WWWRootFiles Include="$(WWWRootDir)\**\*" />
+		</ItemGroup>
+
+		<!-- Copy contents of wwwroot to PublishDir -->
+		<Copy
+		  SourceFiles="@(WWWRootFiles)"
+		  DestinationFiles="@(WWWRootFiles->'$(PublishDir)\%(RecursiveDir)%(Filename)%(Extension)')"
+		  SkipUnchangedFiles="true" />
+
+		<!-- Delete wwwroot in the publish folder to flatten structure -->
+		<RemoveDir Directories="$(WWWRootDir)" />
+	</Target>	
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" PrivateAssets="all" />
