@@ -129,18 +129,7 @@ jobs:
         - uses: wagoid/commitlint-github-action@v5
           with:
             configFile: .commitlintrc.json
- 
-        - name: Setup .NET SDK (required for build command) qqqq remove me
-          uses: actions/setup-dotnet@v4
-          with:
-            dotnet-version: '8.0.407' 
-
-
-        - name: Force Failure for testing script qqqq remove me
-          run: dotnet build NonExistentProject.csproj        
-          
- 
-          
+     
 
     Unit-Tests:
         runs-on: ubuntu-latest
