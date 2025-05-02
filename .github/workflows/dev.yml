@@ -237,18 +237,7 @@ jobs:
             /p:TELBlazorPackageSource=$TELBLAZOR_PACKAGE_SOURCE
         #  /p:GhPageRelease=false \ qqqq is it still a thing?
 
-      - name: Get artifact location
-        run: |
-          # Get the artifact list for the current workflow run
-          ARTIFACT_LIST=$(gh api "repos/TechnologyEnhancedLearning/TELBlazor/actions/runs/${GITHUB_RUN_ID}/artifacts")
-          # Echo the entire artifact list for debugging purposes
-          echo "Artifact List: $ARTIFACT_LIST"
-          # Extract the download URL from the artifact list (first artifact in the list)
-          #ARTIFACT_URL=$(echo "$ARTIFACT_LIST" | jq -r '.artifacts[0].archive_download_url')
-          ARTIFACT_URL=$(echo "$ARTIFACT_LIST" | jq -r '.artifacts[0].url')
-          # Echo the artifact URL to confirm
-          echo "Artifact URL: $ARTIFACT_URL"
-          echo "artifact_url=$ARTIFACT_URL" >> $GITHUB_ENV   
+   
           
 
 # qqqq no longer needed
@@ -296,6 +285,19 @@ jobs:
             ./docs
             ./docs/.nojekyll  # explicitly include the .nojekyll file
           retention-days: 90
+
+      - name: Get artifact location
+        run: |
+          # Get the artifact list for the current workflow run
+          ARTIFACT_LIST=$(gh api "repos/TechnologyEnhancedLearning/TELBlazor/actions/runs/${GITHUB_RUN_ID}/artifacts")
+          # Echo the entire artifact list for debugging purposes
+          echo "Artifact List: $ARTIFACT_LIST"
+          # Extract the download URL from the artifact list (first artifact in the list)
+          #ARTIFACT_URL=$(echo "$ARTIFACT_LIST" | jq -r '.artifacts[0].archive_download_url')
+          ARTIFACT_URL=$(echo "$ARTIFACT_LIST" | jq -r '.artifacts[0].url')
+          # Echo the artifact URL to confirm
+          echo "Artifact URL: $ARTIFACT_URL"
+          echo "artifact_url=$ARTIFACT_URL" >> $GITHUB_ENV
 
       - name: Trigger Workflow in TELBlazor-DevShowCase Repository
         run: |
