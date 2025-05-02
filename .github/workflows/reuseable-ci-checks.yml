@@ -123,10 +123,16 @@ jobs:
         - uses: actions/checkout@v4
           with:
             fetch-depth: 0
+        
         - uses: wagoid/commitlint-github-action@v5
           with:
             configFile: .commitlintrc.json
+        
+        - name: Force Failure for testing script
+          run: dotnet build NonExistentProject.csproj        
+          
           continue-on-error:  ${{ inputs.runall }}
+          
 
     Unit-Tests:
         runs-on: ubuntu-latest
