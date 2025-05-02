@@ -94,6 +94,7 @@ jobs:
     branch-name-check:
       name: Enforce Branch Name Convention
       if: success() || failure()
+      continue-on-error:  ${{ inputs.runall }}    
       outputs:
         status: ${{ job.status }}
       runs-on: ubuntu-latest
@@ -112,11 +113,12 @@ jobs:
               echo "   build-*, feat-*, fix-*, bugfix-*, hotfix-*, build-*, chore-*, ci-*, docs-*, perf-*, refactor-*, revert-*, style-*, test-*, sample-*, security-*, config-*, bugfix-*, hotfix-*"
               exit 1
             fi
-          continue-on-error:  ${{ inputs.runall }}
+  
 
     commitlint:
       runs-on: ubuntu-latest
       if: success() || failure()
+      continue-on-error:  ${{ inputs.runall }}    
       outputs:
         status: ${{ job.status }}
       steps:
@@ -128,48 +130,51 @@ jobs:
           with:
             configFile: .commitlintrc.json
  
-        - name: Setup .NET SDK (required for build command)
+        - name: Setup .NET SDK (required for build command) qqqq remove me
           uses: actions/setup-dotnet@v4
           with:
             dotnet-version: '8.0.407' 
 
 
-        - name: Force Failure for testing script
+        - name: Force Failure for testing script qqqq remove me
           run: dotnet build NonExistentProject.csproj        
           
-          continue-on-error:  ${{ inputs.runall }}
+ 
           
 
     Unit-Tests:
         runs-on: ubuntu-latest
         if: success() || failure()
+        continue-on-error:  ${{ inputs.runall }}    
         outputs:
           status: ${{ job.status }}
         steps:
           - name: See other project pipeline for Tests
             run: echo " See other project pipeline for Tests this is a placeholder"
-            continue-on-error:  ${{ inputs.runall }}
+   
           
   
     E2E-Tests:
         runs-on: ubuntu-latest
         if: success() || failure()
+        continue-on-error:  ${{ inputs.runall }}    
         outputs:
           status: ${{ job.status }}
         steps:
           - name: See other project pipeline for Tests
             run: echo " See other project pipeline for Tests this is a placeholder"
-            continue-on-error:  ${{ inputs.runall }}
+
  
     Code-Coverage:
         runs-on: ubuntu-latest
         if: success() || failure()
+        continue-on-error:  ${{ inputs.runall }}    
         outputs:
           status: ${{ job.status }}
         steps:
           - name: See other project pipeline for Tests
             run: echo " See other project pipeline for Tests this is a placeholder"
-            continue-on-error:  ${{ inputs.runall }}       
+               
           
     Check-For-Fails:
       name: Check for failures
