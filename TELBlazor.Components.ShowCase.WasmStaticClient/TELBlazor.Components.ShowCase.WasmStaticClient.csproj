@@ -5,7 +5,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
 
-	<PublishDir>$(MSBuildProjectDirectory)\..\..\docs\</PublishDir>
+	<PublishDir>$(MSBuildProjectDirectory)\..\docs\</PublishDir>
   </PropertyGroup>
 	
   <Target Name="AddNoJekyllForGitHubPagesDeployment" AfterTargets="Publish">
