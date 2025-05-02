@@ -12,7 +12,6 @@ on:
         
 env:
 
-
   # Permission
   # GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   # PACKAGES_TOKEN: ${{ secrets.NUGETKEY }}
@@ -39,12 +38,34 @@ jobs:
       name: Check Solution Builds
       runs-on: ubuntu-latest
       continue-on-error:  ${{ inputs.runall }}
-
+      outputs:
+          status: ${{ job.status }}
       steps:
       
         - name: Checkout code
           uses: actions/checkout@v3
-        
+          
+        - name: Setup .NET
+          uses: actions/setup-dotnet@v4
+          with:
+            global-json-file: global.json
+              
+        - name: Replace local environment variable in nuget config because cant provide it as a parameter
+          run: sed -i "s|%TELBlazorPackageSource%|$TELBLAZOR_PACKAGE_LOCAL_OUTPUT_PATH|g" nuget.config
+       
+        - name: Clean lock files because the newly generated package file will superseed the locks
+          run: |
+            find . -name "packages.lock.json" -type f -exec rm -f {} \;
+      
+        - name: Set up Node.js so we have gulp for retrieving TEL Frontend Css
+          uses: actions/setup-node@v4
+          with:
+            node-version: '20'
+    
+        - name: Install npm packages so we have gulp for retrieving TEL Frontend Css
+          working-directory: ./TELBlazor.Components
+          run: npm ci   
+          
         - name: Build and Create Package locally
           env:
              #Overwrite package generation
@@ -73,6 +94,8 @@ jobs:
     branch-name-check:
       name: Enforce Branch Name Convention
       if: success() || failure()
+      outputs:
+        status: ${{ job.status }}
       runs-on: ubuntu-latest
       steps:
         - name: Validate Branch Name
@@ -94,6 +117,8 @@ jobs:
     commitlint:
       runs-on: ubuntu-latest
       if: success() || failure()
+      outputs:
+        status: ${{ job.status }}
       steps:
         - uses: actions/checkout@v4
           with:
@@ -106,6 +131,8 @@ jobs:
     Unit-Tests:
         runs-on: ubuntu-latest
         if: success() || failure()
+        outputs:
+          status: ${{ job.status }}
         steps:
           - name: See other project pipeline for Tests
             run: echo " See other project pipeline for Tests this is a placeholder"
@@ -115,6 +142,8 @@ jobs:
     E2E-Tests:
         runs-on: ubuntu-latest
         if: success() || failure()
+        outputs:
+          status: ${{ job.status }}
         steps:
           - name: See other project pipeline for Tests
             run: echo " See other project pipeline for Tests this is a placeholder"
@@ -123,13 +152,15 @@ jobs:
     Code-Coverage:
         runs-on: ubuntu-latest
         if: success() || failure()
+        outputs:
+          status: ${{ job.status }}
         steps:
           - name: See other project pipeline for Tests
             run: echo " See other project pipeline for Tests this is a placeholder"
             continue-on-error:  ${{ inputs.runall }}       
           
     Check-For-Fails:
-      name: Fail check if running allowed
+      name: Check for failures
       if: ${{ inputs.runall }}
       needs:
         - solution-build
@@ -141,24 +172,22 @@ jobs:
       
       runs-on: ubuntu-latest
       steps:
-        - name: Check-For-Fails
-          run: echo "TODO Code Coverage"
-          
         - name: Check Job Results
           run: |
-            echo "Solution Build: ${{ needs.solution-build.result }}"
-            echo "Branch Name Check: ${{ needs.branch-name-check.result }}"
-            echo "Commitlint: ${{ needs.commitlint.result }}"
-            echo "Unit Tests: ${{ needs.Unit-Tests.result }}"
-            echo "E2E Tests: ${{ needs.E2E-Tests.result }}"
-            echo "Code Coverage: ${{ needs.Code-Coverage.result }}"
+            echo "Solution Build: ${{ needs.solution-build.outputs.status }}"
+            echo "Branch Name Check: ${{ needs.branch-name-check.outputs.status }}"
+            echo "Commitlint: ${{ needs.commitlint.outputs.status }}"
+            echo "Unit Tests: ${{ needs.Unit-Tests.outputs.status }}"
+            echo "E2E Tests: ${{ needs.E2E-Tests.outputs.status }}"
+            echo "Code Coverage: ${{ needs.Code-Coverage.outputs.status }}"
 
-            if [[ "${{ needs.solution-build.result }}" != "success" || \
-                  "${{ needs.branch-name-check.result }}" != "success" || \
-                  "${{ needs.commitlint.result }}" != "success" || \
-                  "${{ needs.Unit-Tests.result }}" != "success" || \
-                  "${{ needs.E2E-Tests.result }}" != "success" || \
-                  "${{ needs.Code-Coverage.result }}" != "success" ]]; then
+            # Check if any job is not success (failure, cancelled, skipped)
+            if [[ "${{ needs.solution-build.outputs.status }}" != "success" || \
+                  "${{ needs.branch-name-check.outputs.status }}" != "success" || \
+                  "${{ needs.commitlint.outputs.status }}" != "success" || \
+                  "${{ needs.Unit-Tests.outputs.status }}" != "success" || \
+                  "${{ needs.E2E-Tests.outputs.status }}" != "success" || \
+                  "${{ needs.Code-Coverage.outputs.status }}" != "success" ]]; then
               echo "❌ One or more jobs failed."
               exit 1
             fi
