@@ -14,7 +14,6 @@ env:
   # Permission
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   PACKAGES_TOKEN: ${{ secrets.NUGETKEY }}
-  # PACKAGES_TOKEN qqqq
   GITHUB_USERNAME: "Phil-NHS"
 
   # Nuget Set Up
@@ -23,10 +22,10 @@ env:
   
   # Build Set Up
   USE_TEL_BLAZOR_COMPONENTS_PROJECT_REFERENCE: false
-
+  DISABLE_PACKAGE_GENERATION: false
 
 jobs:
-#qqqq put back in
+
   call-reusable-ci-checks-workflow:
     name: run ci checks
     uses: ./.github/workflows/reuseable-ci-checks.yml
@@ -40,7 +39,6 @@ jobs:
   # Hence explicit "if" and "needs"
   generate-dev-semantic-version:
     if: success()
-    #needs qqqq: [commitlint, Unit-Tests, E2E-Tests, Code-Coverage, branch-name-check]
     needs: [call-reusable-ci-checks-workflow]
     runs-on: ubuntu-latest
     outputs:
@@ -54,10 +52,6 @@ jobs:
           
           
       - name: Install Semantic Release Packages
-        #qqqq shouldnt need
-        # env:
-          # GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          # PACKAGES_TOKEN: ${{ secrets.PACKAGES_TOKEN }}
         run: |
           echo "Installing semantic-release packages..."
           npm install -D \
@@ -74,10 +68,6 @@ jobs:
 
 
       - name: Run Semantic Version (None Blocking)
-        # remove if not needed qqqq
-        # env:
-          # GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          # PACKAGES_TOKEN: ${{ secrets.PACKAGES_TOKEN }}
         run: |
           # If no version is required we can get an error so here we handle it
           set +e
@@ -128,7 +118,6 @@ jobs:
 
   build-telblazor-dev-package-and-publish:
     if: success() 
-    #qqqq needs: [generate-dev-semantic-version, commitlint, Unit-Tests,E2E-Tests, Code-Coverage, branch-name-check]
     needs: [generate-dev-semantic-version, call-reusable-ci-checks-workflow]
     runs-on: ubuntu-latest
     env:
@@ -184,7 +173,6 @@ jobs:
   Make-WasmStaticClient-DevShowCase-Artifact-Trigger-GH-Pages-In-TELBlazor-DevShowCase-Repo:
   
     if: success() #not needed but being explicit
-    #needs qqqq: [ branch-name-check, build-telblazor-dev-package-and-publish,generate-dev-semantic-version, commitlint, Unit-Tests, E2E-Tests]
     needs: [build-telblazor-dev-package-and-publish, generate-dev-semantic-version, call-reusable-ci-checks-workflow]
     runs-on: ubuntu-latest
     env:
@@ -228,26 +216,14 @@ jobs:
 
 
       #qqqq with recent changes can we just build the solution now if this works then check     
-      - name: Build TELBlazor.Components.ShowCase.Shared
-        run: |
-          dotnet build TELBlazor.Components.ShowCase.Shared -c Release \
-            /p:TELBlazorPackageVersion=$DEV_TELBLAZOR_PACKAGE_VERSION \
-            /p:NupkgOutputPath=$TELBLAZOR_PACKAGE_LOCAL_OUTPUT_PATH \
-            /p:UseTELBlazorComponentsProjectReference=$USE_TEL_BLAZOR_COMPONENTS_PROJECT_REFERENCE \
-            /p:TELBlazorPackageSource=$TELBLAZOR_PACKAGE_SOURCE
-        #  /p:GhPageRelease=false \ qqqq is it still a thing?
-
-   
-          
-
-# qqqq no longer needed
-      # Hardcoding here the INDEPENDENT_CLIENT_GH_PAGES value
-      # - name: Modify appsettings.json with hardcoded value
+      # - name: Build TELBlazor.Components.ShowCase.Shared
         # run: |
-          # jq '.INDEPENDENT_CLIENT_GH_PAGES = "true"' TestHostPrerenderWASM/TestHostPrerenderWASM.Client/wwwroot/appsettings.json > tmp.json && mv tmp.json TestHostPrerenderWASM/TestHostPrerenderWASM.Client/wwwroot/appsettings.json
-      # # Print the contents of appsettings.json inside 'TestHostPrerenderWASM.Client' folder
-      # - name: Display appsettings.json content
-        # run: cat TestHostPrerenderWASM/TestHostPrerenderWASM.Client/wwwroot/appsettings.json
+          # dotnet build TELBlazor.Components.ShowCase.Shared -c Release \
+            # /p:TELBlazorPackageVersion=$DEV_TELBLAZOR_PACKAGE_VERSION \
+            # /p:NupkgOutputPath=$TELBLAZOR_PACKAGE_LOCAL_OUTPUT_PATH \
+            # /p:UseTELBlazorComponentsProjectReference=$USE_TEL_BLAZOR_COMPONENTS_PROJECT_REFERENCE \
+            # /p:TELBlazorPackageSource=$TELBLAZOR_PACKAGE_SOURCE
+
 
       - name: Publish WasmStaticClient
         run: |
@@ -256,24 +232,6 @@ jobs:
             /p:NupkgOutputPath=$TELBLAZOR_PACKAGE_LOCAL_OUTPUT_PATH \
             /p:UseTELBlazorComponentsProjectReference=$USE_TEL_BLAZOR_COMPONENTS_PROJECT_REFERENCE \
             /p:TELBlazorPackageSource=$TELBLAZOR_PACKAGE_SOURCE
-        # qqqq no longer needed             /p:GhPageRelease=true \
-
-        
-      # - name: Debug - List all files in docs folder qqqq
-        # run: |
-          # echo "Listing contents of ./docs directory"
-          # ls -alh ./docs
-          # echo "Listing contents of ./docs/wwwroot directory"
-          # ls -alh ./docs/wwwroot || echo "wwwroot directory not found"
-          # echo "Checking for bclversion.txt in ./docs"
-          # if [ -f "./docs/bclversion.txt" ]; then
-            # echo "Contents of ./docs/bclversion.txt:"
-            # cat ./docs/bclversion.txt
-          # else
-            # echo "bclversion.txt not found in ./docs"
-          # fi
-
-        
 
       #include hidden so we get jekyll
       - name: Creating artifact of publish folder for test gh page workflow
