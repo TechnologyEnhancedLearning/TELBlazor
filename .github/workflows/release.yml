@@ -11,7 +11,11 @@ permissions:
 env:
 
   # Permission
-  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  
+  # GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  
+  # Try other token so semver has the ability to add comments
+  GITHUB_TOKEN: ${{ secrets.NUGETKEY }}
   PACKAGES_TOKEN: ${{ secrets.NUGETKEY }}
   GITHUB_USERNAME: "Phil-NHS"
 
@@ -103,7 +107,7 @@ jobs:
           find . -name "packages.lock.json" -type f -exec rm -f {} \;
           
       - name: Restore NuGet Packages for Specifically the BCL Package Library Project
-        run: dotnet restore Package.BlazorComponentLibrary/Package.BlazorComponentLibrary.csproj
+        run: dotnet restore TELBlazor.Components.csproj
        
       - name: Set up Node.js so we have gulp for retrieving TEL Frontend Css
         uses: actions/setup-node@v4
