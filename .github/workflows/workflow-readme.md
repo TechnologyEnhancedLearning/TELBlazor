@@ -21,3 +21,8 @@ they stay in the pull request ui. they are also only targetted on master
 
 # Notes
 - doesnt run easily with nektos act due to git ref checks and calling other workflows
+- conventions should be
+	- jobs kebab case no caps
+	- step names sentances
+	- step ids snake case
+	- envs all cap snake
