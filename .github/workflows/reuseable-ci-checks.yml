@@ -180,20 +180,20 @@ jobs:
       steps:
         - name: Check Job Results
           run: |
-            echo "Solution Build: ${{ needs.solution-build.outputs.status }}"
-            echo "Branch Name Check: ${{ needs.branch-name-check.outputs.status }}"
-            echo "Commitlint: ${{ needs.commitlint.outputs.status }}"
-            echo "Unit Tests: ${{ needs.Unit-Tests.outputs.status }}"
-            echo "E2E Tests: ${{ needs.E2E-Tests.outputs.status }}"
-            echo "Code Coverage: ${{ needs.Code-Coverage.outputs.status }}"
+            echo "Solution Build: ${{ needs.reuseable-ci-checks-solution-build.outputs.status }}"
+            echo "Branch Name Check: ${{ needs.reuseable-ci-checks-branch-name-check.outputs.status }}"
+            echo "Commitlint: ${{ needs.reuseable-ci-checks-commitlint.outputs.status }}"
+            echo "Unit Tests: ${{ needs.reuseable-ci-checks-Unit-Tests.outputs.status }}"
+            echo "E2E Tests: ${{ needs.reuseable-ci-checks-E2E-Tests.outputs.status }}"
+            echo "Code Coverage: ${{ needs.reuseable-ci-checks-Code-Coverage.outputs.status }}"
 
             # Check if any job is not success (failure, cancelled, skipped)
-            if [[ "${{ needs.solution-build.outputs.status }}" != "success" || \
-                  "${{ needs.branch-name-check.outputs.status }}" != "success" || \
-                  "${{ needs.commitlint.outputs.status }}" != "success" || \
-                  "${{ needs.Unit-Tests.outputs.status }}" != "success" || \
-                  "${{ needs.E2E-Tests.outputs.status }}" != "success" || \
-                  "${{ needs.Code-Coverage.outputs.status }}" != "success" ]]; then
+            if [[ "${{ needs.reuseable-ci-checks-solution-build.outputs.status }}" != "success" || \
+                  "${{ needs.reuseable-ci-checks-branch-name-check.outputs.status }}" != "success" || \
+                  "${{ needs.reuseable-ci-checks-commitlint.outputs.status }}" != "success" || \
+                  "${{ needs.reuseable-ci-checks-Unit-Tests.outputs.status }}" != "success" || \
+                  "${{ needs.reuseable-ci-checks-E2E-Tests.outputs.status }}" != "success" || \
+                  "${{ needs.reuseable-ci-checks-Code-Coverage.outputs.status }}" != "success" ]]; then
               echo "❌ One or more jobs failed."
               exit 1
             fi
