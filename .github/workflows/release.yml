@@ -105,9 +105,7 @@ jobs:
       - name: Clean lock files because the newly generated package file will superseed the locks
         run: |
           find . -name "packages.lock.json" -type f -exec rm -f {} \;
-          
-      - name: Restore NuGet Packages for Specifically the BCL Package Library Project
-        run: dotnet restore TELBlazor.Components.csproj
+
        
       - name: Set up Node.js so we have gulp for retrieving TEL Frontend Css
         uses: actions/setup-node@v4
