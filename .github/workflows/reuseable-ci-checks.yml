@@ -35,7 +35,7 @@ jobs:
     # Build Package
     # Build Solution useing package
     reuseable-ci-checks-solution-build:
-      name: Check Solution Builds
+      name: Check solution builds
       runs-on: ubuntu-latest
       continue-on-error:  ${{ inputs.runall }}
       outputs:
@@ -66,7 +66,7 @@ jobs:
           working-directory: ./TELBlazor.Components
           run: npm ci   
           
-        - name: Build and Create Package locally
+        - name: Build and create package locally
           env:
              #Overwrite package generation
              DISABLE_PACKAGE_GENERATION: false
@@ -78,7 +78,7 @@ jobs:
               /p:TELBlazorPackageSource=$TELBLAZOR_PACKAGE_SOURCE \
               /p:DisablePackageGeneration=$DISABLE_PACKAGE_GENERATION
               
-        - name: Build Solution without generating new package
+        - name: Build solution without generating new package
           env:
               #Overwrite package generation
               DISABLE_PACKAGE_GENERATION: true
@@ -92,7 +92,7 @@ jobs:
 
           
     reuseable-ci-checks-branch-name-check:
-      name: Enforce Branch Name Convention
+      name: Check branch names
       if: success() || failure()
       continue-on-error:  ${{ inputs.runall }}    
       outputs:
@@ -116,6 +116,7 @@ jobs:
   
 
     reuseable-ci-checks-commitlint:
+      name: Check commit names
       runs-on: ubuntu-latest
       if: success() || failure()
       continue-on-error:  ${{ inputs.runall }}    
@@ -131,7 +132,8 @@ jobs:
             configFile: .commitlintrc.json
      
 
-    reuseable-ci-checks-Unit-Tests:
+    reuseable-ci-checks-unit-tests:
+        name: Unit test components
         runs-on: ubuntu-latest
         if: success() || failure()
         continue-on-error:  ${{ inputs.runall }}    
@@ -143,7 +145,8 @@ jobs:
    
           
   
-    reuseable-ci-checks-E2E-Tests:
+    reuseable-ci-checks-e2e-tests:
+        name: Check with end to end testing including nojs
         runs-on: ubuntu-latest
         if: success() || failure()
         continue-on-error:  ${{ inputs.runall }}    
@@ -154,7 +157,8 @@ jobs:
             run: echo " See other project pipeline for Tests this is a placeholder"
 
  
-    reuseable-ci-checks-Code-Coverage:
+    reuseable-ci-checks-code-coverage:
+        name: Check for code coverage
         runs-on: ubuntu-latest
         if: success() || failure()
         continue-on-error:  ${{ inputs.runall }}    
@@ -165,16 +169,16 @@ jobs:
             run: echo " See other project pipeline for Tests this is a placeholder"
                
           
-    reuseable-ci-checks-Check-For-Fails:
+    reuseable-ci-checks-check-for-failed-jobs:
       name: Check for failures
       if: ${{ inputs.runall }}
       needs:
         - reuseable-ci-checks-solution-build
         - reuseable-ci-checks-branch-name-check
         - reuseable-ci-checks-commitlint
-        - reuseable-ci-checks-Unit-Tests
-        - reuseable-ci-checks-E2E-Tests
-        - reuseable-ci-checks-Code-Coverage
+        - reuseable-ci-checks-unit-tests
+        - reuseable-ci-checks-e2e-tests
+        - reuseable-ci-checks-code-coverage
       
       runs-on: ubuntu-latest
       steps:
@@ -183,17 +187,17 @@ jobs:
             echo "Solution Build: ${{ needs.reuseable-ci-checks-solution-build.outputs.status }}"
             echo "Branch Name Check: ${{ needs.reuseable-ci-checks-branch-name-check.outputs.status }}"
             echo "Commitlint: ${{ needs.reuseable-ci-checks-commitlint.outputs.status }}"
-            echo "Unit Tests: ${{ needs.reuseable-ci-checks-Unit-Tests.outputs.status }}"
-            echo "E2E Tests: ${{ needs.reuseable-ci-checks-E2E-Tests.outputs.status }}"
-            echo "Code Coverage: ${{ needs.reuseable-ci-checks-Code-Coverage.outputs.status }}"
+            echo "Unit Tests: ${{ needs.reuseable-ci-checks-unit-tests.outputs.status }}"
+            echo "E2E Tests: ${{ needs.reuseable-ci-checks-e2e-tests.outputs.status }}"
+            echo "Code Coverage: ${{ needs.reuseable-ci-checks-code-coverage.outputs.status }}"
 
             # Check if any job is not success (failure, cancelled, skipped)
             if [[ "${{ needs.reuseable-ci-checks-solution-build.outputs.status }}" != "success" || \
                   "${{ needs.reuseable-ci-checks-branch-name-check.outputs.status }}" != "success" || \
                   "${{ needs.reuseable-ci-checks-commitlint.outputs.status }}" != "success" || \
-                  "${{ needs.reuseable-ci-checks-Unit-Tests.outputs.status }}" != "success" || \
-                  "${{ needs.reuseable-ci-checks-E2E-Tests.outputs.status }}" != "success" || \
-                  "${{ needs.reuseable-ci-checks-Code-Coverage.outputs.status }}" != "success" ]]; then
+                  "${{ needs.reuseable-ci-checks-unit-tests.outputs.status }}" != "success" || \
+                  "${{ needs.reuseable-ci-checks-e2e-tests.outputs.status }}" != "success" || \
+                  "${{ needs.reuseable-ci-checks-code-coverage.outputs.status }}" != "success" ]]; then
               echo "❌ One or more jobs failed."
               exit 1
             fi

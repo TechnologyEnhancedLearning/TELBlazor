@@ -29,6 +29,7 @@ env:
 
 jobs:
   generate-semantic-version:
+    name: Generate semantic version for package and repo
     runs-on: ubuntu-latest
     outputs:
       semantic-release-version: ${{ steps.set-semantic-version.outputs.semantic-release-version }}
@@ -38,7 +39,7 @@ jobs:
         with:
           fetch-depth: 0  # required for semantic release to analyze commit history
 
-      - name: Install Semantic Release Packages
+      - name: Install semantic release packages
         run: |
           echo "Installing semantic-release packages..."
           npm install -D \
@@ -54,8 +55,8 @@ jobs:
 
 
       #configured with .releaseseec
-      - name: run semantic release
-        id: set-semantic-version
+      - name: Run semantic release
+        id: set_semantic_version
         run: |
           set +e
           RELEASE_OUTPUT=$(npx semantic-release 2>&1)
@@ -95,14 +96,14 @@ jobs:
         
 
       # the restore cant be given env values to override values like it can in build so we need to remove this file so we use the env values
-      - name: Remove Local PackageSettings (CI Only)
+      - name: Remove local package settings (CI Only)
         run: rm -f PackageSettings.props.local
         
 
       - name: Replace local environment variable in nuget config because cant provide it as a parameter
         run: sed -i "s|%TELBlazorPackageSource%|$TELBLAZOR_PACKAGE_LOCAL_OUTPUT_PATH|g" nuget.config
 
-      - name: Clean lock files because the newly generated package file will superseed the locks
+      - name: Clean lock files because the newly generated package file will supersede the locks
         run: |
           find . -name "packages.lock.json" -type f -exec rm -f {} \;
 
@@ -117,15 +118,15 @@ jobs:
         run: npm ci
         #CI is an install with adhering to package-lock
         
-      - name: Build and Pack BlazorComponentLibrary
+      - name: Build and pack TELBlazor.Components
         run: |
-          dotnet build Package.BlazorComponentLibrary -c Release \
+          dotnet build TELBlazor.Components -c Release \
             /p:TELBlazorPackageVersion=$TELBLAZOR_PACKAGE_VERSION  \
             /p:NupkgOutputPath=$TELBLAZOR_PACKAGE_LOCAL_OUTPUT_PATH \
             /p:UseTELBlazorComponentsProjectReference=$USE_TEL_BLAZOR_COMPONENTS_PROJECT_REFERENCE \
             /p:DisablePackageGeneration=$DISABLE_PACKAGE_GENERATION
 
-      - name: Publish to TechnologyEnhancedLearning Package
+      - name: Publish to TELBlazor.Components Package
         run: |
           dotnet nuget push "$TELBLAZOR_PACKAGE_LOCAL_OUTPUT_PATH/TELBlazor.Components.*.nupkg" \
           --source "$TELBLAZOR_PACKAGE_SOURCE" \
@@ -134,7 +135,8 @@ jobs:
 
 
 
-  Update-gh-pages-site:
+  update-gh-pages-site:
+      name: Update the production TELBlazor ShowCase page (on this repo)
       needs: [build-telblazor-package-and-publish, generate-semantic-version]
       runs-on: ubuntu-latest
       if: ${{ needs.generate-semantic-version.outputs.semantic-release-version != '' }}  # Only run if there's a version
@@ -149,7 +151,7 @@ jobs:
           with:
             global-json-file: global.json
           
-        - name: Remove Local PackageSettings (CI Only)
+        - name: Remove local packagesettings (CI Only)
           run: rm -f PackageSettings.props.local
         
         - name: Replace local environment variable in nuget config because cant provide it as a parameter
@@ -159,7 +161,7 @@ jobs:
             sed -i "s|%GITHUB_PACKAGES_TOKEN%|$PACKAGES_TOKEN |g" nuget.config
         
       
-        - name: Clean lock files because the newly generated package file will superseed the locks
+        - name: Clean lock files because the newly generated package file will supersede the locks
           run: |
             echo "Listing packages.lock.json files:"
             find . -name "packages.lock.json" -type f -print
@@ -170,17 +172,8 @@ jobs:
             echo "Listing packages.lock.json files:"
             find . -name "packages.lock.json" -type f -print
             
-        #qqqq do we need this can we not build the package, then build the project with package build false or just build the package then the wasm proje
-        # - name: Build TELBlazor.Components.ShowCase.Shared
-          # run: |
-            # dotnet build TELBlazor.Components.ShowCase.Shared -c Release \
-              # /p:TELBlazorPackageVersion=$TELBLAZOR_PACKAGE_VERSION \
-              # /p:NupkgOutputPath=$TELBLAZOR_PACKAGE_LOCAL_OUTPUT_PATH \
-              # /p:UseTELBlazorComponentsProjectReference=$USE_TEL_BLAZOR_COMPONENTS_PROJECT_REFERENCE \
-              # /p:TELBlazorPackageSource=$TELBLAZOR_PACKAGE_SOURCE
-              
 
-        - name: Publish WasmStaticClient
+        - name: Publish WasmStaticClient TELBlazor ShowCase
           run: |
             dotnet publish ./TELBlazor.Components.ShowCase.WasmStaticClient/TELBlazor.Components.ShowCase.WasmStaticClient.csproj --configuration Release \
               /p:TELBlazorPackageVersion=$TELBLAZOR_PACKAGE_VERSION \
@@ -188,8 +181,6 @@ jobs:
               /p:UseTELBlazorComponentsProjectReference=$USE_TEL_BLAZOR_COMPONENTS_PROJECT_REFERENCE \
               /p:TELBlazorPackageSource=$TELBLAZOR_PACKAGE_SOURCE
                   
-      
-      # No this will be in the release branch that we do a prod wiki host
         - name: Deploy to GitHub Pages
           uses: JamesIves/github-pages-deploy-action@v4
           with:
