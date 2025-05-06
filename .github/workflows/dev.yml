@@ -1,4 +1,4 @@
-name: Dev Check Test Package TELBlazor.Components Trigger TELBlazor-DevShowCase Deployment 
+name: Dev solution checks then package TELBlazor.Components and trigger TELBlazor-DevShowCase deployment 
 on:
   push:
     branches-ignore:
