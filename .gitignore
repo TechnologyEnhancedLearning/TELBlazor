@@ -158,3 +158,4 @@ _Pvt_Extensions
 /GenerateTreeStructure.ps1
 **/Properties/launchSettings.json
 CHANGELOG.md
+/docs

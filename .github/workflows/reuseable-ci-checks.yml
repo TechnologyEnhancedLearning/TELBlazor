@@ -1,7 +1,5 @@
 #qqqq to do refactor to here
 
-
-
 name: Reusable CI Checks
 
 on:
@@ -11,105 +9,192 @@ on:
         required: false
         type: boolean
         default: false
+        
+env:
+
+  # Permission
+  # GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  # PACKAGES_TOKEN: ${{ secrets.NUGETKEY }}
+  # GITHUB_USERNAME: "Phil-NHS"
+
+  # Nuget Set Up
+  TELBLAZOR_PACKAGE_LOCAL_OUTPUT_PATH: ${{ github.workspace }}/CICDPackageLocation
+  TELBLAZOR_PACKAGE_SOURCE: ${{ github.workspace }}/CICDPackageLocation
+  #TELBLAZOR_PACKAGE_SOURCE: "https://nuget.pkg.github.com/TechnologyEnhancedLearning/index.json"
+  
+  # Build Set Up
+  USE_TEL_BLAZOR_COMPONENTS_PROJECT_REFERENCE: false
+  DISABLE_PACKAGE_GENERATION: true
+  
+  # Check Dummy Data
+  TELBLAZOR_PACKAGE_VERSION: "0.0.0-ci-checks"
+  
     
 jobs:
-  #qqqq may need just a place holder set of values or some repo wide environmental values  
-  solution-build:
-    name: Check Solution Builds
-    runs-on: ubuntu-latest
-    continue-on-error:  ${{ inputs.runall }}
-    steps:
-      - name: See other project pipeline for Tests
-        run: echo " See other project pipeline for Tests this is a placeholder"
-    
-  branch-name-check:
-    name: PR Check Enforce Branch Name Convention 
-    runs-on: ubuntu-latest
-    steps:
-      - name: Validate Branch Name
-        run: |
-          #BRANCH_NAME="${GITHUB_HEAD_REF}"
-          BRANCH_NAME="${GITHUB_HEAD_REF:-${GITHUB_REF_NAME}}"
-          echo "Validating branch name: $BRANCH_NAME"
 
-          if [[ "$BRANCH_NAME" =~ ^(build|chore|ci|docs|feat|fix|perf|refactor|revert|style|test|sample|security|config|bugfix|hotfix)-[a-zA-Z0-9._/-]+$ ]] || [[ "$BRANCH_NAME" == "master" ]] || [[ "$BRANCH_NAME" == "Automatic_version_update_dependabot" ]]; then
-            echo "✅ Branch name is valid"
-          else
-            echo "❌ Invalid branch name: $BRANCH_NAME"
-            echo "Branch names must follow one of the allowed prefixes:"
-            echo "   build-*, feat-*, fix-*, bugfix-*, hotfix-*, build-*, chore-*, ci-*, docs-*, perf-*, refactor-*, revert-*, style-*, test-*, sample-*, security-*, config-*, bugfix-*, hotfix-*"
-            exit 1
-          fi
-        continue-on-error:  ${{ inputs.runall }}
+    # Build Package
+    # Build Solution useing package
+    reuseable-ci-checks-solution-build:
+      name: Check Solution Builds
+      runs-on: ubuntu-latest
+      continue-on-error:  ${{ inputs.runall }}
+      outputs:
+          status: ${{ job.status }}
+      steps:
+      
+        - name: Checkout code
+          uses: actions/checkout@v3
           
-  commitlint:
-    name: PR Check commitlint
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-      - uses: wagoid/commitlint-github-action@v5
-        with:
-          configFile: .commitlintrc.json
-    continue-on-error:  ${{ inputs.runall }}
-  
-  Unit-Tests:
-      name: PR Check Unit Tests
+        - name: Setup .NET
+          uses: actions/setup-dotnet@v4
+          with:
+            global-json-file: global.json
+              
+        - name: Replace local environment variable in nuget config because cant provide it as a parameter
+          run: sed -i "s|%TELBlazorPackageSource%|$TELBLAZOR_PACKAGE_LOCAL_OUTPUT_PATH|g" nuget.config
+       
+        - name: Clean lock files because the newly generated package file will superseed the locks
+          run: |
+            find . -name "packages.lock.json" -type f -exec rm -f {} \;
+      
+        - name: Set up Node.js so we have gulp for retrieving TEL Frontend Css
+          uses: actions/setup-node@v4
+          with:
+            node-version: '20'
+    
+        - name: Install npm packages so we have gulp for retrieving TEL Frontend Css
+          working-directory: ./TELBlazor.Components
+          run: npm ci   
+          
+        - name: Build and Create Package locally
+          env:
+             #Overwrite package generation
+             DISABLE_PACKAGE_GENERATION: false
+          run: |
+            dotnet build TELBlazor.Components -c Release \
+              /p:TELBlazorPackageVersion=$TELBLAZOR_PACKAGE_VERSION \
+              /p:NupkgOutputPath=$TELBLAZOR_PACKAGE_LOCAL_OUTPUT_PATH \
+              /p:UseTELBlazorComponentsProjectReference=$USE_TEL_BLAZOR_COMPONENTS_PROJECT_REFERENCE \
+              /p:TELBlazorPackageSource=$TELBLAZOR_PACKAGE_SOURCE \
+              /p:DisablePackageGeneration=$DISABLE_PACKAGE_GENERATION
+              
+        - name: Build Solution without generating new package
+          env:
+              #Overwrite package generation
+              DISABLE_PACKAGE_GENERATION: true
+          run: |
+            dotnet build TELBlazor.sln -c Release \
+              /p:TELBlazorPackageVersion=$TELBLAZOR_PACKAGE_VERSION \
+              /p:NupkgOutputPath=$TELBLAZOR_PACKAGE_LOCAL_OUTPUT_PATH \
+              /p:UseTELBlazorComponentsProjectReference=$USE_TEL_BLAZOR_COMPONENTS_PROJECT_REFERENCE \
+              /p:TELBlazorPackageSource=$TELBLAZOR_PACKAGE_SOURCE \
+              /p:DisablePackageGeneration=$DISABLE_PACKAGE_GENERATION
+
+          
+    reuseable-ci-checks-branch-name-check:
+      name: Enforce Branch Name Convention
+      if: success() || failure()
+      continue-on-error:  ${{ inputs.runall }}    
+      outputs:
+        status: ${{ job.status }}
       runs-on: ubuntu-latest
       steps:
-        - name: See other project pipeline for Tests
-          run: echo " See other project pipeline for Tests this is a placeholder"
-      continue-on-error:  ${{ inputs.runall }}
-  
-  E2E-Tests:
-    name: PR Check E2E Tests
-    runs-on: ubuntu-latest
-    steps:
-      - name: See other project pipeline for Tests
-        run: echo " See other project pipeline for Tests this is a placeholder"
-    continue-on-error:  ${{ inputs.runall }}
-          
-  Code-Coverage:
-    name: PR Check Code Coverage
-    runs-on: ubuntu-latest
-    steps:
-      - name: Code Coverage
-        run: echo "TODO Code Coverage"
-    continue-on-error:  ${{ inputs.runall }}
-      
-  Check-For-Fails:
-    name: Fail check if running allowed
-    if: ${{ inputs.runall }}
-    needs:
-      - solution-build
-      - branch-name-check
-      - commitlint
-      - Unit-Tests
-      - E2E-Tests
-      - Code-Coverage
-      
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check-For-Fails
-        run: echo "TODO Code Coverage"
-          
-      - name: Check Job Results
-        run: |
-          echo "Solution Build: ${{ needs.solution-build.result }}"
-          echo "Branch Name Check: ${{ needs.branch-name-check.result }}"
-          echo "Commitlint: ${{ needs.commitlint.result }}"
-          echo "Unit Tests: ${{ needs.Unit-Tests.result }}"
-          echo "E2E Tests: ${{ needs.E2E-Tests.result }}"
-          echo "Code Coverage: ${{ needs.Code-Coverage.result }}"
+        - name: Validate Branch Name
+          run: |
+            #BRANCH_NAME="${GITHUB_HEAD_REF}"
+            BRANCH_NAME="${GITHUB_HEAD_REF:-${GITHUB_REF_NAME}}"
+            echo "Validating branch name: $BRANCH_NAME"
 
-          if [[ "${{ needs.solution-build.result }}" != "success" || \
-                "${{ needs.branch-name-check.result }}" != "success" || \
-                "${{ needs.commitlint.result }}" != "success" || \
-                "${{ needs.Unit-Tests.result }}" != "success" || \
-                "${{ needs.E2E-Tests.result }}" != "success" || \
-                "${{ needs.Code-Coverage.result }}" != "success" ]]; then
-            echo "❌ One or more jobs failed."
-            exit 1
-          fi
-        continue-on-error: false
+            if [[ "$BRANCH_NAME" =~ ^(build|chore|ci|docs|feat|fix|perf|refactor|revert|style|test|sample|security|config|bugfix|hotfix)-[a-zA-Z0-9._/-]+$ ]] || [[ "$BRANCH_NAME" == "master" ]]; then
+              echo "✅ Branch name is valid"
+            else
+              echo "❌ Invalid branch name: $BRANCH_NAME"
+              echo "Branch names must follow one of the allowed prefixes:"
+              echo "   build-*, feat-*, fix-*, bugfix-*, hotfix-*, build-*, chore-*, ci-*, docs-*, perf-*, refactor-*, revert-*, style-*, test-*, sample-*, security-*, config-*, bugfix-*, hotfix-*"
+              exit 1
+            fi
+  
+
+    reuseable-ci-checks-commitlint:
+      runs-on: ubuntu-latest
+      if: success() || failure()
+      continue-on-error:  ${{ inputs.runall }}    
+      outputs:
+        status: ${{ job.status }}
+      steps:
+        - uses: actions/checkout@v4
+          with:
+            fetch-depth: 0
+        
+        - uses: wagoid/commitlint-github-action@v5
+          with:
+            configFile: .commitlintrc.json
+     
+
+    reuseable-ci-checks-Unit-Tests:
+        runs-on: ubuntu-latest
+        if: success() || failure()
+        continue-on-error:  ${{ inputs.runall }}    
+        outputs:
+          status: ${{ job.status }}
+        steps:
+          - name: See other project pipeline for Tests
+            run: echo " See other project pipeline for Tests this is a placeholder"
+   
+          
+  
+    reuseable-ci-checks-E2E-Tests:
+        runs-on: ubuntu-latest
+        if: success() || failure()
+        continue-on-error:  ${{ inputs.runall }}    
+        outputs:
+          status: ${{ job.status }}
+        steps:
+          - name: See other project pipeline for Tests
+            run: echo " See other project pipeline for Tests this is a placeholder"
+
+ 
+    reuseable-ci-checks-Code-Coverage:
+        runs-on: ubuntu-latest
+        if: success() || failure()
+        continue-on-error:  ${{ inputs.runall }}    
+        outputs:
+          status: ${{ job.status }}
+        steps:
+          - name: See other project pipeline for Tests
+            run: echo " See other project pipeline for Tests this is a placeholder"
+               
+          
+    reuseable-ci-checks-Check-For-Fails:
+      name: Check for failures
+      if: ${{ inputs.runall }}
+      needs:
+        - reuseable-ci-checks-solution-build
+        - reuseable-ci-checks-branch-name-check
+        - reuseable-ci-checks-commitlint
+        - reuseable-ci-checks-Unit-Tests
+        - reuseable-ci-checks-E2E-Tests
+        - reuseable-ci-checks-Code-Coverage
+      
+      runs-on: ubuntu-latest
+      steps:
+        - name: Check Job Results
+          run: |
+            echo "Solution Build: ${{ needs.reuseable-ci-checks-solution-build.outputs.status }}"
+            echo "Branch Name Check: ${{ needs.reuseable-ci-checks-branch-name-check.outputs.status }}"
+            echo "Commitlint: ${{ needs.reuseable-ci-checks-commitlint.outputs.status }}"
+            echo "Unit Tests: ${{ needs.reuseable-ci-checks-Unit-Tests.outputs.status }}"
+            echo "E2E Tests: ${{ needs.reuseable-ci-checks-E2E-Tests.outputs.status }}"
+            echo "Code Coverage: ${{ needs.reuseable-ci-checks-Code-Coverage.outputs.status }}"
+
+            # Check if any job is not success (failure, cancelled, skipped)
+            if [[ "${{ needs.reuseable-ci-checks-solution-build.outputs.status }}" != "success" || \
+                  "${{ needs.reuseable-ci-checks-branch-name-check.outputs.status }}" != "success" || \
+                  "${{ needs.reuseable-ci-checks-commitlint.outputs.status }}" != "success" || \
+                  "${{ needs.reuseable-ci-checks-Unit-Tests.outputs.status }}" != "success" || \
+                  "${{ needs.reuseable-ci-checks-E2E-Tests.outputs.status }}" != "success" || \
+                  "${{ needs.reuseable-ci-checks-Code-Coverage.outputs.status }}" != "success" ]]; then
+              echo "❌ One or more jobs failed."
+              exit 1
+            fi
+          continue-on-error: false

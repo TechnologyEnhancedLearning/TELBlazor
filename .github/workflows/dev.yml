@@ -13,7 +13,7 @@ env:
 
   # Permission
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  PACKAGES_TOKEN: ${{ secrets.PACKAGES_TOKEN }}
+  PACKAGES_TOKEN: ${{ secrets.NUGETKEY }}
   GITHUB_USERNAME: "Phil-NHS"
 
   # Nuget Set Up
@@ -22,88 +22,16 @@ env:
   
   # Build Set Up
   USE_TEL_BLAZOR_COMPONENTS_PROJECT_REFERENCE: false
-  
-
-
+  DISABLE_PACKAGE_GENERATION: false
 
 jobs:
-#qqqq put back in
+
   call-reusable-ci-checks-workflow:
     name: run ci checks
     uses: ./.github/workflows/reuseable-ci-checks.yml
     with:
       runall: true
     
-  branch-name-check:
-    name: Enforce Branch Name Convention
-    if: success() || failure()
-    runs-on: ubuntu-latest
-    steps:
-      - name: Validate Branch Name
-        run: |
-          #BRANCH_NAME="${GITHUB_HEAD_REF}"
-          BRANCH_NAME="${GITHUB_HEAD_REF:-${GITHUB_REF_NAME}}"
-          echo "Validating branch name: $BRANCH_NAME"
-
-          if [[ "$BRANCH_NAME" =~ ^(build|chore|ci|docs|feat|fix|perf|refactor|revert|style|test|sample|security|config|bugfix|hotfix)-[a-zA-Z0-9._/-]+$ ]] || [[ "$BRANCH_NAME" == "master" ]]; then
-            echo "✅ Branch name is valid"
-          else
-            echo "❌ Invalid branch name: $BRANCH_NAME"
-            echo "Branch names must follow one of the allowed prefixes:"
-            echo "   build-*, feat-*, fix-*, bugfix-*, hotfix-*, build-*, chore-*, ci-*, docs-*, perf-*, refactor-*, revert-*, style-*, test-*, sample-*, security-*, config-*, bugfix-*, hotfix-*"
-            exit 1
-          fi
-        continue-on-error: false
-
-  commitlint:
-    runs-on: ubuntu-latest
-    if: success() || failure()
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-      - uses: wagoid/commitlint-github-action@v5
-        with:
-          configFile: .commitlintrc.json
-        continue-on-error: false 
-        
-  # Global and better as prehook     
-  # gitguardian-scan:
-    # runs-on: ubuntu-latest
-    # if: success() || failure()
-    # steps:
-      # - uses: actions/checkout@v3
-
-      # - name: GitGuardian Scan
-        # uses: GitGuardian/gg-shield-action@v1
-        # env:
-          # GITGUARDIAN_API_KEY: ${{ secrets.GITGUARDIAN_API_KEY  }}
-        # continue-on-error: false
-
-  Unit-Tests:
-      runs-on: ubuntu-latest
-      if: success() || failure()
-      steps:
-        - name: See other project pipeline for Tests
-          run: echo " See other project pipeline for Tests this is a placeholder"
-          continue-on-error: false
-          
-  
-  E2E-Tests:
-      runs-on: ubuntu-latest
-      if: success() || failure()
-      steps:
-        - name: See other project pipeline for Tests
-          run: echo " See other project pipeline for Tests this is a placeholder"
-          continue-on-error: false
- 
-  Code-Coverage:
-      runs-on: ubuntu-latest
-      if: success() || failure()
-      steps:
-        - name: See other project pipeline for Tests
-          run: echo " See other project pipeline for Tests this is a placeholder"
-          continue-on-error: false 
 
   # Now we've done due diligence
   # The checks have been allowed to run if the workflow fails so if there a multiple fails we know. 
@@ -111,7 +39,7 @@ jobs:
   # Hence explicit "if" and "needs"
   generate-dev-semantic-version:
     if: success()
-    needs: [commitlint, gitguardian-scan, Unit-Tests, E2E-Tests, Code-Coverage, branch-name-check]
+    needs: [call-reusable-ci-checks-workflow]
     runs-on: ubuntu-latest
     outputs:
       dev-package-version: ${{ steps.set-dev-semantic-version.outputs.dev-semantic-version }}
@@ -124,10 +52,6 @@ jobs:
           
           
       - name: Install Semantic Release Packages
-        #qqqq shouldnt need
-        # env:
-          # GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          # PACKAGES_TOKEN: ${{ secrets.PACKAGES_TOKEN }}
         run: |
           echo "Installing semantic-release packages..."
           npm install -D \
@@ -144,10 +68,6 @@ jobs:
 
 
       - name: Run Semantic Version (None Blocking)
-        # remove if not needed qqqq
-        # env:
-          # GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          # PACKAGES_TOKEN: ${{ secrets.PACKAGES_TOKEN }}
         run: |
           # If no version is required we can get an error so here we handle it
           set +e
@@ -168,6 +88,11 @@ jobs:
             # Note: If Semver falls back to using a Git tag, it will pick the most recent one.
             # This tag may not belong to the current branch, so the result isn't guaranteed to reflect the latest changes on this branch.
             echo "Semver fallback: using latest Git tag, which may not be from the current branch."
+          fi
+          
+          if [ -z "$SEMVER_OUTPUT" ]; then
+            SEMVER_OUTPUT="0.0.0"
+            echo "No semantic version or tag, defaulting to 0.0.0 $SEMVER_OUTPUT"
           fi
          
           # Export the result to the environment
@@ -193,7 +118,7 @@ jobs:
 
   build-telblazor-dev-package-and-publish:
     if: success() 
-    needs: [generate-dev-semantic-version, commitlint, Unit-Tests,E2E-Tests, Code-Coverage, branch-name-check]
+    needs: [generate-dev-semantic-version, call-reusable-ci-checks-workflow]
     runs-on: ubuntu-latest
     env:
       DEV_TELBLAZOR_PACKAGE_VERSION: ${{ needs.generate-dev-semantic-version.outputs.dev-package-version }}
@@ -226,12 +151,15 @@ jobs:
         run: npm ci
         #CI is an install that adheres to package-lock
       
-      - name: Build BlazorComponentLibrary (it publishes on build)
+      - name: Build TELBlazor.Components (it publishes on build)
+        env:
+          DISABLE_PACKAGE_GENERATION: false
         run: |
-          dotnet build Package.BlazorComponentLibrary -c Release \
+          dotnet build TELBlazor.Components -c Release \
             /p:TELBlazorPackageVersion=$DEV_TELBLAZOR_PACKAGE_VERSION \
             /p:NupkgOutputPath=$TELBLAZOR_PACKAGE_LOCAL_OUTPUT_PATH \
-            /p:UseTELBlazorComponentsProjectReference=$USE_TEL_BLAZOR_COMPONENTS_PROJECT_REFERENCE
+            /p:UseTELBlazorComponentsProjectReference=$USE_TEL_BLAZOR_COMPONENTS_PROJECT_REFERENCE \
+            /p:DisablePackageGeneration=$DISABLE_PACKAGE_GENERATION
  
       - name: Publish to TechnologyEnhancedLearning as a Dev Package
         run: |
@@ -245,11 +173,10 @@ jobs:
   Make-WasmStaticClient-DevShowCase-Artifact-Trigger-GH-Pages-In-TELBlazor-DevShowCase-Repo:
   
     if: success() #not needed but being explicit
-    needs: [ branch-name-check, build-telblazor-dev-package-and-publish,generate-dev-semantic-version, commitlint, gitguardian-scan, Unit-Tests, E2E-Tests]
+    needs: [build-telblazor-dev-package-and-publish, generate-dev-semantic-version, call-reusable-ci-checks-workflow]
     runs-on: ubuntu-latest
     env:
       DEV_TELBLAZOR_PACKAGE_VERSION: ${{ needs.generate-dev-semantic-version.outputs.dev-package-version }}
-
 
     steps:
       - name: Checkout Code
@@ -289,63 +216,46 @@ jobs:
 
 
       #qqqq with recent changes can we just build the solution now if this works then check     
-      - name: Build Shared Pages
-        run: |
-          dotnet build SharedPages -c Release \
-            /p:TELBlazorPackageVersion=$DEV_TELBLAZOR_PACKAGE_VERSION \
-            /p:NupkgOutputPath=$TELBLAZOR_PACKAGE_LOCAL_OUTPUT_PATH \
-            /p:UseTELBlazorComponentsProjectReference=$USE_TEL_BLAZOR_COMPONENTS_PROJECT_REFERENCE \
-            /p:TELBlazorPackageSource=$TELBLAZOR_PACKAGE_SOURCE
-        #  /p:GhPageRelease=false \ qqqq is it still a thing?
-
-   
-          
-
-# qqqq no longer needed
-      # Hardcoding here the INDEPENDENT_CLIENT_GH_PAGES value
-      # - name: Modify appsettings.json with hardcoded value
+      # - name: Build TELBlazor.Components.ShowCase.Shared
         # run: |
-          # jq '.INDEPENDENT_CLIENT_GH_PAGES = "true"' TestHostPrerenderWASM/TestHostPrerenderWASM.Client/wwwroot/appsettings.json > tmp.json && mv tmp.json TestHostPrerenderWASM/TestHostPrerenderWASM.Client/wwwroot/appsettings.json
-      # # Print the contents of appsettings.json inside 'TestHostPrerenderWASM.Client' folder
-      # - name: Display appsettings.json content
-        # run: cat TestHostPrerenderWASM/TestHostPrerenderWASM.Client/wwwroot/appsettings.json
+          # dotnet build TELBlazor.Components.ShowCase.Shared -c Release \
+            # /p:TELBlazorPackageVersion=$DEV_TELBLAZOR_PACKAGE_VERSION \
+            # /p:NupkgOutputPath=$TELBLAZOR_PACKAGE_LOCAL_OUTPUT_PATH \
+            # /p:UseTELBlazorComponentsProjectReference=$USE_TEL_BLAZOR_COMPONENTS_PROJECT_REFERENCE \
+            # /p:TELBlazorPackageSource=$TELBLAZOR_PACKAGE_SOURCE
+
 
       - name: Publish WasmStaticClient
         run: |
-          dotnet publish ./TELBlazor/TELBlazor.Components.ShowCase.WasmStaticClient/TELBlazor.Components.ShowCase.WasmStaticClient.csproj --configuration Release \
+          dotnet publish ./TELBlazor.Components.ShowCase.WasmStaticClient/TELBlazor.Components.ShowCase.WasmStaticClient.csproj --configuration Release \
             /p:TELBlazorPackageVersion=$DEV_TELBLAZOR_PACKAGE_VERSION \
             /p:NupkgOutputPath=$TELBLAZOR_PACKAGE_LOCAL_OUTPUT_PATH \
             /p:UseTELBlazorComponentsProjectReference=$USE_TEL_BLAZOR_COMPONENTS_PROJECT_REFERENCE \
             /p:TELBlazorPackageSource=$TELBLAZOR_PACKAGE_SOURCE
-        # qqqq no longer needed             /p:GhPageRelease=true \
-
-        
-      # - name: Debug - List all files in docs folder qqqq
-        # run: |
-          # echo "Listing contents of ./docs directory"
-          # ls -alh ./docs
-          # echo "Listing contents of ./docs/wwwroot directory"
-          # ls -alh ./docs/wwwroot || echo "wwwroot directory not found"
-          # echo "Checking for bclversion.txt in ./docs"
-          # if [ -f "./docs/bclversion.txt" ]; then
-            # echo "Contents of ./docs/bclversion.txt:"
-            # cat ./docs/bclversion.txt
-          # else
-            # echo "bclversion.txt not found in ./docs"
-          # fi
-
-        
 
       #include hidden so we get jekyll
       - name: Creating artifact of publish folder for test gh page workflow
         uses: actions/upload-artifact@v4
         with:
-          name: gh-blazor-components-wiki-site-using-package-${{env.DEV_TELBLAZOR_PACKAGE_VERSION}}
+          name: published-telblazor-components-showcase-wasmstaticclient-using-dev-package-${{env.DEV_TELBLAZOR_PACKAGE_VERSION}}
           include-hidden-files: true
           path: | 
             ./docs
             ./docs/.nojekyll  # explicitly include the .nojekyll file
           retention-days: 90
+
+      - name: Get artifact location
+        run: |
+          # Get the artifact list for the current workflow run
+          ARTIFACT_LIST=$(gh api "repos/TechnologyEnhancedLearning/TELBlazor/actions/runs/${GITHUB_RUN_ID}/artifacts")
+          # Echo the entire artifact list for debugging purposes
+          echo "Artifact List: $ARTIFACT_LIST"
+          # Extract the download URL from the artifact list (first artifact in the list)
+          #ARTIFACT_URL=$(echo "$ARTIFACT_LIST" | jq -r '.artifacts[0].archive_download_url')
+          ARTIFACT_URL=$(echo "$ARTIFACT_LIST" | jq -r '.artifacts[0].url')
+          # Echo the artifact URL to confirm
+          echo "Artifact URL: $ARTIFACT_URL"
+          echo "artifact_url=$ARTIFACT_URL" >> $GITHUB_ENV
 
       - name: Trigger Workflow in TELBlazor-DevShowCase Repository
         run: |
