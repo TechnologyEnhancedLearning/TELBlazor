@@ -31,7 +31,7 @@ env:
 jobs:
 
   call-reusable-ci-checks-workflow:
-    name: run ci checks
+    name: Run CI checks
     uses: ./.github/workflows/reuseable-ci-checks.yml
     with:
       runall: true
@@ -42,6 +42,7 @@ jobs:
   # We do not proceed from the point if there is a fail.
   # Hence explicit "if" and "needs"
   generate-dev-semantic-version:
+    name: Generate dev semantic version
     if: success()
     needs: [call-reusable-ci-checks-workflow]
     runs-on: ubuntu-latest
@@ -55,7 +56,7 @@ jobs:
             fetch-depth: 0  # Required for Semantic Release to analyze commit history
           
           
-      - name: Install Semantic Release Packages
+      - name: Install semantic release packages
         run: |
           echo "Installing semantic-release packages..."
           npm install -D \
@@ -71,7 +72,7 @@ jobs:
       
 
 
-      - name: Run Semantic Version (None Blocking)
+      - name: Run semantic version (None Blocking)
         run: |
           # If no version is required we can get an error so here we handle it
           set +e
@@ -104,8 +105,8 @@ jobs:
           set -e
 
           
-      - name: Rename Semver Version With Date Time Dev
-        id: set-dev-semantic-version
+      - name: Rename Semver Version with branch date time dev
+        id: set_dev_semantic_version
         run: |        
           echo "Semantic Release Output $SEMVER_OUTPUT"
 
@@ -121,7 +122,8 @@ jobs:
     
 
   build-telblazor-dev-package-and-publish:
-    if: success() 
+    if: success()
+    name: Build dev package and publish
     needs: [generate-dev-semantic-version, call-reusable-ci-checks-workflow]
     runs-on: ubuntu-latest
     env:
@@ -135,13 +137,13 @@ jobs:
         with:
           global-json-file: global.json
         
-      - name: Debug Version Output DEV_TELBLAZOR_PACKAGE_VERSION var
+      - name: Debug version output DEV_TELBLAZOR_PACKAGE_VERSION
         run: echo "Extracted Version $DEV_TELBLAZOR_PACKAGE_VERSION "
         
       - name: Replace local environment variable in nuget config because cant provide it as a parameter
         run: sed -i "s|%TELBlazorPackageSource%|$TELBLAZOR_PACKAGE_LOCAL_OUTPUT_PATH|g" nuget.config
        
-      - name: Clean lock files because the newly generated package file will superseed the locks
+      - name: Clean lock files because the newly generated package file will supersede the locks
         run: |
           find . -name "packages.lock.json" -type f -exec rm -f {} \;
       
@@ -174,8 +176,8 @@ jobs:
           
   
        
-  Make-WasmStaticClient-DevShowCase-Artifact-Trigger-GH-Pages-In-TELBlazor-DevShowCase-Repo:
-  
+  trigger-gh-pages-telblazor-devshowcase-workflow:
+    name: Create artifact and provide it to TelBlazor-DevShowCase repo and its gh-page trigger
     if: success() #not needed but being explicit
     needs: [build-telblazor-dev-package-and-publish, generate-dev-semantic-version, call-reusable-ci-checks-workflow]
     runs-on: ubuntu-latest
@@ -191,7 +193,7 @@ jobs:
         with:
           global-json-file: global.json
           
-      - name: Clean Solution
+      - name: Clean solution
         run: |
           echo "Cleaning the solution..."
           dotnet clean TELBlazor.sln
@@ -218,15 +220,6 @@ jobs:
           echo "Listing packages.lock.json files:"
           find . -name "packages.lock.json" -type f -print
 
-
-      #qqqq with recent changes can we just build the solution now if this works then check     
-      # - name: Build TELBlazor.Components.ShowCase.Shared
-        # run: |
-          # dotnet build TELBlazor.Components.ShowCase.Shared -c Release \
-            # /p:TELBlazorPackageVersion=$DEV_TELBLAZOR_PACKAGE_VERSION \
-            # /p:NupkgOutputPath=$TELBLAZOR_PACKAGE_LOCAL_OUTPUT_PATH \
-            # /p:UseTELBlazorComponentsProjectReference=$USE_TEL_BLAZOR_COMPONENTS_PROJECT_REFERENCE \
-            # /p:TELBlazorPackageSource=$TELBLAZOR_PACKAGE_SOURCE
 
 
       - name: Publish WasmStaticClient
@@ -261,7 +254,7 @@ jobs:
           echo "Artifact URL: $ARTIFACT_URL"
           echo "artifact_url=$ARTIFACT_URL" >> $GITHUB_ENV
 
-      - name: Trigger Workflow in TELBlazor-DevShowCase Repository
+      - name: Trigger workflow in TELBlazor-DevShowCase repo
         run: |
           repo_owner="TechnologyEnhancedLearning"
           repo_name="TELBlazor-DevShowCase"
