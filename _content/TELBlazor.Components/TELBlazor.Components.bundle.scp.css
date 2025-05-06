@@ -1,0 +1,19 @@
+/* _content/TELBlazor.Components/Components/SimpleCounter.razor.rz.scp.css */
+h3[b-e0upo21qun] {
+    color: blue;
+    font-size: 24px;
+}
+.scoped-css-simple-counter-red[b-e0upo21qun] {
+color: red;
+}
+button[b-e0upo21qun] {
+    background-color: lightblue;
+    color: white;
+    border-radius: 5px;
+    padding: 10px 15px;
+    font-size: 16px;
+}
+
+    button:hover[b-e0upo21qun] {
+        background-color: orange; /*navy;*/
+    }
