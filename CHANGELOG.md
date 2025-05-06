@@ -1,3 +1,20 @@
+# [1.0.0](https://github.com/TechnologyEnhancedLearning/TELBlazor/compare/v0.0.0...v1.0.0) (2025-05-06)
+
+
+### Bug Fixes
+
+* **releaserc:** Target repository correction ([408c6d1](https://github.com/TechnologyEnhancedLearning/TELBlazor/commit/408c6d11e50efc6ae8862fa50fefea8f3eec9235))
+
+
+### Features
+
+* **major:** Breaking change ([af34839](https://github.com/TechnologyEnhancedLearning/TELBlazor/commit/af34839d5979b1466fb64567e324b232b0505bc3))
+
+
+### BREAKING CHANGES
+
+* **major:** New version please
+
 # 1.0.0-ci-setup.1 (2025-05-06)
 
 
