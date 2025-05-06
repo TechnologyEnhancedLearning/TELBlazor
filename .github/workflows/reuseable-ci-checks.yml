@@ -169,12 +169,12 @@ jobs:
       name: Check for failures
       if: ${{ inputs.runall }}
       needs:
-        - solution-build
-        - branch-name-check
-        - commitlint
-        - Unit-Tests
-        - E2E-Tests
-        - Code-Coverage
+        - reuseable-ci-checks-solution-build
+        - reuseable-ci-checks-branch-name-check
+        - reuseable-ci-checks-commitlint
+        - reuseable-ci-checks-Unit-Tests
+        - reuseable-ci-checks-E2E-Tests
+        - reuseable-ci-checks-Code-Coverage
       
       runs-on: ubuntu-latest
       steps:
