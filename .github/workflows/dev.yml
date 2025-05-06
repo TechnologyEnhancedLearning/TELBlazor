@@ -47,7 +47,7 @@ jobs:
     needs: [call-reusable-ci-checks-workflow]
     runs-on: ubuntu-latest
     outputs:
-      dev-package-version: ${{ steps.set-dev-semantic-version.outputs.dev-semantic-version }}
+      dev-package-version: ${{ steps.set_dev_semantic_version.outputs.dev-semantic-version }}
     steps:
     
       - name: Checkout repository

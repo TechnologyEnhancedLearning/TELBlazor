@@ -32,7 +32,7 @@ jobs:
     name: Generate semantic version for package and repo
     runs-on: ubuntu-latest
     outputs:
-      semantic-release-version: ${{ steps.set-semantic-version.outputs.semantic-release-version }}
+      semantic-release-version: ${{ steps.set_semantic_version.outputs.semantic-release-version }}
     steps:
       - name: checkout repository
         uses: actions/checkout@v4
