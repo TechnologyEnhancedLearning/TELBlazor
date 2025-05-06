@@ -54,9 +54,18 @@ jobs:
         id: set-semantic-version
         run: |
           set +e
-          SEMVER_VERSION=$(npx semantic-release | grep -oP 'Published release \K[\d.]+')
+          RELEASE_OUTPUT=$(npx semantic-release 2>&1)
+          echo "$RELEASE_OUTPUT"
+
+          # Try to extract the version from the full output
+          SEMVER_VERSION=$(echo "$RELEASE_OUTPUT" | grep -oP 'Published release \K[\d.]+')
+
+          # Output it clearly for debugging
+          echo "Parsed semantic-release version: $SEMVER_VERSION"
+
+          # Set GitHub Action output
           echo "semantic-release-version=$SEMVER_VERSION" >> $GITHUB_OUTPUT
-          
+
           # Check if SEMVER_VERSION is empty and echo the message if so
           if [ -z "$SEMVER_VERSION" ]; then
             echo "Changes do not warrant a version change. gh_pages and packages won't be updated."
