@@ -30,8 +30,8 @@ env:
 
 jobs:
 
-  call-reusable-ci-checks-workflow:
-    name: Run CI checks
+  dev-call-reusable-ci-checks-workflow:
+    name: Dev Run CI checks
     uses: ./.github/workflows/reuseable-ci-checks.yml
     with:
       runall: true
@@ -44,7 +44,7 @@ jobs:
   generate-dev-semantic-version:
     name: Generate dev semantic version
     if: success()
-    needs: [call-reusable-ci-checks-workflow]
+    needs: [dev-call-reusable-ci-checks-workflow]
     runs-on: ubuntu-latest
     outputs:
       dev-package-version: ${{ steps.set_dev_semantic_version.outputs.dev-semantic-version }}
@@ -124,7 +124,7 @@ jobs:
   build-telblazor-dev-package-and-publish:
     if: success()
     name: Build dev package and publish
-    needs: [generate-dev-semantic-version, call-reusable-ci-checks-workflow]
+    needs: [generate-dev-semantic-version, dev-call-reusable-ci-checks-workflow]
     runs-on: ubuntu-latest
     env:
       DEV_TELBLAZOR_PACKAGE_VERSION: ${{ needs.generate-dev-semantic-version.outputs.dev-package-version }}
@@ -179,7 +179,7 @@ jobs:
   trigger-gh-pages-telblazor-devshowcase-workflow:
     name: Create artifact and provide it to TelBlazor-DevShowCase repo and its gh-page trigger
     if: success() #not needed but being explicit
-    needs: [build-telblazor-dev-package-and-publish, generate-dev-semantic-version, call-reusable-ci-checks-workflow]
+    needs: [build-telblazor-dev-package-and-publish, generate-dev-semantic-version, dev-call-reusable-ci-checks-workflow]
     runs-on: ubuntu-latest
     env:
       DEV_TELBLAZOR_PACKAGE_VERSION: ${{ needs.generate-dev-semantic-version.outputs.dev-package-version }}
