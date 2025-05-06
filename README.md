@@ -22,3 +22,35 @@ It is client side so the users browser will do the work.
 [View Packaged Dev Showcase Code](https://technologyenhancedlearning/TELBlazor-DevShowCase/tree/gh-pages/)
 
 [View Packaged Showcase Code](https://github.com/TechnologyEnhancedLearning/TELBlazor/tree/gh-pages/)
+
+
+# Solution Detail
+
+## Architecture
+
+### Project Structures used
+- Repo TELBlazor
+
+ - TELBlazor.Components
+	- this is a razor component library
+ - TELBlazor.Components.UnitTests
+	- Bunit template from bunit site, configured to use Xunit
+ - TELBlazor.Components.ShowCase.E2ETests
+    - NUnit Playwright Test project
+ - TELBlazor.Components.ShowCase.Shared
+	- this is a razor component library
+ - TELBlazor.Components.ShowCase.E2ETests.WasmServerHost
+	- Wasm global hosted
+ - TELBlazor.Components.ShowCase.E2ETests.WasmServerHost.Client 
+	- Wasm global hosted
+ - TELBlazor.Components.ShowCase.WasmStaticClient
+	- Wasm global standalone 
+	
+## Notes
+
+### Stuff you don't need to know (but may be useful for a specific issue on searching the readme)
+- It is not render auto per components because the intention is to be used in MVC views.
+- Xunit is used with Bunit and Nunit with playwright, either could be 
+changed so that they are using the same and this could be done in future 
+as the libraries improve but currently each is being used with the 
+recommend tool it is designed for though both support the others tool.
