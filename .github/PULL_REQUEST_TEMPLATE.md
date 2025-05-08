@@ -4,6 +4,7 @@
 Test it here too
 https://technologyenhancedlearning.github.io/GitPageBlazorWASM-TestGHPage/
 check version matches branch name and pullrequest release
+- maybe a rule that any introduced css for example if bringing in an enum. needs to be refactored to nhse-tel? so tel-nhse is source of truth on all things css
 
 ## TODO: About
 - SO FAR no js controllers are not going to be covered in testing in the package it will be done by how used in LH

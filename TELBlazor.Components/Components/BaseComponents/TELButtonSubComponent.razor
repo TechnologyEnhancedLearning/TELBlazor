@@ -1,0 +1,67 @@
+﻿@inherits TELComponentBase
+@implements IAccessibleComponent
+
+
+<button type="submit"
+    class="@ButtonStyle.ToCssClass() @AdditionalCssClasses"
+    aria-label="@AriaLabel"
+    aria-role="@AriaRole"
+    aria-describedby="@AriaDescribedBy"
+    title="@ToolTipTitle"
+    tabindex="@TabIndex">
+    @ButtonText
+    @if (!string.IsNullOrEmpty(AssistiveText))
+    {
+        <span id="@AriaDescribedBy" class="nhsuk-u-visually-hidden">@AssistiveText</span> <!-- Hidden element for screen readers -->
+    }
+</button>
+
+@code {
+
+    /// <summary>
+    ///  Guid generated on creation to link elements for screen readers
+    /// </summary>
+    private string _ariaDescribedBy;
+    public string AriaDescribedBy => _ariaDescribedBy;
+
+    protected override void OnInitialized()
+    {
+        _ariaDescribedBy = $"assistive-text-{Guid.NewGuid()}";
+    }
+
+    /// <summary>
+    /// Button Options
+    ///</summary>
+    [Parameter]
+    public TELButtonStyle ButtonStyle { get; set; } = TELButtonStyle.Primary; // Default to Generic
+
+    [EditorRequired, Parameter]
+    public required string ButtonText { get; set; }
+
+    [Parameter] public string AdditionalCssClasses { get; set; } = ""; // Custom CSS classes for additional styling
+
+    [Parameter]
+    public bool PreventDoubleClick { get; set; } = false;
+
+    /// <summary>
+    /// Assisitive
+    /// </summary>
+    // This property is public, satisfying the interface, but not a Parameter because I wanted to force it to be used in the contract of the interface but the component can do that itself
+    public string AriaRole { get; set; } = "Button"; // Set to button by default
+
+    [EditorRequired, Parameter]
+    public required string AriaLabel { get; set; }
+
+    [EditorRequired, Parameter]
+    public required string AssistiveText { get; set; }
+
+    // Tab index for keyboard navigation
+    [EditorRequired, Parameter]
+    public required int TabIndex { get; set; } = 0;
+
+    [EditorRequired, Parameter]
+    public required string ToolTipTitle { get; set; }
+
+
+
+}

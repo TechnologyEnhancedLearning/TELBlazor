@@ -46,6 +46,11 @@ It is client side so the users browser will do the work.
  - TELBlazor.Components.ShowCase.WasmStaticClient
 	- Wasm global standalone 
 	
+## Configuration
+
+### Logging
+- For more detailed dependency injected logging see MVCBlazor project	
+	
 ## Notes
 
 ### Stuff you don't need to know (but may be useful for a specific issue on searching the readme)

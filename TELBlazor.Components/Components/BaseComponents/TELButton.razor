@@ -1,0 +1,100 @@
+﻿@inherits TELComponentBase
+@implements IAccessibleComponent
+@if (IsSubmitButtonForEditForm)
+{
+    <TELButtonSubComponent 
+        ButtonStyle="@ButtonStyle"
+        ButtonText="@ButtonText"
+        AriaLabel="@AriaLabel"
+        AssistiveText="@AssistiveText"
+        TabIndex="@TabIndex"
+        ToolTipTitle="@ToolTipTitle"
+        AdditionalCssClasses="@AdditionalCssClasses"
+        PreventDoubleClick="@PreventDoubleClick"
+    />
+}
+else
+{
+    @*FormData as the model doesnt really mean anything were not using it if its blazor*@
+    <EditForm 
+        Model="FormData"
+        OnSubmit="OnClick"
+        action="@NoJSActionUrl"
+        role="form"
+        tabindex="-1"
+        method="post">
+        @foreach (var keyValuePair in FormData)
+        {
+            <input tabindex="-1" type="hidden" name="@keyValuePair.Key" value="@keyValuePair.Value" />
+        }
+        <TELButtonSubComponent 
+            ButtonStyle="@ButtonStyle"
+            ButtonText="@ButtonText"
+            AriaLabel="@AriaLabel"
+            AssistiveText="@AssistiveText"
+            TabIndex="@TabIndex"
+            ToolTipTitle="@ToolTipTitle"
+            AdditionalCssClasses="@AdditionalCssClasses"
+            PreventDoubleClick="@PreventDoubleClick"
+        />
+    </EditForm>
+}
+
+
+@code {
+
+    ///<summary>
+    /// All buttons will be submit. But if this is a submit for a form then true.
+    /// They all will actually be submit because for NoJS we have to put then in editform
+    ///</summary>
+    [Parameter] public bool IsSubmitButtonForEditForm { get; set; } = false;
+    // If we need to not support some features for NoJS we then need to build in flagging Static/Prerender/NoJS together or our buttons will look usable and fail
+    //[Parameter] public bool DisableForNoJS { get; set; } = false;
+
+    [EditorRequired, Parameter]
+    public required string NoJSActionUrl { get; set; } // URL for the form submission
+
+    [Parameter]
+    public Dictionary<string, string> FormData { get; set; } = new Dictionary<string, string>();
+
+    //Not required because the submit wont use it. 
+    [Parameter] 
+    public EventCallback OnClick { get; set; }
+
+    ///<summary>
+    /// Button Params
+    ///<summary/>
+    [Parameter] public TELButtonStyle ButtonStyle { get; set; } = TELButtonStyle.Primary; // Default to Primary
+
+
+    //qqqq this is because viecomponents have it
+    [Parameter] public bool PreventDoubleClick { get; set; } = false;
+
+    [EditorRequired, Parameter]
+    public required string ButtonText { get; set; }
+
+
+    [Parameter] public string AdditionalCssClasses { get; set; } = ""; // Custom CSS classes for additional styling
+
+    ///<summary>
+    /// Button accessibility Params
+    ///<summary/>
+
+    // This property is public, satisfying the interface, but not a Parameter because I wanted to force it to be used in the contract of the interface but the component can do that itself
+    public string AriaRole { get; set; } = "Button"; // Set to button by default
+    public string AriaDescribedBy { get; set; } = $"assistive-text-{Guid.NewGuid()}"; // Default ARIA described by (can be empty)
+
+    [EditorRequired, Parameter]
+    public required string AriaLabel { get; set; }
+
+    [EditorRequired, Parameter]
+    public required string AssistiveText { get; set; }
+
+    // Tab index for keyboard navigation
+    [EditorRequired, Parameter]
+    public required int TabIndex { get; set; } = 0;
+
+    [EditorRequired, Parameter]
+    public required string ToolTipTitle { get; set; }
+
+}

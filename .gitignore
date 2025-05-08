@@ -159,3 +159,4 @@ _Pvt_Extensions
 **/Properties/launchSettings.json
 CHANGELOG.md
 /docs
+/TELBlazor.Components.ShowCase.WasmStaticClient/wwwroot/appsettings.dev.json

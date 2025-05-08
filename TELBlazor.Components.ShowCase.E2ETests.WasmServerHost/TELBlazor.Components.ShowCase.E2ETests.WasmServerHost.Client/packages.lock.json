@@ -245,8 +245,19 @@
       "telblazor.components.showcase.shared": {
         "type": "Project",
         "dependencies": {
+          "Blazored.LocalStorage": "[4.5.0, )",
           "Microsoft.AspNetCore.Components.Web": "[8.0.14, )",
+          "Serilog": "[4.2.0, )",
           "TELBlazor.Components": "[10.9.9, )"
+        }
+      },
+      "Blazored.LocalStorage": {
+        "type": "CentralTransitive",
+        "requested": "[4.5.0, )",
+        "resolved": "4.5.0",
+        "contentHash": "6nZuJwA7zNIKx83IsObiHXZb09ponJOpCClU3en+hI8ZFvrOKXeOw+H7TegQZQrvdR1n9fkrVkEBQZg8vx6ZTw==",
+        "dependencies": {
+          "Microsoft.AspNetCore.Components.Web": "8.0.0"
         }
       },
       "Microsoft.AspNetCore.Components.Web": {
@@ -276,6 +287,12 @@
           "Microsoft.Extensions.Logging.Abstractions": "8.0.0",
           "Microsoft.Extensions.Options": "8.0.0"
         }
+      },
+      "Serilog": {
+        "type": "CentralTransitive",
+        "requested": "[4.2.0, )",
+        "resolved": "4.2.0",
+        "contentHash": "gmoWVOvKgbME8TYR+gwMf7osROiWAURterc6Rt2dQyX7wtjZYpqFiA/pY6ztjGQKKV62GGCyOcmtP1UKMHgSmA=="
       }
     },
     "net8.0/browser-wasm": {}

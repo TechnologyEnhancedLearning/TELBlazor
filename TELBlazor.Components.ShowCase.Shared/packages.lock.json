@@ -2,6 +2,15 @@
   "version": 2,
   "dependencies": {
     "net8.0": {
+      "Blazored.LocalStorage": {
+        "type": "Direct",
+        "requested": "[4.5.0, )",
+        "resolved": "4.5.0",
+        "contentHash": "6nZuJwA7zNIKx83IsObiHXZb09ponJOpCClU3en+hI8ZFvrOKXeOw+H7TegQZQrvdR1n9fkrVkEBQZg8vx6ZTw==",
+        "dependencies": {
+          "Microsoft.AspNetCore.Components.Web": "8.0.0"
+        }
+      },
       "Microsoft.AspNetCore.Components.Web": {
         "type": "Direct",
         "requested": "[8.0.14, )",
@@ -15,6 +24,12 @@
           "Microsoft.JSInterop": "8.0.14",
           "System.IO.Pipelines": "8.0.0"
         }
+      },
+      "Serilog": {
+        "type": "Direct",
+        "requested": "[4.2.0, )",
+        "resolved": "4.2.0",
+        "contentHash": "gmoWVOvKgbME8TYR+gwMf7osROiWAURterc6Rt2dQyX7wtjZYpqFiA/pY6ztjGQKKV62GGCyOcmtP1UKMHgSmA=="
       },
       "Microsoft.AspNetCore.Authorization": {
         "type": "Transitive",
