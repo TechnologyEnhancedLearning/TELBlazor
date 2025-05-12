@@ -192,7 +192,7 @@ jobs:
                 /p:E2ETracingEnabled=$E2E_TRACING_ENABLED
               
           - name: Run Unit tests
-            run: dotnet test ./TELBlazor.Components.UnitTests/TELBlazor.Components.UnitTests.csproj --no-build --verbosity normal
+            run: dotnet test "./TELBlazor.Components.UnitTests/TELBlazor.Components.UnitTests.csproj" --no-build --verbosity normal
             env: 
               ASPNETCORE_ENVIRONMENT: ci
 
