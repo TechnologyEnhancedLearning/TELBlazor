@@ -195,7 +195,7 @@ jobs:
             run: dotnet test "TELBlazor.Components.UnitTests.csproj" --no-build --verbosity normal
             working-directory: "./TELBlazor.Components.UnitTests"
             env: 
-              aspnetcore_environment: ci
+              ASPNETCORE_ENVIRONMENT: ci
               
                       # - name: Run bUnit tests
           # run: dotnet test Package.Shared.BlazorComponents.UnitTests.csproj --no-build --verbosity minimal
