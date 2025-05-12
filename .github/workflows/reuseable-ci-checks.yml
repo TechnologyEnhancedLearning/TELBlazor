@@ -170,7 +170,7 @@ jobs:
                #Overwrite package generation
                DISABLE_PACKAGE_GENERATION: false
             run: |
-              dotnet build TELBlazor.Components -c Release \
+              dotnet build TELBlazor.Components -c Debug \
                 /p:TELBlazorPackageVersion=$TELBLAZOR_PACKAGE_VERSION \
                 /p:NupkgOutputPath=$TELBLAZOR_PACKAGE_LOCAL_OUTPUT_PATH \
                 /p:UseTELBlazorComponentsProjectReference=$USE_TEL_BLAZOR_COMPONENTS_PROJECT_REFERENCE \
@@ -183,7 +183,7 @@ jobs:
                 #Overwrite package generation
                 DISABLE_PACKAGE_GENERATION: true
             run: |
-              dotnet build TELBlazor.sln -c Release \
+              dotnet build TELBlazor.sln -c Debug \
                 /p:TELBlazorPackageVersion=$TELBLAZOR_PACKAGE_VERSION \
                 /p:NupkgOutputPath=$TELBLAZOR_PACKAGE_LOCAL_OUTPUT_PATH \
                 /p:UseTELBlazorComponentsProjectReference=$USE_TEL_BLAZOR_COMPONENTS_PROJECT_REFERENCE \
@@ -194,8 +194,8 @@ jobs:
           - name: Run Unit tests
             run: dotnet test "TELBlazor.Components.UnitTests.csproj" --no-build --verbosity normal
             working-directory: "./TELBlazor.Components.UnitTests"
-            env: 
-              ASPNETCORE_ENVIRONMENT: ci
+              env: 
+                aspnetcore_environment: ci
               
                       # - name: Run bUnit tests
           # run: dotnet test Package.Shared.BlazorComponents.UnitTests.csproj --no-build --verbosity minimal
