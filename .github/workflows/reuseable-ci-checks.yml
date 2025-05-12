@@ -192,9 +192,14 @@ jobs:
                 /p:E2ETracingEnabled=$E2E_TRACING_ENABLED
               
           - name: Run Unit tests
-            run: dotnet test "./TELBlazor.Components.UnitTests/TELBlazor.Components.UnitTests.csproj" --no-build --verbosity normal
+            run: dotnet test "TELBlazor.Components.UnitTests.csproj" --no-build --verbosity normal
+            working-directory: TELBlazor.Components.UnitTests
             env: 
               ASPNETCORE_ENVIRONMENT: ci
+              
+                      # - name: Run bUnit tests
+          # run: dotnet test Package.Shared.BlazorComponents.UnitTests.csproj --no-build --verbosity minimal
+          # working-directory: Package.Shared.BlazorComponents.UnitTests
 
    
           
@@ -211,6 +216,12 @@ jobs:
           - name: See other project pipeline for Tests
             run: echo " See other project pipeline for Tests this is a placeholder"
 
+      # - name: Ensure browsers are installed
+        # run: pwsh Test.BrowserBased.UnitE2ETests/bin/Debug/net8.0/playwright.ps1 install --with-deps
+
+      # - name: Playwright test run excepted filtered
+        # run: dotnet test --filter "Category!=LocalOnly & Category!=HeadlessFalse" Test.BrowserBased.UnitE2ETests.csproj --no-restore --verbosity minimal
+        # working-directory: Test.BrowserBased.UnitE2ETests
  
     reuseable-ci-checks-code-coverage:
         name: Check for code coverage
