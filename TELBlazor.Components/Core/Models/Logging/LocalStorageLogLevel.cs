@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TELBlazor.Components.Models.Logging
+namespace TELBlazor.Components.Core.Models.Logging
 {
     public class LocalStorageLogLevel
     {

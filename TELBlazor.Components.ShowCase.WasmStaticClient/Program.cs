@@ -30,7 +30,7 @@ builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 
 builder.Configuration.AddJsonFile($"appsettings.{builder.HostEnvironment.Environment}.json", optional: false, reloadOnChange: true);
-//builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+
 builder.Logging.ClearProviders();
 // Read default logging level from configuration
 var logLevelString = builder.Configuration["Serilog:MinimumLevel:Default"];
@@ -61,6 +61,8 @@ try
             HostType = $"{builder.Configuration["Properties:Environment"]} {builder.Configuration["Properties:Application"]}"
         };
     });
+    // qqqq to DI
+    builder.Services.AddBlazoredLocalStorage();
 
     //Scoped because being consumed with storage where singleton doesnt survive mvc page teardown
     builder.Services.AddScoped<LoggingLevelSwitch>(sp => levelSwitch);

@@ -1,8 +1,34 @@
 ﻿@inherits TELComponentBase
 @implements IAccessibleComponent
+@inject ILogger<TELButton> Logger
 @if (IsSubmitButtonForEditForm)
 {
     <TELButtonSubComponent 
+    ButtonStyle="@ButtonStyle"
+    ButtonText="@ButtonText"
+    AriaLabel="@AriaLabel"
+    AssistiveText="@AssistiveText"
+    TabIndex="@TabIndex"
+    ToolTipTitle="@ToolTipTitle"
+    AdditionalCssClasses="@AdditionalCssClasses"
+    PreventDoubleClick="@PreventDoubleClick"
+    />
+}
+else
+{
+    @*FormData as the model doesnt really mean anything were not using it if its blazor*@
+    <EditForm 
+    Model="FormData"
+    OnSubmit="HandleClick"
+    action="@NoJSActionUrl"
+    role="form"
+    tabindex="-1"
+    method="post">
+        @foreach (var keyValuePair in FormData)
+        {
+            <input tabindex="-1" type="hidden" name="@keyValuePair.Key" value="@keyValuePair.Value" />
+        }
+        <TELButtonSubComponent 
         ButtonStyle="@ButtonStyle"
         ButtonText="@ButtonText"
         AriaLabel="@AriaLabel"
@@ -11,37 +37,15 @@
         ToolTipTitle="@ToolTipTitle"
         AdditionalCssClasses="@AdditionalCssClasses"
         PreventDoubleClick="@PreventDoubleClick"
-    />
-}
-else
-{
-    @*FormData as the model doesnt really mean anything were not using it if its blazor*@
-    <EditForm 
-        Model="FormData"
-        OnSubmit="OnClick"
-        action="@NoJSActionUrl"
-        role="form"
-        tabindex="-1"
-        method="post">
-        @foreach (var keyValuePair in FormData)
-        {
-            <input tabindex="-1" type="hidden" name="@keyValuePair.Key" value="@keyValuePair.Value" />
-        }
-        <TELButtonSubComponent 
-            ButtonStyle="@ButtonStyle"
-            ButtonText="@ButtonText"
-            AriaLabel="@AriaLabel"
-            AssistiveText="@AssistiveText"
-            TabIndex="@TabIndex"
-            ToolTipTitle="@ToolTipTitle"
-            AdditionalCssClasses="@AdditionalCssClasses"
-            PreventDoubleClick="@PreventDoubleClick"
         />
     </EditForm>
 }
 
-
 @code {
+
+    private bool isButtonDisabled = false; // To control button disable state
+    private bool isClickedRecently = false; // To track if the button was clicked recently
+
 
     ///<summary>
     /// All buttons will be submit. But if this is a submit for a form then true.
@@ -57,7 +61,7 @@ else
     [Parameter]
     public Dictionary<string, string> FormData { get; set; } = new Dictionary<string, string>();
 
-    //Not required because the submit wont use it. 
+    //Not required because the submit wont use it, when its placed in a form. 
     [Parameter] 
     public EventCallback OnClick { get; set; }
 
@@ -97,4 +101,35 @@ else
     [EditorRequired, Parameter]
     public required string ToolTipTitle { get; set; }
 
+    // The wrapped click handler that manages the prevention of double-clicking
+    private async Task HandleClick()
+    {
+        Logger.LogInformation($"Button clicked: {ButtonText}");
+        if (PreventDoubleClick && !isClickedRecently)
+        {
+            // Prevent further clicks and disable the button
+            isClickedRecently = true;
+            isButtonDisabled = true;
+
+            // Trigger the OnClick event callback
+            if (OnClick.HasDelegate)
+            {
+                await OnClick.InvokeAsync(null);
+            }
+
+            // After a short delay, enable the button again (e.g., 1 second)
+            await Task.Delay(1000);
+            isClickedRecently = false;
+            isButtonDisabled = false;
+        }
+        else if (!PreventDoubleClick)
+        {
+            // Just call the OnClick handler if double-click prevention is not needed
+            if (OnClick.HasDelegate)
+            {
+                await OnClick.InvokeAsync(null);
+            }
+        }
+    }
 }
+

@@ -6,6 +6,22 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+	<ItemGroup>
+		<!--Not used serverside but injected and try catched to prevent error-->
+	<PackageReference Include="Blazored.LocalStorage"/>
+	</ItemGroup>
+  <ItemGroup>
+	  <PackageReference Include="Newtonsoft.Json"  />
+	  <PackageReference Include="Serilog" />
+	  <PackageReference Include="Serilog.AspNetCore"/>
+	  <PackageReference Include="Serilog.Extensions.Logging"  />
+	  <PackageReference Include="Serilog.Formatting.Compact" />
+	  <PackageReference Include="Serilog.Settings.Configuration"  />
+	  <PackageReference Include="Serilog.Sinks.Console" />
+	  <PackageReference Include="Serilog.Sinks.Debug" />
+	  <PackageReference Include="Serilog.Sinks.File"  />
+	  <!--<PackageReference Include="Serilog.Sinks.Http"  />-->
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\TELBlazor.Components.ShowCase.Shared\TELBlazor.Components.ShowCase.Shared.csproj" />
     <ProjectReference Include="..\TELBlazor.Components.ShowCase.E2ETests.WasmServerHost.Client\TELBlazor.Components.ShowCase.E2ETests.WasmServerHost.Client.csproj" />

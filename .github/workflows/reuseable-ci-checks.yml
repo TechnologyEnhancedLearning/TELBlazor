@@ -1,5 +1,3 @@
-#qqqq to do refactor to here
-# naming with the yml name because 
 name: Reusable CI Checks
 
 on:
@@ -25,6 +23,7 @@ env:
   # Build Set Up
   USE_TEL_BLAZOR_COMPONENTS_PROJECT_REFERENCE: false
   DISABLE_PACKAGE_GENERATION: true
+  E2E_TRACING_ENABLED: false
   
   # Check Dummy Data
   TELBLAZOR_PACKAGE_VERSION: "0.0.0-ci-checks"
@@ -76,7 +75,8 @@ jobs:
               /p:NupkgOutputPath=$TELBLAZOR_PACKAGE_LOCAL_OUTPUT_PATH \
               /p:UseTELBlazorComponentsProjectReference=$USE_TEL_BLAZOR_COMPONENTS_PROJECT_REFERENCE \
               /p:TELBlazorPackageSource=$TELBLAZOR_PACKAGE_SOURCE \
-              /p:DisablePackageGeneration=$DISABLE_PACKAGE_GENERATION
+              /p:DisablePackageGeneration=$DISABLE_PACKAGE_GENERATION \
+              /p:E2ETracingEnabled=$E2E_TRACING_ENABLED
               
         - name: Build solution without generating new package
           env:
@@ -88,7 +88,8 @@ jobs:
               /p:NupkgOutputPath=$TELBLAZOR_PACKAGE_LOCAL_OUTPUT_PATH \
               /p:UseTELBlazorComponentsProjectReference=$USE_TEL_BLAZOR_COMPONENTS_PROJECT_REFERENCE \
               /p:TELBlazorPackageSource=$TELBLAZOR_PACKAGE_SOURCE \
-              /p:DisablePackageGeneration=$DISABLE_PACKAGE_GENERATION
+              /p:DisablePackageGeneration=$DISABLE_PACKAGE_GENERATION \
+              /p:E2ETracingEnabled=$E2E_TRACING_ENABLED
 
           
     reuseable-ci-checks-branch-name-check:
@@ -140,13 +141,65 @@ jobs:
         outputs:
           status: ${{ job.status }}
         steps:
-          - name: See other project pipeline for Tests
-            run: echo " See other project pipeline for Tests this is a placeholder"
+          - name: Checkout code
+            uses: actions/checkout@v3
+          
+          - name: Setup .NET
+            uses: actions/setup-dotnet@v4
+            with:
+              global-json-file: global.json
+              
+          - name: Replace local environment variable in nuget config because cant provide it as a parameter
+            run: sed -i "s|%TELBlazorPackageSource%|$TELBLAZOR_PACKAGE_LOCAL_OUTPUT_PATH|g" nuget.config
+       
+          - name: Clean lock files because the newly generated package file will superseed the locks
+            run: |
+              find . -name "packages.lock.json" -type f -exec rm -f {} \;
+      
+          - name: Set up Node.js so we have gulp for retrieving TEL Frontend Css
+            uses: actions/setup-node@v4
+            with:
+              node-version: '20'
+    
+          - name: Install npm packages so we have gulp for retrieving TEL Frontend Css
+            working-directory: ./TELBlazor.Components
+            run: npm ci
+            
+          - name: Build and create package locally
+            env:
+               #Overwrite package generation
+               DISABLE_PACKAGE_GENERATION: false
+            run: |
+              dotnet build TELBlazor.Components -c Release \
+                /p:TELBlazorPackageVersion=$TELBLAZOR_PACKAGE_VERSION \
+                /p:NupkgOutputPath=$TELBLAZOR_PACKAGE_LOCAL_OUTPUT_PATH \
+                /p:UseTELBlazorComponentsProjectReference=$USE_TEL_BLAZOR_COMPONENTS_PROJECT_REFERENCE \
+                /p:TELBlazorPackageSource=$TELBLAZOR_PACKAGE_SOURCE \
+                /p:DisablePackageGeneration=$DISABLE_PACKAGE_GENERATION \
+                /p:E2ETracingEnabled=$E2E_TRACING_ENABLED
+              
+          - name: Build solution without generating new package
+            env:
+                #Overwrite package generation
+                DISABLE_PACKAGE_GENERATION: true
+            run: |
+              dotnet build TELBlazor.sln -c Release \
+                /p:TELBlazorPackageVersion=$TELBLAZOR_PACKAGE_VERSION \
+                /p:NupkgOutputPath=$TELBLAZOR_PACKAGE_LOCAL_OUTPUT_PATH \
+                /p:UseTELBlazorComponentsProjectReference=$USE_TEL_BLAZOR_COMPONENTS_PROJECT_REFERENCE \
+                /p:TELBlazorPackageSource=$TELBLAZOR_PACKAGE_SOURCE \
+                /p:DisablePackageGeneration=$DISABLE_PACKAGE_GENERATION \
+                /p:E2ETracingEnabled=$E2E_TRACING_ENABLED
+              
+            - name: Run Unit tests
+              run: | 
+
    
           
   
     reuseable-ci-checks-e2e-tests:
         name: Check with end to end testing including nojs
+        timeout-minutes: 60
         runs-on: ubuntu-latest
         if: success() || failure()
         continue-on-error:  ${{ inputs.runall }}    

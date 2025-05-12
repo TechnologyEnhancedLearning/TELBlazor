@@ -160,3 +160,4 @@ _Pvt_Extensions
 CHANGELOG.md
 /docs
 /TELBlazor.Components.ShowCase.WasmStaticClient/wwwroot/appsettings.dev.json
+/TELBlazor.Components.UnitTests/appsettings.Development.json

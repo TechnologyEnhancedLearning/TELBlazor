@@ -5,14 +5,14 @@
 <button type="submit"
     class="@ButtonStyle.ToCssClass() @AdditionalCssClasses"
     aria-label="@AriaLabel"
-    aria-role="@AriaRole"
+    role="@AriaRole"
     aria-describedby="@AriaDescribedBy"
     title="@ToolTipTitle"
     tabindex="@TabIndex">
     @ButtonText
     @if (!string.IsNullOrEmpty(AssistiveText))
     {
-        <span id="@AriaDescribedBy" class="nhsuk-u-visually-hidden">@AssistiveText</span> <!-- Hidden element for screen readers -->
+        <span id="@AriaDescribedBy" class="nhsuk-u-visually-hidden"> @AssistiveText</span> <!-- Hidden element for screen readers -->
     }
 </button>
 
@@ -61,7 +61,5 @@
 
     [EditorRequired, Parameter]
     public required string ToolTipTitle { get; set; }
-
-
 
 }

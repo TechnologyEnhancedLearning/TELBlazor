@@ -13,7 +13,9 @@
 	<TELBlazorPackageVersion>$(TELBlazorPackageVersion)</TELBlazorPackageVersion>
 
     <DisablePackageGeneration>$(DisablePackageGeneration)</DisablePackageGeneration>
-
+	  
+	<E2ETracingEnabled Condition="'$(E2ETracingEnabled)' == ''">false</E2ETracingEnabled>
+	<E2ETracingEnabled Condition="'$(E2ETracingEnabled)' != ''">$(E2ETracingEnabled)</E2ETracingEnabled>
   </PropertyGroup>
 
 </Project>

@@ -3,8 +3,7 @@ using Serilog.Core;
 using Serilog.Events;
 using TELBlazor.Components.Core.Services.HelperServices;
 using Blazored.LocalStorage;
-
-using TELBlazor.Components.Models.Logging;
+using TELBlazor.Components.Core.Models.Logging;
 
 namespace TELBlazor.Components.ShowCase.Shared.Services.HelperServices
 {

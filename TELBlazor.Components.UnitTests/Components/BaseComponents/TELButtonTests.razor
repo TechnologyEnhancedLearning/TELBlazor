@@ -1,0 +1,427 @@
+﻿@inherits TestContext
+
+@code{
+
+    private readonly Fixture _fixture;
+    private readonly ITestOutputHelper _outputHelper; //This is for shwoing logger outputs in the the testrunner
+
+    public TELButtonTests(ITestOutputHelper outputHelper)
+    {
+        // Initialize AutoFixture
+        _fixture = new Fixture();
+        _outputHelper = outputHelper;
+    }
+
+    public TestContext CreateTestContext(InMemorySink inMemorySink, bool JSEnabled)//Require it so remember to test it
+    {
+        //Arrange
+
+        var ctx = new TestContext();
+        ctx.Services.AddFallbackServiceProvider(new FallbackServiceProvider());
+
+        // Create a mock of IGS_JSEnabled
+        var mockTELBlazorBaseComponentConfiguration = new Mock<ITELBlazorBaseComponentConfiguration>();
+        mockTELBlazorBaseComponentConfiguration.Setup(c => c.JSEnabled).Returns(JSEnabled); // Mock behavior for JSIsEnabled
+        mockTELBlazorBaseComponentConfiguration.Setup(c => c.HostType).Returns("Unit Test"); // Mock behavior for WhoAmI
+
+
+        ctx.Services.AddLogging(_outputHelper, inMemorySink);
+        ctx.Services.AddScoped(_ => mockTELBlazorBaseComponentConfiguration.Object);
+
+        return ctx;
+    }
+
+    [Trait("Category", "Accessibility")]
+    [Theory]
+    [InlineData(true)]
+    [InlineData(false)]
+    public void TELButton_Renders_With_AriaAttributes_And_AssistiveText(bool JSEnabled)
+    {
+        // Setup
+        InMemorySink inMemorySink = new InMemorySink();
+        using var ctx = CreateTestContext(inMemorySink, JSEnabled);
+
+        // Arrange
+
+        var wasClicked = false;
+        var isSubmitButtonForEditForm = false;
+        var noJsActionUrl = "/noJsActionUrl";
+        var formData = new Dictionary<string, string> { { "increment", "1" }, { "extraData", "abc" } };
+        var onClick = EventCallback.Factory.Create(this, () => wasClicked = true);
+        var buttonStyle = TELButtonStyle.Warning;
+        var preventDoubleClick = false;
+        var buttonText = "Click me";
+        var additionalCssClasses = "custom-class";
+        var ariaLabel = "Click the button";
+        var assistiveText = "This button increments the count";
+        var tabIndex = 2;
+        var toolTipTitle = "Tooltip info";
+
+        var cut = ctx.RenderComponent<TELButton>(parameters => parameters
+            .Add(p => p.IsSubmitButtonForEditForm, isSubmitButtonForEditForm) 
+            .Add(p => p.NoJSActionUrl, noJsActionUrl)
+            .Add(p => p.FormData, formData)
+            .Add(p => p.OnClick, onClick)
+            .Add(p => p.ButtonStyle, buttonStyle)
+            .Add(p => p.PreventDoubleClick, preventDoubleClick)
+            .Add(p => p.ButtonText, buttonText)
+            .Add(p => p.AdditionalCssClasses, additionalCssClasses)
+            .Add(p => p.AriaLabel, ariaLabel)
+            .Add(p => p.AssistiveText, assistiveText)
+            .Add(p => p.TabIndex, tabIndex)
+            .Add(p => p.ToolTipTitle, toolTipTitle)
+        //AriaRole using default value button
+        );
+
+        // Act
+        var button = cut.Find("button[aria-label='Click the button']");
+        var assistiveTextSpan = cut.Find("span"); // Assuming the assistive text uses this class
+        button.Click();
+
+        // Assert
+        Assert.True(wasClicked);
+
+        // Check ARIA attributes
+        Assert.Equal(ariaLabel, button.GetAttribute("aria-label"));
+        Assert.Equal(tabIndex.ToString(), button.GetAttribute("tabindex"));
+        Assert.Equal(toolTipTitle, button.GetAttribute("title"));
+
+        // Check assistive text is present and contains expected content
+        Assert.Contains(assistiveText, assistiveTextSpan.TextContent);
+
+        // Verify aria-describedby connects button to assistive text
+        var describedById = button.GetAttribute("aria-describedby");
+        Assert.NotNull(describedById);
+        Assert.Equal(describedById, assistiveTextSpan.GetAttribute("id"));
+
+    }
+
+    [Trait("Category", "Functionality")]
+    [Theory]
+    [InlineData(true, true)]
+    [InlineData(true, false)]
+    [InlineData(false, true)]
+    [InlineData(false, false)]
+    public void TELButton_OnClick_Is_Invoked_When_Button_Is_Clicked(bool JSEnabled, bool PreventDoubleClick)
+    {
+        // Setup
+        InMemorySink inMemorySink = new InMemorySink();
+        using var ctx = CreateTestContext(inMemorySink, JSEnabled);
+
+        var noJsActionUrl = _fixture.Create<string>();
+        var formData = _fixture.Create<Dictionary<string, string>>();
+        var buttonStyle = _fixture.Create<TELButtonStyle>();
+        var buttonText = _fixture.Create<string>();
+        var ariaLabel = "Click the button";
+        var assistiveText = _fixture.Create<string>();
+        var tabIndex = _fixture.Create<int>();
+        var toolTipTitle = _fixture.Create<string>();
+        var isSubmitButtonForEditForm = false;
+
+        // Arrange
+        var wasClicked = false;
+        var onClick = EventCallback.Factory.Create(this, () => wasClicked = true);
+        var cut = ctx.RenderComponent<TELButton>(parameters => parameters
+            .Add(p => p.IsSubmitButtonForEditForm, isSubmitButtonForEditForm)
+            .Add(p => p.NoJSActionUrl, noJsActionUrl)
+            .Add(p => p.FormData, formData)
+            .Add(p => p.OnClick, onClick)
+            .Add(p => p.ButtonStyle, buttonStyle)
+            .Add(p => p.PreventDoubleClick, PreventDoubleClick)
+            .Add(p => p.ButtonText, buttonText)
+            .Add(p => p.AriaLabel, ariaLabel)
+            .Add(p => p.AssistiveText, assistiveText)
+            .Add(p => p.TabIndex, tabIndex)
+            .Add(p => p.ToolTipTitle, toolTipTitle)
+        //AriaRole using default value button
+        );
+
+        // Act
+        var button = cut.Find("button[aria-label='Click the button']");
+        button.Click();
+
+        // Assert
+        Assert.True(wasClicked);
+    }
+
+    [Trait("Category", "Functionality")]
+    [Theory(DisplayName = "Works as submit button when places in a form")]
+    [InlineData(true)]
+    [InlineData(false)]
+    public void TELButton_ClickTriggersSubmit_WhenPlacedInForm(bool JSEnabled)
+    {
+        // Setup
+        InMemorySink inMemorySink = new InMemorySink();
+        using var ctx = CreateTestContext(inMemorySink, JSEnabled);
+        var wasClicked = false;
+
+        var noJsActionUrl = _fixture.Create<string>();
+        var formData = _fixture.Create<Dictionary<string, string>>();
+
+        var buttonStyle = _fixture.Create<TELButtonStyle>();
+        var buttonText = _fixture.Create<string>();
+        var ariaLabel = "Click the button";
+        var assistiveText = _fixture.Create<string>();
+        var tabIndex = _fixture.Create<int>();
+        var toolTipTitle = _fixture.Create<string>();
+        var preventDoubleClick = false;
+
+        // Arrange
+        var isSubmitButtonForEditForm = true;
+        // Arrange
+        EventCallback<EditContext> formSubmitAction = EventCallback.Factory.Create<EditContext>(this, (EditContext context) =>
+        {
+            wasClicked = true; // This gets triggered when form is submitted
+        });
+
+        // Render the EditForm with Razor markup for child components
+        var cut = ctx.Render(
+            @<EditForm OnSubmit="formSubmitAction" Model="new Dictionary<string,string>()">
+               <TELButton 
+                    IsSubmitButtonForEditForm="@isSubmitButtonForEditForm"
+                    ButtonText="@buttonText"
+                    ButtonStyle="@buttonStyle"
+                    PreventDoubleClick="@preventDoubleClick"
+                    AriaLabel="@ariaLabel"
+                    AssistiveText="@assistiveText"
+                    TabIndex="@tabIndex"
+                    ToolTipTitle="@toolTipTitle"
+                    NoJSActionUrl="@noJsActionUrl"
+                    FormData="@formData"
+                   />
+            </EditForm>
+    );
+
+        // Act
+        var button = cut.Find("button[aria-label='Click the button']");
+        button.Click();
+
+        // Assert
+        Assert.True(wasClicked);
+    }
+
+    [Trait("Category", "Functionality")]
+    [Theory]
+    [InlineData(true,true)]
+    [InlineData(true, false)]
+    [InlineData(false, true)]
+    [InlineData(false, false)]
+    public void TELButton_DoubleClick_Prevented_Flag(bool JSEnabled, bool PreventDoubleClick)
+    {
+        // Setup
+        InMemorySink inMemorySink = new InMemorySink();
+        using var ctx = CreateTestContext(inMemorySink, JSEnabled);
+        var timesClicked = 0;
+        var isSubmitButtonForEditForm = false;
+        var noJsActionUrl = _fixture.Create<string>();
+        var formData = _fixture.Create<Dictionary<string, string>>();
+
+        var buttonStyle = _fixture.Create<TELButtonStyle>();
+        var buttonText = _fixture.Create<string>();
+        var ariaLabel = "Click the button";
+        var assistiveText = _fixture.Create<string>();
+        var tabIndex = _fixture.Create<int>();
+        var toolTipTitle = _fixture.Create<string>();
+
+        // Arrange
+        var onClick = EventCallback.Factory.Create(this, () => timesClicked++);
+
+        var cut = ctx.RenderComponent<TELButton>(parameters => parameters
+            .Add(p => p.IsSubmitButtonForEditForm, isSubmitButtonForEditForm)
+            .Add(p => p.NoJSActionUrl, noJsActionUrl)
+            .Add(p => p.FormData, formData)
+            .Add(p => p.OnClick, onClick)
+            .Add(p => p.ButtonStyle, buttonStyle)
+            .Add(p => p.PreventDoubleClick, PreventDoubleClick)
+            .Add(p => p.ButtonText, buttonText)
+            .Add(p => p.AriaLabel, ariaLabel)
+            .Add(p => p.AssistiveText, assistiveText)
+            .Add(p => p.TabIndex, tabIndex)
+            .Add(p => p.ToolTipTitle, toolTipTitle)
+        //AriaRole using default value button
+        );
+
+        // Act
+        var button = cut.Find("button[aria-label='Click the button']");
+        button.Click();
+        button.Click();
+
+        // Assert
+        Assert.Equal(timesClicked, (PreventDoubleClick?1:2));
+    }
+
+
+    [Trait("Category", "Style")]
+    [Theory]
+    [InlineData(true)]
+    [InlineData(false)]
+    public void TELButton_ButtonStyles_Are_Applied(bool JSEnabled)
+    {
+
+        // Setup
+        InMemorySink inMemorySink = new InMemorySink();
+        using var ctx = CreateTestContext(inMemorySink, JSEnabled);
+        var wasClicked = false;
+        var isSubmitButtonForEditForm = false;
+        var preventDoubleClick = false;
+        var noJsActionUrl = _fixture.Create<string>();
+        var formData = _fixture.Create<Dictionary<string, string>>();
+        var onClick = EventCallback.Factory.Create(this, () => wasClicked = true);
+        var buttonText = _fixture.Create<string>();
+        var ariaLabel = "Click the button";
+        var assistiveText = _fixture.Create<string>();
+        var tabIndex = _fixture.Create<int>();
+        var toolTipTitle = _fixture.Create<string>();
+
+        // Arrange whats tested
+        var buttonStyle = _fixture.Create <TELButtonStyle>();
+        var additionalCssClasses = "custom-class";
+
+        var cut = ctx.RenderComponent<TELButton>(parameters => parameters
+            .Add(p => p.IsSubmitButtonForEditForm, isSubmitButtonForEditForm)
+            .Add(p => p.NoJSActionUrl, noJsActionUrl)
+            .Add(p => p.FormData, formData)
+            .Add(p => p.OnClick, onClick)
+            .Add(p => p.ButtonStyle, buttonStyle)
+            .Add(p => p.PreventDoubleClick, preventDoubleClick)
+            .Add(p => p.ButtonText, buttonText)
+            .Add(p => p.AriaLabel, ariaLabel)
+            .Add(p => p.AdditionalCssClasses, additionalCssClasses)
+            .Add(p => p.AssistiveText, assistiveText)
+            .Add(p => p.TabIndex, tabIndex)
+            .Add(p => p.ToolTipTitle, toolTipTitle)
+        //AriaRole using default value button
+        );
+
+        // Act
+        var button = cut.Find("button[aria-label='Click the button']");
+        button.Click();
+
+
+        // Assert
+        Assert.True(wasClicked);
+        Assert.False(String.IsNullOrEmpty(additionalCssClasses));
+        Assert.True(button.ClassList.Contains(additionalCssClasses));
+
+        Assert.False(String.IsNullOrEmpty(buttonStyle.ToCssClass()));
+        Assert.Contains(buttonStyle.ToCssClass(), button.ClassList);
+
+
+    }
+
+
+    [Trait("Category", "NoJS")]
+    [Theory]
+    [InlineData(true)]
+    [InlineData(false)]
+    public void TELButton_NoJS_Form_Attributes_Set(bool JSEnabled)
+    {
+        // Setup
+
+        InMemorySink inMemorySink = new InMemorySink();
+        using var ctx = CreateTestContext(inMemorySink, JSEnabled);
+        var wasClicked = false;
+
+        // Important if it was a form the button wont provide the action
+        var isSubmitButtonForEditForm = false;
+        var preventDoubleClick = false;
+        var noJsActionUrl = _fixture.Create<string>();
+        var formData = _fixture.Create<Dictionary<string, string>>();
+        var onClick = EventCallback.Factory.Create(this, () => wasClicked = true);
+        var buttonStyle = _fixture.Create<TELButtonStyle>();
+        var buttonText = _fixture.Create<string>();
+        var ariaLabel = "Click the button";
+        var assistiveText = _fixture.Create<string>();
+        var tabIndex = _fixture.Create<int>();
+        var toolTipTitle = _fixture.Create<string>();
+
+        // Arrange
+
+        var cut = ctx.RenderComponent<TELButton>(parameters => parameters
+            .Add(p => p.IsSubmitButtonForEditForm, isSubmitButtonForEditForm)
+            .Add(p => p.NoJSActionUrl, noJsActionUrl)
+            .Add(p => p.FormData, formData)
+            .Add(p => p.OnClick, onClick)
+            .Add(p => p.ButtonStyle, buttonStyle)
+            .Add(p => p.PreventDoubleClick, preventDoubleClick)
+            .Add(p => p.ButtonText, buttonText)
+            .Add(p => p.AriaLabel, ariaLabel)
+            .Add(p => p.AssistiveText, assistiveText)
+            .Add(p => p.TabIndex, tabIndex)
+            .Add(p => p.ToolTipTitle, toolTipTitle)
+        //AriaRole using default value button
+        );
+
+        // Act
+        var button = cut.Find("button[aria-label='Click the button']");
+        var EncapsulatingForm = cut.Find("form");
+        button.Click();
+
+        // Assert
+        Assert.True(wasClicked);
+        Assert.False(String.IsNullOrEmpty(noJsActionUrl));
+        Assert.Equal("form", EncapsulatingForm.TagName.ToLower());
+        Assert.Equal(EncapsulatingForm.GetAttribute("action"), noJsActionUrl);
+        foreach (var kvp in formData)
+        {
+            var input = cut.Find($"input[name='{kvp.Key}']");
+            Assert.Equal(kvp.Value, input.GetAttribute("value"));
+        }
+    }
+
+    [Trait("Category", "Logging")]
+    [Theory]
+    [InlineData(true)]
+    [InlineData(false)]
+    public void TELButton_OnClick_CreatesLog(bool JSEnabled)
+    {
+        // Arrange
+
+        InMemorySink inMemorySink = new InMemorySink();
+        using var ctx = CreateTestContext(inMemorySink, JSEnabled);
+        
+
+        // Setup
+
+        var noJsActionUrl = _fixture.Create<string>();
+        var formData = _fixture.Create<Dictionary<string, string>>();
+        var buttonStyle = _fixture.Create<TELButtonStyle>();
+        var buttonText = _fixture.Create<string>();
+        var ariaLabel = "Click the button";
+        var assistiveText = _fixture.Create<string>();
+        var tabIndex = _fixture.Create<int>();
+        var toolTipTitle = _fixture.Create<string>();
+        var isSubmitButtonForEditForm = false;
+        var preventDoubleClick = false;
+
+        // Arrange
+        var wasClicked = false;
+        var onClick = EventCallback.Factory.Create(this, () => wasClicked = true);
+        var cut = ctx.RenderComponent<TELButton>(parameters => parameters
+            .Add(p => p.IsSubmitButtonForEditForm, isSubmitButtonForEditForm)
+            .Add(p => p.NoJSActionUrl, noJsActionUrl)
+            .Add(p => p.FormData, formData)
+            .Add(p => p.OnClick, onClick)
+            .Add(p => p.ButtonStyle, buttonStyle)
+            .Add(p => p.PreventDoubleClick, preventDoubleClick)
+            .Add(p => p.ButtonText, buttonText)
+            .Add(p => p.AriaLabel, ariaLabel)
+            .Add(p => p.AssistiveText, assistiveText)
+            .Add(p => p.TabIndex, tabIndex)
+            .Add(p => p.ToolTipTitle, toolTipTitle)
+        //AriaRole using default value button
+        );
+
+        // Act
+        var button = cut.Find("button[aria-label='Click the button']");
+        button.Click();
+        List<Serilog.Events.LogEvent> logEvents = inMemorySink.LogEvents.ToList();
+        // Assert
+        Assert.True(wasClicked);
+
+        // Assert Log
+        logEvents.Any(e => e.MessageTemplate.Text.Contains(buttonText)).Should().BeTrue();
+
+
+    }
+}

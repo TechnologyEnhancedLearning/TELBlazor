@@ -16,14 +16,14 @@ namespace TELBlazor.Components.Core
         private ITELBlazorBaseComponentConfiguration TELBlazorBaseComponentConfiguration { get; set; }
 
         [Inject]
-        public required ILogger<TELComponentBase> Logger { get; set; }
+        public ILogger<TELComponentBase> Logger { get; set; }
 
         protected bool JSEnabled => TELBlazorBaseComponentConfiguration.JSEnabled;
-
+        protected string HostType => TELBlazorBaseComponentConfiguration.HostType;
         protected override void OnInitialized()
         {
             base.OnInitialized();
-            Logger.LogInformation("base component made by {HostType}", TELBlazorBaseComponentConfiguration.HostType);
+            Logger.LogInformation("base component made by {HostType}, JsEnabled is {JsEnabled}", HostType, JSEnabled);
         }
     }
 }

@@ -1,0 +1,23 @@
+﻿@layout ComponentPageLayout
+@page "/TELButtonPage/"
+<TELButton IsSubmitButtonForEditForm=false
+           NoJSActionUrl="nojsfallback/mvcendpoint/telbuttonshowcase"
+           FormData="@(new Dictionary<string, string>{{"increment","1"}})"
+           OnClick="IncrementCount"
+           ButtonStyle="TELButtonStyle.Warning"
+           PreventDoubleClick=false
+           ButtonText="@ButtonText"
+           AdditionalCssClasses=""
+           AriaLabel="Click Counter"
+           AssistiveText="Click to increase the number"
+           TabIndex="0"
+           ToolTipTitle="Click to increment" />
+@code {
+    private int currentCount = 0;
+    public string ButtonText => $"Button pressed {currentCount} times";
+    private void IncrementCount()
+    {
+        currentCount++;
+    }
+
+}
