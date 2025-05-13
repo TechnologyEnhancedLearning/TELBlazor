@@ -23,6 +23,7 @@
 	  <PackageReference Include="Verify.Playwright" />
 	  <PackageReference Include="xunit" />
 	  <PackageReference Include="xunit.runner.visualstudio" />
+	  <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions"/>
 	  
   </ItemGroup>
 
