@@ -79,7 +79,7 @@ jobs:
             echo "${{ secrets.FAKE_WASMSERVERHOST_APPSETTINGS_DEVELOPMENT }}" | base64 -d > temp_appsettings.json
             echo "=== DECODED APPSETTINGS CONTENT ==="
             cat temp_appsettings.json
-        - name: Print unmasked decoded secret
+        - name: Print unmasked decoded secret2
           run: |
             echo "${{ secrets.FAKE_WASMSERVERHOST_APPSETTINGS_DEVELOPMENT }}" > temp_appsettings.json
             echo "=== DECODED APPSETTINGS CONTENT ==="
