@@ -14,17 +14,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Serilog.Sinks.BrowserConsole;
 using Serilog.Formatting.Compact;
 using Serilog.Settings.Configuration;
-
-
+using Microsoft.Extensions.Http;
 
 /*qqqq setup*/
 using Blazored.LocalStorage;
-using Serilog;
-using Serilog.Core;
-using Serilog.Events;
-using TELBlazor.Components.Core.Services.HelperServices;
-using TELBlazor.Components.ShowCase.Shared.Services.HelperServices;
-using TELBlazor.Components.Core.Configuration;
+
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 

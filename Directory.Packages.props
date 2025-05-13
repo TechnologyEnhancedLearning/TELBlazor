@@ -19,6 +19,7 @@
 			<PackageVersion Include="Microsoft.Extensions.Http" Version="8.0.1" />
 			<PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.11.1" />
 
+
 			<!-- Storage -->
 			<PackageVersion Include="Blazored.LocalStorage" Version="4.5.0" />
 

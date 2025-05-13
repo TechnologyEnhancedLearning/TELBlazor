@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using TELBlazor.Components.ShowCase.WasmStaticClient;
 using Microsoft.AspNetCore.Components;
-
+using Microsoft.Extensions.Http;
 /*Are used via appsetting*/
 using Serilog.Extensions.Logging;
 using Serilog.Configuration;
