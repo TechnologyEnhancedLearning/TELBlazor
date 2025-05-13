@@ -79,6 +79,7 @@ jobs:
             echo "${{ secrets.FAKE_WASMSERVERHOST_APPSETTINGS_DEVELOPMENT }}" | base64 -d > temp_appsettings.json
             echo "=== DECODED APPSETTINGS CONTENT ==="
             cat temp_appsettings.json
+          continue-on-error: true  
         - name: Print unmasked decoded secret2
           run: |
             echo "${{ secrets.FAKE_WASMSERVERHOST_APPSETTINGS_DEVELOPMENT }}" > temp_appsettings.json
@@ -151,7 +152,8 @@ jobs:
             echo "First 100 characters of the secret:"
             head -c 100 raw_secret.json
             echo ""
-          continue-on-error: true    
+          continue-on-error: true  
+          
     debug-secret:
     name: Debug Secret Value
     runs-on: ubuntu-latest
