@@ -21,6 +21,7 @@ namespace TELBlazor.Components.ShowCase.E2ETests.Pages.BaseComponentPages
             _tracingEnabled = (bool.TryParse(Environment.GetEnvironmentVariable("E2ETracingEnabled"), out var result) && result);
         }
 
+        // Axe needs js
         [Theory]
         [InlineData("chromium", true, ViewportHelper.ViewportType.Desktop)]
         //[InlineData("chromium", false, ViewportHelper.ViewportType.Desktop)]

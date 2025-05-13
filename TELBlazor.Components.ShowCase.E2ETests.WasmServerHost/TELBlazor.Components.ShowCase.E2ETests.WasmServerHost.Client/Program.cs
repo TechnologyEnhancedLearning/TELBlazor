@@ -28,8 +28,10 @@ using TELBlazor.Components.Core.Configuration;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 
-
-builder.Configuration.AddJsonFile($"appsettings.{builder.HostEnvironment.Environment}.json", optional: false, reloadOnChange: true);
+var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Development";
+Console.WriteLine($"!!!!!!!!           !!!!!!!!!!!!!!!           !!!!!!!!!!!!!   !!!!!!!!!!!!    client qqqqEnvironment: {Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")}");
+builder.Configuration.AddJsonFile($"appsettings.{environment}.json", optional: false, reloadOnChange: true);
+//builder.Configuration.AddJsonFile($"appsettings.{builder.HostEnvironment.Environment}.json", optional: false, reloadOnChange: true);
 //builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
 builder.Logging.ClearProviders();
 // Read default logging level from configuration

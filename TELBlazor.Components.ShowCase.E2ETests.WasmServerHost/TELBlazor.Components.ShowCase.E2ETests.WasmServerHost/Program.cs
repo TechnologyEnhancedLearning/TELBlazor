@@ -28,8 +28,9 @@ using Blazored.LocalStorage;
 
 var builder = WebApplication.CreateBuilder(args);
 
-
-builder.Configuration.AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: false, reloadOnChange: true);
+var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Development";
+builder.Configuration.AddJsonFile($"appsettings.{environment}.json", optional: false, reloadOnChange: true);
+//builder.Configuration.AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: false, reloadOnChange: true);
 builder.Logging.ClearProviders();
 // Read default logging level from configuration
 var logLevelString = builder.Configuration["Serilog:MinimumLevel:Default"];

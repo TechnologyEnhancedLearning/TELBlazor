@@ -8,6 +8,7 @@
     <StaticWebAssetProjectMode>Default</StaticWebAssetProjectMode>
 	  <!--to enable e2e tests-->
 	<PreserveCompilationContext>true</PreserveCompilationContext>
+	<Configurations>Debug;Release;ci</Configurations>
   
   </PropertyGroup>
 	<ItemGroup>
@@ -15,8 +16,6 @@
 		<PackageReference Include="Serilog.Extensions.Logging" />
 		<PackageReference Include="Blazored.LocalStorage" />
 		<PackageReference Include="Microsoft.Extensions.Http" />
-		<PackageReference Include="Serilog" />
-		<PackageReference Include="Serilog.Extensions.Logging" />
 		<PackageReference Include="Serilog.Formatting.Compact" />
 		<PackageReference Include="Serilog.Settings.Configuration" />
 		<PackageReference Include="Serilog.Sinks.BrowserConsole" />
@@ -29,5 +28,10 @@
   <ItemGroup>
     <ProjectReference Include="..\..\TELBlazor.Components.ShowCase.Shared\TELBlazor.Components.ShowCase.Shared.csproj" />
   </ItemGroup>
+	<!--<ItemGroup>
+		<None Update="appsettings.ci.json">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>-->
 
 </Project>

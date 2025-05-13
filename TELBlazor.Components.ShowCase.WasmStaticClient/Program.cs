@@ -29,7 +29,10 @@ var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 
-builder.Configuration.AddJsonFile($"appsettings.{builder.HostEnvironment.Environment}.json", optional: false, reloadOnChange: true);
+var environment = builder.HostEnvironment.Environment ?? "Development";
+Console.WriteLine($"!!!!!!!!           !!!!!!!!!!!!!!!           !!!!!!!!!!!!!   !!!!!!!!!!!!    client qqqqEnvironment: {builder.HostEnvironment.Environment}");
+builder.Configuration.AddJsonFile($"appsettings.{environment}.json", optional: false, reloadOnChange: true);
+//builder.Configuration.AddJsonFile($"appsettings.{builder.HostEnvironment.Environment}.json", optional: false, reloadOnChange: true);
 
 builder.Logging.ClearProviders();
 // Read default logging level from configuration
