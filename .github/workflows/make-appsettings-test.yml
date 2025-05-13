@@ -1,0 +1,79 @@
+name: Test Make Appsettings
+
+on:
+  push:
+    branches-ignore:
+      - 'main'
+      - 'master'
+
+permissions:
+  contents: write
+  actions: write
+        
+env:
+
+  # # Permission
+  # # GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  # # PACKAGES_TOKEN: ${{ secrets.NUGETKEY }}
+  # # GITHUB_USERNAME: "Phil-NHS"
+
+  # # Nuget Set Up
+  # TELBLAZOR_PACKAGE_LOCAL_OUTPUT_PATH: ${{ github.workspace }}/CICDPackageLocation
+  # TELBLAZOR_PACKAGE_SOURCE: ${{ github.workspace }}/CICDPackageLocation
+  # #TELBLAZOR_PACKAGE_SOURCE: "https://nuget.pkg.github.com/TechnologyEnhancedLearning/index.json"
+  
+  # # Build Set Up
+  # USE_TEL_BLAZOR_COMPONENTS_PROJECT_REFERENCE: false
+  # DISABLE_PACKAGE_GENERATION: true
+  # E2E_TRACING_ENABLED: false
+  
+  # # Check Dummy Data
+  # TELBLAZOR_PACKAGE_VERSION: "0.0.0-ci-checks"
+  
+    
+jobs:
+
+    make-appsettings:
+      name: Check solution builds
+      runs-on: ubuntu-latest
+      steps:
+      
+        - name: Checkout code
+          uses: actions/checkout@v3
+          
+        - name: BEFORE Debug output - Show appsettings.Development.json contents
+          run: |
+            echo "=== Path: appsettings.Development.json ==="
+            cat ./appsettings.Development.json
+        
+        - name: BEFORE Print FAKE_WASMSERVERHOST_APPSETTINGS_DEVELOPMENT
+          run: |
+            echo "FAKE_WASMSERVERHOST_APPSETTINGS_DEVELOPMENT:"
+            echo "${{ secrets.FAKE_WASMSERVERHOST_APPSETTINGS_DEVELOPMENT }}"
+            echo "${{ secrets.FAKE_WASMSERVERHOST_APPSETTINGS_DEVELOPMENT }}" | base64 -d        
+
+        - name: Create appsettings development from secrets
+          run: |
+            declare -A paths=(
+              ["./appsettings.Development.json"]="${{ secrets.FAKE_WASMSERVERHOST_APPSETTINGS_DEVELOPMENT }}"
+            )
+
+            for path in "${!paths[@]}"; do
+              mkdir -p "$(dirname "$path")"
+              printf '%s' "${paths[$path]}" > "$path"
+            done
+            
+        - name: AFTER Debug output - Show appsettings.Development.json contents
+          run: |
+            echo "=== Path: appsettings.Development.json ==="
+            cat ./appsettings.Development.json
+        
+        - name: AFTER Print FAKE_WASMSERVERHOST_APPSETTINGS_DEVELOPMENT
+          run: |
+            echo "FAKE_WASMSERVERHOST_APPSETTINGS_DEVELOPMENT:"
+            echo "${{ secrets.FAKE_WASMSERVERHOST_APPSETTINGS_DEVELOPMENT }}"
+            echo "${{ secrets.FAKE_WASMSERVERHOST_APPSETTINGS_DEVELOPMENT }}" | base64 -d        
+            
+            
+     
+              
