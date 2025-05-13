@@ -33,59 +33,6 @@ permissions:
     
 jobs:
 
-    make-appsettings:
-      name: appsettings 1
-      runs-on: ubuntu-latest
-      steps:
-      
-        - name: Checkout code
-          uses: actions/checkout@v3
-          continue-on-error: true
-        
-        - name: BEFORE Print FAKE_WASMSERVERHOST_APPSETTINGS_DEVELOPMENT
-          run: |
-            echo "FAKE_WASMSERVERHOST_APPSETTINGS_DEVELOPMENT:"
-            echo "${{ secrets.FAKE_WASMSERVERHOST_APPSETTINGS_DEVELOPMENT }}"
-            echo "${{ secrets.FAKE_WASMSERVERHOST_APPSETTINGS_DEVELOPMENT }}" | base64 -d        
-          continue-on-error: true
-
-        - name: Create appsettings development from secrets
-          run: |
-            declare -A paths=(
-              ["./appsettings.Development.json"]="${{ secrets.FAKE_WASMSERVERHOST_APPSETTINGS_DEVELOPMENT }}"
-            )
-
-            for path in "${!paths[@]}"; do
-              mkdir -p "$(dirname "$path")"
-              printf '%s' "${paths[$path]}" > "$path"
-            done
-          continue-on-error: true
-            
-        - name: AFTER Debug output - Show appsettings.Development.json contents
-          run: |
-            echo "=== Path: appsettings.Development.json ==="
-            cat ./appsettings.Development.json
-          continue-on-error: true
-        
-        - name: AFTER Print FAKE_WASMSERVERHOST_APPSETTINGS_DEVELOPMENT
-          run: |
-            echo "FAKE_WASMSERVERHOST_APPSETTINGS_DEVELOPMENT:"
-            echo "${{ secrets.FAKE_WASMSERVERHOST_APPSETTINGS_DEVELOPMENT }}"
-            echo "${{ secrets.FAKE_WASMSERVERHOST_APPSETTINGS_DEVELOPMENT }}" | base64 -d  
-          continue-on-error: true
-
-        - name: Print unmasked decoded secret
-          run: |
-            echo "${{ secrets.FAKE_WASMSERVERHOST_APPSETTINGS_DEVELOPMENT }}" | base64 -d > temp_appsettings.json
-            echo "=== DECODED APPSETTINGS CONTENT ==="
-            cat temp_appsettings.json
-          continue-on-error: true  
-        - name: Print unmasked decoded secret2
-          run: |
-            echo "${{ secrets.FAKE_WASMSERVERHOST_APPSETTINGS_DEVELOPMENT }}" > temp_appsettings.json
-            echo "=== DECODED APPSETTINGS CONTENT ==="
-            cat temp_appsettings.json
-          continue-on-error: true   
 
     make-appsettings-two:
       name: app settings 2
@@ -99,21 +46,18 @@ jobs:
         - name: Debug - Create temporary file with secret content
           run: |
             # Write the secret to a file
-            echo '${{ secrets.FAKE_WASMSERVERHOST_APPSETTINGS_DEVELOPMENT }}' > temp_secret.json
-            
-            # Check if file was created and has content
-            echo "File size: $(wc -c < temp_secret.json) bytes"
+            echo '${{ secrets.FAKE_WASMSERVERHOST_APPSETTINGS_DEVELOPMENT }}' > appsettings.Development.json
             
             # Display file content
             echo "File content:"
-            cat temp_secret.json
+            cat appsettings.Development.json
             
             # Validate if it's proper JSON
             echo "Validating JSON format:"
-            if cat temp_secret.json | jq . >/dev/null 2>&1; then
+            if cat appsettings.Development.json | jq . >/dev/null 2>&1; then
               echo "✅ Valid JSON"
               echo "JSON structure:"
-              cat temp_secret.json | jq .
+              cat appsettings.Development.json | jq .
             else
               echo "❌ Not valid JSON"
             fi
@@ -131,69 +75,5 @@ jobs:
             echo "File size: $(wc -c < ./appsettings.Development.json) bytes"
           continue-on-error: true
             
-        - name: Verify appsettings.Development.json content
-          run: |
-            echo "=== appsettings.Development.json content ==="
-            cat ./appsettings.Development.json
-            echo ""
-            echo "=== End of file ==="
-          continue-on-error: true
-            
-        - name: Use secret in script without any processing
-          run: |
-            # Important: using single quotes to preserve the exact content
-            secret_content='${{ secrets.FAKE_WASMSERVERHOST_APPSETTINGS_DEVELOPMENT }}'
-            
-            echo "Secret character count: ${#secret_content}"
-            
-            # Create a file using the raw secret
-            echo "$secret_content" > raw_secret.json
-            
-            echo "First 100 characters of the secret:"
-            head -c 100 raw_secret.json
-            echo ""
-          continue-on-error: true  
+     
           
-    debug-secret:
-      name: Debug Secret Value
-      runs-on: ubuntu-latest
-      steps:
-        - name: Direct Echo Secret Value
-          run: |
-            echo "Secret value direct echo:"
-            echo "${{ secrets.FAKE_WASMSERVERHOST_APPSETTINGS_DEVELOPMENT }}"
-      
-        - name: Write to file and display
-          run: |
-            # Write to file
-            echo "${{ secrets.FAKE_WASMSERVERHOST_APPSETTINGS_DEVELOPMENT }}" > test_secret.json
-          
-            # Show file content
-            echo "File content:"
-            cat test_secret.json
-          
-            # Show file stats
-            echo "File size in bytes: $(wc -c < test_secret.json)"
-          
-        - name: Test JSON validity
-          run: |
-            echo "${{ secrets.FAKE_WASMSERVERHOST_APPSETTINGS_DEVELOPMENT }}" > test_json.json
-          
-            # Try to parse with jq
-            echo "Parsing with jq:"
-            cat test_json.json | jq . || echo "Not valid JSON"
-      
-        - name: Force disable secret filtering
-          env:
-            UNFILTERED_SECRET: ${{ secrets.FAKE_WASMSERVERHOST_APPSETTINGS_DEVELOPMENT }}
-          run: |
-            # Force printing each character
-            echo "Secret character by character:"
-            for (( i=0; i<${#UNFILTERED_SECRET}; i++ )); do
-              echo -n "${UNFILTERED_SECRET:$i:1}"
-            done
-            echo ""
-          
-            # Try with special characters visible
-            echo "Using cat -A to show special characters:"
-            echo "$UNFILTERED_SECRET" | cat -A
