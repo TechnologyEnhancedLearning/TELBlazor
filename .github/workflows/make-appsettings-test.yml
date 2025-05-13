@@ -33,8 +33,7 @@ permissions:
     
 jobs:
 
-
-    make-appsettings-two:
+    make-appsettings-work-in-push-yml:
       name: app settings 2
       runs-on: ubuntu-latest
       steps:
@@ -62,18 +61,3 @@ jobs:
               echo "❌ Not valid JSON"
             fi
           continue-on-error: true
-        
-        - name: Create appsettings.Development.json directly
-          run: |
-            # Create directory if needed
-            mkdir -p "$(dirname "./appsettings.Development.json")"
-            
-            # Write the secret directly to appsettings.Development.json
-            echo '${{ secrets.FAKE_WASMSERVERHOST_APPSETTINGS_DEVELOPMENT }}' > ./appsettings.Development.json
-            
-            echo "Created appsettings.Development.json"
-            echo "File size: $(wc -c < ./appsettings.Development.json) bytes"
-          continue-on-error: true
-            
-     
-          
