@@ -52,6 +52,26 @@ jobs:
         - name: Replace local environment variable in nuget config because cant provide it as a parameter
           run: sed -i "s|%TELBlazorPackageSource%|$TELBLAZOR_PACKAGE_LOCAL_OUTPUT_PATH|g" nuget.config
 
+        - name: Debug - Create temporary file with secret content
+          run: |
+            # Write the secret to a file
+            echo '${{ secrets.FAKE_WASMSERVERHOST_APPSETTINGS_DEVELOPMENT }}' > appsettings.Development.json
+          
+            # Display file content
+            echo "File content:"
+            cat appsettings.Development.json
+            
+            # Validate if it's proper JSON
+            echo "Validating JSON format:"
+            if cat appsettings.Development.json | jq . >/dev/null 2>&1; then
+              echo "✅ Valid JSON"
+              echo "JSON structure:"
+              cat appsettings.Development.json | jq .
+            else
+              echo "❌ Not valid JSON"
+            fi
+          continue-on-error: true    
+
         - name: Create appsettings development from secrets
           run: |
             declare -A paths=(
