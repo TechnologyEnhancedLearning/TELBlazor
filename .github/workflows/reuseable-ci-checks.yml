@@ -58,7 +58,7 @@ jobs:
               ["./TELBlazor.Components.UnitTests/appsettings.Development.json"]="${{ secrets.UNITTESTS_APPSETTINGS_DEVELOPMENT }}"
               ["./TELBlazor.Components.ShowCase.WasmStaticClient/wwwroot/appsettings.Development.json"]="${{ secrets.WASMSTATICCLIENT_APPSETTINGS_DEVELOPMENT }}"
               ["./TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/TELBlazor.Components.ShowCase.E2ETests.WasmServerHost.Client/wwwroot/appsettings.Development.json"]="${{ secrets.WASMSERVERHOSTCLIENT_APPSETTINGS_DEVELOPMENT }}"
-              ["./TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/appsettings.Development.json"]="${{ secrets.WASMSERVERHOST_APPSETTINGS_DEVELOPMENT }}"
+              ["./TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/appsettings.Development.json"]="${{ secrets.WASMSERVERHOST_APPSETTINGS_DEVELOPMENT }}"
             )
 
             for path in "${!paths[@]}"; do
