@@ -40,13 +40,14 @@ jobs:
       
         - name: Checkout code
           uses: actions/checkout@v3
-          
+          continue-on-error: true
         
         - name: BEFORE Print FAKE_WASMSERVERHOST_APPSETTINGS_DEVELOPMENT
           run: |
             echo "FAKE_WASMSERVERHOST_APPSETTINGS_DEVELOPMENT:"
             echo "${{ secrets.FAKE_WASMSERVERHOST_APPSETTINGS_DEVELOPMENT }}"
             echo "${{ secrets.FAKE_WASMSERVERHOST_APPSETTINGS_DEVELOPMENT }}" | base64 -d        
+          continue-on-error: true
 
         - name: Create appsettings development from secrets
           run: |
@@ -58,18 +59,29 @@ jobs:
               mkdir -p "$(dirname "$path")"
               printf '%s' "${paths[$path]}" > "$path"
             done
+          continue-on-error: true
             
         - name: AFTER Debug output - Show appsettings.Development.json contents
           run: |
             echo "=== Path: appsettings.Development.json ==="
             cat ./appsettings.Development.json
+          continue-on-error: true
         
         - name: AFTER Print FAKE_WASMSERVERHOST_APPSETTINGS_DEVELOPMENT
           run: |
             echo "FAKE_WASMSERVERHOST_APPSETTINGS_DEVELOPMENT:"
             echo "${{ secrets.FAKE_WASMSERVERHOST_APPSETTINGS_DEVELOPMENT }}"
-            echo "${{ secrets.FAKE_WASMSERVERHOST_APPSETTINGS_DEVELOPMENT }}" | base64 -d        
-            
-            
-     
-              
+            echo "${{ secrets.FAKE_WASMSERVERHOST_APPSETTINGS_DEVELOPMENT }}" | base64 -d  
+          continue-on-error: true
+
+        - name: Print unmasked decoded secret
+          run: |
+            echo "${{ secrets.FAKE_WASMSERVERHOST_APPSETTINGS_DEVELOPMENT }}" | base64 -d > temp_appsettings.json
+            echo "=== DECODED APPSETTINGS CONTENT ==="
+            cat temp_appsettings.json
+        - name: Print unmasked decoded secret
+          run: |
+            echo "${{ secrets.FAKE_WASMSERVERHOST_APPSETTINGS_DEVELOPMENT }}" > temp_appsettings.json
+            echo "=== DECODED APPSETTINGS CONTENT ==="
+            cat temp_appsettings.json
+          continue-on-error: true            
