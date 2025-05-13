@@ -34,6 +34,8 @@ jobs:
     make-appsettings-work-in-push-yml:
       name: app settings 2
       runs-on: ubuntu-latest
+      secrets:
+        FAKE_WASMSERVERHOST_APPSETTINGS_DEVELOPMENT: ${{ secrets.FAKE_WASMSERVERHOST_APPSETTINGS_DEVELOPMENT }}
       steps:
       
         - name: Checkout code
