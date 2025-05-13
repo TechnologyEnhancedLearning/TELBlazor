@@ -10,7 +10,7 @@ permissions:
   contents: write
   actions: write
         
-env:
+##env:
 
   # # Permission
   # # GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
