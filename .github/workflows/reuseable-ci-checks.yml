@@ -223,8 +223,6 @@ jobs:
           - name: Run Unit tests
             run: dotnet test "TELBlazor.Components.UnitTests.csproj" --no-build --verbosity normal
             working-directory: "./TELBlazor.Components.UnitTests"
-            env: 
-              ASPNETCORE_ENVIRONMENT: ci
   
   
     reuseable-ci-checks-e2e-tests:
