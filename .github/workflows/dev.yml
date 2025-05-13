@@ -35,6 +35,8 @@ jobs:
     uses: ./.github/workflows/reuseable-ci-checks.yml
     with:
       runall: true
+    secrets:
+      FAKE_WASMSERVERHOST_APPSETTINGS_DEVELOPMENT: ${{ secrets.FAKE_WASMSERVERHOST_APPSETTINGS_DEVELOPMENT }}
     
 
   # Now we've done due diligence
@@ -68,9 +70,6 @@ jobs:
             @semantic-release/github
           echo "Semantic Release packages installed."
           npm ls --depth=0 # Debug: List installed packages
-       
-      
-
 
       - name: Run semantic version (None Blocking)
         run: |
