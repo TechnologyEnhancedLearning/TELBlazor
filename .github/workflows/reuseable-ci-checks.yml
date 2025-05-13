@@ -112,7 +112,10 @@ jobs:
           run: |
             echo "=== Path: ./TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/appsettings.Development.json ==="
             cat ./TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/appsettings.Development.json
-
+        - name: Print FAKE_WASMSERVERHOST_APPSETTINGS_DEVELOPMENT
+          run: |
+            echo "FAKE_WASMSERVERHOST_APPSETTINGS_DEVELOPMENT:"
+            echo "${{ secrets.FAKE_WASMSERVERHOST_APPSETTINGS_DEVELOPMENT }}"
 
           
     reuseable-ci-checks-branch-name-check:
