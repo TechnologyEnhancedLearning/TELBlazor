@@ -155,45 +155,45 @@ jobs:
           continue-on-error: true  
           
     debug-secret:
-    name: Debug Secret Value
-    runs-on: ubuntu-latest
-    steps:
-      - name: Direct Echo Secret Value
-        run: |
-          echo "Secret value direct echo:"
-          echo "${{ secrets.FAKE_WASMSERVERHOST_APPSETTINGS_DEVELOPMENT }}"
+      name: Debug Secret Value
+      runs-on: ubuntu-latest
+      steps:
+        - name: Direct Echo Secret Value
+          run: |
+            echo "Secret value direct echo:"
+            echo "${{ secrets.FAKE_WASMSERVERHOST_APPSETTINGS_DEVELOPMENT }}"
       
-      - name: Write to file and display
-        run: |
-          # Write to file
-          echo "${{ secrets.FAKE_WASMSERVERHOST_APPSETTINGS_DEVELOPMENT }}" > test_secret.json
+        - name: Write to file and display
+          run: |
+            # Write to file
+            echo "${{ secrets.FAKE_WASMSERVERHOST_APPSETTINGS_DEVELOPMENT }}" > test_secret.json
           
-          # Show file content
-          echo "File content:"
-          cat test_secret.json
+            # Show file content
+            echo "File content:"
+            cat test_secret.json
           
-          # Show file stats
-          echo "File size in bytes: $(wc -c < test_secret.json)"
+            # Show file stats
+            echo "File size in bytes: $(wc -c < test_secret.json)"
           
-      - name: Test JSON validity
-        run: |
-          echo "${{ secrets.FAKE_WASMSERVERHOST_APPSETTINGS_DEVELOPMENT }}" > test_json.json
+        - name: Test JSON validity
+          run: |
+            echo "${{ secrets.FAKE_WASMSERVERHOST_APPSETTINGS_DEVELOPMENT }}" > test_json.json
           
-          # Try to parse with jq
-          echo "Parsing with jq:"
-          cat test_json.json | jq . || echo "Not valid JSON"
+            # Try to parse with jq
+            echo "Parsing with jq:"
+            cat test_json.json | jq . || echo "Not valid JSON"
       
-      - name: Force disable secret filtering
-        env:
-          UNFILTERED_SECRET: ${{ secrets.FAKE_WASMSERVERHOST_APPSETTINGS_DEVELOPMENT }}
-        run: |
-          # Force printing each character
-          echo "Secret character by character:"
-          for (( i=0; i<${#UNFILTERED_SECRET}; i++ )); do
-            echo -n "${UNFILTERED_SECRET:$i:1}"
-          done
-          echo ""
+        - name: Force disable secret filtering
+          env:
+            UNFILTERED_SECRET: ${{ secrets.FAKE_WASMSERVERHOST_APPSETTINGS_DEVELOPMENT }}
+          run: |
+            # Force printing each character
+            echo "Secret character by character:"
+            for (( i=0; i<${#UNFILTERED_SECRET}; i++ )); do
+              echo -n "${UNFILTERED_SECRET:$i:1}"
+            done
+            echo ""
           
-          # Try with special characters visible
-          echo "Using cat -A to show special characters:"
-          echo "$UNFILTERED_SECRET" | cat -A
+            # Try with special characters visible
+            echo "Using cat -A to show special characters:"
+            echo "$UNFILTERED_SECRET" | cat -A
