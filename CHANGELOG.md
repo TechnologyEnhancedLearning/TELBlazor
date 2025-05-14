@@ -1,3 +1,19 @@
+# [1.1.0-feat-button-for-cicd-testing.7](https://github.com/TechnologyEnhancedLearning/TELBlazor/compare/v1.1.0-feat-button-for-cicd-testing.6...v1.1.0-feat-button-for-cicd-testing.7) (2025-05-14)
+
+
+### Features
+
+* **button:** debug ([75bbce2](https://github.com/TechnologyEnhancedLearning/TELBlazor/commit/75bbce24f86585fb03870bc34f7cb238e14b04ce))
+* **button:** deploy to report site ([49bbb83](https://github.com/TechnologyEnhancedLearning/TELBlazor/commit/49bbb832fe28fd369f19a30e26fa6deeba0e6026))
+* **button:** gogo ([dc449de](https://github.com/TechnologyEnhancedLearning/TELBlazor/commit/dc449dea5f8a200a54f296493383a5d07e58298a))
+* **button:** in the meantime ([3e54b2f](https://github.com/TechnologyEnhancedLearning/TELBlazor/commit/3e54b2f3100d22247627f2ffd9f9dc8e46d1a8f1))
+* **button:** is it event set ([f49bed7](https://github.com/TechnologyEnhancedLearning/TELBlazor/commit/f49bed7dee641b2460387851cdf161e1cc066d6f))
+* **button:** seems bad ([4b27e92](https://github.com/TechnologyEnhancedLearning/TELBlazor/commit/4b27e927ab2473c1d03fb4b96fc320568861912a))
+* **button:** token ([9da3263](https://github.com/TechnologyEnhancedLearning/TELBlazor/commit/9da3263f48abdeda6adcb96d7fc4601047286d9a))
+* **button:** token ([ad32f69](https://github.com/TechnologyEnhancedLearning/TELBlazor/commit/ad32f69ec517d8ee5810f0eb429f644ca631155b))
+* **button:** try it ([067e269](https://github.com/TechnologyEnhancedLearning/TELBlazor/commit/067e269fcf3f7394bb89f201308cd10c5619b719))
+* **button:** yml check ([ef73d87](https://github.com/TechnologyEnhancedLearning/TELBlazor/commit/ef73d87476879398b3e8f654a2f7ca1875456628))
+
 # [1.1.0-feat-button-for-cicd-testing.6](https://github.com/TechnologyEnhancedLearning/TELBlazor/compare/v1.1.0-feat-button-for-cicd-testing.5...v1.1.0-feat-button-for-cicd-testing.6) (2025-05-14)
 
 
