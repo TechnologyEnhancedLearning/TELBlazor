@@ -313,8 +313,7 @@ jobs:
             run: npm ci
             
             
-          - name: Ensure browsers are installed
-            run: pwsh TELBlazor.Components.ShowCase.E2ETests/bin/Debug/net8.0/playwright.ps1 install --with-deps
+
             
           - name: Build and create package locally
             env:
@@ -344,11 +343,21 @@ jobs:
                 /p:E2ETracingEnabled=$E2E_TRACING_ENABLED \
                 /p:HeadlessTesting=$HEADLESS_TESTING
               
-              
+          - name: Ensure browsers are installed
+            run: pwsh TELBlazor.Components.ShowCase.E2ETests/bin/Debug/net8.0/playwright.ps1 install --with-deps  
 
 
           - name: E2E tests excepted filtered
-            run: dotnet test --filter "Category!=LocalOnly & Category!=HeadlessFalse" TELBlazor.Components.ShowCase.E2ETests.csproj --no-build --no-restore --verbosity minimal
+            env:
+                TELBlazorPackageVersion: $TELBLAZOR_PACKAGE_VERSION 
+                NupkgOutputPath: $TELBLAZOR_PACKAGE_LOCAL_OUTPUT_PATH 
+                UseTELBlazorComponentsProjectReference: $USE_TEL_BLAZOR_COMPONENTS_PROJECT_REFERENCE 
+                TELBlazorPackageSource: $TELBLAZOR_PACKAGE_SOURCE 
+                DisablePackageGeneration: $DISABLE_PACKAGE_GENERATION 
+                E2ETracingEnabled: $E2E_TRACING_ENABLED 
+                HeadlessTesting: $HEADLESS_TESTING
+            run: |
+              dotnet test --filter "Category!=LocalOnly & Category!=HeadlessFalse" TELBlazor.Components.ShowCase.E2ETests.csproj --no-build --no-restore --verbosity minimal
             working-directory: ./TELBlazor.Components.ShowCase.E2ETests          
               
 
