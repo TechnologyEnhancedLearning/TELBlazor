@@ -18,12 +18,14 @@ on:
         required: true
       FAKE_WASMSERVERHOST_APPSETTINGS_DEVELOPMENT:
         required: false # Set to true if it's always required
+      PACKAGES_TOKEN:
+        required: true
         
 env:
 
   # Permission
   # GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  PACKAGES_TOKEN: ${{ secrets.NUGETKEY }}
+  PACKAGES_TOKEN: ${{ secrets.PACKAGES_TOKEN }}
   # GITHUB_USERNAME: "Phil-NHS"
 
   # Nuget Set Up
