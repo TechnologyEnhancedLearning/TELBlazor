@@ -22,6 +22,7 @@
 		<RepositoryType>git</RepositoryType>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<PackageOutputPath>$(NupkgOutputPath)</PackageOutputPath>
+		<Configurations>Debug;Release</Configurations>
 
 	</PropertyGroup>
 

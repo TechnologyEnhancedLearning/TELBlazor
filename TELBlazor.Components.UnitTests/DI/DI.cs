@@ -32,6 +32,8 @@ namespace TELBlazor.Components.UnitTests.DI
         public static IServiceCollection AddLogging(this IServiceCollection services, ITestOutputHelper outputHelper, InMemorySink inMemorySink)
         {
             var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Development";
+
+            Console.WriteLine($"!!!!!!!!           !!!!!!!!!!!!!!!           !!!!!!!!!!!!!   !!!!!!!!!!!!    server qqqqEnvironment: {Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")}");
             // Create configuration from appsettings.json
             var configuration = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())

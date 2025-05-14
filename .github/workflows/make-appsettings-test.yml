@@ -1,0 +1,63 @@
+name: Test Make Appsettings
+
+on:
+  push:
+    branches-ignore:
+      - 'main'
+      - 'master'
+
+permissions:
+  contents: write
+  actions: write
+        
+##env:
+
+  # # Permission
+  # # GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  # # PACKAGES_TOKEN: ${{ secrets.NUGETKEY }}
+  # # GITHUB_USERNAME: "Phil-NHS"
+
+  # # Nuget Set Up
+  # TELBLAZOR_PACKAGE_LOCAL_OUTPUT_PATH: ${{ github.workspace }}/CICDPackageLocation
+  # TELBLAZOR_PACKAGE_SOURCE: ${{ github.workspace }}/CICDPackageLocation
+  # #TELBLAZOR_PACKAGE_SOURCE: "https://nuget.pkg.github.com/TechnologyEnhancedLearning/index.json"
+  
+  # # Build Set Up
+  # USE_TEL_BLAZOR_COMPONENTS_PROJECT_REFERENCE: false
+  # DISABLE_PACKAGE_GENERATION: true
+  # E2E_TRACING_ENABLED: false
+  
+  # # Check Dummy Data
+  # TELBLAZOR_PACKAGE_VERSION: "0.0.0-ci-checks"
+  
+    
+jobs:
+
+    make-appsettings-work-in-push-yml:
+      name: app settings 2
+      runs-on: ubuntu-latest
+      steps:
+      
+        - name: Checkout code
+          uses: actions/checkout@v3
+          continue-on-error: true
+        
+        - name: Debug - Create temporary file with secret content
+          run: |
+            # Write the secret to a file
+            echo '${{ secrets.FAKE_WASMSERVERHOST_APPSETTINGS_DEVELOPMENT }}' > appsettings.Development.json
+            
+            # Display file content
+            echo "File content:"
+            cat appsettings.Development.json
+            
+            # Validate if it's proper JSON
+            echo "Validating JSON format:"
+            if cat appsettings.Development.json | jq . >/dev/null 2>&1; then
+              echo "✅ Valid JSON"
+              echo "JSON structure:"
+              cat appsettings.Development.json | jq .
+            else
+              echo "❌ Not valid JSON"
+            fi
+          continue-on-error: true

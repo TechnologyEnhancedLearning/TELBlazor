@@ -14,22 +14,18 @@ using Microsoft.Extensions.DependencyInjection;
 using Serilog.Sinks.BrowserConsole;
 using Serilog.Formatting.Compact;
 using Serilog.Settings.Configuration;
-
-
+using Microsoft.Extensions.Http;
 
 /*qqqq setup*/
 using Blazored.LocalStorage;
-using Serilog;
-using Serilog.Core;
-using Serilog.Events;
-using TELBlazor.Components.Core.Services.HelperServices;
-using TELBlazor.Components.ShowCase.Shared.Services.HelperServices;
-using TELBlazor.Components.Core.Configuration;
+
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 
-
-builder.Configuration.AddJsonFile($"appsettings.{builder.HostEnvironment.Environment}.json", optional: false, reloadOnChange: true);
+var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Development";
+Console.WriteLine($"!!!!!!!!           !!!!!!!!!!!!!!!           !!!!!!!!!!!!!   !!!!!!!!!!!!    client qqqqEnvironment: {Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")}");
+builder.Configuration.AddJsonFile($"appsettings.{environment}.json", optional: false, reloadOnChange: true);
+//builder.Configuration.AddJsonFile($"appsettings.{builder.HostEnvironment.Environment}.json", optional: false, reloadOnChange: true);
 //builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
 builder.Logging.ClearProviders();
 // Read default logging level from configuration

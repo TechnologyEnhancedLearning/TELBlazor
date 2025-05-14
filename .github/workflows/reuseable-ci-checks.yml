@@ -7,6 +7,17 @@ on:
         required: false
         type: boolean
         default: false
+    secrets:
+      UNITTESTS_APPSETTINGS_DEVELOPMENT:
+        required: true
+      WASMSTATICCLIENT_APPSETTINGS_DEVELOPMENT:
+        required: true
+      WASMSERVERHOSTCLIENT_APPSETTINGS_DEVELOPMENT:
+        required: true
+      WASMSERVERHOST_APPSETTINGS_DEVELOPMENT:
+        required: true
+      FAKE_WASMSERVERHOST_APPSETTINGS_DEVELOPMENT:
+        required: false # Set to true if it's always required
         
 env:
 
@@ -27,9 +38,39 @@ env:
   
   # Check Dummy Data
   TELBLAZOR_PACKAGE_VERSION: "0.0.0-ci-checks"
-  
+  HEADLESS_TESTING: true
     
 jobs:
+
+    # make-appsettings-work-in-push-yml:
+      # name: app settings 2
+      # if: ${{ secrets.FAKE_WASMSERVERHOST_APPSETTINGS_DEVELOPMENT != '' }}
+      # runs-on: ubuntu-latest
+      # steps:
+      
+        # - name: Checkout code
+          # uses: actions/checkout@v3
+          # continue-on-error: true
+        
+        # - name: Debug - Create temporary file with secret content
+          # run: |
+            # # Write the secret to a file
+            # echo '${{ secrets.FAKE_WASMSERVERHOST_APPSETTINGS_DEVELOPMENT }}' > appsettings.Development.json
+            
+            # # Display file content
+            # echo "File content:"
+            # cat appsettings.Development.json
+            
+            # # Validate if it's proper JSON
+            # echo "Validating JSON format:"${{ secrets.FAKE_WASMSERVERHOST_APPSETTINGS_DEVELOPMENT != '' }}
+            # if cat appsettings.Development.json | jq . >/dev/null 2>&1; then
+              # echo "✅ Valid JSON"
+              # echo "JSON structure:"
+              # cat appsettings.Development.json | jq .
+            # else
+              # echo "❌ Not valid JSON"
+            # fi
+          # continue-on-error: true
 
     # Build Package
     # Build Solution useing package
@@ -51,7 +92,21 @@ jobs:
               
         - name: Replace local environment variable in nuget config because cant provide it as a parameter
           run: sed -i "s|%TELBlazorPackageSource%|$TELBLAZOR_PACKAGE_LOCAL_OUTPUT_PATH|g" nuget.config
-       
+          
+        - name: Create appsettings development from secrets
+          run: |
+            declare -A paths
+            paths["./TELBlazor.Components.UnitTests/appsettings.Development.json"]='${{ secrets.UNITTESTS_APPSETTINGS_DEVELOPMENT }}'
+            paths["./TELBlazor.Components.ShowCase.WasmStaticClient/wwwroot/appsettings.Development.json"]='${{ secrets.WASMSTATICCLIENT_APPSETTINGS_DEVELOPMENT }}'
+            paths["./TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/TELBlazor.Components.ShowCase.E2ETests.WasmServerHost.Client/wwwroot/appsettings.Development.json"]='${{ secrets.WASMSERVERHOSTCLIENT_APPSETTINGS_DEVELOPMENT }}'
+            paths["./TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/appsettings.Development.json"]='${{ secrets.WASMSERVERHOST_APPSETTINGS_DEVELOPMENT }}'
+
+            for path in "${!paths[@]}"; do
+              mkdir -p "$(dirname "$path")"
+              printf '%s' "${paths[$path]}" > "$path"
+            done
+            
+
         - name: Clean lock files because the newly generated package file will superseed the locks
           run: |
             find . -name "packages.lock.json" -type f -exec rm -f {} \;
@@ -90,8 +145,8 @@ jobs:
               /p:TELBlazorPackageSource=$TELBLAZOR_PACKAGE_SOURCE \
               /p:DisablePackageGeneration=$DISABLE_PACKAGE_GENERATION \
               /p:E2ETracingEnabled=$E2E_TRACING_ENABLED
+              
 
-          
     reuseable-ci-checks-branch-name-check:
       name: Check branch names
       if: success() || failure()
@@ -152,7 +207,20 @@ jobs:
               
           - name: Replace local environment variable in nuget config because cant provide it as a parameter
             run: sed -i "s|%TELBlazorPackageSource%|$TELBLAZOR_PACKAGE_LOCAL_OUTPUT_PATH|g" nuget.config
-       
+
+          - name: Create appsettings development from secrets
+            run: |
+              declare -A paths
+              paths["./TELBlazor.Components.UnitTests/appsettings.Development.json"]='${{ secrets.UNITTESTS_APPSETTINGS_DEVELOPMENT }}'
+              paths["./TELBlazor.Components.ShowCase.WasmStaticClient/wwwroot/appsettings.Development.json"]='${{ secrets.WASMSTATICCLIENT_APPSETTINGS_DEVELOPMENT }}'
+              paths["./TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/TELBlazor.Components.ShowCase.E2ETests.WasmServerHost.Client/wwwroot/appsettings.Development.json"]='${{ secrets.WASMSERVERHOSTCLIENT_APPSETTINGS_DEVELOPMENT }}'
+              paths["./TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/appsettings.Development.json"]='${{ secrets.WASMSERVERHOST_APPSETTINGS_DEVELOPMENT }}'
+
+              for path in "${!paths[@]}"; do
+                mkdir -p "$(dirname "$path")"
+                printf '%s' "${paths[$path]}" > "$path"
+              done
+
           - name: Clean lock files because the newly generated package file will superseed the locks
             run: |
               find . -name "packages.lock.json" -type f -exec rm -f {} \;
@@ -195,8 +263,6 @@ jobs:
           - name: Run Unit tests
             run: dotnet test "TELBlazor.Components.UnitTests.csproj" --no-build --verbosity normal
             working-directory: "./TELBlazor.Components.UnitTests"
-            env: 
-              ASPNETCORE_ENVIRONMENT: ci
   
   
     reuseable-ci-checks-e2e-tests:
@@ -222,6 +288,20 @@ jobs:
           - name: Clean lock files because the newly generated package file will superseed the locks
             run: |
               find . -name "packages.lock.json" -type f -exec rm -f {} \;
+          
+          - name: Create appsettings development from secrets
+            run: |
+              declare -A paths
+              paths["./TELBlazor.Components.UnitTests/appsettings.Development.json"]='${{ secrets.UNITTESTS_APPSETTINGS_DEVELOPMENT }}'
+              paths["./TELBlazor.Components.ShowCase.WasmStaticClient/wwwroot/appsettings.Development.json"]='${{ secrets.WASMSTATICCLIENT_APPSETTINGS_DEVELOPMENT }}'
+              paths["./TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/TELBlazor.Components.ShowCase.E2ETests.WasmServerHost.Client/wwwroot/appsettings.Development.json"]='${{ secrets.WASMSERVERHOSTCLIENT_APPSETTINGS_DEVELOPMENT }}'
+              paths["./TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/appsettings.Development.json"]='${{ secrets.WASMSERVERHOST_APPSETTINGS_DEVELOPMENT }}'
+
+              for path in "${!paths[@]}"; do
+                mkdir -p "$(dirname "$path")"
+                printf '%s' "${paths[$path]}" > "$path"
+              done
+    
       
           - name: Set up Node.js so we have gulp for retrieving TEL Frontend Css
             uses: actions/setup-node@v4
@@ -231,6 +311,9 @@ jobs:
           - name: Install npm packages so we have gulp for retrieving TEL Frontend Css
             working-directory: ./TELBlazor.Components
             run: npm ci
+            
+            
+
             
           - name: Build and create package locally
             env:
@@ -243,7 +326,8 @@ jobs:
                 /p:UseTELBlazorComponentsProjectReference=$USE_TEL_BLAZOR_COMPONENTS_PROJECT_REFERENCE \
                 /p:TELBlazorPackageSource=$TELBLAZOR_PACKAGE_SOURCE \
                 /p:DisablePackageGeneration=$DISABLE_PACKAGE_GENERATION \
-                /p:E2ETracingEnabled=$E2E_TRACING_ENABLED
+                /p:E2ETracingEnabled=$E2E_TRACING_ENABLED \
+                /p:HeadlessTesting=$HEADLESS_TESTING
               
           - name: Build solution without generating new package
             env:
@@ -256,20 +340,25 @@ jobs:
                 /p:UseTELBlazorComponentsProjectReference=$USE_TEL_BLAZOR_COMPONENTS_PROJECT_REFERENCE \
                 /p:TELBlazorPackageSource=$TELBLAZOR_PACKAGE_SOURCE \
                 /p:DisablePackageGeneration=$DISABLE_PACKAGE_GENERATION \
-                /p:E2ETracingEnabled=$E2E_TRACING_ENABLED
-              
+                /p:E2ETracingEnabled=$E2E_TRACING_ENABLED \
+                /p:HeadlessTesting=$HEADLESS_TESTING
               
           - name: Ensure browsers are installed
-            run: pwsh TELBlazor.Components.ShowCase.E2ETests/bin/Debug/net8.0/playwright.ps1 install --with-deps
+            run: pwsh TELBlazor.Components.ShowCase.E2ETests/bin/Debug/net8.0/playwright.ps1 install --with-deps  
 
           - name: E2E tests excepted filtered
-            run: dotnet test --filter "Category!=LocalOnly & Category!=HeadlessFalse" TELBlazor.Components.ShowCase.E2ETests.csproj --no-restore --verbosity minimal
-            working-directory: ./TELBlazor.Components.ShowCase.E2ETests  
-            env: 
-              ASPNETCORE_ENVIRONMENT: ci           
-              
+            env:
+              TELBlazorPackageVersion: ${{ env.TELBLAZOR_PACKAGE_VERSION }}
+              NupkgOutputPath: ${{ env.TELBLAZOR_PACKAGE_LOCAL_OUTPUT_PATH }}
+              UseTELBlazorComponentsProjectReference: ${{ env.USE_TEL_BLAZOR_COMPONENTS_PROJECT_REFERENCE }}
+              TELBlazorPackageSource: ${{ env.TELBLAZOR_PACKAGE_SOURCE }}
+              DisablePackageGeneration: ${{ env.DISABLE_PACKAGE_GENERATION }}
+              E2ETracingEnabled: ${{ env.E2E_TRACING_ENABLED }}
+              HeadlessTesting: ${{ env.HEADLESS_TESTING }}
+            run: |
+              dotnet test --filter "Category!=LocalOnly & Category!=HeadlessFalse" TELBlazor.Components.ShowCase.E2ETests.csproj --no-build --no-restore --verbosity minimal
+            working-directory: ./TELBlazor.Components.ShowCase.E2ETests          
 
- 
     reuseable-ci-checks-code-coverage:
         name: Check for code coverage
         runs-on: ubuntu-latest

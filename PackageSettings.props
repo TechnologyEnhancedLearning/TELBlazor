@@ -16,6 +16,10 @@
 	  
 	<E2ETracingEnabled Condition="'$(E2ETracingEnabled)' == ''">false</E2ETracingEnabled>
 	<E2ETracingEnabled Condition="'$(E2ETracingEnabled)' != ''">$(E2ETracingEnabled)</E2ETracingEnabled>
+	<HeadlessTesting Condition="'$(HeadlessTesting)' == ''">true</HeadlessTesting>
+	<HeadlessTesting Condition="'$(HeadlessTesting)' != ''">$(HeadlessTesting)</HeadlessTesting>
+  
+
   </PropertyGroup>
 
 </Project>

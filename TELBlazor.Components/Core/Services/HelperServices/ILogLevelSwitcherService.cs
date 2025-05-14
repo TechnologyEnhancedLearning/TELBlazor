@@ -8,10 +8,6 @@ namespace TELBlazor.Components.Core.Services.HelperServices
 {
     public interface ILogLevelSwitcherService
     {
-        //qqqq
-        //Won't do this too many events so will just says its a slow process
-        //    public event Action OnLogLevelChanged; 
-
 
         /// <summary>
         /// String so can be more generic

@@ -6,7 +6,7 @@ using TELBlazor.Components.Core.Services.HelperServices;
 using TELBlazor.Components.ShowCase.E2ETests.WasmServerHost;
 using TELBlazor.Components.ShowCase.Shared.Services.HelperServices;
 
-
+using Microsoft.Extensions.Http;
 
 
 using Microsoft.AspNetCore.Components.Web;
@@ -28,8 +28,9 @@ using Blazored.LocalStorage;
 
 var builder = WebApplication.CreateBuilder(args);
 
-
-builder.Configuration.AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: false, reloadOnChange: true);
+var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Development";
+builder.Configuration.AddJsonFile($"appsettings.{environment}.json", optional: false, reloadOnChange: true);
+//builder.Configuration.AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: false, reloadOnChange: true);
 builder.Logging.ClearProviders();
 // Read default logging level from configuration
 var logLevelString = builder.Configuration["Serilog:MinimumLevel:Default"];
