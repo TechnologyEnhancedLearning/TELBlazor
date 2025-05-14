@@ -1,3 +1,12 @@
+# [1.1.0-feat-button-for-cicd-testing.4](https://github.com/TechnologyEnhancedLearning/TELBlazor/compare/v1.1.0-feat-button-for-cicd-testing.3...v1.1.0-feat-button-for-cicd-testing.4) (2025-05-14)
+
+
+### Features
+
+* **button:** appsettings production ([a1cc496](https://github.com/TechnologyEnhancedLearning/TELBlazor/commit/a1cc496d1c7f0bcb40fc730bdfa376d5f8957bed))
+* **button:** cicds ([eedcc25](https://github.com/TechnologyEnhancedLearning/TELBlazor/commit/eedcc256b57966a3550e1bf8536d8c62dc915101))
+* **button:** dont test against prod appsetting yet ([66b1292](https://github.com/TechnologyEnhancedLearning/TELBlazor/commit/66b1292efc5690f9c1ab6df7554eb5805481eb8b))
+
 # [1.1.0-feat-button-for-cicd-testing.3](https://github.com/TechnologyEnhancedLearning/TELBlazor/compare/v1.1.0-feat-button-for-cicd-testing.2...v1.1.0-feat-button-for-cicd-testing.3) (2025-05-14)
 
 
