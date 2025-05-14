@@ -15,7 +15,6 @@ namespace TELBlazor.Components.ShowCase.E2ETests.Helpers
 
             IBrowser browser;
             bool headless = (bool.TryParse(Environment.GetEnvironmentVariable("HeadlessTesting"), out var result) && result);
-            Console.WriteLine($"[DEBUG] HeadlessTesting = {headless}");
             switch (browserType.ToLower())
             {
                 case "chromium":
