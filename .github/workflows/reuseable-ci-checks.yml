@@ -463,7 +463,7 @@ jobs:
               name: coverage-report
               path: coveragereport
                
-         - name: Debug PACKAGES_TOKEN value (Optional)
+          - name: Debug PACKAGES_TOKEN value (Optional)
             run: |
               echo "PACKAGES_TOKEN is set."
               echo "PACKAGES_TOKEN=$PACKAGES_TOKEN"  # This should print nothing, it's a secret!
@@ -484,7 +484,7 @@ jobs:
               # echo "Artifact URL: $ARTIFACT_URL"
               # echo "artifact_url=$ARTIFACT_URL" >> $GITHUB_ENV
               
-           - name: Get artifact location
+          - name: Get artifact location
             env:
                PACKAGES_TOKEN: ${{ secrets.PACKAGES_TOKEN }}
                GH_TOKEN: ${{ secrets.PACKAGES_TOKEN }}
