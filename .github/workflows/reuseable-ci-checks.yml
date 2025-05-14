@@ -483,6 +483,9 @@ jobs:
               echo "PACKAGES_TOKEN=$PACKAGES_TOKEN"  # This should print nothing, it's a secret!
           
           - name: Trigger workflow in TELBlazor-CodeReport repo
+            env:
+               PACKAGES_TOKEN: ${{ secrets.PACKAGES_TOKEN }}
+               GH_TOKEN: ${{ secrets.PACKAGES_TOKEN }}
             run: |
               repo_owner="TechnologyEnhancedLearning"
               repo_name="TELBlazor-CodeReport"
