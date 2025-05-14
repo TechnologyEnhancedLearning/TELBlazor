@@ -357,8 +357,7 @@ jobs:
                 E2ETracingEnabled: $E2E_TRACING_ENABLED 
                 HeadlessTesting: $HEADLESS_TESTING
             run: |
-              dotnet test --filter "Category!=LocalOnly & Category!=HeadlessFalse" \ 
-              TELBlazor.Components.ShowCase.E2ETests.csproj --no-build --no-restore --verbosity minimal \
+              dotnet test --filter "Category!=LocalOnly & Category!=HeadlessFalse" TELBlazor.Components.ShowCase.E2ETests.csproj --no-build --no-restore --verbosity minimal \
               /p:TELBlazorPackageVersion=$TELBLAZOR_PACKAGE_VERSION \
               /p:NupkgOutputPath=$TELBLAZOR_PACKAGE_LOCAL_OUTPUT_PATH \
               /p:UseTELBlazorComponentsProjectReference=$USE_TEL_BLAZOR_COMPONENTS_PROJECT_REFERENCE \
