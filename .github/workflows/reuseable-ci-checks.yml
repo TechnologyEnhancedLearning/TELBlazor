@@ -42,35 +42,35 @@ env:
     
 jobs:
 
-    make-appsettings-work-in-push-yml:
-      name: app settings 2
-      if: ${{ secrets.FAKE_WASMSERVERHOST_APPSETTINGS_DEVELOPMENT != '' }}
-      runs-on: ubuntu-latest
-      steps:
+    # make-appsettings-work-in-push-yml:
+      # name: app settings 2
+      # if: ${{ secrets.FAKE_WASMSERVERHOST_APPSETTINGS_DEVELOPMENT != '' }}
+      # runs-on: ubuntu-latest
+      # steps:
       
-        - name: Checkout code
-          uses: actions/checkout@v3
-          continue-on-error: true
+        # - name: Checkout code
+          # uses: actions/checkout@v3
+          # continue-on-error: true
         
-        - name: Debug - Create temporary file with secret content
-          run: |
-            # Write the secret to a file
-            echo '${{ secrets.FAKE_WASMSERVERHOST_APPSETTINGS_DEVELOPMENT }}' > appsettings.Development.json
+        # - name: Debug - Create temporary file with secret content
+          # run: |
+            # # Write the secret to a file
+            # echo '${{ secrets.FAKE_WASMSERVERHOST_APPSETTINGS_DEVELOPMENT }}' > appsettings.Development.json
             
-            # Display file content
-            echo "File content:"
-            cat appsettings.Development.json
+            # # Display file content
+            # echo "File content:"
+            # cat appsettings.Development.json
             
-            # Validate if it's proper JSON
-            echo "Validating JSON format:"${{ secrets.FAKE_WASMSERVERHOST_APPSETTINGS_DEVELOPMENT != '' }}
-            if cat appsettings.Development.json | jq . >/dev/null 2>&1; then
-              echo "✅ Valid JSON"
-              echo "JSON structure:"
-              cat appsettings.Development.json | jq .
-            else
-              echo "❌ Not valid JSON"
-            fi
-          continue-on-error: true
+            # # Validate if it's proper JSON
+            # echo "Validating JSON format:"${{ secrets.FAKE_WASMSERVERHOST_APPSETTINGS_DEVELOPMENT != '' }}
+            # if cat appsettings.Development.json | jq . >/dev/null 2>&1; then
+              # echo "✅ Valid JSON"
+              # echo "JSON structure:"
+              # cat appsettings.Development.json | jq .
+            # else
+              # echo "❌ Not valid JSON"
+            # fi
+          # continue-on-error: true
 
     # Build Package
     # Build Solution useing package
