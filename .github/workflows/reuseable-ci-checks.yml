@@ -92,40 +92,21 @@ jobs:
               
         - name: Replace local environment variable in nuget config because cant provide it as a parameter
           run: sed -i "s|%TELBlazorPackageSource%|$TELBLAZOR_PACKAGE_LOCAL_OUTPUT_PATH|g" nuget.config
-
-        # - name: Create appsettings development from secrets
-          # run: |
-            # declare -A paths=(
-              # ["./TELBlazor.Components.UnitTests/appsettings.Development.json"]="${{ secrets.UNITTESTS_APPSETTINGS_DEVELOPMENT }}"
-              # ["./TELBlazor.Components.ShowCase.WasmStaticClient/wwwroot/appsettings.Development.json"]="${{ secrets.WASMSTATICCLIENT_APPSETTINGS_DEVELOPMENT }}"
-              # ["./TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/TELBlazor.Components.ShowCase.E2ETests.WasmServerHost.Client/wwwroot/appsettings.Development.json"]="${{ secrets.WASMSERVERHOSTCLIENT_APPSETTINGS_DEVELOPMENT }}"
-              # ["./TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/appsettings.Development.json"]="${{ secrets.WASMSERVERHOST_APPSETTINGS_DEVELOPMENT }}"
-            # )
-
-            # for path in "${!paths[@]}"; do
-              # mkdir -p "$(dirname "$path")"
-              # printf '%s' "${paths[$path]}" > "$path"
-            # done
-            
+          
         - name: Create appsettings development from secrets
           run: |
-            # Declare the associative array 'paths'
-            declare -A paths=(
-              ["./TELBlazor.Components.UnitTests/appsettings.Development.json"]="${{ secrets.UNITTESTS_APPSETTINGS_DEVELOPMENT }}"
-              ["./TELBlazor.Components.ShowCase.WasmStaticClient/wwwroot/appsettings.Development.json"]="${{ secrets.WASMSTATICCLIENT_APPSETTINGS_DEVELOPMENT }}"
-              ["./TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/TELBlazor.Components.ShowCase.E2ETests.WasmServerHost.Client/wwwroot/appsettings.Development.json"]="${{ secrets.WASMSERVERHOSTCLIENT_APPSETTINGS_DEVELOPMENT }}"
-              ["./TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/appsettings.Development.json"]="${{ secrets.WASMSERVERHOST_APPSETTINGS_DEVELOPMENT }}"
-            )
+            declare -A paths
+            paths["./TELBlazor.Components.UnitTests/appsettings.Development.json"]='${{ secrets.UNITTESTS_APPSETTINGS_DEVELOPMENT }}'
+            paths["./TELBlazor.Components.ShowCase.WasmStaticClient/wwwroot/appsettings.Development.json"]='${{ secrets.WASMSTATICCLIENT_APPSETTINGS_DEVELOPMENT }}'
+            paths["./TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/TELBlazor.Components.ShowCase.E2ETests.WasmServerHost.Client/wwwroot/appsettings.Development.json"]='${{ secrets.WASMSERVERHOSTCLIENT_APPSETTINGS_DEVELOPMENT }}'
+            paths["./TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/appsettings.Development.json"]='${{ secrets.WASMSERVERHOST_APPSETTINGS_DEVELOPMENT }}'
 
-            # Iterate over the keys of the 'paths' array
             for path in "${!paths[@]}"; do
-              # Create the directory if it doesn't exist
               mkdir -p "$(dirname "$path")"
-              # Write the secret value to the file
               printf '%s' "${paths[$path]}" > "$path"
             done
-          shell: /usr/bin/bash -e
-             
+            
+
         - name: Clean lock files because the newly generated package file will superseed the locks
           run: |
             find . -name "packages.lock.json" -type f -exec rm -f {} \;
