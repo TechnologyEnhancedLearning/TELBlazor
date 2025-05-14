@@ -8,8 +8,12 @@
     <IsPackable>false</IsPackable>
     <IsTestProject>true</IsTestProject>
     <Configurations>Debug;Release;ci</Configurations>
-  </PropertyGroup>
 
+  </PropertyGroup>
+	<Target Name="SetHeadlessTestingEnvVar" BeforeTargets="Build">
+		<Message Text="Setting HeadlessTesting: $(HeadlessTesting)" Importance="high"/>
+		<Exec Command="set HEADLESS_TESTING $(HeadlessTesting)" />
+	</Target>
   <ItemGroup>
 	  <PackageReference Include="AutoFixture" />
 	  <PackageReference Include="coverlet.collector" />

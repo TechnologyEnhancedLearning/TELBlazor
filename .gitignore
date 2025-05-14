@@ -160,6 +160,9 @@ _Pvt_Extensions
 CHANGELOG.md
 /docs
 /TELBlazor.Components.ShowCase.WasmStaticClient/wwwroot/appsettings.dev.json
+
+/tools/
+
 /TELBlazor.Components.UnitTests/appsettings.Development.json
 /TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/appsettings.json
 /TELBlazor.Components.ShowCase.WasmStaticClient/wwwroot/appsettings.json
