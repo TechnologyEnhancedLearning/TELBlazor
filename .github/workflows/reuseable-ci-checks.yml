@@ -312,6 +312,10 @@ jobs:
             working-directory: ./TELBlazor.Components
             run: npm ci
             
+            
+          - name: Ensure browsers are installed
+            run: pwsh TELBlazor.Components.ShowCase.E2ETests/bin/Debug/net8.0/playwright.ps1 install --with-deps
+            
           - name: Build and create package locally
             env:
                #Overwrite package generation
@@ -341,8 +345,7 @@ jobs:
                 /p:HeadlessTesting=$HEADLESS_TESTING
               
               
-          - name: Ensure browsers are installed
-            run: pwsh TELBlazor.Components.ShowCase.E2ETests/bin/Debug/net8.0/playwright.ps1 install --with-deps
+
 
           - name: E2E tests excepted filtered
             run: dotnet test --filter "Category!=LocalOnly & Category!=HeadlessFalse" TELBlazor.Components.ShowCase.E2ETests.csproj --no-build --no-restore --verbosity minimal
