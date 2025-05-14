@@ -23,6 +23,7 @@ It is client side so the users browser will do the work.
 
 [View Packaged Showcase Code](https://github.com/TechnologyEnhancedLearning/TELBlazor/tree/gh-pages/)
 
+[Code Report Page](https://technologyenhancedlearning.github.io/TELBlazor-CodeReport/)
 
 # Solution Detail
 

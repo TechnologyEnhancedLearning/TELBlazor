@@ -23,7 +23,7 @@ env:
 
   # Permission
   # GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  # PACKAGES_TOKEN: ${{ secrets.NUGETKEY }}
+  PACKAGES_TOKEN: ${{ secrets.NUGETKEY }}
   # GITHUB_USERNAME: "Phil-NHS"
 
   # Nuget Set Up
