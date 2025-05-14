@@ -165,3 +165,4 @@ CHANGELOG.md
 /TELBlazor.Components.ShowCase.WasmStaticClient/wwwroot/appsettings.json
 /TELBlazor.Components.UnitTests/appsettings.json
 /TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/TELBlazor.Components.ShowCase.E2ETests.WasmServerHost.Client/wwwroot/appsettings.json
+/TELBlazor.Components.ShowCase.E2ETests/run-e2e-test-script-del.ps1
