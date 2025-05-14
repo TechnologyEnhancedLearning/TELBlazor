@@ -1,3 +1,11 @@
+# [1.1.0-feat-button-for-cicd-testing.6](https://github.com/TechnologyEnhancedLearning/TELBlazor/compare/v1.1.0-feat-button-for-cicd-testing.5...v1.1.0-feat-button-for-cicd-testing.6) (2025-05-14)
+
+
+### Features
+
+* **button:** luck ([af7eea3](https://github.com/TechnologyEnhancedLearning/TELBlazor/commit/af7eea3727ff939df510fdcf0c44f009d7a446a0))
+* **button:** odd ([5b182b2](https://github.com/TechnologyEnhancedLearning/TELBlazor/commit/5b182b2ee8c58bed3f5097b5c331cdb18e57e6d1))
+
 # [1.1.0-feat-button-for-cicd-testing.5](https://github.com/TechnologyEnhancedLearning/TELBlazor/compare/v1.1.0-feat-button-for-cicd-testing.4...v1.1.0-feat-button-for-cicd-testing.5) (2025-05-14)
 
 
