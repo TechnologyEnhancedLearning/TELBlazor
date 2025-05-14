@@ -41,7 +41,6 @@ jobs:
       WASMSERVERHOSTCLIENT_APPSETTINGS_DEVELOPMENT: ${{ secrets.WASMSERVERHOSTCLIENT_APPSETTINGS_DEVELOPMENT }}
       WASMSERVERHOST_APPSETTINGS_DEVELOPMENT: ${{ secrets.WASMSERVERHOST_APPSETTINGS_DEVELOPMENT }}
       FAKE_WASMSERVERHOST_APPSETTINGS_DEVELOPMENT: ${{ secrets.FAKE_WASMSERVERHOST_APPSETTINGS_DEVELOPMENT }}
-    
 
   # Now we've done due diligence
   # The checks have been allowed to run if the workflow fails so if there a multiple fails we know. 
