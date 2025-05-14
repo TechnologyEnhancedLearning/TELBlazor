@@ -8,8 +8,16 @@ on:
         type: boolean
         default: false
     secrets:
+      UNITTESTS_APPSETTINGS_DEVELOPMENT:
+        required: true
+      WASMSTATICCLIENT_APPSETTINGS_DEVELOPMENT:
+        required: true
+      WASMSERVERHOSTCLIENT_APPSETTINGS_DEVELOPMENT:
+        required: true
+      WASMSERVERHOST_APPSETTINGS_DEVELOPMENT:
+        required: true
       FAKE_WASMSERVERHOST_APPSETTINGS_DEVELOPMENT:
-        required: true  # Set to true if it's always required
+        required: false # Set to true if it's always required
         
 env:
 
@@ -36,7 +44,9 @@ jobs:
 
     make-appsettings-work-in-push-yml:
       name: app settings 2
+      if: ${{ secrets.FAKE_WASMSERVERHOST_APPSETTINGS_DEVELOPMENT != '' }}
       runs-on: ubuntu-latest
+      if(FAKE_WASMSERVERHOST_APPSETTINGS_DEVELOPMENT != null)
       steps:
       
         - name: Checkout code
@@ -53,7 +63,7 @@ jobs:
             cat appsettings.Development.json
             
             # Validate if it's proper JSON
-            echo "Validating JSON format:"
+            echo "Validating JSON format:"${{ secrets.FAKE_WASMSERVERHOST_APPSETTINGS_DEVELOPMENT != '' }}
             if cat appsettings.Development.json | jq . >/dev/null 2>&1; then
               echo "✅ Valid JSON"
               echo "JSON structure:"
@@ -90,17 +100,14 @@ jobs:
               ["./TELBlazor.Components.UnitTests/appsettings.Development.json"]="${{ secrets.UNITTESTS_APPSETTINGS_DEVELOPMENT }}"
               ["./TELBlazor.Components.ShowCase.WasmStaticClient/wwwroot/appsettings.Development.json"]="${{ secrets.WASMSTATICCLIENT_APPSETTINGS_DEVELOPMENT }}"
               ["./TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/TELBlazor.Components.ShowCase.E2ETests.WasmServerHost.Client/wwwroot/appsettings.Development.json"]="${{ secrets.WASMSERVERHOSTCLIENT_APPSETTINGS_DEVELOPMENT }}"
-           
-              ["./TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/appsettings.Development.json"]="${{ secrets.FAKE_WASMSERVERHOST_APPSETTINGS_DEVELOPMENT }}"
+              ["./TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/appsettings.Development.json"]="${{ secrets.WASMSERVERHOST_APPSETTINGS_DEVELOPMENT }}"
             )
 
             for path in "${!paths[@]}"; do
               mkdir -p "$(dirname "$path")"
               printf '%s' "${paths[$path]}" > "$path"
             done
-            
-            
-              # ["./TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/appsettings.Development.json"]="${{ secrets.WASMSERVERHOST_APPSETTINGS_DEVELOPMENT }}"   
+             
         - name: Clean lock files because the newly generated package file will superseed the locks
           run: |
             find . -name "packages.lock.json" -type f -exec rm -f {} \;
