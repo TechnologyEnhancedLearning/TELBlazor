@@ -40,6 +40,11 @@ jobs:
       WASMSTATICCLIENT_APPSETTINGS_DEVELOPMENT: ${{ secrets.WASMSTATICCLIENT_APPSETTINGS_DEVELOPMENT }}
       WASMSERVERHOSTCLIENT_APPSETTINGS_DEVELOPMENT: ${{ secrets.WASMSERVERHOSTCLIENT_APPSETTINGS_DEVELOPMENT }}
       WASMSERVERHOST_APPSETTINGS_DEVELOPMENT: ${{ secrets.WASMSERVERHOST_APPSETTINGS_DEVELOPMENT }}
+      
+      UNITTESTS_APPSETTINGS_PRODUCTION: ${{ secrets.UNITTESTS_APPSETTINGS_PRODUCTION }}
+      WASMSTATICCLIENT_APPSETTINGS_PRODUCTION: ${{ secrets.WASMSTATICCLIENT_APPSETTINGS_PRODUCTION }}
+      WASMSERVERHOSTCLIENT_APPSETTINGS_PRODUCTION: ${{ secrets.WASMSERVERHOSTCLIENT_APPSETTINGS_PRODUCTION }}
+      WASMSERVERHOST_APPSETTINGS_PRODUCTION: ${{ secrets.WASMSERVERHOST_APPSETTINGS_PRODUCTION }}
       #FAKE_WASMSERVERHOST_APPSETTINGS_DEVELOPMENT: ${{ secrets.FAKE_WASMSERVERHOST_APPSETTINGS_DEVELOPMENT }}
 
   # Now we've done due diligence
@@ -153,6 +158,12 @@ jobs:
           paths["./TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/TELBlazor.Components.ShowCase.E2ETests.WasmServerHost.Client/wwwroot/appsettings.Development.json"]='${{ secrets.WASMSERVERHOSTCLIENT_APPSETTINGS_DEVELOPMENT }}'
           paths["./TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/appsettings.Development.json"]='${{ secrets.WASMSERVERHOST_APPSETTINGS_DEVELOPMENT }}'
 
+          paths["./TELBlazor.Components.UnitTests/appsettings.Production.json"]='${{ secrets.UNITTESTS_APPSETTINGS_PRODUCTION }}'
+          paths["./TELBlazor.Components.ShowCase.WasmStaticClient/wwwroot/appsettings.Production.json"]='${{ secrets.WASMSTATICCLIENT_APPSETTINGS_PRODUCTION }}'
+          paths["./TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/TELBlazor.Components.ShowCase.E2ETests.WasmServerHost.Client/wwwroot/appsettings.Production.json"]='${{ secrets.WASMSERVERHOSTCLIENT_APPSETTINGS_PRODUCTION }}'
+          paths["./TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/appsettings.Production.json"]='${{ secrets.WASMSERVERHOST_APPSETTINGS_PRODUCTION }}'
+
+
           for path in "${!paths[@]}"; do
             mkdir -p "$(dirname "$path")"
             printf '%s' "${paths[$path]}" > "$path"
@@ -232,6 +243,11 @@ jobs:
           paths["./TELBlazor.Components.ShowCase.WasmStaticClient/wwwroot/appsettings.Development.json"]='${{ secrets.WASMSTATICCLIENT_APPSETTINGS_DEVELOPMENT }}'
           paths["./TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/TELBlazor.Components.ShowCase.E2ETests.WasmServerHost.Client/wwwroot/appsettings.Development.json"]='${{ secrets.WASMSERVERHOSTCLIENT_APPSETTINGS_DEVELOPMENT }}'
           paths["./TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/appsettings.Development.json"]='${{ secrets.WASMSERVERHOST_APPSETTINGS_DEVELOPMENT }}'
+          
+          paths["./TELBlazor.Components.UnitTests/appsettings.Production.json"]='${{ secrets.UNITTESTS_APPSETTINGS_PRODUCTION }}'
+          paths["./TELBlazor.Components.ShowCase.WasmStaticClient/wwwroot/appsettings.Production.json"]='${{ secrets.WASMSTATICCLIENT_APPSETTINGS_PRODUCTION }}'
+          paths["./TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/TELBlazor.Components.ShowCase.E2ETests.WasmServerHost.Client/wwwroot/appsettings.Production.json"]='${{ secrets.WASMSERVERHOSTCLIENT_APPSETTINGS_PRODUCTION }}'
+          paths["./TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/appsettings.Production.json"]='${{ secrets.WASMSERVERHOST_APPSETTINGS_PRODUCTION }}'
 
           for path in "${!paths[@]}"; do
             mkdir -p "$(dirname "$path")"

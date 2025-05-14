@@ -166,3 +166,15 @@ CHANGELOG.md
 /TELBlazor.Components.UnitTests/appsettings.json
 /TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/TELBlazor.Components.ShowCase.E2ETests.WasmServerHost.Client/wwwroot/appsettings.json
 /TELBlazor.Components.ShowCase.E2ETests/run-e2e-test-script-del.ps1
+/TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/appsettings.json
+/TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/appsettings.ci.json
+/TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/appsettings.Production.json
+/TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/TELBlazor.Components.ShowCase.E2ETests.WasmServerHost.Client/wwwroot/appsettings.json
+/TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/TELBlazor.Components.ShowCase.E2ETests.WasmServerHost.Client/wwwroot/appsettings.ci.json
+/TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/TELBlazor.Components.ShowCase.E2ETests.WasmServerHost.Client/wwwroot/appsettings.Production.json
+/TELBlazor.Components.ShowCase.WasmStaticClient/wwwroot/appsettings.json
+/TELBlazor.Components.ShowCase.WasmStaticClient/wwwroot/appsettings.ci.json
+/TELBlazor.Components.ShowCase.WasmStaticClient/wwwroot/appsettings.Production.json
+/TELBlazor.Components.UnitTests/appsettings.json
+/TELBlazor.Components.UnitTests/appsettings.ci.json
+/TELBlazor.Components.UnitTests/appsettings.Production.json
