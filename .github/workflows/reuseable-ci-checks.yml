@@ -467,6 +467,8 @@ jobs:
             run: |
               echo "PACKAGES_TOKEN is set."
               echo "PACKAGES_TOKEN=$PACKAGES_TOKEN"  # This should print nothing, it's a secret!
+              echo "run id"
+              echo "does this run id match above ${GITHUB_RUN_ID}"
               
           # - name: Get artifact location
             # env:
@@ -490,7 +492,7 @@ jobs:
                GH_TOKEN: ${{ secrets.PACKAGES_TOKEN }}
             run: |
               # Get the artifact list for the current workflow run
-              ARTIFACT_LIST=$(gh api "repos/TechnologyEnhancedLearning/TELBlazor/actions/runs/${github.run_id}/artifacts")
+              ARTIFACT_LIST=$(gh api "repos/TechnologyEnhancedLearning/TELBlazor/actions/runs/${GITHUB_RUN_ID}/artifacts")
               # Echo the entire artifact list for debugging purposes
               echo "Artifact List: $ARTIFACT_LIST"
               # Extract the download URL from the artifact list (first artifact in the list)
