@@ -46,7 +46,6 @@ jobs:
       name: app settings 2
       if: ${{ secrets.FAKE_WASMSERVERHOST_APPSETTINGS_DEVELOPMENT != '' }}
       runs-on: ubuntu-latest
-      if(FAKE_WASMSERVERHOST_APPSETTINGS_DEVELOPMENT != null)
       steps:
       
         - name: Checkout code
