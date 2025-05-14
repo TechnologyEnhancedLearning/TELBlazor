@@ -345,7 +345,7 @@ jobs:
             run: pwsh TELBlazor.Components.ShowCase.E2ETests/bin/Debug/net8.0/playwright.ps1 install --with-deps
 
           - name: E2E tests excepted filtered
-            run: dotnet test --filter "Category!=LocalOnly & Category!=HeadlessFalse" TELBlazor.Components.ShowCase.E2ETests.csproj --no-restore --verbosity minimal
+            run: dotnet test --filter "Category!=LocalOnly & Category!=HeadlessFalse" TELBlazor.Components.ShowCase.E2ETests.csproj --no-build --no-restore --verbosity minimal
             working-directory: ./TELBlazor.Components.ShowCase.E2ETests          
               
 
