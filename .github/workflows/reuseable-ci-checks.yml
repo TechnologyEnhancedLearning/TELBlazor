@@ -451,20 +451,20 @@ jobs:
               dotnet reportgenerator \
                 -reports:"**/TestResults/**/coverage.cobertura.xml" \
                 -targetdir:coveragereport \
-                -reporttypes:HtmlHtml;XmlSummary 
+                -reporttypes:Html;XmlSummary 
 
                   
-          - name: upload coverage report
+          - name: Upload coverage report
             if: always()
             uses: actions/upload-artifact@v4
             with:
               name: coverage-report
               path: coveragereport
            
-          - name: Debug PACKAGES_TOKEN value (Optional) qqqq
-            run: |
-              echo "PACKAGES_TOKEN is set."
-              echo "PACKAGES_TOKEN=$PACKAGES_TOKEN"  # This should print nothing, it's a secret!
+          # - name: Debug PACKAGES_TOKEN value (Optional) qqqq
+            # run: |
+              # echo "PACKAGES_TOKEN is set."
+              # echo "PACKAGES_TOKEN=$PACKAGES_TOKEN"  # This should print nothing, it's a secret!
               
           - name: Get artifact location
             env:
@@ -522,9 +522,9 @@ jobs:
           run: |
             echo "Solution Build: ${{ needs.reuseable-ci-checks-solution-build.outputs.status }}"
             echo "Branch Name Check: ${{ needs.reuseable-ci-checks-branch-name-check.outputs.status }}"
-            echo "Tests: ${{ needs.reuseable-ci-checks-commitlint.outputs.status }}"
+            echo "Commit Lint Check: ${{ needs.reuseable-ci-checks-commitlint.outputs.status }}"
 
-            echo "Code Coverage: ${{ needs.reuseable-ci-e2e-unit-tests.outputs.status }}"
+            echo "Tests: ${{ needs.reuseable-ci-e2e-unit-tests.outputs.status }}"
 
                   # "${{ needs.reuseable-ci-checks-unit-tests.outputs.status }}" != "success" || \
                   # "${{ needs.reuseable-ci-checks-e2e-tests.outputs.status }}" != "success" || \
