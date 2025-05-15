@@ -165,188 +165,188 @@ jobs:
             configFile: .commitlintrc.json
      
 
-    # reuseable-ci-checks-unit-tests:
-        # name: Unit test components
-        # timeout-minutes: 60
-        # runs-on: ubuntu-latest
-        # if: success() || failure()
-        # continue-on-error:  ${{ inputs.runall }}    
-        # outputs:
-          # status: ${{ job.status }}
-        # steps:
-          # - name: Checkout code
-            # uses: actions/checkout@v3
+    reuseable-ci-checks-unit-tests:
+        name: Unit test components
+        timeout-minutes: 60
+        runs-on: ubuntu-latest
+        if: success() || failure()
+        continue-on-error:  ${{ inputs.runall }}    
+        outputs:
+          status: ${{ job.status }}
+        steps:
+          - name: Checkout code
+            uses: actions/checkout@v3
           
-          # - name: Setup .NET
-            # uses: actions/setup-dotnet@v4
-            # with:
-              # global-json-file: global.json
+          - name: Setup .NET
+            uses: actions/setup-dotnet@v4
+            with:
+              global-json-file: global.json
               
-          # - name: Replace local environment variable in nuget config because cant provide it as a parameter
-            # run: sed -i "s|%TELBlazorPackageSource%|$TELBLAZOR_PACKAGE_LOCAL_OUTPUT_PATH|g" nuget.config
+          - name: Replace local environment variable in nuget config because cant provide it as a parameter
+            run: sed -i "s|%TELBlazorPackageSource%|$TELBLAZOR_PACKAGE_LOCAL_OUTPUT_PATH|g" nuget.config
 
-          # - name: Create appsettings development from secrets
-            # run: |
-              # declare -A paths
-              # paths["./TELBlazor.Components.UnitTests/appsettings.Development.json"]='${{ secrets.UNITTESTS_APPSETTINGS_DEVELOPMENT }}'
-              # paths["./TELBlazor.Components.ShowCase.WasmStaticClient/wwwroot/appsettings.Development.json"]='${{ secrets.WASMSTATICCLIENT_APPSETTINGS_DEVELOPMENT }}'
-              # paths["./TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/TELBlazor.Components.ShowCase.E2ETests.WasmServerHost.Client/wwwroot/appsettings.Development.json"]='${{ secrets.WASMSERVERHOSTCLIENT_APPSETTINGS_DEVELOPMENT }}'
-              # paths["./TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/appsettings.Development.json"]='${{ secrets.WASMSERVERHOST_APPSETTINGS_DEVELOPMENT }}'
+          - name: Create appsettings development from secrets
+            run: |
+              declare -A paths
+              paths["./TELBlazor.Components.UnitTests/appsettings.Development.json"]='${{ secrets.UNITTESTS_APPSETTINGS_DEVELOPMENT }}'
+              paths["./TELBlazor.Components.ShowCase.WasmStaticClient/wwwroot/appsettings.Development.json"]='${{ secrets.WASMSTATICCLIENT_APPSETTINGS_DEVELOPMENT }}'
+              paths["./TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/TELBlazor.Components.ShowCase.E2ETests.WasmServerHost.Client/wwwroot/appsettings.Development.json"]='${{ secrets.WASMSERVERHOSTCLIENT_APPSETTINGS_DEVELOPMENT }}'
+              paths["./TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/appsettings.Development.json"]='${{ secrets.WASMSERVERHOST_APPSETTINGS_DEVELOPMENT }}'
 
-              # # paths["./TELBlazor.Components.UnitTests/appsettings.Production.json"]='${{ secrets.UNITTESTS_APPSETTINGS_PRODUCTION }}'
-              # # paths["./TELBlazor.Components.ShowCase.WasmStaticClient/wwwroot/appsettings.Production.json"]='${{ secrets.WASMSTATICCLIENT_APPSETTINGS_PRODUCTION }}'
-              # # paths["./TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/TELBlazor.Components.ShowCase.E2ETests.WasmServerHost.Client/wwwroot/appsettings.Production.json"]='${{ secrets.WASMSERVERHOSTCLIENT_APPSETTINGS_PRODUCTION }}'
-              # # paths["./TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/appsettings.Production.json"]='${{ secrets.WASMSERVERHOST_APPSETTINGS_PRODUCTION }}'
+              # paths["./TELBlazor.Components.UnitTests/appsettings.Production.json"]='${{ secrets.UNITTESTS_APPSETTINGS_PRODUCTION }}'
+              # paths["./TELBlazor.Components.ShowCase.WasmStaticClient/wwwroot/appsettings.Production.json"]='${{ secrets.WASMSTATICCLIENT_APPSETTINGS_PRODUCTION }}'
+              # paths["./TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/TELBlazor.Components.ShowCase.E2ETests.WasmServerHost.Client/wwwroot/appsettings.Production.json"]='${{ secrets.WASMSERVERHOSTCLIENT_APPSETTINGS_PRODUCTION }}'
+              # paths["./TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/appsettings.Production.json"]='${{ secrets.WASMSERVERHOST_APPSETTINGS_PRODUCTION }}'
 
-              # for path in "${!paths[@]}"; do
-                # mkdir -p "$(dirname "$path")"
-                # printf '%s' "${paths[$path]}" > "$path"
-              # done
+              for path in "${!paths[@]}"; do
+                mkdir -p "$(dirname "$path")"
+                printf '%s' "${paths[$path]}" > "$path"
+              done
 
-          # - name: Clean lock files because the newly generated package file will superseed the locks
-            # run: |
-              # find . -name "packages.lock.json" -type f -exec rm -f {} \;
+          - name: Clean lock files because the newly generated package file will superseed the locks
+            run: |
+              find . -name "packages.lock.json" -type f -exec rm -f {} \;
       
-          # - name: Set up Node.js so we have gulp for retrieving TEL Frontend Css
-            # uses: actions/setup-node@v4
-            # with:
-              # node-version: '20'
+          - name: Set up Node.js so we have gulp for retrieving TEL Frontend Css
+            uses: actions/setup-node@v4
+            with:
+              node-version: '20'
     
-          # - name: Install npm packages so we have gulp for retrieving TEL Frontend Css
-            # working-directory: ./TELBlazor.Components
-            # run: npm ci
+          - name: Install npm packages so we have gulp for retrieving TEL Frontend Css
+            working-directory: ./TELBlazor.Components
+            run: npm ci
             
-          # - name: Build and create package locally
-            # env:
-               # #Overwrite package generation
-               # DISABLE_PACKAGE_GENERATION: false
-            # run: |
-              # dotnet build TELBlazor.Components -c Debug \
-                # /p:TELBlazorPackageVersion=$TELBLAZOR_PACKAGE_VERSION \
-                # /p:NupkgOutputPath=$TELBLAZOR_PACKAGE_LOCAL_OUTPUT_PATH \
-                # /p:UseTELBlazorComponentsProjectReference=$USE_TEL_BLAZOR_COMPONENTS_PROJECT_REFERENCE \
-                # /p:TELBlazorPackageSource=$TELBLAZOR_PACKAGE_SOURCE \
-                # /p:DisablePackageGeneration=$DISABLE_PACKAGE_GENERATION \
-                # /p:E2ETracingEnabled=$E2E_TRACING_ENABLED
+          - name: Build and create package locally
+            env:
+               #Overwrite package generation
+               DISABLE_PACKAGE_GENERATION: false
+            run: |
+              dotnet build TELBlazor.Components -c Debug \
+                /p:TELBlazorPackageVersion=$TELBLAZOR_PACKAGE_VERSION \
+                /p:NupkgOutputPath=$TELBLAZOR_PACKAGE_LOCAL_OUTPUT_PATH \
+                /p:UseTELBlazorComponentsProjectReference=$USE_TEL_BLAZOR_COMPONENTS_PROJECT_REFERENCE \
+                /p:TELBlazorPackageSource=$TELBLAZOR_PACKAGE_SOURCE \
+                /p:DisablePackageGeneration=$DISABLE_PACKAGE_GENERATION \
+                /p:E2ETracingEnabled=$E2E_TRACING_ENABLED
               
-          # - name: Build solution without generating new package
-            # env:
-                # #Overwrite package generation
-                # DISABLE_PACKAGE_GENERATION: true
-            # run: |
-              # dotnet build TELBlazor.sln -c Debug \
-                # /p:TELBlazorPackageVersion=$TELBLAZOR_PACKAGE_VERSION \
-                # /p:NupkgOutputPath=$TELBLAZOR_PACKAGE_LOCAL_OUTPUT_PATH \
-                # /p:UseTELBlazorComponentsProjectReference=$USE_TEL_BLAZOR_COMPONENTS_PROJECT_REFERENCE \
-                # /p:TELBlazorPackageSource=$TELBLAZOR_PACKAGE_SOURCE \
-                # /p:DisablePackageGeneration=$DISABLE_PACKAGE_GENERATION \
-                # /p:E2ETracingEnabled=$E2E_TRACING_ENABLED
+          - name: Build solution without generating new package
+            env:
+                #Overwrite package generation
+                DISABLE_PACKAGE_GENERATION: true
+            run: |
+              dotnet build TELBlazor.sln -c Debug \
+                /p:TELBlazorPackageVersion=$TELBLAZOR_PACKAGE_VERSION \
+                /p:NupkgOutputPath=$TELBLAZOR_PACKAGE_LOCAL_OUTPUT_PATH \
+                /p:UseTELBlazorComponentsProjectReference=$USE_TEL_BLAZOR_COMPONENTS_PROJECT_REFERENCE \
+                /p:TELBlazorPackageSource=$TELBLAZOR_PACKAGE_SOURCE \
+                /p:DisablePackageGeneration=$DISABLE_PACKAGE_GENERATION \
+                /p:E2ETracingEnabled=$E2E_TRACING_ENABLED
               
-          # - name: Run Unit tests
-            # run: dotnet test "TELBlazor.Components.UnitTests.csproj" --no-build --verbosity normal
-            # working-directory: "./TELBlazor.Components.UnitTests"
+          - name: Run Unit tests
+            run: dotnet test "TELBlazor.Components.UnitTests.csproj" --no-build --verbosity normal
+            working-directory: "./TELBlazor.Components.UnitTests"
   
   
-    # reuseable-ci-checks-e2e-tests:
-        # name: Check with end to end testing including nojs
-        # timeout-minutes: 60
-        # runs-on: ubuntu-latest
-        # if: success() || failure()
-        # continue-on-error:  ${{ inputs.runall }}    
-        # outputs:
-          # status: ${{ job.status }}
-        # steps:
-          # - name: Checkout code
-            # uses: actions/checkout@v3
+    reuseable-ci-checks-e2e-tests:
+        name: Check with end to end testing including nojs
+        timeout-minutes: 60
+        runs-on: ubuntu-latest
+        if: success() || failure()
+        continue-on-error:  ${{ inputs.runall }}    
+        outputs:
+          status: ${{ job.status }}
+        steps:
+          - name: Checkout code
+            uses: actions/checkout@v3
           
-          # - name: Setup .NET
-            # uses: actions/setup-dotnet@v4
-            # with:
-              # global-json-file: global.json
+          - name: Setup .NET
+            uses: actions/setup-dotnet@v4
+            with:
+              global-json-file: global.json
               
-          # - name: Replace local environment variable in nuget config because cant provide it as a parameter
-            # run: sed -i "s|%TELBlazorPackageSource%|$TELBLAZOR_PACKAGE_LOCAL_OUTPUT_PATH|g" nuget.config
+          - name: Replace local environment variable in nuget config because cant provide it as a parameter
+            run: sed -i "s|%TELBlazorPackageSource%|$TELBLAZOR_PACKAGE_LOCAL_OUTPUT_PATH|g" nuget.config
        
-          # - name: Clean lock files because the newly generated package file will superseed the locks
-            # run: |
-              # find . -name "packages.lock.json" -type f -exec rm -f {} \;
+          - name: Clean lock files because the newly generated package file will superseed the locks
+            run: |
+              find . -name "packages.lock.json" -type f -exec rm -f {} \;
           
-          # - name: Create appsettings development from secrets
-            # run: |
-              # declare -A paths
-              # paths["./TELBlazor.Components.UnitTests/appsettings.Development.json"]='${{ secrets.UNITTESTS_APPSETTINGS_DEVELOPMENT }}'
-              # paths["./TELBlazor.Components.ShowCase.WasmStaticClient/wwwroot/appsettings.Development.json"]='${{ secrets.WASMSTATICCLIENT_APPSETTINGS_DEVELOPMENT }}'
-              # paths["./TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/TELBlazor.Components.ShowCase.E2ETests.WasmServerHost.Client/wwwroot/appsettings.Development.json"]='${{ secrets.WASMSERVERHOSTCLIENT_APPSETTINGS_DEVELOPMENT }}'
-              # paths["./TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/appsettings.Development.json"]='${{ secrets.WASMSERVERHOST_APPSETTINGS_DEVELOPMENT }}'
+          - name: Create appsettings development from secrets
+            run: |
+              declare -A paths
+              paths["./TELBlazor.Components.UnitTests/appsettings.Development.json"]='${{ secrets.UNITTESTS_APPSETTINGS_DEVELOPMENT }}'
+              paths["./TELBlazor.Components.ShowCase.WasmStaticClient/wwwroot/appsettings.Development.json"]='${{ secrets.WASMSTATICCLIENT_APPSETTINGS_DEVELOPMENT }}'
+              paths["./TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/TELBlazor.Components.ShowCase.E2ETests.WasmServerHost.Client/wwwroot/appsettings.Development.json"]='${{ secrets.WASMSERVERHOSTCLIENT_APPSETTINGS_DEVELOPMENT }}'
+              paths["./TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/appsettings.Development.json"]='${{ secrets.WASMSERVERHOST_APPSETTINGS_DEVELOPMENT }}'
 
-              # # paths["./TELBlazor.Components.UnitTests/appsettings.Production.json"]='${{ secrets.UNITTESTS_APPSETTINGS_PRODUCTION }}'
-              # # paths["./TELBlazor.Components.ShowCase.WasmStaticClient/wwwroot/appsettings.Production.json"]='${{ secrets.WASMSTATICCLIENT_APPSETTINGS_PRODUCTION }}'
-              # # paths["./TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/TELBlazor.Components.ShowCase.E2ETests.WasmServerHost.Client/wwwroot/appsettings.Production.json"]='${{ secrets.WASMSERVERHOSTCLIENT_APPSETTINGS_PRODUCTION }}'
-              # # paths["./TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/appsettings.Production.json"]='${{ secrets.WASMSERVERHOST_APPSETTINGS_PRODUCTION }}'
+              # paths["./TELBlazor.Components.UnitTests/appsettings.Production.json"]='${{ secrets.UNITTESTS_APPSETTINGS_PRODUCTION }}'
+              # paths["./TELBlazor.Components.ShowCase.WasmStaticClient/wwwroot/appsettings.Production.json"]='${{ secrets.WASMSTATICCLIENT_APPSETTINGS_PRODUCTION }}'
+              # paths["./TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/TELBlazor.Components.ShowCase.E2ETests.WasmServerHost.Client/wwwroot/appsettings.Production.json"]='${{ secrets.WASMSERVERHOSTCLIENT_APPSETTINGS_PRODUCTION }}'
+              # paths["./TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/appsettings.Production.json"]='${{ secrets.WASMSERVERHOST_APPSETTINGS_PRODUCTION }}'
 
   
-              # for path in "${!paths[@]}"; do
-                # mkdir -p "$(dirname "$path")"
-                # printf '%s' "${paths[$path]}" > "$path"
-              # done
+              for path in "${!paths[@]}"; do
+                mkdir -p "$(dirname "$path")"
+                printf '%s' "${paths[$path]}" > "$path"
+              done
     
       
-          # - name: Set up Node.js so we have gulp for retrieving TEL Frontend Css
-            # uses: actions/setup-node@v4
-            # with:
-              # node-version: '20'
+          - name: Set up Node.js so we have gulp for retrieving TEL Frontend Css
+            uses: actions/setup-node@v4
+            with:
+              node-version: '20'
     
-          # - name: Install npm packages so we have gulp for retrieving TEL Frontend Css
-            # working-directory: ./TELBlazor.Components
-            # run: npm ci
+          - name: Install npm packages so we have gulp for retrieving TEL Frontend Css
+            working-directory: ./TELBlazor.Components
+            run: npm ci
             
 
-          # - name: Build and create package locally
-            # env:
-               # #Overwrite package generation
-               # DISABLE_PACKAGE_GENERATION: false
-            # run: |
-              # dotnet build TELBlazor.Components -c Debug \
-                # /p:TELBlazorPackageVersion=$TELBLAZOR_PACKAGE_VERSION \
-                # /p:NupkgOutputPath=$TELBLAZOR_PACKAGE_LOCAL_OUTPUT_PATH \
-                # /p:UseTELBlazorComponentsProjectReference=$USE_TEL_BLAZOR_COMPONENTS_PROJECT_REFERENCE \
-                # /p:TELBlazorPackageSource=$TELBLAZOR_PACKAGE_SOURCE \
-                # /p:DisablePackageGeneration=$DISABLE_PACKAGE_GENERATION \
-                # /p:E2ETracingEnabled=$E2E_TRACING_ENABLED \
-                # /p:HeadlessTesting=$HEADLESS_TESTING
+          - name: Build and create package locally
+            env:
+               #Overwrite package generation
+               DISABLE_PACKAGE_GENERATION: false
+            run: |
+              dotnet build TELBlazor.Components -c Debug \
+                /p:TELBlazorPackageVersion=$TELBLAZOR_PACKAGE_VERSION \
+                /p:NupkgOutputPath=$TELBLAZOR_PACKAGE_LOCAL_OUTPUT_PATH \
+                /p:UseTELBlazorComponentsProjectReference=$USE_TEL_BLAZOR_COMPONENTS_PROJECT_REFERENCE \
+                /p:TELBlazorPackageSource=$TELBLAZOR_PACKAGE_SOURCE \
+                /p:DisablePackageGeneration=$DISABLE_PACKAGE_GENERATION \
+                /p:E2ETracingEnabled=$E2E_TRACING_ENABLED \
+                /p:HeadlessTesting=$HEADLESS_TESTING
               
-          # - name: Build solution without generating new package
-            # env:
-                # #Overwrite package generation
-                # DISABLE_PACKAGE_GENERATION: true
-            # run: |
-              # dotnet build TELBlazor.sln -c Debug \
-                # /p:TELBlazorPackageVersion=$TELBLAZOR_PACKAGE_VERSION \
-                # /p:NupkgOutputPath=$TELBLAZOR_PACKAGE_LOCAL_OUTPUT_PATH \
-                # /p:UseTELBlazorComponentsProjectReference=$USE_TEL_BLAZOR_COMPONENTS_PROJECT_REFERENCE \
-                # /p:TELBlazorPackageSource=$TELBLAZOR_PACKAGE_SOURCE \
-                # /p:DisablePackageGeneration=$DISABLE_PACKAGE_GENERATION \
-                # /p:E2ETracingEnabled=$E2E_TRACING_ENABLED \
-                # /p:HeadlessTesting=$HEADLESS_TESTING
+          - name: Build solution without generating new package
+            env:
+                #Overwrite package generation
+                DISABLE_PACKAGE_GENERATION: true
+            run: |
+              dotnet build TELBlazor.sln -c Debug \
+                /p:TELBlazorPackageVersion=$TELBLAZOR_PACKAGE_VERSION \
+                /p:NupkgOutputPath=$TELBLAZOR_PACKAGE_LOCAL_OUTPUT_PATH \
+                /p:UseTELBlazorComponentsProjectReference=$USE_TEL_BLAZOR_COMPONENTS_PROJECT_REFERENCE \
+                /p:TELBlazorPackageSource=$TELBLAZOR_PACKAGE_SOURCE \
+                /p:DisablePackageGeneration=$DISABLE_PACKAGE_GENERATION \
+                /p:E2ETracingEnabled=$E2E_TRACING_ENABLED \
+                /p:HeadlessTesting=$HEADLESS_TESTING
               
-          # - name: Ensure browsers are installed
-            # run: pwsh TELBlazor.Components.ShowCase.E2ETests/bin/Debug/net8.0/playwright.ps1 install --with-deps  
+          - name: Ensure browsers are installed
+            run: pwsh TELBlazor.Components.ShowCase.E2ETests/bin/Debug/net8.0/playwright.ps1 install --with-deps  
 
-          # - name: E2E tests except filtered
-            # env:
-              # TELBlazorPackageVersion: ${{ env.TELBLAZOR_PACKAGE_VERSION }}
-              # NupkgOutputPath: ${{ env.TELBLAZOR_PACKAGE_LOCAL_OUTPUT_PATH }}
-              # UseTELBlazorComponentsProjectReference: ${{ env.USE_TEL_BLAZOR_COMPONENTS_PROJECT_REFERENCE }}
-              # TELBlazorPackageSource: ${{ env.TELBLAZOR_PACKAGE_SOURCE }}
-              # DisablePackageGeneration: ${{ env.DISABLE_PACKAGE_GENERATION }}
-              # E2ETracingEnabled: ${{ env.E2E_TRACING_ENABLED }}
-              # HeadlessTesting: ${{ env.HEADLESS_TESTING }}
-            # run: |
-              # dotnet test --filter "Category!=LocalOnly & Category!=HeadlessFalse" TELBlazor.Components.ShowCase.E2ETests.csproj --no-build --no-restore --verbosity minimal
-            # working-directory: ./TELBlazor.Components.ShowCase.E2ETests          
+          - name: E2E tests except filtered
+            env:
+              TELBlazorPackageVersion: ${{ env.TELBLAZOR_PACKAGE_VERSION }}
+              NupkgOutputPath: ${{ env.TELBLAZOR_PACKAGE_LOCAL_OUTPUT_PATH }}
+              UseTELBlazorComponentsProjectReference: ${{ env.USE_TEL_BLAZOR_COMPONENTS_PROJECT_REFERENCE }}
+              TELBlazorPackageSource: ${{ env.TELBLAZOR_PACKAGE_SOURCE }}
+              DisablePackageGeneration: ${{ env.DISABLE_PACKAGE_GENERATION }}
+              E2ETracingEnabled: ${{ env.E2E_TRACING_ENABLED }}
+              HeadlessTesting: ${{ env.HEADLESS_TESTING }}
+            run: |
+              dotnet test --filter "Category!=LocalOnly & Category!=HeadlessFalse" TELBlazor.Components.ShowCase.E2ETests.csproj --no-build --no-restore --verbosity minimal
+            working-directory: ./TELBlazor.Components.ShowCase.E2ETests          
 
-    reuseable-ci-e2e-unit-tests:
-        name: E2E Unit threshold and code report trigger
+    reuseable-ci-checks-code-coverage:
+        name: Check for code coverage
         timeout-minutes: 60
         runs-on: ubuntu-latest
         if: success() || failure()
@@ -400,7 +400,8 @@ jobs:
             
           - name: Install ReportGenerator
             run: dotnet tool restore
-
+            
+          
       
           - name: Build and create package locally
             env:
@@ -503,8 +504,7 @@ jobs:
             # run: dotnet test
                         
 
-         # - reuseable-ci-checks-unit-tests
-        # - reuseable-ci-checks-e2e-tests
+ 
     reuseable-ci-checks-check-for-failed-jobs:
       name: Check for failures
       if: ${{ inputs.runall }}
@@ -512,28 +512,28 @@ jobs:
         - reuseable-ci-checks-solution-build
         - reuseable-ci-checks-branch-name-check
         - reuseable-ci-checks-commitlint
-        - reuseable-ci-e2e-unit-tests
+        - reuseable-ci-checks-unit-tests
+        - reuseable-ci-checks-e2e-tests
+        - reuseable-ci-checks-code-coverage
       
-                  # echo "Unit Tests: ${{ needs.reuseable-ci-checks-unit-tests.outputs.status }}"
-            # echo "E2E Tests: ${{ needs.reuseable-ci-checks-e2e-tests.outputs.status }}"
       runs-on: ubuntu-latest
       steps:
         - name: Check Job Results
           run: |
             echo "Solution Build: ${{ needs.reuseable-ci-checks-solution-build.outputs.status }}"
             echo "Branch Name Check: ${{ needs.reuseable-ci-checks-branch-name-check.outputs.status }}"
-            echo "Tests: ${{ needs.reuseable-ci-checks-commitlint.outputs.status }}"
+            echo "Commitlint: ${{ needs.reuseable-ci-checks-commitlint.outputs.status }}"
+            echo "Unit Tests: ${{ needs.reuseable-ci-checks-unit-tests.outputs.status }}"
+            echo "E2E Tests: ${{ needs.reuseable-ci-checks-e2e-tests.outputs.status }}"
+            echo "Code Coverage: ${{ needs.reuseable-ci-checks-code-coverage.outputs.status }}"
 
-            echo "Code Coverage: ${{ needs.reuseable-ci-e2e-unit-tests.outputs.status }}"
-
-                  # "${{ needs.reuseable-ci-checks-unit-tests.outputs.status }}" != "success" || \
-                  # "${{ needs.reuseable-ci-checks-e2e-tests.outputs.status }}" != "success" || \
-                  
             # Check if any job is not success (failure, cancelled, skipped)
             if [[ "${{ needs.reuseable-ci-checks-solution-build.outputs.status }}" != "success" || \
                   "${{ needs.reuseable-ci-checks-branch-name-check.outputs.status }}" != "success" || \
                   "${{ needs.reuseable-ci-checks-commitlint.outputs.status }}" != "success" || \
-                  "${{ needs.reuseable-ci-e2e-unit-tests.outputs.status }}" != "success" ]]; then
+                  "${{ needs.reuseable-ci-checks-unit-tests.outputs.status }}" != "success" || \
+                  "${{ needs.reuseable-ci-checks-e2e-tests.outputs.status }}" != "success" || \
+                  "${{ needs.reuseable-ci-checks-code-coverage.outputs.status }}" != "success" ]]; then
               echo "❌ One or more jobs failed."
               exit 1
             fi
