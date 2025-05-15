@@ -1,3 +1,10 @@
+# [1.1.0-feat-button-for-cicd-testing.10](https://github.com/TechnologyEnhancedLearning/TELBlazor/compare/v1.1.0-feat-button-for-cicd-testing.9...v1.1.0-feat-button-for-cicd-testing.10) (2025-05-15)
+
+
+### Features
+
+* **button:** artifact by name ([ba7e990](https://github.com/TechnologyEnhancedLearning/TELBlazor/commit/ba7e990c2e1a824e7fe8b7e3014ee03c33c5464f))
+
 # [1.1.0-feat-button-for-cicd-testing.9](https://github.com/TechnologyEnhancedLearning/TELBlazor/compare/v1.1.0-feat-button-for-cicd-testing.8...v1.1.0-feat-button-for-cicd-testing.9) (2025-05-15)
 
 
