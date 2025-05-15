@@ -444,17 +444,18 @@ jobs:
               E2ETracingEnabled: ${{ env.E2E_TRACING_ENABLED }}
               HeadlessTesting: ${{ env.HEADLESS_TESTING }}
             run: |
-              dotnet test --collect:"XPlat Code Coverage"
-              
+              dotnet test --collect:"XPlat Code Coverage" --settings ./coverlet.runsettings \
+              /p:Threshold=80,50,80              
 
           - name: Generate Coverage Report
             run: |
               dotnet reportgenerator \
                 -reports:"**/TestResults/**/coverage.cobertura.xml" \
                 -targetdir:coveragereport \
-                -reporttypes:Html \
-                -thresholdtype:line \
-                -threshold:80
+                -reporttypes:Html 
+                #\
+                # -thresholdtype:line \
+                # -threshold:80
                   
           - name: upload coverage report
             if: always()
@@ -462,29 +463,11 @@ jobs:
             with:
               name: coverage-report
               path: coveragereport
-               
-          - name: Debug PACKAGES_TOKEN value (Optional)
+           
+          - name: Debug PACKAGES_TOKEN value (Optional) qqqq
             run: |
               echo "PACKAGES_TOKEN is set."
               echo "PACKAGES_TOKEN=$PACKAGES_TOKEN"  # This should print nothing, it's a secret!
-              echo "run id"
-              echo "does this run id match above ${GITHUB_RUN_ID}"
-              
-          # - name: Get artifact location
-            # env:
-               # PACKAGES_TOKEN: ${{ secrets.PACKAGES_TOKEN }}
-               # GH_TOKEN: ${{ secrets.PACKAGES_TOKEN }}
-            # run: |
-              # # Get the artifact list for the current workflow run
-              # ARTIFACT_LIST=$(gh api "repos/TechnologyEnhancedLearning/TELBlazor/actions/runs/${GITHUB_RUN_ID}/artifacts")
-              # # Echo the entire artifact list for debugging purposes
-              # echo "Artifact List: $ARTIFACT_LIST"
-              # # Extract the download URL from the artifact list (first artifact in the list)
-              # #ARTIFACT_URL=$(echo "$ARTIFACT_LIST" | jq -r '.artifacts[0].archive_download_url')
-              # ARTIFACT_URL=$(echo "$ARTIFACT_LIST" | jq -r '.artifacts[0].url')
-              # # Echo the artifact URL to confirm
-              # echo "Artifact URL: $ARTIFACT_URL"
-              # echo "artifact_url=$ARTIFACT_URL" >> $GITHUB_ENV
               
           - name: Get artifact location
             env:
