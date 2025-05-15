@@ -9,7 +9,7 @@
           <ThresholdType>line</ThresholdType>
           <ThresholdStat>total</ThresholdStat>
           <ExcludeByAttribute>ExcludeFromCodeCoverage</ExcludeByAttribute>
-          <ExcludeByFile>**/Program.cs,**/Startup.cs</ExcludeByFile>
+          <ExcludeByFile>**/Program.cs</ExcludeByFile>
         </Configuration>
       </DataCollector>
     </DataCollectors>
