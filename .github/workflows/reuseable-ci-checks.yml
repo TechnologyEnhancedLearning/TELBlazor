@@ -451,7 +451,7 @@ jobs:
               dotnet reportgenerator \
                 -reports:"**/TestResults/**/coverage.cobertura.xml" \
                 -targetdir:coveragereport \
-                -reporttypes:Html;XmlSummary 
+                -reporttypes:"Html;XmlSummary" 
 
                   
           - name: Upload coverage report
