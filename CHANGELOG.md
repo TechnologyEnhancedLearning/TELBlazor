@@ -1,3 +1,17 @@
+# [1.1.0-feat-button-for-cicd-testing.9](https://github.com/TechnologyEnhancedLearning/TELBlazor/compare/v1.1.0-feat-button-for-cicd-testing.8...v1.1.0-feat-button-for-cicd-testing.9) (2025-05-15)
+
+
+### Features
+
+* **button:** adding to layout ([05bb41d](https://github.com/TechnologyEnhancedLearning/TELBlazor/commit/05bb41dd130a8ff573a9a3ecc8be24a425a1e348))
+* **button:** combining test e2e unit coverage threshold report ([efbdb06](https://github.com/TechnologyEnhancedLearning/TELBlazor/commit/efbdb06883b3310a3d4cde0ae607dc84e9e714d1))
+* **button:** disabled thresholds ([252ac90](https://github.com/TechnologyEnhancedLearning/TELBlazor/commit/252ac903ca8a1dd698637367bcbff195eda34643))
+* **button:** htmlhtml typo ([f32f96a](https://github.com/TechnologyEnhancedLearning/TELBlazor/commit/f32f96a7ca3c828af6397780d111d4ab840304c0))
+* **button:** layout fiddling ([bfef5f8](https://github.com/TechnologyEnhancedLearning/TELBlazor/commit/bfef5f8e816e303a8027b2a4b4c7116fcb70dd02))
+* **button:** runsetting go while local test ([66050b3](https://github.com/TechnologyEnhancedLearning/TELBlazor/commit/66050b369c7d4d5e45cf339b219d97b66035d97a))
+* **button:** threshold ([2d7c7f5](https://github.com/TechnologyEnhancedLearning/TELBlazor/commit/2d7c7f5a57b29ded1f091c8b051084667728f711))
+* **button:** xmysummary ci-reuseably yml ([643add3](https://github.com/TechnologyEnhancedLearning/TELBlazor/commit/643add303bb2d9135c6b4c14e09b5fc4f46cc842))
+
 # [1.1.0-feat-button-for-cicd-testing.8](https://github.com/TechnologyEnhancedLearning/TELBlazor/compare/v1.1.0-feat-button-for-cicd-testing.7...v1.1.0-feat-button-for-cicd-testing.8) (2025-05-15)
 
 
