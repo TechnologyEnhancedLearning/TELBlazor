@@ -9,12 +9,11 @@
 			<!-- coverlet.msbuild, specifically msbuild props  -->
 			<CollectCoverage>true</CollectCoverage>
 			<CoverletOutputFormat>cobertura</CoverletOutputFormat>
-			<!--qqqq-->
-			<!--<Threshold>800</Threshold>
+            <Threshold>8</Threshold>
 			<ThresholdType>line</ThresholdType>
 			<ThresholdStat>total</ThresholdStat>
-			<ThresholdBranch>750</ThresholdBranch>
-			<ThresholdMethod>900</ThresholdMethod>-->
+			<ThresholdBranch>7</ThresholdBranch>
+			<ThresholdMethod>9</ThresholdMethod>
 		</PropertyGroup>
 		<ItemGroup>
 			
