@@ -181,3 +181,11 @@ CHANGELOG.md
 /TELBlazor.Components.UnitTests/appsettings.json
 /TELBlazor.Components.UnitTests/appsettings.ci.json
 /TELBlazor.Components.UnitTests/appsettings.Production.json
+/TELBlazor.Components.ShowCase.E2ETests\Reports\
+/TELBlazor.Components.ShowCase.E2ETests/Reports
+/run-test-threshold-test-script-del.ps1
+/coveragereport
+/TELBlazor.Components.ShowCase.E2ETests/coverage.cobertura.xml
+/TELBlazor.Components.ShowCase.E2ETests/coverage.json
+/TELBlazor.Components.UnitTests/coverage.json
+/TELBlazor.Components.UnitTests/coverage.cobertura.xml

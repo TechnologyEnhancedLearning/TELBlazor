@@ -16,6 +16,7 @@
 	</Target>
   <ItemGroup>
 	  <PackageReference Include="AutoFixture" />
+	  <PackageReference Include="coverlet.msbuild" />
 	  <PackageReference Include="coverlet.collector" />
 	  <PackageReference Include="Deque.AxeCore.Playwright" />
 	  <PackageReference Include="FluentAssertions" />

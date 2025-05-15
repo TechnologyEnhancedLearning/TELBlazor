@@ -434,20 +434,7 @@ jobs:
           - name: Ensure browsers are installed
             run: pwsh TELBlazor.Components.ShowCase.E2ETests/bin/Debug/net8.0/playwright.ps1 install --with-deps  
 
-          # - name: Run tests with coverage - worked ref qqqq
-            # env:
-              # TELBlazorPackageVersion: ${{ env.TELBLAZOR_PACKAGE_VERSION }}
-              # NupkgOutputPath: ${{ env.TELBLAZOR_PACKAGE_LOCAL_OUTPUT_PATH }}
-              # UseTELBlazorComponentsProjectReference: ${{ env.USE_TEL_BLAZOR_COMPONENTS_PROJECT_REFERENCE }}
-              # TELBlazorPackageSource: ${{ env.TELBLAZOR_PACKAGE_SOURCE }}
-              # DisablePackageGeneration: ${{ env.DISABLE_PACKAGE_GENERATION }}
-              # E2ETracingEnabled: ${{ env.E2E_TRACING_ENABLED }}
-              # HeadlessTesting: ${{ env.HEADLESS_TESTING }}
-            # run: |
-              # dotnet test --collect:"XPlat Code Coverage"
-
-
-          - name: Run tests with coverage
+          - name: Run tests with coverage threshold check
             env:
               TELBlazorPackageVersion: ${{ env.TELBLAZOR_PACKAGE_VERSION }}
               NupkgOutputPath: ${{ env.TELBLAZOR_PACKAGE_LOCAL_OUTPUT_PATH }}
@@ -457,40 +444,15 @@ jobs:
               E2ETracingEnabled: ${{ env.E2E_TRACING_ENABLED }}
               HeadlessTesting: ${{ env.HEADLESS_TESTING }}
             run: |
-              dotnet test --collect:"XPlat Code Coverage"  \
-                /p:Threshold=80
-            # ./coverlet.runsettings
-            #,50,80              
-            continue-on-error: true
+              dotnet test --collect:"XPlat Code Coverage" --settings coverlet.runsettings
 
-
-          - name: Typical threshold decleration qqqq
-            env:
-              TELBlazorPackageVersion: ${{ env.TELBLAZOR_PACKAGE_VERSION }}
-              NupkgOutputPath: ${{ env.TELBLAZOR_PACKAGE_LOCAL_OUTPUT_PATH }}
-              UseTELBlazorComponentsProjectReference: ${{ env.USE_TEL_BLAZOR_COMPONENTS_PROJECT_REFERENCE }}
-              TELBlazorPackageSource: ${{ env.TELBLAZOR_PACKAGE_SOURCE }}
-              DisablePackageGeneration: ${{ env.DISABLE_PACKAGE_GENERATION }}
-              E2ETracingEnabled: ${{ env.E2E_TRACING_ENABLED }}
-              HeadlessTesting: ${{ env.HEADLESS_TESTING }}
-            run: |
-              dotnet test TELBlazor.sln \
-                /p:CollectCoverage=true \
-                /p:CoverletOutputFormat=cobertura \
-                /p:Threshold=80 \
-                /p:ThresholdType=line \
-                /p:ThresholdStat=total
-            continue-on-error: true
-              
           - name: Generate Coverage Report
             run: |
               dotnet reportgenerator \
                 -reports:"**/TestResults/**/coverage.cobertura.xml" \
                 -targetdir:coveragereport \
-                -reporttypes:Html 
-                #\
-                # -thresholdtype:line \
-                # -threshold:80
+                -reporttypes:HtmlHtml;XmlSummary 
+
                   
           - name: upload coverage report
             if: always()
@@ -535,7 +497,11 @@ jobs:
                 -H "Authorization: Bearer $PACKAGES_TOKEN" \
                 -H "X-GitHub-Api-Version: 2022-11-28" \
                 https://api.github.com/repos/$repo_owner/$repo_name/dispatches \
-                -d "{\"event_type\": \"$event_type\", \"client_payload\": {\"artifact_url\": \"$artifact_url\"}}"     
+                -d "{\"event_type\": \"$event_type\", \"client_payload\": {\"artifact_url\": \"$artifact_url\"}}"  
+
+          - name: Fail if code coverage report didnt meet threshold qqqq todo better to parse the report than rerun tests
+            run: dotnet test
+                        
 
  
     reuseable-ci-checks-check-for-failed-jobs:

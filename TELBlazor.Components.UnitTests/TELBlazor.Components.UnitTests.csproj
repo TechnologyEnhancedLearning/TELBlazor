@@ -31,7 +31,8 @@
 		<PackageReference Include="bunit" />
 		<!--<PackageReference Include="bunit.TestDoubles" />-->
 		<PackageReference Include="AutoFixture" />
-		<PackageReference Include="AutoFixture.AutoMoq" />				
+		<PackageReference Include="AutoFixture.AutoMoq" />
+		<PackageReference Include="coverlet.msbuild" />
 		<PackageReference Include="coverlet.collector">
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 			<PrivateAssets>all</PrivateAssets>
