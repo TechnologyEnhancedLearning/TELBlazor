@@ -1,3 +1,11 @@
+# [1.1.0-feat-button-for-cicd-testing.8](https://github.com/TechnologyEnhancedLearning/TELBlazor/compare/v1.1.0-feat-button-for-cicd-testing.7...v1.1.0-feat-button-for-cicd-testing.8) (2025-05-15)
+
+
+### Features
+
+* **button:** gogo ([4a7e76e](https://github.com/TechnologyEnhancedLearning/TELBlazor/commit/4a7e76ebd75d0f81aec380ba8fd6c20191842f0e))
+* **button:** threshold ([8e6e2bd](https://github.com/TechnologyEnhancedLearning/TELBlazor/commit/8e6e2bd0668fd4ffb7e7d66a1a5338a9bf5d80f5))
+
 # [1.1.0-feat-button-for-cicd-testing.7](https://github.com/TechnologyEnhancedLearning/TELBlazor/compare/v1.1.0-feat-button-for-cicd-testing.6...v1.1.0-feat-button-for-cicd-testing.7) (2025-05-14)
 
 
