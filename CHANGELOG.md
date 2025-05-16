@@ -1,3 +1,10 @@
+# [1.1.0-feat-button-for-cicd-testing.11](https://github.com/TechnologyEnhancedLearning/TELBlazor/compare/v1.1.0-feat-button-for-cicd-testing.10...v1.1.0-feat-button-for-cicd-testing.11) (2025-05-15)
+
+
+### Features
+
+* **button:** very low threshold till tests ready ([d81f0d7](https://github.com/TechnologyEnhancedLearning/TELBlazor/commit/d81f0d7c5e4cf86e6599415c8334817022d35cb3))
+
 # [1.1.0-feat-button-for-cicd-testing.10](https://github.com/TechnologyEnhancedLearning/TELBlazor/compare/v1.1.0-feat-button-for-cicd-testing.9...v1.1.0-feat-button-for-cicd-testing.10) (2025-05-15)
 
 
