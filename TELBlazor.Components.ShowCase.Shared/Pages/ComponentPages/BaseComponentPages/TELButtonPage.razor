@@ -1,17 +1,22 @@
-﻿@layout ComponentPageLayout
-@page "/TELButtonPage/"
-<TELButton IsSubmitButtonForEditForm=false
-           NoJSActionUrl="nojsfallback/mvcendpoint/telbuttonshowcase"
-           FormData="@(new Dictionary<string, string>{{"increment","1"}})"
-           OnClick="IncrementCount"
-           ButtonStyle="TELButtonStyle.Warning"
-           PreventDoubleClick=false
-           ButtonText="@ButtonText"
-           AdditionalCssClasses=""
-           AriaLabel="Click Counter"
-           AssistiveText="Click to increase the number"
-           TabIndex="0"
-           ToolTipTitle="Click to increment" />
+﻿@page "/TELButton/"
+<PageTitle>@Title</PageTitle>
+<ShowCase Title="@Title" Description="@Description">
+
+    <TELButton IsSubmitButtonForEditForm=false
+               NoJSActionUrl="nojsfallback/mvcendpoint/telbuttonshowcase"
+               FormData="@(new Dictionary<string, string>{{"increment","1"}})"
+               OnClick="IncrementCount"
+               ButtonStyle="TELButtonStyle.Warning"
+               PreventDoubleClick=false
+               ButtonText="@ButtonText"
+               AdditionalCssClasses=""
+               AriaLabel="Click Counter"
+               AssistiveText="Click to increase the number"
+               TabIndex="0"
+               ToolTipTitle="Click to increment" />
+
+</ShowCase>
+
 @code {
     private int currentCount = 0;
     public string ButtonText => $"Button pressed {currentCount} times";
@@ -20,4 +25,6 @@
         currentCount++;
     }
 
+    private string Title => "TELButton";
+    private string Description => "The button uses an enum of styles. It has a logger built in from the basecomponent. It has nojs flag from the base component but its nojs behaviour works by being nested in an editform which is submitted when the button is not hydrated (prerendered but no active logic) which occurs during wasm loading, while rendering, and if no wasm/rendering occurs becuase js is disabled.";
 }

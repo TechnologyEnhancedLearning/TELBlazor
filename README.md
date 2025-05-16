@@ -11,7 +11,10 @@ It is client side so the users browser will do the work.
    
 # Links
 
-[last published package](https://github.com/orgs/TechnologyEnhancedLearning/packages?tab=packages&q=TELBlazor)
+[Easy viewing of TELBlazor Repo ReadMe](https://raw.githubusercontent.com/TechnologyEnhancedLearning/TELBlazor/refs/heads/master/README.md)
+(best with Markdown Reader Chrome extension)
+
+[Last Published Package](https://github.com/orgs/TechnologyEnhancedLearning/packages?tab=packages&q=TELBlazor)
 
 [TELBlazor](https://github.com/TechnologyEnhancedLearning/TELBlazor)
 
@@ -24,6 +27,9 @@ It is client side so the users browser will do the work.
 [View Packaged Showcase Code](https://github.com/TechnologyEnhancedLearning/TELBlazor/tree/gh-pages/)
 
 [Code Report Page](https://technologyenhancedlearning.github.io/TELBlazor-CodeReport/)
+
+[NHSE TEL Frontend](https://github.com/TechnologyEnhancedLearning/nhse-tel-frontend)
+
 
 # Solution Detail
 

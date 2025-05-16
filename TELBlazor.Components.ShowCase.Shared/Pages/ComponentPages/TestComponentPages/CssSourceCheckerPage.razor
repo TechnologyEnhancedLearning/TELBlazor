@@ -1,1 +1,11 @@
-﻿<CssSourceChecker/>
+﻿@page "/CssSourceChecker/"
+<PageTitle>@Title</PageTitle>
+<ShowCase Title="@Title" Description="@Description">
+    <CssSourceChecker/>
+</ShowCase>
+
+@code {
+
+    private string Title => "CssSourceChecker";
+    private string Description => "Just a test elements";
+}

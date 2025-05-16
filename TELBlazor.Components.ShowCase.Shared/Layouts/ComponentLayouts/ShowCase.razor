@@ -1,0 +1,24 @@
+﻿@layout ComponentPageLayout
+<div class="component-showcase">
+    <h2>@Title</h2>
+    <TELBlazorPackageVersionInformation />
+    <div class="component-presentor">
+        @ChildContent
+    </div>
+    <div class="component-description">
+        <h2>Description</h2>
+        <p>@Description</p>
+    </div>
+</div>
+@code
+{
+    [Parameter, EditorRequired]
+    public required string Title { get; set; } = string.Empty;
+
+    [Parameter,EditorRequired]
+    public required string Description { get; set; } = string.Empty;
+
+    [Parameter, EditorRequired]
+    public required RenderFragment ChildContent { get; set; }
+}
+

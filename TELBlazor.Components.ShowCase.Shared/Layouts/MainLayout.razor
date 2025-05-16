@@ -1,45 +1,4 @@
-﻿@using TELBlazor.Components.TELBlazorPackageVersion @*Can we get this from the assembly?  qqqq*@
-@inherits LayoutComponentBase
-
-<span class="version-display">TELBlazor.Components Version: @TELBlazor.Components.TELBlazorPackageVersion.VersionInfo.Version</span>
-<span class="version-display">TELNHSUK VersionL To do qqqq: 00.00.00-beta</span>
-
-
-
-
-
-<div>
-    <div id="nhsuk-cookie-banner">
-        <div class="nhsuk-cookie-banner" id="cookiebanner">
-            <div class="nhsuk-width-container">
-                <h2>Cookies on the NHS digital service manual</h2>
-                <p>We've put some small files called cookies on your device to make our site work.</p>
-                <p>We'd also like to use analytics cookies. These send anonymous information about how our site is used to a service called Adobe Analytics. We use this information to improve our site.</p>
-                <p>Let us know if this is OK. We'll use a cookie to save your choice. You can <a id="nhsuk-cookie-banner__link" href="/cookie-policy" tabindex="1">read more about our cookies</a> before you choose.</p>
-                <ul>
-                    <li><button class="nhsuk-button" id="nhsuk-cookie-banner__link_accept_analytics" href="#" tabindex="2">I'm OK with analytics cookies</button></li>
-                    <li><button class="nhsuk-button" id="nhsuk-cookie-banner__link_accept" href="#" tabindex="3">Do not use analytics cookies</button></li>
-                </ul>
-            </div>
-        </div>
-
-        <div class="nhsuk-success-banner" id="nhsuk-cookie-confirmation-banner" style="display:none;">
-            <div class="nhsuk-width-container">
-                <p id="nhsuk-success-banner__message">You can change your cookie settings at any time using our <a href="/cookie-policy">cookies page</a>.</p>
-            </div>
-        </div>
-    </div>
-    <style>
-
-    </style>
-</div>
-<script>document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');</script>
-
-<a class="nhsuk-skip-link" href="#maincontent">Skip to main content</a>
-
-
-
-
+﻿@inherits LayoutComponentBase
 
 <header class="nhsuk-header app-header__container" role="banner">
 
@@ -51,73 +10,16 @@
                     <path class="nhsuk-logo__text" fill="#fff" d="M3.9 1.5h4.4l2.6 9h.1l1.8-9h3.3l-2.8 13H9l-2.7-9h-.1l-1.8 9H1.1M17.3 1.5h3.6l-1 4.9h4L25 1.5h3.5l-2.7 13h-3.5l1.1-5.6h-4.1l-1.2 5.6h-3.4M37.7 4.4c-.7-.3-1.6-.6-2.9-.6-1.4 0-2.5.2-2.5 1.3 0 1.8 5.1 1.2 5.1 5.1 0 3.6-3.3 4.5-6.4 4.5-1.3 0-2.9-.3-4-.7l.8-2.7c.7.4 2.1.7 3.2.7s2.8-.2 2.8-1.5c0-2.1-5.1-1.3-5.1-5 0-3.4 2.9-4.4 5.8-4.4 1.6 0 3.1.2 4 .6"></path>
                 </svg>
                 <span class="nhsuk-header__service-name">
-                    Digital service manual
+                    TELBlazor 
                 </span>
             </a>
-        </div>    <div class="nhsuk-header__content" id="content-header">
-            <div class="nhsuk-header__search">
-                <div class="nhsuk-header__search-wrap" id="wrap-search">
-                    <form class="nhsuk-header__search-form" id="search" action="/search/" method="get" role="search">
-                        <label class="nhsuk-u-visually-hidden" for="search-field">Search the NHS website</label>
-                        <input class="nhsuk-search__input" id="search-field" name="search-field" type="search" placeholder="Search" autocomplete="off">
-                        <button class="nhsuk-search__submit" type="submit">
-                            <svg class="nhsuk-icon nhsuk-icon__search" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                                <path d="M19.71 18.29l-4.11-4.1a7 7 0 1 0-1.41 1.41l4.1 4.11a1 1 0 0 0 1.42 0 1 1 0 0 0 0-1.42zM5 10a5 5 0 1 1 5 5 5 5 0 0 1-5-5z"></path>
-                            </svg>
-                            <span class="nhsuk-u-visually-hidden">Search</span>
-                        </button>
-                    </form>
-                </div>
-            </div>
+        </div>    
+        <div class="nhsuk-header__content" id="content-header">
+           
         </div>
     </div>
 
     <div class="nhsuk-navigation-container">
-        <nav class="nhsuk-navigation" id="header-navigation" role="navigation" aria-label="Primary navigation">
-            <ul class="nhsuk-header__navigation-list">
-                <li class="nhsuk-header__navigation-item">
-                    <a class="nhsuk-header__navigation-link" href="/service-standard">
-                        NHS service standard
-                    </a>
-                </li>
-                <li class="nhsuk-header__navigation-item">
-                    <a class="nhsuk-header__navigation-link" href="/design-system">
-                        Design system
-                    </a>
-                </li>
-                <li class="nhsuk-header__navigation-item">
-                    <a class="nhsuk-header__navigation-link" href="/content">
-                        Content guide
-                    </a>
-                </li>
-                <li class="nhsuk-mobile-menu-container nhsuk-mobile-menu-container--visible">
-                    <button class="nhsuk-header__menu-toggle nhsuk-header__navigation-link nhsuk-header__menu-toggle--visible" id="toggle-menu" aria-expanded="false">
-                        <span class="nhsuk-u-visually-hidden">Browse</span>
-                        More
-                        <svg class="nhsuk-icon nhsuk-icon__chevron-down" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                            <path d="M15.5 12a1 1 0 0 1-.29.71l-5 5a1 1 0 0 1-1.42-1.42l4.3-4.29-4.3-4.29a1 1 0 0 1 1.42-1.42l5 5a1 1 0 0 1 .29.71z"></path>
-                        </svg>
-                    </button>
-                    <ul class="nhsuk-header__drop-down nhsuk-header__drop-down--hidden">
-                        <li class="nhsuk-header__navigation-item">
-                            <a class="nhsuk-header__navigation-link" href="/accessibility">
-                                Accessibility
-                            </a>
-                        </li>
-                        <li class="nhsuk-header__navigation-item">
-                            <a class="nhsuk-header__navigation-link" href="/community-and-contribution">
-                                Community and contribution
-                            </a>
-                        </li>
-                        <li class="nhsuk-header__navigation-item nhsuk-header__navigation-item--home">
-                            <a class="nhsuk-header__navigation-link" href="/">
-                                Home
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
-        </nav>
     </div>
 </header>
 
@@ -125,53 +27,17 @@
 
 <div class="nhsuk-width-container app-width-container">
 
-    <nav class="nhsuk-breadcrumb app-breadcrumb" aria-label="Breadcrumb">
-        <ol class="nhsuk-breadcrumb__list">
-            <li class="nhsuk-breadcrumb__item"><a class="nhsuk-breadcrumb__link" href="/">Home</a></li>
-            <li class="nhsuk-breadcrumb__item"><a class="nhsuk-breadcrumb__link" href="/design-system">Design system</a></li>
-            <li class="nhsuk-breadcrumb__item"><a class="nhsuk-breadcrumb__link" href="/design-system/components">Components</a></li>
-        </ol>
-        <p class="nhsuk-breadcrumb__back">
-            <a class="nhsuk-breadcrumb__backlink" href="/design-system/components">
-                <span class="nhsuk-u-visually-hidden">Back to &nbsp;</span>
-                Components
-            </a>
-        </p>
-    </nav>
-
     <main class="nhsuk-main-wrapper nhsuk-main-wrapper--s app-main-wrapper" id="maincontent" role="main">
+        <TELBlazorPackageVersionInformation/>
         <div class="nhsuk-grid-row">
             <div class="nhsuk-grid-column-full app-component-reading-width">
 
                 <div class="app-pane">
 
                     <div class="app-pane__side-bar">
-
-                        <nav class="app-side-nav">
-                            <h2 class="app-side-nav__heading">Form elements</h2>
-                            <ul class="nhsuk-list app-side-nav__list">
-                                <li class="app-side-nav__item"><a class="app-side-nav__link" href="CounterButtonPage">CounterButtonPage</a></li>
-                                <li class="app-side-nav__item"><a class="app-side-nav__link" href="CssSourceCheckerPage">CssSourceCheckerPage</a></li>
-                                <li class="app-side-nav__item"><a class="app-side-nav__link" href="TELButtonPage">TELButtonPage</a></li>
-                            </ul>
-
-                            <h2 class="app-side-nav__heading">Content presentation</h2>
-                            <ul class="nhsuk-list app-side-nav__list">
-                                <li class="app-side-nav__item"><a class="app-side-nav__link" href="/design-system/components/care-cards">Care cards</a></li>
-                             
-                            </ul>
-
-                            <h2 class="app-side-nav__heading">Navigation</h2>
-                            <ul class="nhsuk-list app-side-nav__list">
-                                <li class="app-side-nav__item"><a class="app-side-nav__link" href="/design-system/components/action-link">Action link</a></li>
-                               
-                            </ul>
-                        </nav>
+                        <ComponentNavMenu/>
                     </div>
-
                     <div class="app-pane__main-content">
-                        QQQQ Component layout here
-                        <TELBlazorPackageVersionInformation />
                         @Body
                     </div>
                 </div>
@@ -186,14 +52,6 @@
         <div class="nhsuk-width-container">
             <h2 class="nhsuk-u-visually-hidden">Support links</h2>
             <ul class="nhsuk-footer__list">
-                <li class="nhsuk-footer__list-item nhsuk-footer-default__list-item"><a class="nhsuk-footer__list-item-link" href="/accessibility-statement" disabled>Accessibility statement</a></li>
-                <li class="nhsuk-footer__list-item nhsuk-footer-default__list-item"><a class="nhsuk-footer__list-item-link" href="/cookie-policy" disabled>Cookie policy</a></li>
-                <li class="nhsuk-footer__list-item nhsuk-footer-default__list-item"><a class="nhsuk-footer__list-item-link" href="/get-in-touch" disabled>Get in touch</a></li>
-                <li class="nhsuk-footer__list-item nhsuk-footer-default__list-item"><a class="nhsuk-footer__list-item-link" href="/service-manual-team" disabled>Service manual team</a></li>
-                <li class="nhsuk-footer__list-item nhsuk-footer-default__list-item"><a class="nhsuk-footer__list-item-link" href="/site-map" disabled>Site map</a></li>
-                <li class="nhsuk-footer__list-item nhsuk-footer-default__list-item"><a class="nhsuk-footer__list-item-link" href="/terms-and-conditions" disabled>Terms and conditions</a></li>
-                <li class="nhsuk-footer__list-item nhsuk-footer-default__list-item"><a class="nhsuk-footer__list-item-link" href="/whats-new" disabled>What's new</a></li>
-                <li class="nhsuk-footer__list-item nhsuk-footer-default__list-item"><a class="nhsuk-footer__list-item-link" href="/your-privacy" disabled>Your privacy</a></li>
             </ul>
             <div>
                 <p class="nhsuk-footer__copyright">© NHS England</p>
@@ -211,15 +69,4 @@
         </div>
     </div>
 </footer>
-
-
-
-
-
-
-
-
-@code {
-    //qqqq tidy before first commit, and soon after put in a proper layout
-}
 
