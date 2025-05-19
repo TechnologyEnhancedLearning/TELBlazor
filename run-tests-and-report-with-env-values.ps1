@@ -15,7 +15,7 @@ dotnet test --no-build --no-restore
 
 # Create Report from Test outputs
 dotnet reportgenerator `
-                -reports:"**/TestResults/**/coverage.cobertura.xml" `
+                -reports:"**/AllTestResults/**/coverage.cobertura.xml" `
                 -targetdir:CoverageReport `
                 -reporttypes:Html  
 				

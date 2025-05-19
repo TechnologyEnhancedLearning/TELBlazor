@@ -34,8 +34,8 @@
 		<ExcludeByFile>**/Program.cs,**/Components/TestComponents/*.*</ExcludeByFile>
 		<IncludeTestAssembly>true</IncludeTestAssembly>
 		<!--centralising TestResults output could reduce abitity to run tests in parralel-->
-		<CoverletOutput>$(MSBuildThisFileDirectory)TestResults/</CoverletOutput>
-		<MergeWith>$(MSBuildThisFileDirectory)TestResults/coverage.json</MergeWith>
+		<CoverletOutput>$(MSBuildThisFileDirectory)AllTestResults/</CoverletOutput>
+		<MergeWith>$(MSBuildThisFileDirectory)AllTestResults/coverage.json</MergeWith>
 
 	</PropertyGroup>
 </Project>
