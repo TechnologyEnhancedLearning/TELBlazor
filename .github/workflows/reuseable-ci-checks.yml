@@ -263,7 +263,7 @@ jobs:
               E2ETracingEnabled: ${{ env.E2E_TRACING_ENABLED }}
               HeadlessTesting: ${{ env.HEADLESS_TESTING }}
             run: |
-              dotnet test
+              dotnet test --no-build --no-restore
             continue-on-error: true
 
 
