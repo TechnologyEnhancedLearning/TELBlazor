@@ -1,4 +1,5 @@
-﻿@inherits TELComponentBase
+﻿
+@inherits TELComponentBase
 @implements IAccessibleComponent
 @inject ILogger<TELButton> Logger
 @if (IsSubmitButtonForEditForm)
@@ -102,6 +103,11 @@ else
     public required string ToolTipTitle { get; set; }
 
     // The wrapped click handler that manages the prevention of double-clicking
+    /// <summary>
+    /// Because this method is triggered by the form submit code coverage does not detect its covered
+    /// </summary>
+    /// <returns></returns>
+    [ExcludeFromCodeCoverage]
     private async Task HandleClick()
     {
         Logger.LogInformation($"Button clicked: {ButtonText}");

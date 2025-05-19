@@ -253,6 +253,7 @@ jobs:
             run: pwsh TELBlazor.Components.ShowCase.E2ETests/bin/Debug/net8.0/playwright.ps1 install --with-deps  
 
           - name: Run tests with coverage threshold check
+            id: unit_e2e_tests
             env:
               TELBlazorPackageVersion: ${{ env.TELBLAZOR_PACKAGE_VERSION }}
               NupkgOutputPath: ${{ env.TELBLAZOR_PACKAGE_LOCAL_OUTPUT_PATH }}
@@ -279,7 +280,7 @@ jobs:
             uses: actions/upload-artifact@v4
             with:
               name: coverage-report
-              path: coveragereport
+              path: CoverageReport
            
           # - name: Debug PACKAGES_TOKEN value (Optional) qqqq
             # run: |
@@ -326,6 +327,15 @@ jobs:
                 -H "X-GitHub-Api-Version: 2022-11-28" \
                 https://api.github.com/repos/$repo_owner/$repo_name/dispatches \
                 -d "{\"event_type\": \"$event_type\", \"client_payload\": {\"artifact_url\": \"$artifact_url\"}}"  
+                
+          - name: Fail job if test failed after report is generated
+            if: steps.unit_e2e_tests.outcome != 'success'  # optional conditional, but optional
+            run: |
+              if [[ "${{ steps.some-step.outputs.status }}" != "success" ]]; then
+                echo "❌ One or more steps failed."
+                exit 1
+              fi
+            
 
           # - name: Fail if code coverage report didnt meet threshold qqqq todo better to parse the report than rerun tests
             # run: dotnet test
@@ -351,7 +361,6 @@ jobs:
             echo "Solution Build: ${{ needs.reuseable-ci-checks-solution-build.outputs.status }}"
             echo "Branch Name Check: ${{ needs.reuseable-ci-checks-branch-name-check.outputs.status }}"
             echo "Commit Lint Check: ${{ needs.reuseable-ci-checks-commitlint.outputs.status }}"
-
             echo "Tests: ${{ needs.reuseable-ci-e2e-unit-tests.outputs.status }}"
 
                   # "${{ needs.reuseable-ci-checks-unit-tests.outputs.status }}" != "success" || \
