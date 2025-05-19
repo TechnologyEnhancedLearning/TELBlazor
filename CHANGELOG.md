@@ -1,3 +1,11 @@
+# [1.1.0-feat-button-for-cicd-testing.13](https://github.com/TechnologyEnhancedLearning/TELBlazor/compare/v1.1.0-feat-button-for-cicd-testing.12...v1.1.0-feat-button-for-cicd-testing.13) (2025-05-19)
+
+
+### Features
+
+* **button:** loglevel before testing changes ([aff78a0](https://github.com/TechnologyEnhancedLearning/TELBlazor/commit/aff78a03a5601a7938eb0107caf9343d95c50222))
+* **button:** remove coverlet.collector and exclude some coverage ([56939ea](https://github.com/TechnologyEnhancedLearning/TELBlazor/commit/56939ea9d5745946a449c8539575073649d48bd8))
+
 # [1.1.0-feat-button-for-cicd-testing.12](https://github.com/TechnologyEnhancedLearning/TELBlazor/compare/v1.1.0-feat-button-for-cicd-testing.11...v1.1.0-feat-button-for-cicd-testing.12) (2025-05-16)
 
 
