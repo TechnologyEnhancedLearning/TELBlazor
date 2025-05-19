@@ -1,32 +1,21 @@
 # run at solution level ./run-tests-and-report-with-env-values.ps1
 # book mark in chrome file:///C:/dev/repos/TELBlazor/coveragereport/index.html
+# or use nektos act on the specific job to locally run the pipeline job
 $env:TELBLAZOR_PACKAGE_VERSION = "10.9.9"
 $env:NupkgOutputPath = "$PSScriptRoot\CICDPackageLocation"
 $env:UseTELBlazorComponentsProjectReference = "true"
 $env:TELBlazorPackageSource = "$PSScriptRoot\CICDPackageLocation"
 $env:DisablePackageGeneration = "false"
 $env:E2ETracingEnabled = "true"
-$env:HeadlessTesting = "true"  # <-- this is what your test code uses
-dotnet test --collect "XPlat Code Coverage" --settings "coverlet.runsettings"
-# remove colon and added speach marks to the above
-#next try
-# dotnet test TELBlazor.Components.Tests/TELBlazor.Components.Tests.csproj ^
-  # --collect "XPlat Code Coverage" ^
-  # --settings "coverlet.runsettings" ^
-  # -p:CollectCoverage=true
-  # -p:IncludeTestAssembly=true
+$env:HeadlessTesting = "true"
 
-# dotnet test TELBlazor.Components.Tests/TELBlazor.Components.Tests.csproj --collect "XPlat Code Coverage" --settings "coverlet.runsettings" --p:IncludeTestAssembly=true
+# Run Tests
+dotnet test
 
-$env:TELBLAZOR_PACKAGE_VERSION = "10.9.9"
-$env:NupkgOutputPath = "$PSScriptRoot\CICDPackageLocation"
-$env:UseTELBlazorComponentsProjectReference = "true"
-$env:TELBlazorPackageSource = "$PSScriptRoot\CICDPackageLocation"
-$env:DisablePackageGeneration = "false"
-$env:E2ETracingEnabled = "true"
-$env:HeadlessTesting = "true"  # <-- this is what your test code uses
+
+# Create Report from Test outputs
 dotnet reportgenerator `
                 -reports:"**/TestResults/**/coverage.cobertura.xml" `
-                -targetdir:coveragereport `
+                -targetdir:CoverageReport `
                 -reporttypes:Html  
 				

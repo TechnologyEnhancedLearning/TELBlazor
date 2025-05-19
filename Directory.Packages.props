@@ -5,15 +5,7 @@
 			<ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
 			<CentralPackageTransitivePinningEnabled>true</CentralPackageTransitivePinningEnabled>
 			<RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
-			
-			<!-- coverlet.msbuild, specifically msbuild props  -->
-			<CollectCoverage>false</CollectCoverage>
-			<CoverletOutputFormat>cobertura</CoverletOutputFormat>
-            <Threshold>8</Threshold>
-			<ThresholdType>line</ThresholdType>
-			<ThresholdStat>total</ThresholdStat>
-			<ThresholdBranch>7</ThresholdBranch>
-			<ThresholdMethod>9</ThresholdMethod>
+
 		</PropertyGroup>
 		<ItemGroup>
 			
@@ -63,7 +55,7 @@
 			<!-- Testing - General -->
 			<PackageVersion Include="bunit" Version="1.34.0" />
 			<PackageVersion Include="coverlet.msbuild" Version="6.0.0" />
-			<PackageVersion Include="coverlet.collector" Version="6.0.0" PrivateAssets="all" />
+			<!--<PackageVersion Include="coverlet.collector" Version="6.0.0" PrivateAssets="all" /> qqqq dont want to use both if can help it-->
 			<PackageVersion Include="AutoFixture" Version="4.18.1" />
 			<PackageVersion Include="AutoFixture.AutoMoq" Version="4.18.1" />
 			<PackageVersion Include="FluentAssertions" Version="8.0.1" />

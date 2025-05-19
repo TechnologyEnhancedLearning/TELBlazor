@@ -2,4 +2,21 @@
 <Project>
   <Import Project="PackageSettings.props" />
   <Import Project="PackageSettings.props.local" Condition="Exists('PackageSettings.props.local')"/>
+	<PropertyGroup>
+		<!-- coverlet.msbuild, specifically msbuild props  -->
+		<CollectCoverage>true</CollectCoverage>
+		<CoverletOutputFormat>cobertura</CoverletOutputFormat>
+		<Threshold>8</Threshold>
+		<ThresholdType>line</ThresholdType>
+		<ThresholdStat>total</ThresholdStat>
+		<ThresholdBranch>7</ThresholdBranch>
+		<ThresholdMethod>9</ThresholdMethod>
+		<!-- Additional properties carried over from runsettings -->
+		<Include>[TELBlazor.Components]*</Include>
+		<ExcludeByAttribute>ExcludeFromCodeCoverage</ExcludeByAttribute>
+		<ExcludeByFile>**/Program.cs,**/Components/TestComponents/*.*</ExcludeByFile>
+		<IncludeTestAssembly>true</IncludeTestAssembly>
+		<CoverletOutput>$(SolutionDir)TestResults\</CoverletOutput>
+		<MergeWith>$(SolutionDir)TestResults\coverage.json</MergeWith>
+	</PropertyGroup>
 </Project>

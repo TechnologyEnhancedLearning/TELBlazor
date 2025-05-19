@@ -33,10 +33,10 @@
 		<PackageReference Include="AutoFixture" />
 		<PackageReference Include="AutoFixture.AutoMoq" />
 		<PackageReference Include="coverlet.msbuild" />
-		<PackageReference Include="coverlet.collector">
+		<!--<PackageReference Include="coverlet.collector"> qqqq try not to use both if dont need to
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 			<PrivateAssets>all</PrivateAssets>
-		</PackageReference>
+		</PackageReference>-->
 		<PackageReference Include="xunit" />
 		<!--<PackageReference Include="Microsoft.Extensions.DependencyInjection" />-->
 		<PackageReference Include="xunit.runner.visualstudio">

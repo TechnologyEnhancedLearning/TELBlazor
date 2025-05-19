@@ -59,6 +59,9 @@ namespace TELBlazor.Components.ShowCase.E2ETests.Pages.BaseComponentPages
             IPage page = await browserContext.NewPageAsync();
 
             await page.GotoOnceNetworkIsIdleAsync("TELButton");
+
+            //qqqq should we really have testing-id or a name on our components? e.g. data-attribute-telblazorcomponentname="TelBlazorButton"
+            await page.WaitForSelectorAsync("button");
             ILocator button = page.GetByRole(AriaRole.Button, new() { Name = "Click Counter" });
 
             AxeResult axeResults = await button.RunAxe();
@@ -135,6 +138,10 @@ namespace TELBlazor.Components.ShowCase.E2ETests.Pages.BaseComponentPages
             //await page.PauseAsync();
 
             await page.GotoOnceNetworkIsIdleAsync("TELButton");
+
+            //qqqq should we really have testing-id or a name on our components? e.g. data-attribute-telblazorcomponentname="TelBlazorButton"
+            await page.WaitForSelectorAsync("button");
+
             ILocator button = page.GetByRole(AriaRole.Button, new() { Name = "Click Counter" });
             
             await Expect(button).ToContainTextAsync("Button pressed 0 times");
