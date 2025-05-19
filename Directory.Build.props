@@ -6,17 +6,17 @@
 		<!-- coverlet.msbuild, specifically msbuild props  -->
 		<CollectCoverage>true</CollectCoverage>
 		<CoverletOutputFormat>cobertura</CoverletOutputFormat>
-		<Threshold>8</Threshold>
+		<Threshold>50</Threshold>
 		<ThresholdType>line</ThresholdType>
 		<ThresholdStat>total</ThresholdStat>
-		<ThresholdBranch>7</ThresholdBranch>
-		<ThresholdMethod>9</ThresholdMethod>
+		<ThresholdBranch>50</ThresholdBranch>
+		<ThresholdMethod>50</ThresholdMethod>
 		<!-- Additional properties carried over from runsettings -->
 		<Include>[TELBlazor.Components]*</Include>
 		<ExcludeByAttribute>ExcludeFromCodeCoverage</ExcludeByAttribute>
 		<ExcludeByFile>**/Program.cs,**/Components/TestComponents/*.*</ExcludeByFile>
 		<IncludeTestAssembly>true</IncludeTestAssembly>
-		<CoverletOutput>$(SolutionDir)TestResults\</CoverletOutput>
-		<MergeWith>$(SolutionDir)TestResults\coverage.json</MergeWith>
+		<CoverletOutput>$(MSBuildThisFileDirectory)/TestResults/</CoverletOutput>
+		<MergeWith>$(MSBuildThisFileDirectory)/TestResults/coverage.json</MergeWith>
 	</PropertyGroup>
 </Project>
