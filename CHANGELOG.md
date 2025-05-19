@@ -1,3 +1,10 @@
+# [1.1.0-feat-button-for-cicd-testing.12](https://github.com/TechnologyEnhancedLearning/TELBlazor/compare/v1.1.0-feat-button-for-cicd-testing.11...v1.1.0-feat-button-for-cicd-testing.12) (2025-05-16)
+
+
+### Features
+
+* **button:** layouts ([6d6d64f](https://github.com/TechnologyEnhancedLearning/TELBlazor/commit/6d6d64fbcac279f386d8a2d937176736a34860f0))
+
 # [1.1.0-feat-button-for-cicd-testing.11](https://github.com/TechnologyEnhancedLearning/TELBlazor/compare/v1.1.0-feat-button-for-cicd-testing.10...v1.1.0-feat-button-for-cicd-testing.11) (2025-05-15)
 
 
