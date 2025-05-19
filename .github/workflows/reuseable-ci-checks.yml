@@ -443,7 +443,7 @@ jobs:
               E2ETracingEnabled: ${{ env.E2E_TRACING_ENABLED }}
               HeadlessTesting: ${{ env.HEADLESS_TESTING }}
             run: |
-              dotnet test --collect:"XPlat Code Coverage" --settings coverlet.runsettings
+              dotnet test --collect "XPlat Code Coverage" --settings "coverlet.runsettings"
             continue-on-error: true
 
           - name: Generate Coverage Report

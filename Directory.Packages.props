@@ -7,7 +7,7 @@
 			<RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
 			
 			<!-- coverlet.msbuild, specifically msbuild props  -->
-			<CollectCoverage>true</CollectCoverage>
+			<CollectCoverage>false</CollectCoverage>
 			<CoverletOutputFormat>cobertura</CoverletOutputFormat>
             <Threshold>8</Threshold>
 			<ThresholdType>line</ThresholdType>

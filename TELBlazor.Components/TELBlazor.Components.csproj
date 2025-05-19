@@ -24,6 +24,9 @@
 		<PackageOutputPath>$(NupkgOutputPath)</PackageOutputPath>
 		<Configurations>Debug;Release</Configurations>
 
+		<!--overide solutions dont collect coverage setting -->
+		<CollectCoverage>true</CollectCoverage>
+
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -46,7 +49,6 @@
 	</ItemGroup>
 	<ItemGroup>
 		<Folder Include="Assets\" />
-		<Folder Include="Core\DI\" />
 		<Folder Include="wwwroot\css\" />
 		<Folder Include="wwwroot\js\" />
 	</ItemGroup>

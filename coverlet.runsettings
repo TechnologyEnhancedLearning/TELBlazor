@@ -2,14 +2,15 @@
 <RunSettings>
   <DataCollectionRunSettings>
     <DataCollectors>
-      <DataCollector friendlyName="XPlat code coverage">
+      <DataCollector friendlyName="XPlat Code Coverage">
         <Configuration>
+		  <Include>[TELBlazor.Components]*</Include>
           <Format>cobertura</Format>
-          <Threshold>999</Threshold>
+          <!--<Threshold>999</Threshold>-->
           <ThresholdType>line</ThresholdType>
           <ThresholdStat>total</ThresholdStat>
           <ExcludeByAttribute>ExcludeFromCodeCoverage</ExcludeByAttribute>
-          <ExcludeByFile>**/Program.cs</ExcludeByFile>
+          <ExcludeByFile>**/Program.cs,**/TELBlazor.Components/TestComponents/**</ExcludeByFile>
         </Configuration>
       </DataCollector>
     </DataCollectors>

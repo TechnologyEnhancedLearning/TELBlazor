@@ -1,22 +1,40 @@
 ﻿@layout ComponentPageLayout
 <div class="component-showcase">
+    @if(IsTestComponent){
+        <h1 class="test-component-warning-header">This is a Test Component</h1>
+        <p>Test components are components not for production but to aid testing. Or to demo a feature not planned for prodution.</p>
+        <p>Test components do not have test coverage and are not for production.</p>
+    }
+    
     <h2>@Title</h2>
     <TELBlazorPackageVersionInformation />
     <div class="component-presentor">
         @ChildContent
     </div>
-    <div class="component-description">
+    <div class="component-information">
+        <h2>Instructions</h2>
+        <p>@Instructions</p>
+    </div>
+    <div class="component-information">
         <h2>Description</h2>
         <p>@Description</p>
     </div>
+
 </div>
 @code
 {
+
+    [Parameter, EditorRequired]
+    public required bool IsTestComponent { get; set; } = false;
+
     [Parameter, EditorRequired]
     public required string Title { get; set; } = string.Empty;
 
     [Parameter,EditorRequired]
     public required string Description { get; set; } = string.Empty;
+
+    [Parameter, EditorRequired]
+    public required string Instructions { get; set; } = string.Empty;
 
     [Parameter, EditorRequired]
     public required RenderFragment ChildContent { get; set; }

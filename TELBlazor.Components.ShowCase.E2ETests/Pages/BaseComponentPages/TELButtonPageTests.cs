@@ -58,7 +58,7 @@ namespace TELBlazor.Components.ShowCase.E2ETests.Pages.BaseComponentPages
 
             IPage page = await browserContext.NewPageAsync();
 
-            await page.GotoOnceNetworkIsIdleAsync("TELButtonPage");
+            await page.GotoOnceNetworkIsIdleAsync("TELButton");
             ILocator button = page.GetByRole(AriaRole.Button, new() { Name = "Click Counter" });
 
             AxeResult axeResults = await button.RunAxe();
@@ -134,7 +134,7 @@ namespace TELBlazor.Components.ShowCase.E2ETests.Pages.BaseComponentPages
             //Debug option
             //await page.PauseAsync();
 
-            await page.GotoOnceNetworkIsIdleAsync("TELButtonPage");
+            await page.GotoOnceNetworkIsIdleAsync("TELButton");
             ILocator button = page.GetByRole(AriaRole.Button, new() { Name = "Click Counter" });
             
             await Expect(button).ToContainTextAsync("Button pressed 0 times");
