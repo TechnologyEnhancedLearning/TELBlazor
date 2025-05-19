@@ -16,7 +16,7 @@
 		<ExcludeByAttribute>ExcludeFromCodeCoverage</ExcludeByAttribute>
 		<ExcludeByFile>**/Program.cs,**/Components/TestComponents/*.*</ExcludeByFile>
 		<IncludeTestAssembly>true</IncludeTestAssembly>
-		<CoverletOutput>$(MSBuildThisFileDirectory)/TestResults/</CoverletOutput>
-		<MergeWith>$(MSBuildThisFileDirectory)/TestResults/coverage.json</MergeWith>
+		<CoverletOutput>$(MSBuildThisFileDirectory)TestResults/</CoverletOutput>
+		<MergeWith>$(MSBuildThisFileDirectory)TestResults/coverage.json</MergeWith>
 	</PropertyGroup>
 </Project>
