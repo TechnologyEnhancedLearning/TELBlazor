@@ -10,7 +10,7 @@ $env:E2ETracingEnabled = "true"
 $env:HeadlessTesting = "true"
 
 # Run Tests
-dotnet test
+dotnet test --no-build --no-restore
 
 
 # Create Report from Test outputs
