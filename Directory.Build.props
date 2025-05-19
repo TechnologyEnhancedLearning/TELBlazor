@@ -2,12 +2,19 @@
 <Project>
   <Import Project="PackageSettings.props" />
   <Import Project="PackageSettings.props.local" Condition="Exists('PackageSettings.props.local')"/>
-	<Target Name="PrintMSBuildThisFileDirectory" BeforeTargets="Test">
+	<Target Name="PrintMSBuildThisFileDirectory" BeforeTargets="build">
 		<Message Importance="High" Text="qqqq" />
 		<Message Importance="High" Text="MSBuildThisFileDirectory = '$(MSBuildThisFileDirectory)'" />
 		<Message Importance="High" Text="MSBuildProjectDirectory = '$(MSBuildProjectDirectory)'" />
 	</Target>
+	<Target Name="PrintMSBuildThisFileDirectory" BeforeTargets="Test">
+		<Message Importance="High" Text="!!!!!!!!!!!!!!!! !!!!!!!!!!!!!!!!!! qqqq" />
+		<Message Importance="High" Text="MSBuildThisFileDirectory = '$(MSBuildThisFileDirectory)'" />
+		<Message Importance="High" Text="MSBuildProjectDirectory = '$(MSBuildProjectDirectory)'" />
+	</Target>
 	<PropertyGroup>
+		<DebugType>full</DebugType>
+		<DebugSymbols>true</DebugSymbols>
 		<!-- coverlet.msbuild, specifically msbuild props  -->
 		<CollectCoverage>true</CollectCoverage>
 		<CoverletOutputFormat>cobertura</CoverletOutputFormat>

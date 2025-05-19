@@ -24,8 +24,8 @@
 		<PackageOutputPath>$(NupkgOutputPath)</PackageOutputPath>
 		<Configurations>Debug;Release</Configurations>
 
-		<!--overide solutions dont collect coverage setting -->
-		<CollectCoverage>true</CollectCoverage>
+
+
 
 	</PropertyGroup>
 
