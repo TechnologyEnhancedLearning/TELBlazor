@@ -7,7 +7,12 @@
 		<Message Importance="High" Text="MSBuildThisFileDirectory = '$(MSBuildThisFileDirectory)'" />
 		<Message Importance="High" Text="MSBuildProjectDirectory = '$(MSBuildProjectDirectory)'" />
 	</Target>
-	<Target Name="PrintMSBuildThisFileDirectory" BeforeTargets="Test">
+	<Target Name="PrintMSBuildThisFileDirectory1" BeforeTargets="Test">
+		<Message Importance="High" Text="!!!!!!!!!!!!!!!! !!!!!!!!!!!!!!!!!! qqqq" />
+		<Message Importance="High" Text="MSBuildThisFileDirectory = '$(MSBuildThisFileDirectory)'" />
+		<Message Importance="High" Text="MSBuildProjectDirectory = '$(MSBuildProjectDirectory)'" />
+	</Target>
+	<Target Name="PrintMSBuildThisFileDirectory2" BeforeTargets="VSTest">
 		<Message Importance="High" Text="!!!!!!!!!!!!!!!! !!!!!!!!!!!!!!!!!! qqqq" />
 		<Message Importance="High" Text="MSBuildThisFileDirectory = '$(MSBuildThisFileDirectory)'" />
 		<Message Importance="High" Text="MSBuildProjectDirectory = '$(MSBuildProjectDirectory)'" />
