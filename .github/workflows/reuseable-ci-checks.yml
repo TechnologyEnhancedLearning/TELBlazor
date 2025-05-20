@@ -243,7 +243,7 @@ jobs:
                 /p:ThresholdMethod=50 \
                 /p:Include="[TELBlazor.Components]*" \
                 /p:ExcludeByAttribute=ExcludeFromCodeCoverage \
-                /p:ExcludeByFile="**/Program.cs,**/Components/TestComponents/*.*" \
+                /p:ExcludeByFile="**/Program.cs;**/Components/TestComponents/*.*" \
                 /p:IncludeTestAssembly=true \
                 /p:CoverletOutput=/home/runner/work/TELBlazor/TELBlazor/AllTestResults/ \
                 /p:MergeWith=/home/runner/work/TELBlazor/TELBlazor/AllTestResults/coverage.json
@@ -270,7 +270,7 @@ jobs:
                 /p:ThresholdMethod=50 \
                 /p:Include="[TELBlazor.Components]*" \
                 /p:ExcludeByAttribute=ExcludeFromCodeCoverage \
-                /p:ExcludeByFile="**/Program.cs,**/Components/TestComponents/*.*" \
+                /p:ExcludeByFile="**/Program.cs;**/Components/TestComponents/*.*" \
                 /p:IncludeTestAssembly=true \
                 /p:CoverletOutput=/home/runner/work/TELBlazor/TELBlazor/AllTestResults/ \
                 /p:MergeWith=/home/runner/work/TELBlazor/TELBlazor/AllTestResults/coverage.json
@@ -306,7 +306,7 @@ jobs:
                 /p:ThresholdMethod=50 \
                 /p:Include="[TELBlazor.Components]*" \
                 /p:ExcludeByAttribute=ExcludeFromCodeCoverage \
-                /p:ExcludeByFile="**/Program.cs,**/Components/TestComponents/*.*" \
+                /p:ExcludeByFile="**/Program.cs;**/Components/TestComponents/*.*" \
                 /p:IncludeTestAssembly=true \
                 /p:CoverletOutput=/home/runner/work/TELBlazor/TELBlazor/AllTestResults/ \
                 /p:MergeWith=/home/runner/work/TELBlazor/TELBlazor/AllTestResults/coverage.json
