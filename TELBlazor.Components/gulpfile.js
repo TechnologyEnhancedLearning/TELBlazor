@@ -1,4 +1,8 @@
-﻿// gulpfile.js
+﻿/// Summary
+// Dont want to run on publish but instead make it required for the consuming project to provide the nhsukcss so it isnt twice in the consuming project
+///
+
+// gulpfile.js
 //qqqq clear up if commented out isnt needed later
 const gulp = require("gulp");
 //const sass = require("gulp-sass")(require("sass"));
@@ -13,9 +17,6 @@ const gulp = require("gulp");
 //        .pipe(gulp.dest("wwwroot/css"));
 //});
 
-//// Copy Bootstrap CSS from node_modules
-////     .src("node_modules/bootstrap/dist/css/bootstrap.min.css")
-////.src("node_modules/nhsuk-frontend/dist/nhsuk-9.0.1.min.css") //if providing the css too 
 gulp.task("copy-nhsuk-css", function () {
     return gulp
         .src("node_modules/nhse-tel-frontend/dist/nhsuk.css")

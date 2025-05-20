@@ -2,7 +2,6 @@
 
 <h3>Log Level Slider</h3>
 
-
 <select value="@CurrentLogLevel" @onchange="HandleLogLevelChange" class="form-select">
     @foreach (var item in AvailableLogLevels)
     {
@@ -10,8 +9,6 @@
     }
 </select>
 <p>Current Log Level: @CurrentLogLevel</p>
-
-
 
 @code {
     private string CurrentLogLevel = string.Empty;
@@ -37,7 +34,7 @@
         if (e.Value is string selectedLevel) // Safe casting
         {
             CurrentLogLevel = e.Value.ToString();
-            LogLevelSwitcherService.SetLogLevel(CurrentLogLevel); // Crucial: Update the service!
+            LogLevelSwitcherService.SetLogLevel(CurrentLogLevel);
             StateHasChanged();
         }
     }

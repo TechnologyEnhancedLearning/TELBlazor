@@ -1,7 +1,7 @@
-﻿
-@inherits TELComponentBase
+﻿@inherits TELComponentBase
 @implements IAccessibleComponent
 @inject ILogger<TELButton> Logger
+
 @if (IsSubmitButtonForEditForm)
 {
     <TELButtonSubComponent 
@@ -44,98 +44,79 @@ else
 
 @code {
 
-    private bool isButtonDisabled = false; // To control button disable state
-    private bool isClickedRecently = false; // To track if the button was clicked recently
 
+    // -----------------------------
+    // Parameters: Behavior & State
+    // -----------------------------
 
     ///<summary>
     /// All buttons will be submit. But if this is a submit for a form then true.
     /// They all will actually be submit because for NoJS we have to put then in editform
     ///</summary>
     [Parameter] public bool IsSubmitButtonForEditForm { get; set; } = false;
-    // If we need to not support some features for NoJS we then need to build in flagging Static/Prerender/NoJS together or our buttons will look usable and fail
-    //[Parameter] public bool DisableForNoJS { get; set; } = false;
+    [Parameter] public Dictionary<string, string> FormData { get; set; } = new();
+    [EditorRequired, Parameter] public required string NoJSActionUrl { get; set; } // URL for the form submission
+    [Parameter] public EventCallback OnClick { get; set; } // Not required because the submit wont use it, when its placed in a form.
+    [Parameter] public bool PreventDoubleClick { get; set; } = false; // View Component equivalent behaviour
 
-    [EditorRequired, Parameter]
-    public required string NoJSActionUrl { get; set; } // URL for the form submission
+    // -----------------------------
+    // Parameters: Button Display
+    // -----------------------------
+    [EditorRequired, Parameter] public required string ButtonText { get; set; }
+    [Parameter] public TELButtonStyle ButtonStyle { get; set; } = TELButtonStyle.Primary;
+    [Parameter] public string AdditionalCssClasses { get; set; } = "";
+    [EditorRequired, Parameter] public required string ToolTipTitle { get; set; }
 
-    [Parameter]
-    public Dictionary<string, string> FormData { get; set; } = new Dictionary<string, string>();
+    // -----------------------------
+    // Parameters: Accessibility
+    // -----------------------------
 
-    //Not required because the submit wont use it, when its placed in a form. 
-    [Parameter] 
-    public EventCallback OnClick { get; set; }
-
-    ///<summary>
-    /// Button Params
-    ///<summary/>
-    [Parameter] public TELButtonStyle ButtonStyle { get; set; } = TELButtonStyle.Primary; // Default to Primary
-
-
-    //qqqq this is because viecomponents have it
-    [Parameter] public bool PreventDoubleClick { get; set; } = false;
-
-    [EditorRequired, Parameter]
-    public required string ButtonText { get; set; }
+    [EditorRequired, Parameter] public required string AriaLabel { get; set; }
+    [EditorRequired, Parameter] public required string AssistiveText { get; set; }
+    [EditorRequired, Parameter] public required int TabIndex { get; set; } = 0;
+    // These properties are public, satisfying the interface, but not a Parameter because I wanted to force it to be used in the contract of the interface but the component can do that itself
+    public string AriaRole { get; set; } = "Button";
+    public string AriaDescribedBy { get; set; } = $"assistive-text-{Guid.NewGuid()}";
 
 
-    [Parameter] public string AdditionalCssClasses { get; set; } = ""; // Custom CSS classes for additional styling
 
-    ///<summary>
-    /// Button accessibility Params
-    ///<summary/>
+    // -----------------------------
+    // Internal State
+    // -----------------------------
+    private bool isButtonDisabled = false;
+    private bool isClickedRecently = false;
 
-    // This property is public, satisfying the interface, but not a Parameter because I wanted to force it to be used in the contract of the interface but the component can do that itself
-    public string AriaRole { get; set; } = "Button"; // Set to button by default
-    public string AriaDescribedBy { get; set; } = $"assistive-text-{Guid.NewGuid()}"; // Default ARIA described by (can be empty)
-
-    [EditorRequired, Parameter]
-    public required string AriaLabel { get; set; }
-
-    [EditorRequired, Parameter]
-    public required string AssistiveText { get; set; }
-
-    // Tab index for keyboard navigation
-    [EditorRequired, Parameter]
-    public required int TabIndex { get; set; } = 0;
-
-    [EditorRequired, Parameter]
-    public required string ToolTipTitle { get; set; }
-
-    // The wrapped click handler that manages the prevention of double-clicking
+    // -----------------------------
+    // Handlers
+    // -----------------------------
     /// <summary>
+    /// The wrapped click handler that manages the prevention of double-clicking
     /// Because this method is triggered by the form submit code coverage does not detect its covered
     /// </summary>
-    /// <returns></returns>
     [ExcludeFromCodeCoverage]
     private async Task HandleClick()
     {
         Logger.LogInformation($"Button clicked: {ButtonText}");
+
         if (PreventDoubleClick && !isClickedRecently)
         {
-            // Prevent further clicks and disable the button
             isClickedRecently = true;
             isButtonDisabled = true;
 
-            // Trigger the OnClick event callback
             if (OnClick.HasDelegate)
             {
                 await OnClick.InvokeAsync(null);
             }
 
-            // After a short delay, enable the button again (e.g., 1 second)
-            await Task.Delay(1000);
+            await Task.Delay(1000); // Re-enable after 1 sec
             isClickedRecently = false;
             isButtonDisabled = false;
         }
-        else if (!PreventDoubleClick)
+        else if (!PreventDoubleClick && OnClick.HasDelegate) // Just call the OnClick handler if double-click prevention is not needed
         {
-            // Just call the OnClick handler if double-click prevention is not needed
-            if (OnClick.HasDelegate)
-            {
-                await OnClick.InvokeAsync(null);
-            }
+            await OnClick.InvokeAsync(null);
         }
     }
+
 }
 

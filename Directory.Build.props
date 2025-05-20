@@ -2,29 +2,7 @@
 <Project>
   <Import Project="PackageSettings.props" />
   <Import Project="PackageSettings.props.local" Condition="Exists('PackageSettings.props.local')"/>
-	<Target Name="PrintMSBuildThisFileDirectory" BeforeTargets="build">
-		<Message Importance="High" Text="qqqq" />
-		<Message Importance="High" Text="MSBuildThisFileDirectory = '$(MSBuildThisFileDirectory)'" />
-		<Message Importance="High" Text="MSBuildProjectDirectory = '$(MSBuildProjectDirectory)'" />
-	</Target>
-	<Target Name="PrintMSBuildThisFileDirectory1" BeforeTargets="Test">
-		<Message Importance="High" Text="!!!!!!!!!!!!!!!! !!!!!!!!!!!!!!!!!! qqqq" />
-		<Message Importance="High" Text="MSBuildThisFileDirectory = '$(MSBuildThisFileDirectory)'" />
-		<Message Importance="High" Text="MSBuildProjectDirectory = '$(MSBuildProjectDirectory)'" />
-	</Target>
-	<Target Name="PrintMSBuildThisFileDirectory2" BeforeTargets="VSTest">
-		<Message Importance="High" Text="!!!!!!!!!!!!!!!! !!!!!!!!!!!!!!!!!! qqqq" />
-		<Message Importance="High" Text="MSBuildThisFileDirectory = '$(MSBuildThisFileDirectory)'" />
-		<Message Importance="High" Text="MSBuildProjectDirectory = '$(MSBuildProjectDirectory)'" />
-	</Target>
 	<PropertyGroup>
-		<!-- Symbol and Debug Settings qqqq skeptical -->
-		<DebugType>portable</DebugType>
-		<DebugSymbols>true</DebugSymbols>
-		<EmbedAllSources>true</EmbedAllSources>
-		<IncludeSymbols>true</IncludeSymbols>
-		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
-		
 		<!-- coverlet.msbuild, specifically msbuild props  -->
 		<CollectCoverage>true</CollectCoverage>
 		<CoverletOutputFormat>cobertura</CoverletOutputFormat>
@@ -33,11 +11,13 @@
 		<ThresholdStat>total</ThresholdStat>
 		<ThresholdBranch>50</ThresholdBranch>
 		<ThresholdMethod>50</ThresholdMethod>
+		
 		<!-- Additional properties carried over from runsettings -->
 		<Include>[TELBlazor.Components]*</Include>
 		<ExcludeByAttribute>ExcludeFromCodeCoverage</ExcludeByAttribute>
 		<ExcludeByFile>**/Program.cs,**/Components/TestComponents/*.*</ExcludeByFile>
 		<IncludeTestAssembly>true</IncludeTestAssembly>
+		
 		<!--centralising TestResults output could reduce abitity to run tests in parralel-->
 		<CoverletOutput>$(MSBuildThisFileDirectory)AllTestResults/</CoverletOutput>
 		<MergeWith>$(MSBuildThisFileDirectory)AllTestResults/coverage.json</MergeWith>

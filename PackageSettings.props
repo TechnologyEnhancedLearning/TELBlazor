@@ -19,7 +19,6 @@
 	<HeadlessTesting Condition="'$(HeadlessTesting)' == ''">true</HeadlessTesting>
 	<HeadlessTesting Condition="'$(HeadlessTesting)' != ''">$(HeadlessTesting)</HeadlessTesting>
   
-
   </PropertyGroup>
 
 </Project>
