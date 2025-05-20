@@ -301,7 +301,7 @@ jobs:
               E2ETracingEnabled: ${{ env.E2E_TRACING_ENABLED }}
               HeadlessTesting: ${{ env.HEADLESS_TESTING }}
             run: |
-              dotnet test --no-build --no-restore --verbosity verbose \
+              dotnet test --no-build --no-restore \
                 /p:TELBlazorPackageVersion=$TELBLAZOR_PACKAGE_VERSION \
                 /p:NupkgOutputPath=$TELBLAZOR_PACKAGE_LOCAL_OUTPUT_PATH \
                 /p:UseTELBlazorComponentsProjectReference=$USE_TEL_BLAZOR_COMPONENTS_PROJECT_REFERENCE \
