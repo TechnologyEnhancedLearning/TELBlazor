@@ -243,10 +243,10 @@ jobs:
                 /p:ThresholdMethod=50 \
                 /p:Include="[TELBlazor.Components]*" \
                 /p:ExcludeByAttribute=ExcludeFromCodeCoverage \
- #               /p:ExcludeByFile="**/Program.cs,**/Components/TestComponents/*.*" \
                 /p:IncludeTestAssembly=true \
                 /p:CoverletOutput=/home/runner/work/TELBlazor/TELBlazor/AllTestResults/ \
                 /p:MergeWith=/home/runner/work/TELBlazor/TELBlazor/AllTestResults/coverage.json
+             #               /p:ExcludeByFile="**/Program.cs,**/Components/TestComponents/*.*" \
               
           - name: Build solution without generating new package
             env:
@@ -270,10 +270,11 @@ jobs:
                 /p:ThresholdMethod=50 \
                 /p:Include="[TELBlazor.Components]*" \
                 /p:ExcludeByAttribute=ExcludeFromCodeCoverage \
- #               /p:ExcludeByFile="**/Program.cs,**/Components/TestComponents/*.*" \
                 /p:IncludeTestAssembly=true \
                 /p:CoverletOutput=/home/runner/work/TELBlazor/TELBlazor/AllTestResults/ \
                 /p:MergeWith=/home/runner/work/TELBlazor/TELBlazor/AllTestResults/coverage.json
+                
+             #               /p:ExcludeByFile="**/Program.cs,**/Components/TestComponents/*.*" \
               
           - name: Ensure browsers are installed
             run: pwsh TELBlazor.Components.ShowCase.E2ETests/bin/Debug/net8.0/playwright.ps1 install --with-deps  
@@ -306,12 +307,12 @@ jobs:
                 /p:ThresholdMethod=50 \
                 /p:Include="[TELBlazor.Components]*" \
                 /p:ExcludeByAttribute=ExcludeFromCodeCoverage \
- #               /p:ExcludeByFile="**/Program.cs,**/Components/TestComponents/*.*" \
                 /p:IncludeTestAssembly=true \
                 /p:CoverletOutput=/home/runner/work/TELBlazor/TELBlazor/AllTestResults/ \
                 /p:MergeWith=/home/runner/work/TELBlazor/TELBlazor/AllTestResults/coverage.json
             continue-on-error: true
 
+#               /p:ExcludeByFile="**/Program.cs,**/Components/TestComponents/*.*" \
 
           - name: Generate Coverage Report
             run: |
