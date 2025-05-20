@@ -1,3 +1,10 @@
+# [1.1.0-feat-button-for-cicd-testing.15](https://github.com/TechnologyEnhancedLearning/TELBlazor/compare/v1.1.0-feat-button-for-cicd-testing.14...v1.1.0-feat-button-for-cicd-testing.15) (2025-05-20)
+
+
+### Features
+
+* **refactor:** direct build props ([ae832d5](https://github.com/TechnologyEnhancedLearning/TELBlazor/commit/ae832d5d2e3dd88d9437273a10d42c7535c1dd56))
+
 # [1.1.0-feat-button-for-cicd-testing.14](https://github.com/TechnologyEnhancedLearning/TELBlazor/compare/v1.1.0-feat-button-for-cicd-testing.13...v1.1.0-feat-button-for-cicd-testing.14) (2025-05-20)
 
 
