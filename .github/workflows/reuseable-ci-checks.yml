@@ -48,7 +48,7 @@ jobs:
     # Build Package
     # Build Solution useing package
     reuseable-ci-checks-solution-build:
-      name: Check solution builds
+      name: Check solution builds as Release
       runs-on: ubuntu-latest
       continue-on-error:  ${{ inputs.runall }}
       outputs:

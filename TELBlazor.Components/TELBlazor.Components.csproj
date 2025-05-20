@@ -58,9 +58,13 @@
 		<WriteLinesToFile File="wwwroot/TELBlazorPackageVersion.txt" Lines="$(TELBlazorPackageVersion)" Overwrite="true" Encoding="UTF-8" />
 		<WriteLinesToFile File="TELBlazorPackageVersion/VersionInfo.cs" Lines="namespace TELBlazor.Components.TELBlazorPackageVersion { public static class VersionInfo { public static string TELBlazorPackageVersion = &quot;$(TELBlazorPackageVersion)&quot; %3B; } }" Overwrite="true" Encoding="UTF-8" />
 	</Target>
-	<!--Exclude for release so consuming projects responsible for providing the css to prevent duplication-->
-	<Target Name="RunGulp" BeforeTargets="PrepareForBuild" Condition="'$(Configuration)' != 'Release'">
+	
+	<Target Name="RunGulp" BeforeTargets="PrepareForBuild">
 		<Exec Command="npx gulp" WorkingDirectory="$(ProjectDir)" />
 	</Target>
+	<!--Exclude from the release package so consuming projects responsible for providing the css to prevent duplication-->
+	<ItemGroup Condition="'$(Configuration)' == 'Release'">
+		<Content Update="wwwroot\css\nhsuk.css" Pack="false" />
+	</ItemGroup>
 </Project>
 
