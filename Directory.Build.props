@@ -18,8 +18,13 @@
 		<Message Importance="High" Text="MSBuildProjectDirectory = '$(MSBuildProjectDirectory)'" />
 	</Target>
 	<PropertyGroup>
-		<DebugType>full</DebugType>
+		<!-- Symbol and Debug Settings qqqq skeptical -->
+		<DebugType>portable</DebugType>
 		<DebugSymbols>true</DebugSymbols>
+		<EmbedAllSources>true</EmbedAllSources>
+		<IncludeSymbols>true</IncludeSymbols>
+		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
+		
 		<!-- coverlet.msbuild, specifically msbuild props  -->
 		<CollectCoverage>true</CollectCoverage>
 		<CoverletOutputFormat>cobertura</CoverletOutputFormat>
