@@ -1,3 +1,23 @@
+# [1.1.0-feat-button-for-cicd-testing.14](https://github.com/TechnologyEnhancedLearning/TELBlazor/compare/v1.1.0-feat-button-for-cicd-testing.13...v1.1.0-feat-button-for-cicd-testing.14) (2025-05-20)
+
+
+### Features
+
+* **button:** add to msbuild with params ([36e0f1a](https://github.com/TechnologyEnhancedLearning/TELBlazor/commit/36e0f1a6d60ff37c897c97f9eb9c1e0639927c22))
+* **button:** avoiding ignores ([5ee0f4a](https://github.com/TechnologyEnhancedLearning/TELBlazor/commit/5ee0f4a73c8a02b72da498e3cde824b03f6aafd5))
+* **button:** debug ([c0b3dd0](https://github.com/TechnologyEnhancedLearning/TELBlazor/commit/c0b3dd0952dc85d204f21db1f2502fd398651017))
+* **button:** debug ([57d5c75](https://github.com/TechnologyEnhancedLearning/TELBlazor/commit/57d5c75f94f24e8a3647373fcfc419d5b2914ae4))
+* **button:** debug routes ([8ee1840](https://github.com/TechnologyEnhancedLearning/TELBlazor/commit/8ee1840dfb26b9b6931e96bb1bdc1c269a63c217))
+* **button:** drop slash ([28c6bc4](https://github.com/TechnologyEnhancedLearning/TELBlazor/commit/28c6bc403edc43365a5a62e47ccec926383d5348))
+* **button:** fail check ([e56e555](https://github.com/TechnologyEnhancedLearning/TELBlazor/commit/e56e555a85c8fe78b775814e5675f97eabfc465a))
+* **button:** none verbose ([3bc7897](https://github.com/TechnologyEnhancedLearning/TELBlazor/commit/3bc7897d383873fd2a9864e8735720e3bc1121de))
+* **button:** not worry about folder exclude atm ([552dc73](https://github.com/TechnologyEnhancedLearning/TELBlazor/commit/552dc736ca50dffe8d3f851c41307210c514a230))
+* **button:** routing for ci ([296da4d](https://github.com/TechnologyEnhancedLearning/TELBlazor/commit/296da4d1cdbadb8ce2b6d997702f06b64c630758))
+* **button:** semi not comma ([aeafb9f](https://github.com/TechnologyEnhancedLearning/TELBlazor/commit/aeafb9fa89f35050c3bd664db99c827e7e71e6e8))
+* **button:** try using just built ([08fcb2b](https://github.com/TechnologyEnhancedLearning/TELBlazor/commit/08fcb2bcc5b019841271c4b58bb77b5733fa3d0d))
+* **button:** use package ref ([91df5c9](https://github.com/TechnologyEnhancedLearning/TELBlazor/commit/91df5c9f228ac6b5ab2e874557ea1a8812edbf06))
+* **button:** yml fix ([154941b](https://github.com/TechnologyEnhancedLearning/TELBlazor/commit/154941bf4d9c977c549ecf7d35326b3bb369e554))
+
 # [1.1.0-feat-button-for-cicd-testing.13](https://github.com/TechnologyEnhancedLearning/TELBlazor/compare/v1.1.0-feat-button-for-cicd-testing.12...v1.1.0-feat-button-for-cicd-testing.13) (2025-05-19)
 
 
