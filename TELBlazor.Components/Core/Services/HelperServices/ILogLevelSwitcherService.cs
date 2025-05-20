@@ -8,12 +8,7 @@ namespace TELBlazor.Components.Core.Services.HelperServices
 {
     public interface ILogLevelSwitcherService
     {
-
-        /// <summary>
-        /// String so can be more generic
-        /// </summary>
-        /// <returns></returns>
-        public string GetCurrentLogLevel();
+        public string GetCurrentLogLevel();// String so can be more generic
 
         public string SetLogLevel(string level);
 

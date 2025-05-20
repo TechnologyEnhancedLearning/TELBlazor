@@ -30,7 +30,12 @@ namespace TELBlazor.Components.Core.DI
             )
         {
 
-            if (IsClient)
+
+            //// Register only if not already registered
+            //if (!services.Any(sd => sd.ServiceType == typeof(ITELBlazorBaseComponentConfiguration)))
+            //{
+
+                if (IsClient)
             {
                 services.AddSingleton<ITELBlazorBaseComponentConfiguration>(sp =>{return TELBlazorBaseComponentConfiguration;});
 

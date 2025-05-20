@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace TELBlazor.Components.Core.Models.Logging
 {
-    public class LocalStorageLogLevel : ILocalStorageLogLevel
+    public interface ILocalStorageLogLevel
     {
-        public string Level { get; set; } = null;
+        public string Level { get; set; } 
         public DateTime Expires { get; set; }
     }
 }

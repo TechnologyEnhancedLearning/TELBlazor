@@ -1,33 +1,77 @@
-﻿/// Summary
-// Dont want to run on publish but instead make it required for the consuming project to provide the nhsukcss so it isnt twice in the consuming project
-///
-
-// gulpfile.js
-//qqqq clear up if commented out isnt needed later
+﻿// gulpfile.js
+// qqqq not centralised and deliberately does not run on release so could end up out of step
 const gulp = require("gulp");
-//const sass = require("gulp-sass")(require("sass"));
-//const concat = require("gulp-concat");
-
-//// Compile SCSS to CSS
-//gulp.task("sass", function () {
-//    return gulp
-//        .src("./scss/**/*.scss")  // Adjust this path if needed
-//        .pipe(sass().on("error", sass.logError))
-//        .pipe(concat("site.css"))
-//        .pipe(gulp.dest("wwwroot/css"));
-//});
+const fs = require('fs');
+const path = require('path');
 
 gulp.task("copy-nhsuk-css", function () {
-    return gulp
-        .src("node_modules/nhse-tel-frontend/dist/nhsuk.css")
-        .pipe(gulp.dest("wwwroot/css"));
+
+    const cssPath = "node_modules/nhse-tel-frontend/dist/nhsuk.css";
+    const destPath = "wwwroot/css";
+
+    return gulp.src(cssPath)
+        .pipe(gulp.dest(destPath));
 });
 
-// Watch for changes
-//gulp.task("watch", function () {
-//    gulp.watch("./scss/**/*.scss", gulp.series("sass"));
-//});
-//,"watch"
-// Default task
-gulp.task("default", gulp.series("copy-nhsuk-css"));
-//gulp.task("default", gulp.series("copy-nhsuk-css", "sass"));
+// Function to get the TELFrontEndPackageVersion from package.json
+function getTELFrontEndPackageVersion() {
+    const packageJsonPath = path.join(__dirname, "node_modules", "nhse-tel-frontend", "package.json");
+    console.log("Attempting to read package.json at:", packageJsonPath);
+
+    try {
+        if (fs.existsSync(packageJsonPath)) {
+            const packageJsonContent = fs.readFileSync(packageJsonPath, "utf8");
+            const packageJson = JSON.parse(packageJsonContent);
+            console.log("Successfully read package.json. Version:", packageJson.version);
+            return packageJson.version;
+        } else {
+            console.warn("Package.json file does not exist at:", packageJsonPath);
+            return null; // Return null if file not found
+        }
+    } catch (error) {
+        console.error("Error reading or parsing package.json:", error);
+        return null; // Return null on error
+    }
+}
+
+// Task that adds a second public static string to existing file
+gulp.task("add-telFrontEndVersion-to-versionInfo", function (done) {
+    const versionFilePath = "TELBlazorPackageVersion/VersionInfo.cs";
+    const TELFrontEndPackageVersion = getTELFrontEndPackageVersion();
+
+    if (TELFrontEndPackageVersion === null) {
+        console.error("Could not determine TELFrontEndPackageVersion. Aborting task.");
+        return done(new Error("Failed to get TELFrontEndPackageVersion")); // Indicate task failure
+    }
+
+    console.log(`Adding TELFrontEndPackageVersion to CS file at: ${versionFilePath}`);
+
+    if (fs.existsSync(versionFilePath)) {
+        console.log("File exists, adding TELFrontEndPackageVersion string");
+
+        // Read existing content
+        let existingContent = fs.readFileSync(versionFilePath, "utf8");
+        console.log("Existing content:", existingContent);
+
+        // Find the closing brace of the class
+        const closingBraceIndex = existingContent.lastIndexOf("}");
+        const secondLastBraceIndex = existingContent.lastIndexOf("}", closingBraceIndex - 1);
+
+        if (closingBraceIndex > 0 && secondLastBraceIndex > 0) {
+            // Insert the new property before the class closing brace
+            const newContent = existingContent.substring(0, secondLastBraceIndex) +
+                ` public static string TELFrontEndPackageVersion = "${TELFrontEndPackageVersion}"; ` +
+                existingContent.substring(secondLastBraceIndex);
+
+            fs.writeFileSync(versionFilePath, newContent);
+            console.log("Second string added successfully!");
+        } else {
+            console.error("Couldn't find proper location to insert second string");
+        }
+    }
+
+    done();
+});
+
+
+gulp.task("default", gulp.series("copy-nhsuk-css", "add-telFrontEndVersion-to-versionInfo"));
