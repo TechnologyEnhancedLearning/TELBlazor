@@ -68,7 +68,7 @@
 			2) Tell gulp to run the gulpfile in this project directory
 		  -->
 		<Exec
-		  WorkingDirectory="$(SolutionDir)"
+		  WorkingDirectory="$(MSBuildProjectDirectory).."
 		  Command="npx gulp --cwd &quot;$(MSBuildProjectDirectory)&quot; --gulpfile &quot;$(MSBuildProjectDirectory)\gulpfile.js&quot;" />
 	</Target>
 	<!--Exclude from the release package so consuming projects responsible for providing the css to prevent duplication-->
