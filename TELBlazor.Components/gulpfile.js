@@ -1,21 +1,12 @@
 ﻿// gulpfile.js
-// qqqq not centralised and deliberately does not run on release so could end up out of step
+// qqqq
 const gulp = require("gulp");
 const fs = require('fs');
 const path = require('path');
 
-gulp.task("copy-nhsuk-css", function () {
-
-    const cssPath = "node_modules/nhse-tel-frontend/dist/nhsuk.css";
-    const destPath = "wwwroot/css";
-
-    return gulp.src(cssPath)
-        .pipe(gulp.dest(destPath));
-});
-
-// Function to get the TELFrontEndPackageVersion from package.json
 function getTELFrontEndPackageVersion() {
-    const packageJsonPath = path.join(__dirname, "node_modules", "nhse-tel-frontend", "package.json");
+    const packageJsonPath = path.join(__dirname, "..", "node_modules", "nhse-tel-frontend", "package.json");
+
     console.log("Attempting to read package.json at:", packageJsonPath);
 
     try {
@@ -74,4 +65,4 @@ gulp.task("add-telFrontEndVersion-to-versionInfo", function (done) {
 });
 
 
-gulp.task("default", gulp.series("copy-nhsuk-css", "add-telFrontEndVersion-to-versionInfo"));
+gulp.task("default", gulp.series("add-telFrontEndVersion-to-versionInfo"));

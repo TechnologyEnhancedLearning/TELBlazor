@@ -135,7 +135,7 @@ jobs:
         working-directory: ./TELBlazor.Components
         run: npm ci
         #CI is an install with adhering to package-lock
-        
+
       - name: Build and pack TELBlazor.Components
         run: |
           dotnet build TELBlazor.Components -c Release \

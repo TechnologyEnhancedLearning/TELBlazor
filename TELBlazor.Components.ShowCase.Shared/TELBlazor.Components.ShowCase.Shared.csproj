@@ -23,4 +23,11 @@
 	<ItemGroup>
 	  <Folder Include="DI\" />
 	</ItemGroup>
+	<Target Name="RunGulp" BeforeTargets="PrepareForBuild">
+		<!-- 
+    1) Use solution root as working dir so npx picks up root/node_modules
+    2) Tell gulp to run the gulpfile in this project directory
+  -->
+		<Exec WorkingDirectory="$(SolutionDir)" Command="npx gulp --cwd &quot;$(MSBuildProjectDirectory)&quot; --gulpfile &quot;$(MSBuildProjectDirectory)\gulpfile.js&quot;" />
+	</Target>
 </Project>

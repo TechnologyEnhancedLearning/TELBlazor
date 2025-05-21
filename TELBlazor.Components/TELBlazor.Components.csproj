@@ -59,8 +59,17 @@
 		<WriteLinesToFile File="TELBlazorPackageVersion/VersionInfo.cs" Lines="namespace TELBlazor.Components.TELBlazorPackageVersion { public static class VersionInfo { public static string TELBlazorPackageVersion = &quot;$(TELBlazorPackageVersion)&quot; %3B; } }" Overwrite="true" Encoding="UTF-8" />
 	</Target>
 	
-	<Target Name="RunGulp" BeforeTargets="PrepareForBuild">
+	<!--qqqq<Target Name="RunGulp" BeforeTargets="PrepareForBuild">
 		<Exec Command="npx gulp" WorkingDirectory="$(ProjectDir)" />
+	</Target>-->
+	<Target Name="RunGulp" BeforeTargets="PrepareForBuild">
+				<!-- 
+			1) Use solution root as working dir so npx picks up root/node_modules
+			2) Tell gulp to run the gulpfile in this project directory
+		  -->
+		<Exec
+		  WorkingDirectory="$(SolutionDir)"
+		  Command="npx gulp --cwd &quot;$(MSBuildProjectDirectory)&quot; --gulpfile &quot;$(MSBuildProjectDirectory)\gulpfile.js&quot;" />
 	</Target>
 	<!--Exclude from the release package so consuming projects responsible for providing the css to prevent duplication-->
 	<ItemGroup Condition="'$(Configuration)' == 'Release'">
