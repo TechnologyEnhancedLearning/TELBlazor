@@ -1,3 +1,13 @@
+# [1.1.0-feat-button-for-cicd-testing.17](https://github.com/TechnologyEnhancedLearning/TELBlazor/compare/v1.1.0-feat-button-for-cicd-testing.16...v1.1.0-feat-button-for-cicd-testing.17) (2025-05-21)
+
+
+### Features
+
+* **button:** centralise node ([7eaed95](https://github.com/TechnologyEnhancedLearning/TELBlazor/commit/7eaed958a312557ba856c938f64b0018dbcc23de))
+* **button:** node changes this time ([df526bb](https://github.com/TechnologyEnhancedLearning/TELBlazor/commit/df526bba9cc8db084ef5297dab15db807ff8462e))
+* **button:** relative routes in csproj ([71d6b23](https://github.com/TechnologyEnhancedLearning/TELBlazor/commit/71d6b2371e7be90f07fb759f576f06f5ffc34392))
+* **button:** works locally ([9806216](https://github.com/TechnologyEnhancedLearning/TELBlazor/commit/9806216b8b28f6fc044243df532139037002ea53))
+
 # [1.1.0-feat-button-for-cicd-testing.16](https://github.com/TechnologyEnhancedLearning/TELBlazor/compare/v1.1.0-feat-button-for-cicd-testing.15...v1.1.0-feat-button-for-cicd-testing.16) (2025-05-20)
 
 
