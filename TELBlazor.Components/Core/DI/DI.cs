@@ -24,41 +24,53 @@ namespace TELBlazor.Components.Core.DI
         /// <param name="services"></param>
         /// <param name="IsClient">client in some occassions will have different scoping</param>
         /// <returns></returns>
-        public static IServiceCollection AddTELBlazorComponentServices(this IServiceCollection services, 
+        public static IServiceCollection AddTELBlazorComponentServices(this IServiceCollection services,
             bool IsClient,
             ITELBlazorBaseComponentConfiguration TELBlazorBaseComponentConfiguration
             )
         {
 
 
-            //// Register only if not already registered
-            //if (!services.Any(sd => sd.ServiceType == typeof(ITELBlazorBaseComponentConfiguration)))
-            //{
 
-                if (IsClient)
+
+            if (IsClient)
             {
-                services.AddSingleton<ITELBlazorBaseComponentConfiguration>(sp =>{return TELBlazorBaseComponentConfiguration;});
+                services.AddSingleton<ITELBlazorBaseComponentConfiguration>(sp => { return TELBlazorBaseComponentConfiguration; });
 
-                //services.AddSingleton<ITELBlazorBaseComponentConfiguration>(sp =>
-                //{
-                //    return new TELBlazorBaseComponentConfiguration
-                //    {
-                //        JSEnabled = true, //if we are inject the client then it is true
-                //        HostType = $"{builder.Configuration["Properties:Environment"]} {builder.Configuration["Properties:Application"]}"
-                //    };
-                //});
             }
-            else 
+            else
             {
                 services.AddScoped<ITELBlazorBaseComponentConfiguration>(sp => { return TELBlazorBaseComponentConfiguration; });
             }
 
-                //Add Services
-                //qqqq not uing this yet, services.AddBlazoredLocalStorage();
-                //qqqq come back and refactor client a service to use this
-                // qqqq if the controllers already have the service then this would require another to be added and then there would be two the later overides the former but seems innefficient
-                // we may require a service thats never used if the consuming project doesnt use it, so it seems it would be useful for lh but actually thats it, or we make them optional.
-             return services;
+            //Add Services
+            //qqqq not uing this yet, services.AddBlazoredLocalStorage();
+            //qqqq come back and refactor client a service to use this
+            // qqqq if the controllers already have the service then this would require another to be added and then there would be two the later overides the former but seems innefficient
+            // we may require a service thats never used if the consuming project doesnt use it, so it seems it would be useful for lh but actually thats it, or we make them optional.
+            return services;
         }
+
+
+        //private static IServiceCollection TryAddSingletonIfNotRegistered<TService>(
+        //this IServiceCollection services,
+        //TService instance)
+        //{
+        //    if (!services.Any(sd => sd.ServiceType == typeof(TService)))
+        //    {
+        //        services.AddSingleton<instance>(instance);
+        //    }
+        //    return services;
+        //}
+        //private static IServiceCollection TryAddScopedIfNotRegistered<TService>(
+        //this IServiceCollection services,
+        //TService instance)
+        //{
+        //    if (!services.Any(sd => sd.ServiceType == typeof(TService)))
+        //    {
+        //        services.AddScoped<instance>(instance);
+        //    }
+        //    return services;
+        //}
     }
 }

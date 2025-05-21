@@ -180,7 +180,7 @@ jobs:
           node-version: '20'
     
       - name: Install npm packages so we have gulp for retrieving TEL Frontend Css
-        working-directory: ./TELBlazor.Components
+      #  working-directory: ./TELBlazor.Components
         run: npm ci
         #CI is an install that adheres to package-lock
       
@@ -212,6 +212,7 @@ jobs:
       DEV_TELBLAZOR_PACKAGE_VERSION: ${{ needs.generate-dev-semantic-version.outputs.dev-package-version }}
 
     steps:
+    
       - name: Checkout Code
         uses: actions/checkout@v4
 
@@ -265,6 +266,13 @@ jobs:
           echo "Listing packages.lock.json files:"
           find . -name "packages.lock.json" -type f -print
 
+      - name: Set up Node.js so we have gulp for retrieving TEL Frontend Css
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+    
+      - name: Install npm packages so we have gulp for retrieving TEL Frontend Css
+        run: npm ci   
 
 
       - name: Publish WasmStaticClient
