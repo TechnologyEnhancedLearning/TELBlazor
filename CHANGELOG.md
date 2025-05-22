@@ -1,3 +1,10 @@
+# [1.1.0-feat-button-for-cicd-testing.21](https://github.com/TechnologyEnhancedLearning/TELBlazor/compare/v1.1.0-feat-button-for-cicd-testing.20...v1.1.0-feat-button-for-cicd-testing.21) (2025-05-22)
+
+
+### Features
+
+* **button:** just home link ([07ce5f5](https://github.com/TechnologyEnhancedLearning/TELBlazor/commit/07ce5f5d5540883c122eab4dc1fffc14a720b58f))
+
 # [1.1.0-feat-button-for-cicd-testing.20](https://github.com/TechnologyEnhancedLearning/TELBlazor/compare/v1.1.0-feat-button-for-cicd-testing.19...v1.1.0-feat-button-for-cicd-testing.20) (2025-05-22)
 
 
