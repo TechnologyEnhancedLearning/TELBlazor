@@ -281,7 +281,7 @@ jobs:
           DISABLE_PACKAGE_GENERATION: true
         run: |
           dotnet build TELBlazor.sln -c Release \
-            /p:TELBlazorPackageVersion=$TELBLAZOR_PACKAGE_VERSION \
+            /p:TELBlazorPackageVersion=$DEV_TELBLAZOR_PACKAGE_VERSION \
             /p:NupkgOutputPath=$TELBLAZOR_PACKAGE_LOCAL_OUTPUT_PATH \
             /p:UseTELBlazorComponentsProjectReference=$USE_TEL_BLAZOR_COMPONENTS_PROJECT_REFERENCE \
             /p:TELBlazorPackageSource=$TELBLAZOR_PACKAGE_SOURCE \
