@@ -1,3 +1,10 @@
+# [1.1.0-feat-button-for-cicd-testing.19](https://github.com/TechnologyEnhancedLearning/TELBlazor/compare/v1.1.0-feat-button-for-cicd-testing.18...v1.1.0-feat-button-for-cicd-testing.19) (2025-05-22)
+
+
+### Features
+
+* **button:** build solution to trigger node ([f913e27](https://github.com/TechnologyEnhancedLearning/TELBlazor/commit/f913e278b0707dc06cab91030fd09dd2fa85a68c))
+
 # [1.1.0-feat-button-for-cicd-testing.18](https://github.com/TechnologyEnhancedLearning/TELBlazor/compare/v1.1.0-feat-button-for-cicd-testing.17...v1.1.0-feat-button-for-cicd-testing.18) (2025-05-21)
 
 
