@@ -1,5 +1,4 @@
 # The intention is minor and patch should be merged into the dependabot branch automatically
-# qqqq normal pr checks should be used either by the pull-request script, the checks set up in git, or by referencing the checks from another workflow here
 
 name: Dependabot Auto-Merge
 
@@ -12,7 +11,7 @@ permissions:
   pull-requests: write
 
 jobs:
-# qqqq need branch protection rules to ensure checks passed before this runs and ensure its passed
+# works alongside branch protection rules
   auto-merge-minor-and-patch:
     runs-on: ubuntu-latest
     if: ${{ github.actor == 'dependabot[bot]' }}

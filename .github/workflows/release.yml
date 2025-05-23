@@ -11,10 +11,7 @@ permissions:
 env:
 
   # Permission
-  
-  # GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  
-  # Try other token so semver has the ability to add comments
+  # Using key with more permissions
   GITHUB_TOKEN: ${{ secrets.NUGETKEY }}
   PACKAGES_TOKEN: ${{ secrets.NUGETKEY }}
   GITHUB_USERNAME: "Phil-NHS"

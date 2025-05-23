@@ -16,17 +16,13 @@ on:
         required: true
       WASMSERVERHOST_APPSETTINGS_DEVELOPMENT:
         required: true
-      FAKE_WASMSERVERHOST_APPSETTINGS_DEVELOPMENT:
-        required: false # Set to true if it's always required
       PACKAGES_TOKEN:
         required: true
         
 env:
 
   # Permission
-  # GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   PACKAGES_TOKEN: ${{ secrets.PACKAGES_TOKEN }}
-  # GITHUB_USERNAME: "Phil-NHS"
 
   # Nuget Set Up
   TELBLAZOR_PACKAGE_LOCAL_OUTPUT_PATH: ${{ github.workspace }}/CICDPackageLocation
@@ -54,7 +50,6 @@ jobs:
       outputs:
           status: ${{ job.status }}
       steps:
-      
       
         - name: Checkout code
           uses: actions/checkout@v3
@@ -213,7 +208,6 @@ jobs:
               node-version: '20'
     
           - name: Install npm packages so we have gulp for retrieving TEL Frontend Css
-          #  working-directory: ./TELBlazor.Components
             run: npm ci
             
           - name: Install ReportGenerator

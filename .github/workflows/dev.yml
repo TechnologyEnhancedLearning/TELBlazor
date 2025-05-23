@@ -12,10 +12,7 @@ permissions:
 env:
 
   # Permission
-  
-  # GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  
-  # Try other token so semver has the ability to add comments
+  # Need more permissive token
   GITHUB_TOKEN: ${{ secrets.NUGETKEY }}
   PACKAGES_TOKEN: ${{ secrets.NUGETKEY }}
   GITHUB_USERNAME: "Phil-NHS"
@@ -46,7 +43,7 @@ jobs:
       # WASMSTATICCLIENT_APPSETTINGS_PRODUCTION: ${{ secrets.WASMSTATICCLIENT_APPSETTINGS_PRODUCTION }}
       # WASMSERVERHOSTCLIENT_APPSETTINGS_PRODUCTION: ${{ secrets.WASMSERVERHOSTCLIENT_APPSETTINGS_PRODUCTION }}
       # WASMSERVERHOST_APPSETTINGS_PRODUCTION: ${{ secrets.WASMSERVERHOST_APPSETTINGS_PRODUCTION }}
-      #FAKE_WASMSERVERHOST_APPSETTINGS_DEVELOPMENT: ${{ secrets.FAKE_WASMSERVERHOST_APPSETTINGS_DEVELOPMENT }}
+
 
   # Now we've done due diligence
   # The checks have been allowed to run if the workflow fails so if there a multiple fails we know. 
@@ -321,14 +318,6 @@ jobs:
           echo "Artifact URL: $ARTIFACT_URL"
           echo "artifact_url=$ARTIFACT_URL" >> $GITHUB_ENV
           
-
-          
-      # # Extract the download URL from the artifact list (first artifact in the list)
-      # #ARTIFACT_URL=$(echo "$ARTIFACT_LIST" | jq -r '.artifacts[0].archive_download_url')
-      # ARTIFACT_URL=$(echo "$ARTIFACT_LIST" | jq -r '.artifacts[0].url')
-      # # Echo the artifact URL to confirm
-      # echo "Artifact URL: $ARTIFACT_URL"
-      # echo "artifact_url=$ARTIFACT_URL" >> $GITHUB_ENV
 
       - name: Trigger workflow in TELBlazor-DevShowCase repo
         run: |
