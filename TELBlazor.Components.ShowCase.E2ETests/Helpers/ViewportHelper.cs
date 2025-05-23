@@ -17,10 +17,9 @@ namespace TELBlazor.Components.ShowCase.E2ETests.Helpers
 
         public static readonly Dictionary<ViewportType, ViewportSize> Viewports = new()
         {
-            //qqqqq ask alan what to test against
             { ViewportType.Desktop, new ViewportSize { Width = 1920, Height = 1080 } },
-            { ViewportType.Mobile, new ViewportSize { Width = 375, Height = 812 } }, // iPhone X
-            { ViewportType.Tablet, new ViewportSize { Width = 768, Height = 1024 } } // iPad
+            { ViewportType.Mobile, new ViewportSize { Width = 360, Height = 800 } }, 
+            { ViewportType.Tablet, new ViewportSize { Width = 768, Height = 1024 } } 
         };
     }
 }

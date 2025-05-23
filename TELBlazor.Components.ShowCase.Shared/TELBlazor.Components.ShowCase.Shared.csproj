@@ -20,9 +20,6 @@
 	<ItemGroup>
 		<ProjectReference Include="..\TELBlazor.Components\TELBlazor.Components.csproj" Condition="'$(UseTELBlazorComponentsProjectReference)' == 'true'" />
 	</ItemGroup>
-	<ItemGroup>
-	  <Folder Include="DI\" />
-	</ItemGroup>
 	<Target Name="RunGulp" BeforeTargets="PrepareForBuild">
 		<!-- 
 			1) Use solution root as working dir so npx picks up root/node_modules

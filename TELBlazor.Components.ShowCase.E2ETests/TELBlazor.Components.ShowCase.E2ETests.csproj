@@ -11,7 +11,7 @@
 
   </PropertyGroup>
 	<Target Name="SetHeadlessTestingEnvVar" BeforeTargets="Build">
-		<Message Text="Setting HeadlessTesting: $(HeadlessTesting)" Importance="high"/>
+		<Message Text="Setting HeadlessTesting: $(HeadlessTesting)" Importance="high" />
 		<Exec Command="set HEADLESS_TESTING $(HeadlessTesting)" />
 	</Target>
   <ItemGroup>
@@ -28,7 +28,7 @@
 	  <PackageReference Include="Verify.Playwright" />
 	  <PackageReference Include="xunit" />
 	  <PackageReference Include="xunit.runner.visualstudio" />
-	  <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions"/>
+	  <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" />
 	  
   </ItemGroup>
 
@@ -36,18 +36,6 @@
     <Using Include="Xunit" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="DI\" />
-    <Folder Include="Pages\ComponentPages\" />
-    <Folder Include="Pages\TestComponentPages\" />
-    <Folder Include="TestDoubles\" />
-    <Folder Include="SnapShots\" />
-  </ItemGroup>
-<!--<ItemGroup>
-	<None Update="DEL_xunit.runner.json">
-		<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	</None>
-</ItemGroup>-->
   <ItemGroup>
     <ProjectReference Include="..\TELBlazor.Components.ShowCase.E2ETests.WasmServerHost\TELBlazor.Components.ShowCase.E2ETests.WasmServerHost\TELBlazor.Components.ShowCase.E2ETests.WasmServerHost.csproj" />
   </ItemGroup>

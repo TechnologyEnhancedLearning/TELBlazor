@@ -1,10 +1,10 @@
 ﻿// gulpfile.js
-// qqqq
 const gulp = require("gulp");
 const fs = require('fs');
 const path = require('path');
 
 function getTELFrontEndPackageVersion() {
+    //Path to solution, its a centralised solution
     const packageJsonPath = path.join(__dirname, "..", "node_modules", "nhse-tel-frontend", "package.json");
 
     console.log("Attempting to read package.json at:", packageJsonPath);
@@ -25,7 +25,7 @@ function getTELFrontEndPackageVersion() {
     }
 }
 
-// Task that adds a second public static string to existing file
+// Task that adds a second public static string to existing file that provides the TELFrontend.css version
 gulp.task("add-telFrontEndVersion-to-versionInfo", function (done) {
     const versionFilePath = "TELBlazorPackageVersion/VersionInfo.cs";
     const TELFrontEndPackageVersion = getTELFrontEndPackageVersion();

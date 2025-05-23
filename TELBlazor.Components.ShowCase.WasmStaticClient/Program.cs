@@ -1,28 +1,34 @@
+// Microsoft namespaces
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
-using TELBlazor.Components.ShowCase.WasmStaticClient;
-using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Http;
-/*Are used via appsetting*/
-using Serilog.Extensions.Logging;
-using Serilog.Configuration;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.DependencyInjection;
-using Serilog.Sinks.BrowserConsole;
-using Serilog.Formatting.Compact;
-using Serilog.Settings.Configuration;
 
-
-
-/*qqqq setup*/
-using Blazored.LocalStorage;
+// Serilog core (used via appsettings, do not delete even if vs marks not in use)
 using Serilog;
+using Serilog.Configuration;
 using Serilog.Core;
 using Serilog.Events;
+
+// Serilog extensions and sinks (used via appsettings, do not delete even if vs marks not in use)
+using Serilog.Extensions.Logging;
+using Serilog.Formatting.Compact;
+using Serilog.Settings.Configuration;
+using Serilog.Sinks.BrowserConsole;
+
+// Still required server side even if not used so components dont fail
+using Blazored.LocalStorage;
+
+// TELBlazor components
+using TELBlazor.Components.Core.Configuration;
 using TELBlazor.Components.Core.Services.HelperServices;
 using TELBlazor.Components.ShowCase.Shared.Services.HelperServices;
-using TELBlazor.Components.Core.Configuration;
+using TELBlazor.Components.ShowCase.WasmStaticClient;
 
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
@@ -30,9 +36,9 @@ builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 
 var environment = builder.HostEnvironment.Environment ?? "Development";
-Console.WriteLine($"!!!!!!!!           !!!!!!!!!!!!!!!           !!!!!!!!!!!!!   !!!!!!!!!!!!    client qqqqEnvironment: {builder.HostEnvironment.Environment}");
+
 builder.Configuration.AddJsonFile($"appsettings.{environment}.json", optional: false, reloadOnChange: true);
-//builder.Configuration.AddJsonFile($"appsettings.{builder.HostEnvironment.Environment}.json", optional: false, reloadOnChange: true);
+
 
 builder.Logging.ClearProviders();
 // Read default logging level from configuration
@@ -55,7 +61,7 @@ builder.Logging.AddSerilog(Log.Logger, dispose: true);
 
 //for really bad fails
 try
-{
+{   // Di collection candidates
     builder.Services.AddSingleton<ITELBlazorBaseComponentConfiguration>(sp =>
     {
         return new TELBlazorBaseComponentConfiguration

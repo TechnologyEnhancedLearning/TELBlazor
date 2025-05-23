@@ -3,7 +3,8 @@
   <Import Project="PackageSettings.props" />
   <Import Project="PackageSettings.props.local" Condition="Exists('PackageSettings.props.local')"/>
 	<PropertyGroup>
-		<!-- coverlet.msbuild, specifically msbuild props  -->
+		
+		<!-- coverlet.msbuild, specifically msbuild props here we set when cicd testing fails on coverage -->
 		<CollectCoverage>true</CollectCoverage>
 		<CoverletOutputFormat>cobertura</CoverletOutputFormat>
 		<Threshold>50</Threshold>
@@ -12,7 +13,7 @@
 		<ThresholdBranch>50</ThresholdBranch>
 		<ThresholdMethod>50</ThresholdMethod>
 		
-		<!-- Additional properties carried over from runsettings -->
+		<!-- What to test -->
 		<Include>[TELBlazor.Components]*</Include>
 		<ExcludeByAttribute>ExcludeFromCodeCoverage</ExcludeByAttribute>
 		<ExcludeByFile>**/Program.cs,**/Components/TestComponents/*.*</ExcludeByFile>

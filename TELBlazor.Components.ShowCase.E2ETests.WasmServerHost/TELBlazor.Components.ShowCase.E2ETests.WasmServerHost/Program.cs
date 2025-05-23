@@ -1,30 +1,32 @@
+// Microsoft namespaces
+using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
+using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Http;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+
+// Serilog core (used via appsettings, do not delete even if vs marks not in use)
+using Serilog;
+using Serilog.Configuration;
 using Serilog.Core;
 using Serilog.Events;
-using Serilog;
+
+// Serilog extensions and sinks (used via appsettings, do not delete even if vs marks not in use)
+using Serilog.Extensions.Logging;
+using Serilog.Formatting.Compact;
+using Serilog.Settings.Configuration;
+using Serilog.Sinks.BrowserConsole;
+
+// Still required server side even if not used so components dont fail
+using Blazored.LocalStorage;
+
+// TELBlazor components
 using TELBlazor.Components.Core.Configuration;
 using TELBlazor.Components.Core.Services.HelperServices;
 using TELBlazor.Components.ShowCase.E2ETests.WasmServerHost;
 using TELBlazor.Components.ShowCase.Shared.Services.HelperServices;
-
-using Microsoft.Extensions.Http;
-
-
-using Microsoft.AspNetCore.Components.Web;
-using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
-using Microsoft.Extensions.Options;
-using Microsoft.Extensions.DependencyInjection;
-/*Are used via appsetting*/
-using Serilog.Extensions.Logging;
-using Serilog.Configuration;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.DependencyInjection;
-using Serilog.Sinks.BrowserConsole;
-using Serilog.Formatting.Compact;
-using Serilog.Settings.Configuration;
-using Microsoft.AspNetCore.Components;
-/*qqqq setup*/
-using Blazored.LocalStorage;
-
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -57,39 +59,28 @@ try
     // Add services to the container.
     builder.Services.AddRazorComponents()
         .AddInteractiveWebAssemblyComponents();
-    //qqqq for di?
+
+    // Future candidates for DI collection
     builder.Services.AddBlazoredLocalStorage();
-
-    //qqqq cant remember what for
-    //builder.Services.AddHttpContextAccessor();
-    //builder.Services.AddSession(options =>
-    //{
-
-    //    options.IdleTimeout = TimeSpan.FromMinutes(20); // Set the timeout for the session
-    //    options.Cookie.HttpOnly = true; // Session cookie is only accessible via HTTP
-    //    options.Cookie.IsEssential = true; // Session cookie is essential for application
-    //});
 
     builder.Services.AddSingleton<ITELBlazorBaseComponentConfiguration>(provider =>
     {
-        // qqqq cant rmeember purpose
-        //In here we would get our appsettings etc and configure - but then we have an object to pass it 
-        //var httpContextAccessor = provider.GetRequiredService<IHttpContextAccessor>();
-        ////For this to work well for blazor pages as well we would probably want to set up session storage (which takes js anyway to set up and most blazor application use it i presume)
-        //var session = httpContextAccessor.HttpContext?.Session;
-        
-        
         return new TELBlazorBaseComponentConfiguration
         {
             JSEnabled = true, //if we are inject the client then it is true
             HostType = $"{builder.Configuration["Properties:Environment"]} {builder.Configuration["Properties:Application"]}"
         };
     });
+
     //Scoped because being consumed with storage where singleton doesnt survive mvc page teardown
     builder.Services.AddScoped<LoggingLevelSwitch>(sp => levelSwitch);
     builder.Services.AddScoped<ILogLevelSwitcherService, SerilogLogLevelSwitcherService>();
+
+
     var app = builder.Build();
-    app.UseSerilogRequestLogging();
+    // This is less blazor more endpoint logging
+    //app.UseSerilogRequestLogging();
+
     // Configure the HTTP request pipeline.
     if (app.Environment.IsDevelopment())
     {
@@ -107,6 +98,7 @@ try
     app.UseStaticFiles();
     app.UseAntiforgery();
 
+    //We want everything from the blazor project so we add by assembly and put all using statements in the imports
     app.MapRazorComponents<App>()
         .AddInteractiveWebAssemblyRenderMode()
         .AddAdditionalAssemblies(typeof(TELBlazor.Components.ShowCase.E2ETests.WasmServerHost.Client._Imports).Assembly)

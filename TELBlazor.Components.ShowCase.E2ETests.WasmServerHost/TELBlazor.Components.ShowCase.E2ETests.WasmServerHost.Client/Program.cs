@@ -1,32 +1,40 @@
+// Microsoft namespaces
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Http;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+
+// Serilog core (used via appsettings, do not delete even if vs marks not in use)
+using Serilog;
+using Serilog.Configuration;
 using Serilog.Core;
 using Serilog.Events;
-using Serilog;
-using TELBlazor.Components.Core.Configuration;
-using TELBlazor.Components.Core.Services.HelperServices;
-using TELBlazor.Components.ShowCase.Shared.Services.HelperServices;
-/*Are used via appsetting*/
+
+// Serilog extensions and sinks (used via appsettings, do not delete even if vs marks not in use)
 using Serilog.Extensions.Logging;
-using Serilog.Configuration;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.DependencyInjection;
-using Serilog.Sinks.BrowserConsole;
 using Serilog.Formatting.Compact;
 using Serilog.Settings.Configuration;
-using Microsoft.Extensions.Http;
+using Serilog.Sinks.BrowserConsole;
 
-/*qqqq setup*/
+// Still required server side even if not used so components dont fail
 using Blazored.LocalStorage;
+
+// TELBlazor components
+using TELBlazor.Components.Core.Configuration;
+using TELBlazor.Components.Core.Services.HelperServices;
+using TELBlazor.Components.ShowCase.E2ETests.WasmServerHost;
+using TELBlazor.Components.ShowCase.Shared.Services.HelperServices;
 
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 
 var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Development";
-Console.WriteLine($"!!!!!!!!           !!!!!!!!!!!!!!!           !!!!!!!!!!!!!   !!!!!!!!!!!!    client qqqqEnvironment: {Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")}");
+
 builder.Configuration.AddJsonFile($"appsettings.{environment}.json", optional: false, reloadOnChange: true);
-//builder.Configuration.AddJsonFile($"appsettings.{builder.HostEnvironment.Environment}.json", optional: false, reloadOnChange: true);
-//builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+
 builder.Logging.ClearProviders();
 // Read default logging level from configuration
 var logLevelString = builder.Configuration["Serilog:MinimumLevel:Default"];
@@ -49,6 +57,7 @@ builder.Logging.AddSerilog(Log.Logger, dispose: true);
 //for really bad fails
 try
 {
+    // Candidates for DI collection
     builder.Services.AddSingleton<ITELBlazorBaseComponentConfiguration>(sp =>
     {
         return new TELBlazorBaseComponentConfiguration
@@ -58,7 +67,7 @@ try
         };
     });
 
-    // qqqq to DI
+    
     builder.Services.AddBlazoredLocalStorage();
 
     //Scoped because being consumed with storage where singleton doesnt survive mvc page teardown

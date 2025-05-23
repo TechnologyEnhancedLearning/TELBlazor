@@ -7,6 +7,10 @@
 		<Configurations>Debug;Release;ci</Configurations>
 	</PropertyGroup>
 
+	<ItemGroup>
+	  <Content Include="appsettings.Development.json.template" />
+	</ItemGroup>
+
 	<!--<ItemGroup>
 		<Using Include="Bunit" />
 		<Using Include="Bunit.TestDoubles" />
@@ -44,13 +48,6 @@
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
 		  </PackageReference>
 		<PackageReference Include="TELBlazor.Components" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="Components\TestComponents\" />
-	  <Folder Include="HtmlComparisons\" />
-	  <Folder Include="Core\" />
-	  <Folder Include="TestDoubles\" />
 	</ItemGroup>
 
 

@@ -55,12 +55,10 @@ namespace TELBlazor.Components.ShowCase.E2ETests.Pages.BaseComponentPages
                 });
             }
 
-
             IPage page = await browserContext.NewPageAsync();
 
             await page.GotoOnceNetworkIsIdleAsync("TELButton");
 
-            //qqqq should we really have testing-id or a name on our components? e.g. data-attribute-telblazorcomponentname="TelBlazorButton"
             await page.WaitForSelectorAsync("button");
             ILocator button = page.GetByRole(AriaRole.Button, new() { Name = "Click Counter" });
 
@@ -127,10 +125,7 @@ namespace TELBlazor.Components.ShowCase.E2ETests.Pages.BaseComponentPages
 
             page.Console += (_, msg) =>
             {
-                //if (msg.Type == "log") // could also inspect "info", "error", etc.
-                //{
                     logs.Add(msg.Text);
-                //}
             };
 
 

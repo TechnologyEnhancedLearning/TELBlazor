@@ -10,7 +10,7 @@ namespace TELBlazor.Components.ShowCase.E2ETests.Helpers
     public static class BrowserHelper
     {
 
-        public static async Task<IBrowserContext> CreateBrowserContextAsync(IPlaywright playwright, string browserType, bool jsEnabled, ViewportType viewport, string baseUrl/*, bool enableTracing = false*/)
+        public static async Task<IBrowserContext> CreateBrowserContextAsync(IPlaywright playwright, string browserType, bool jsEnabled, ViewportType viewport, string baseUrl)
         {
 
             IBrowser browser;
@@ -41,19 +41,8 @@ namespace TELBlazor.Components.ShowCase.E2ETests.Helpers
                 ViewportSize = ViewportHelper.Viewports[viewport]
             };
             IBrowserContext context = await browser.NewContextAsync(contextOptions);
-            //if (enableTracing) {
-            //    await context.Tracing.StartAsync(new()
-            //    {
-
-            //        Screenshots = true,
-            //        Snapshots = true,
-            //        Sources = true
-            //    });
-            //}
 
             return context;
-            //IPage page = await context.NewPageAsync();
-            //return page;
 
         }
 

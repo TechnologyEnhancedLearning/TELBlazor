@@ -1,5 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 	<ItemGroup>
+		<!--Use solutions read me as package readme-->
 		<None Include="..\README.md" Pack="true" PackagePath="\" />
 	</ItemGroup>
 	<PropertyGroup>
@@ -58,11 +59,11 @@
 		<WriteLinesToFile File="wwwroot/TELBlazorPackageVersion.txt" Lines="$(TELBlazorPackageVersion)" Overwrite="true" Encoding="UTF-8" />
 		<WriteLinesToFile File="TELBlazorPackageVersion/VersionInfo.cs" Lines="namespace TELBlazor.Components.TELBlazorPackageVersion { public static class VersionInfo { public static string TELBlazorPackageVersion = &quot;$(TELBlazorPackageVersion)&quot; %3B; } }" Overwrite="true" Encoding="UTF-8" />
 	</Target>
-
 	<Target Name="RunGulp" BeforeTargets="PrepareForBuild">
 		 <!-- 
 			1) Use solution root as working dir so npx picks up root/node_modules
 			2) Tell gulp to run the gulpfile in this project directory
+			3) Gulp to add the TELFrontend css version to version info file
 		  -->
 		<Exec
 		  WorkingDirectory="$(MSBuildProjectDirectory)/.."

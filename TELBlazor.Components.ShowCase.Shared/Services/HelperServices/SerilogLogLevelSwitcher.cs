@@ -8,8 +8,7 @@ using TELBlazor.Components.Core.Models.Logging;
 namespace TELBlazor.Components.ShowCase.Shared.Services.HelperServices
 {
     /// <summary>
-    /// qqqq needs review
-    /// This quite likely should be our BlazorLogger service and logger should be called from it and TELComponentBase should hold it
+    /// The TELBlazor Component system uses serilog in testing etc, but you can use your own logging system instead
     /// </summary>
     public class SerilogLogLevelSwitcherService : ILogLevelSwitcherService
     {
@@ -162,7 +161,5 @@ namespace TELBlazor.Components.ShowCase.Shared.Services.HelperServices
                 _logger.LogError(ex, "Error storing log level to local storage.");
             }
         }
-
-
     }
 }

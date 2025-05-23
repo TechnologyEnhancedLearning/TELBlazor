@@ -15,6 +15,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		package.json = package.json
 		PackageSettings.props = PackageSettings.props
 		PackageSettings.props.local = PackageSettings.props.local
+		PackageSettings.props.local.template = PackageSettings.props.local.template
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TELBlazor.Components", "TELBlazor.Components\TELBlazor.Components.csproj", "{0F66119D-690F-468D-82AA-815D63C8B32F}"

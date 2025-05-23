@@ -25,7 +25,11 @@
 
 		<!-- Delete wwwroot in the publish folder to flatten structure -->
 		<RemoveDir Directories="$(WWWRootDir)" />
-	</Target>	
+	</Target>
+
+	<ItemGroup>
+	  <None Include="wwwroot\appsettings.Development.json.template" />
+	</ItemGroup>	
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" PrivateAssets="all" />
