@@ -70,7 +70,7 @@ try
             HostType = $"{builder.Configuration["Properties:Environment"]} {builder.Configuration["Properties:Application"]}"
         };
     });
-    // qqqq to DI
+
     builder.Services.AddBlazoredLocalStorage();
 
     //Scoped because being consumed with storage where singleton doesnt survive mvc page teardown

@@ -1,6 +1,5 @@
-
+/* Css just for showcase and to match frontend prototype showcase partially*/
 /* RCL Styles remember bundled scoped css we may not use it but it is extremely normal to so we may in future*/
-/*@import '_content/TELBlazor.Components/TELBlazor.Components.bundle.scp.css';qqqq del if other works for all prj*/
 @import '../../TELBlazor.Components/TELBlazor.Components.bundle.scp.css';
 
 
@@ -89,7 +88,7 @@ code {
 
 
 /* ==========================================================================
-   #APP-PANE   qqqq cheaply robbed may want to get their scss properly
+   #APP-PANE   
    ========================================================================== */
 
 .app-pane {
