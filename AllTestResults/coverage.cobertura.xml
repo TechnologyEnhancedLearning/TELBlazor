@@ -1,84 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
-<coverage line-rate="0.8484" branch-rate="0.5454" version="1.9" timestamp="1748003945" lines-covered="56" lines-valid="66" branches-covered="6" branches-valid="11">
+<coverage line-rate="0.8332999999999999" branch-rate="0.7272" version="1.9" timestamp="1748009390" lines-covered="55" lines-valid="66" branches-covered="8" branches-valid="11">
   <sources>
     <source>C:\dev\repos\TELBlazor\TELBlazor.Components\</source>
   </sources>
   <packages>
-    <package name="TELBlazor.Components" line-rate="0.8484" branch-rate="0.5454" complexity="48">
+    <package name="TELBlazor.Components" line-rate="0.8332999999999999" branch-rate="0.7272" complexity="48">
       <classes>
-        <class name="TELBlazor.Components.Components.BaseComponents.TELButton" filename="Components\BaseComponents\TELButton.razor" line-rate="0.9166" branch-rate="0.75" complexity="19">
+        <class name="TELBlazor.Components.Components.BaseComponents.TELButton" filename="Components\BaseComponents\TELButton.razor" line-rate="1" branch-rate="1" complexity="19">
           <methods>
-            <method name="BuildRenderTree" signature="(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder)" line-rate="0.6" branch-rate="0.5" complexity="2">
+            <method name="BuildRenderTree" signature="(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder)" line-rate="1" branch-rate="1" complexity="2">
               <lines>
-                <line number="5" hits="18" branch="True" condition-coverage="50% (1/2)">
+                <line number="5" hits="40" branch="True" condition-coverage="100% (2/2)">
                   <conditions>
-                    <condition number="9" type="jump" coverage="50%" />
+                    <condition number="9" type="jump" coverage="100%" />
                   </conditions>
                 </line>
-                <line number="6" hits="0" branch="False" />
-                <line number="17" hits="0" branch="False" />
-                <line number="19" hits="18" branch="False" />
-                <line number="43" hits="18" branch="False" />
+                <line number="6" hits="4" branch="False" />
+                <line number="17" hits="4" branch="False" />
+                <line number="19" hits="36" branch="False" />
+                <line number="43" hits="36" branch="False" />
               </lines>
             </method>
             <method name="get_IsSubmitButtonForEditForm" signature="()" line-rate="1" branch-rate="1" complexity="1">
               <lines>
-                <line number="56" hits="54" branch="False" />
+                <line number="56" hits="78" branch="False" />
               </lines>
             </method>
             <method name="get_FormData" signature="()" line-rate="1" branch-rate="1" complexity="1">
               <lines>
-                <line number="57" hits="72" branch="False" />
+                <line number="57" hits="110" branch="False" />
               </lines>
             </method>
             <method name="get_NoJSActionUrl" signature="()" line-rate="1" branch-rate="1" complexity="1">
               <lines>
-                <line number="58" hits="36" branch="False" />
+                <line number="58" hits="56" branch="False" />
               </lines>
             </method>
             <method name="get_OnClick" signature="()" line-rate="1" branch-rate="1" complexity="1">
               <lines>
-                <line number="59" hits="18" branch="False" />
+                <line number="59" hits="52" branch="False" />
               </lines>
             </method>
             <method name="get_PreventDoubleClick" signature="()" line-rate="1" branch-rate="1" complexity="1">
               <lines>
-                <line number="60" hits="54" branch="False" />
+                <line number="60" hits="114" branch="False" />
               </lines>
             </method>
             <method name="get_ButtonText" signature="()" line-rate="1" branch-rate="1" complexity="1">
               <lines>
-                <line number="65" hits="36" branch="False" />
+                <line number="65" hits="80" branch="False" />
               </lines>
             </method>
             <method name="get_ButtonStyle" signature="()" line-rate="1" branch-rate="1" complexity="1">
               <lines>
-                <line number="66" hits="54" branch="False" />
+                <line number="66" hits="78" branch="False" />
               </lines>
             </method>
             <method name="get_AdditionalCssClasses" signature="()" line-rate="1" branch-rate="1" complexity="1">
               <lines>
-                <line number="67" hits="54" branch="False" />
+                <line number="67" hits="62" branch="False" />
               </lines>
             </method>
             <method name="get_ToolTipTitle" signature="()" line-rate="1" branch-rate="1" complexity="1">
               <lines>
-                <line number="68" hits="36" branch="False" />
+                <line number="68" hits="60" branch="False" />
               </lines>
             </method>
             <method name="get_AriaLabel" signature="()" line-rate="1" branch-rate="1" complexity="1">
               <lines>
-                <line number="74" hits="36" branch="False" />
+                <line number="74" hits="60" branch="False" />
               </lines>
             </method>
             <method name="get_AssistiveText" signature="()" line-rate="1" branch-rate="1" complexity="1">
               <lines>
-                <line number="75" hits="36" branch="False" />
+                <line number="75" hits="60" branch="False" />
               </lines>
             </method>
             <method name="get_TabIndex" signature="()" line-rate="1" branch-rate="1" complexity="1">
               <lines>
-                <line number="76" hits="54" branch="False" />
+                <line number="76" hits="78" branch="False" />
               </lines>
             </method>
             <method name="get_AriaRole" signature="()" line-rate="1" branch-rate="1" complexity="1">
@@ -93,13 +93,13 @@
             </method>
             <method name="&lt;BuildRenderTree&gt;b__0_1" signature="(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder)" line-rate="1" branch-rate="1" complexity="2">
               <lines>
-                <line number="28" hits="90" branch="True" condition-coverage="100% (2/2)">
+                <line number="28" hits="316" branch="True" condition-coverage="100% (2/2)">
                   <conditions>
                     <condition number="134" type="jump" coverage="100%" />
                   </conditions>
                 </line>
-                <line number="29" hits="18" branch="False" />
-                <line number="31" hits="18" branch="False" />
+                <line number="29" hits="104" branch="False" />
+                <line number="31" hits="104" branch="False" />
               </lines>
             </method>
             <method name=".ctor" signature="()" line-rate="1" branch-rate="1" complexity="1">
@@ -110,36 +110,36 @@
             </method>
           </methods>
           <lines>
-            <line number="5" hits="18" branch="True" condition-coverage="50% (1/2)">
+            <line number="5" hits="40" branch="True" condition-coverage="100% (2/2)">
               <conditions>
-                <condition number="9" type="jump" coverage="50%" />
+                <condition number="9" type="jump" coverage="100%" />
               </conditions>
             </line>
-            <line number="6" hits="0" branch="False" />
-            <line number="17" hits="0" branch="False" />
-            <line number="19" hits="18" branch="False" />
-            <line number="43" hits="18" branch="False" />
-            <line number="56" hits="54" branch="False" />
-            <line number="57" hits="72" branch="False" />
-            <line number="58" hits="36" branch="False" />
-            <line number="59" hits="18" branch="False" />
-            <line number="60" hits="54" branch="False" />
-            <line number="65" hits="36" branch="False" />
-            <line number="66" hits="54" branch="False" />
-            <line number="67" hits="54" branch="False" />
-            <line number="68" hits="36" branch="False" />
-            <line number="74" hits="36" branch="False" />
-            <line number="75" hits="36" branch="False" />
-            <line number="76" hits="54" branch="False" />
+            <line number="6" hits="4" branch="False" />
+            <line number="17" hits="4" branch="False" />
+            <line number="19" hits="36" branch="False" />
+            <line number="43" hits="36" branch="False" />
+            <line number="56" hits="78" branch="False" />
+            <line number="57" hits="110" branch="False" />
+            <line number="58" hits="56" branch="False" />
+            <line number="59" hits="52" branch="False" />
+            <line number="60" hits="114" branch="False" />
+            <line number="65" hits="80" branch="False" />
+            <line number="66" hits="78" branch="False" />
+            <line number="67" hits="62" branch="False" />
+            <line number="68" hits="60" branch="False" />
+            <line number="74" hits="60" branch="False" />
+            <line number="75" hits="60" branch="False" />
+            <line number="76" hits="78" branch="False" />
             <line number="78" hits="18" branch="False" />
             <line number="79" hits="18" branch="False" />
-            <line number="28" hits="90" branch="True" condition-coverage="100% (2/2)">
+            <line number="28" hits="316" branch="True" condition-coverage="100% (2/2)">
               <conditions>
                 <condition number="134" type="jump" coverage="100%" />
               </conditions>
             </line>
-            <line number="29" hits="18" branch="False" />
-            <line number="31" hits="18" branch="False" />
+            <line number="29" hits="104" branch="False" />
+            <line number="31" hits="104" branch="False" />
             <line number="86" hits="18" branch="False" />
             <line number="87" hits="18" branch="False" />
           </lines>
@@ -238,18 +238,18 @@
             <line number="62" hits="36" branch="False" />
           </lines>
         </class>
-        <class name="TELBlazor.Components.TELBlazorPackageVersion.VersionInfo" filename="TELBlazorPackageVersion\VersionInfo.cs" line-rate="1" branch-rate="1" complexity="1">
+        <class name="TELBlazor.Components.TELBlazorPackageVersion.VersionInfo" filename="TELBlazorPackageVersion\VersionInfo.cs" line-rate="0" branch-rate="1" complexity="1">
           <methods>
-            <method name=".cctor" signature="()" line-rate="1" branch-rate="1" complexity="1">
+            <method name=".cctor" signature="()" line-rate="0" branch-rate="1" complexity="1">
               <lines>
-                <line number="1" hits="1" branch="False" />
-                <line number="2" hits="1" branch="False" />
+                <line number="1" hits="0" branch="False" />
+                <line number="2" hits="0" branch="False" />
               </lines>
             </method>
           </methods>
           <lines>
-            <line number="1" hits="1" branch="False" />
-            <line number="2" hits="1" branch="False" />
+            <line number="1" hits="0" branch="False" />
+            <line number="2" hits="0" branch="False" />
           </lines>
         </class>
         <class name="TELBlazor.Components.Core.TELComponentBase" filename="Core\TELComponentBase.cs" line-rate="1" branch-rate="1" complexity="5">
@@ -312,42 +312,42 @@
             <line number="12" hits="0" branch="False" />
           </lines>
         </class>
-        <class name="TELBlazor.Components.Core.Extensions.TELButtonStyleExtensions" filename="Core\Extensions\TELButtonStyleExtensions.cs" line-rate="0.6" branch-rate="0.2" complexity="5">
+        <class name="TELBlazor.Components.Core.Extensions.TELButtonStyleExtensions" filename="Core\Extensions\TELButtonStyleExtensions.cs" line-rate="0.7" branch-rate="0.4" complexity="5">
           <methods>
-            <method name="ToCssClass" signature="(TELBlazor.Components.Core.Enums.TELButtonStyle)" line-rate="0.6" branch-rate="0.2" complexity="5">
+            <method name="ToCssClass" signature="(TELBlazor.Components.Core.Enums.TELButtonStyle)" line-rate="0.7" branch-rate="0.4" complexity="5">
               <lines>
-                <line number="15" hits="18" branch="False" />
-                <line number="16" hits="18" branch="True" condition-coverage="20% (1/5)">
+                <line number="15" hits="22" branch="False" />
+                <line number="16" hits="22" branch="True" condition-coverage="40% (2/5)">
                   <conditions>
-                    <condition number="6" type="switch" coverage="20%" />
+                    <condition number="6" type="switch" coverage="40%" />
                   </conditions>
                 </line>
-                <line number="17" hits="18" branch="False" />
-                <line number="18" hits="0" branch="False" />
+                <line number="17" hits="22" branch="False" />
+                <line number="18" hits="20" branch="False" />
                 <line number="19" hits="0" branch="False" />
                 <line number="20" hits="0" branch="False" />
-                <line number="21" hits="18" branch="False" />
+                <line number="21" hits="2" branch="False" />
                 <line number="22" hits="0" branch="False" />
-                <line number="23" hits="18" branch="False" />
-                <line number="24" hits="18" branch="False" />
+                <line number="23" hits="22" branch="False" />
+                <line number="24" hits="22" branch="False" />
               </lines>
             </method>
           </methods>
           <lines>
-            <line number="15" hits="18" branch="False" />
-            <line number="16" hits="18" branch="True" condition-coverage="20% (1/5)">
+            <line number="15" hits="22" branch="False" />
+            <line number="16" hits="22" branch="True" condition-coverage="40% (2/5)">
               <conditions>
-                <condition number="6" type="switch" coverage="20%" />
+                <condition number="6" type="switch" coverage="40%" />
               </conditions>
             </line>
-            <line number="17" hits="18" branch="False" />
-            <line number="18" hits="0" branch="False" />
+            <line number="17" hits="22" branch="False" />
+            <line number="18" hits="20" branch="False" />
             <line number="19" hits="0" branch="False" />
             <line number="20" hits="0" branch="False" />
-            <line number="21" hits="18" branch="False" />
+            <line number="21" hits="2" branch="False" />
             <line number="22" hits="0" branch="False" />
-            <line number="23" hits="18" branch="False" />
-            <line number="24" hits="18" branch="False" />
+            <line number="23" hits="22" branch="False" />
+            <line number="24" hits="22" branch="False" />
           </lines>
         </class>
         <class name="TELBlazor.Components.Core.DI.DI" filename="Core\DI\DI.cs" line-rate="0" branch-rate="1" complexity="1">
@@ -364,22 +364,22 @@
             <line number="22" hits="0" branch="False" />
           </lines>
         </class>
-        <class name="TELBlazor.Components.Core.Configuration.TELBlazorBaseComponentConfiguration" filename="Core\Configuration\TELBlazorBaseComponentConfiguration.cs" line-rate="1" branch-rate="1" complexity="2">
+        <class name="TELBlazor.Components.Core.Configuration.TELBlazorBaseComponentConfiguration" filename="Core\Configuration\TELBlazorBaseComponentConfiguration.cs" line-rate="0" branch-rate="1" complexity="2">
           <methods>
-            <method name="get_JSEnabled" signature="()" line-rate="1" branch-rate="1" complexity="1">
+            <method name="get_JSEnabled" signature="()" line-rate="0" branch-rate="1" complexity="1">
               <lines>
-                <line number="14" hits="54" branch="False" />
+                <line number="14" hits="0" branch="False" />
               </lines>
             </method>
-            <method name="get_HostType" signature="()" line-rate="1" branch-rate="1" complexity="1">
+            <method name="get_HostType" signature="()" line-rate="0" branch-rate="1" complexity="1">
               <lines>
-                <line number="17" hits="54" branch="False" />
+                <line number="17" hits="0" branch="False" />
               </lines>
             </method>
           </methods>
           <lines>
-            <line number="14" hits="54" branch="False" />
-            <line number="17" hits="54" branch="False" />
+            <line number="14" hits="0" branch="False" />
+            <line number="17" hits="0" branch="False" />
           </lines>
         </class>
       </classes>
