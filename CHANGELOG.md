@@ -1,3 +1,10 @@
+# [1.1.0-feat-button-for-cicd-testing.26](https://github.com/TechnologyEnhancedLearning/TELBlazor/compare/v1.1.0-feat-button-for-cicd-testing.25...v1.1.0-feat-button-for-cicd-testing.26) (2025-05-23)
+
+
+### Features
+
+* **button:** qqqq tidying ([d1480dd](https://github.com/TechnologyEnhancedLearning/TELBlazor/commit/d1480ddcea328773943caf8619025635862074f1))
+
 # [1.1.0-feat-button-for-cicd-testing.25](https://github.com/TechnologyEnhancedLearning/TELBlazor/compare/v1.1.0-feat-button-for-cicd-testing.24...v1.1.0-feat-button-for-cicd-testing.25) (2025-05-23)
 
 
