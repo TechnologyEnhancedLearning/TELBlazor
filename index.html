@@ -6,21 +6,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/png" href="_content/TELBlazor.Components.ShowCase.Shared/favicon.png" />
     <title>TELBlazor.Components.ShowCase.WasmStaticClient</title>
-    <!--qqqq check need it<base href="/" />-->
-
+ 
     <!--scoped css from the nuget package via shared pages project reference-->
     <link rel="stylesheet" href="TELBlazor.Components.ShowCase.WasmStaticClient.styles.css" />
     <!--A little css for the loader-->
     <link rel="stylesheet" href="_content/TELBlazor.Components.ShowCase.Shared/css/app.css" />
     <!--SharedPages likely puts this into the content via the import in app.css-->
-    <link rel="stylesheet" href="_content/TELBlazor.Components/css/nhsuk.css" />
+    <link rel="stylesheet" href="_content/TELBlazor.Components.ShowCase.Shared/css/nhsuk.css" />
 
 </head>
 
 <body>
     <script type="text/javascript">
-        // I dont like it we still 404 in console but this may do for our inward facing purposes
-
+        /*
+         !!! This code will still result in 404 in console but this is the 
+         popular way to get around challenges of spa site as a gh-page 
+         by using 404 manipulation for routing.
+         It is also way the pages reload during navigation which is not how blazor sites would be expected to behave.
+        */
 
         // Single Page Apps for GitHub Pages
         // MIT License
