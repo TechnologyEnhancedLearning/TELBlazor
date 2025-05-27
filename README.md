@@ -24,7 +24,7 @@ It is client side so the users browser will do the work.
 
 [TELBlazor Dev Showcase](https://technologyenhancedlearning.github.io/TELBlazor-DevShowCase/)
 
-[View Packaged Dev Showcase Code](https://technologyenhancedlearning/TELBlazor-DevShowCase/tree/gh-pages/)
+[View Packaged Dev Showcase Code](https://github.com/TechnologyEnhancedLearning/TELBlazor-DevShowCase/tree/gh-pages)
 
 [View Packaged Showcase Code](https://github.com/TechnologyEnhancedLearning/TELBlazor/tree/gh-pages/)
 
