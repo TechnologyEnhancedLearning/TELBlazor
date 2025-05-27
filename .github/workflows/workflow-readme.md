@@ -45,7 +45,7 @@ they stay in the pull request ui. they are also only targetted on master
 ## Pull requests
 - Branch checks for master dont work, they don't run the workflow dispatch.
 If we want these checks one solution is every check in its own yml (they dont directly use Reuseable Ci Checks instead they use them via the pull_request yml)
-
+The individual steps also automatically pass so can see if any error at the end with the check to check all their outputs
 
 # Notes
 - doesnt run easily with nektos act due to git ref checks and calling other workflows
