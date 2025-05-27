@@ -7,7 +7,6 @@ on:
 jobs:
   pull-request-call-reusable-ci-checks-workflow:
     name: Pull Request run CI Checks
-    id: pull_request_ci_checks
     uses: ./.github/workflows/reuseable-ci-checks.yml
     with:
       runall: true
