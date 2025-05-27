@@ -1,3 +1,13 @@
+# [1.1.0-feat-button-for-cicd-testing.30](https://github.com/TechnologyEnhancedLearning/TELBlazor/compare/v1.1.0-feat-button-for-cicd-testing.29...v1.1.0-feat-button-for-cicd-testing.30) (2025-05-27)
+
+
+### Features
+
+* **button:** cicd for pr checks ([0d3d3b4](https://github.com/TechnologyEnhancedLearning/TELBlazor/commit/0d3d3b4cefb1a32dadf7015296b3e261d2a4d881))
+* **button:** cicd no id on job ([66a634e](https://github.com/TechnologyEnhancedLearning/TELBlazor/commit/66a634e2bb8f5dccfedc388bd5fbadc09398c37a))
+* **button:** having a solution release build as a check so including appsettings ([2595414](https://github.com/TechnologyEnhancedLearning/TELBlazor/commit/259541455b72a868f6112d01862e78f2b70ce062))
+* **button:** not picking up devyml change ([07eca52](https://github.com/TechnologyEnhancedLearning/TELBlazor/commit/07eca52956b7490dc4c0d2de4f54b840798326e4))
+
 # [1.1.0-feat-button-for-cicd-testing.29](https://github.com/TechnologyEnhancedLearning/TELBlazor/compare/v1.1.0-feat-button-for-cicd-testing.28...v1.1.0-feat-button-for-cicd-testing.29) (2025-05-27)
 
 
