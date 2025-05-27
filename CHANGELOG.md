@@ -1,3 +1,10 @@
+# [1.4.0-feat-button-for-cicd-testing.1](https://github.com/TechnologyEnhancedLearning/TELBlazor/compare/v1.3.0...v1.4.0-feat-button-for-cicd-testing.1) (2025-05-27)
+
+
+### Features
+
+* **tweaks:** lint limit ([8140e8a](https://github.com/TechnologyEnhancedLearning/TELBlazor/commit/8140e8ae3c23355f59380e55dd6e0626d30a7cf9))
+
 # [1.3.0](https://github.com/TechnologyEnhancedLearning/TELBlazor/compare/v1.2.0...v1.3.0) (2025-05-27)
 
 
