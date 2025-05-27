@@ -1,3 +1,11 @@
+# [1.4.0-feat-button-for-cicd-testing.4](https://github.com/TechnologyEnhancedLearning/TELBlazor/compare/v1.4.0-feat-button-for-cicd-testing.3...v1.4.0-feat-button-for-cicd-testing.4) (2025-05-27)
+
+
+### Features
+
+* **button:** merge ([63863a6](https://github.com/TechnologyEnhancedLearning/TELBlazor/commit/63863a6622e2052859cb23734ed9bc02772e3314))
+* **button:** squash for file tracking ([15151ee](https://github.com/TechnologyEnhancedLearning/TELBlazor/commit/15151ee09d51023cc347b441202845d98c561a1b))
+
 # [1.4.0-feat-button-for-cicd-testing.3](https://github.com/TechnologyEnhancedLearning/TELBlazor/compare/v1.4.0-feat-button-for-cicd-testing.2...v1.4.0-feat-button-for-cicd-testing.3) (2025-05-27)
 
 
