@@ -1,3 +1,10 @@
+# [1.4.0-feat-button-for-cicd-testing.2](https://github.com/TechnologyEnhancedLearning/TELBlazor/compare/v1.4.0-feat-button-for-cicd-testing.1...v1.4.0-feat-button-for-cicd-testing.2) (2025-05-27)
+
+
+### Features
+
+* **button:** dispatch for pr ([e5832d2](https://github.com/TechnologyEnhancedLearning/TELBlazor/commit/e5832d2304a7e5a03f832769ff891cf173915f3f))
+
 # [1.4.0-feat-button-for-cicd-testing.1](https://github.com/TechnologyEnhancedLearning/TELBlazor/compare/v1.3.0...v1.4.0-feat-button-for-cicd-testing.1) (2025-05-27)
 
 
