@@ -1,3 +1,14 @@
+# [1.4.0](https://github.com/TechnologyEnhancedLearning/TELBlazor/compare/v1.3.0...v1.4.0) (2025-05-27)
+
+
+### Features
+
+* **button:** cicd pr branch checks stuch ([6b84387](https://github.com/TechnologyEnhancedLearning/TELBlazor/commit/6b843876d08e38cb96dbde6e4cc569195d9a5e5d))
+* **button:** dispatch for pr ([e5832d2](https://github.com/TechnologyEnhancedLearning/TELBlazor/commit/e5832d2304a7e5a03f832769ff891cf173915f3f))
+* **button:** merge ([63863a6](https://github.com/TechnologyEnhancedLearning/TELBlazor/commit/63863a6622e2052859cb23734ed9bc02772e3314))
+* **button:** squash for file tracking ([15151ee](https://github.com/TechnologyEnhancedLearning/TELBlazor/commit/15151ee09d51023cc347b441202845d98c561a1b))
+* **tweaks:** lint limit ([8140e8a](https://github.com/TechnologyEnhancedLearning/TELBlazor/commit/8140e8ae3c23355f59380e55dd6e0626d30a7cf9))
+
 # [1.4.0-feat-button-for-cicd-testing.4](https://github.com/TechnologyEnhancedLearning/TELBlazor/compare/v1.4.0-feat-button-for-cicd-testing.3...v1.4.0-feat-button-for-cicd-testing.4) (2025-05-27)
 
 
