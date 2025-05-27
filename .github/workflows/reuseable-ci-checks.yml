@@ -1,6 +1,7 @@
 name: Reusable CI Checks
 
 on:
+  workflow_dispatch:
   workflow_call:
     inputs:
       runall:

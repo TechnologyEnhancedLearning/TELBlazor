@@ -194,4 +194,7 @@ CHANGELOG.md
 /TELBlazor.Components/wwwroot/css/nhsuk.css
 /TELBlazor.Components.ShowCase.Shared/wwwroot/css/nhsuk.css
 /TELBlazor.Components.ShowCase.E2ETests/Reports/*.zip
+/CICDPackageLocation/*.nupkg
 
+
+/AllTestResults/coverage.cobertura.xml
