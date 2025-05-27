@@ -132,13 +132,124 @@ qqqq run release first make branch for kevin
 					echo "ℹ️ No local .commitlintrc.json found in $REPO_ROOT. Skipping commitlint."
 				fi
 			``` 
-### Install packages
 
-### Create local files
+#### Create local files
+- Right click PackgeSettings.props.local and open with xml editor or any preffered way of opening it
+- copy paste PackgeSettings.props.local.template into it
+- Settings Detail
+	- Recommended starting point
+		- TELBlazorPackageSource -> create a local environmental variable system wide to where ever you want to make packages on your machine
+			(go into windows edit environmental system variables, then look for environmental variables button, then add to system wide). This will be useful for 
+			developing a consuming project and the package at the same time and making sure the changes will work.
+		- NupkgOutputPath set this to the same variable as above
+		- UseTELBlazorComponentsProjectReference set it true for faster development
+		- TELBlazorPackageVersion set it to a number higher than the production value and increase it everytime you want to produce and use the package locally if not using the project reference
+		  (this could be an environmental variable and set by the build number or some increasing number to allow automated increments across this project and a consuming project )
+		- DisablePackageGeneration we publish the package on build if this isnt flagged. set it to true so can build the solution without making the package
+		- E2ETracingEnabled set to true its for testing
+		- HeadlessTesting set to true unless you want to see what the E2E tests are doing in a browser while they test
+	- you can copy paste PackageSettings.props.local.template and then change them
+#### Create More Environment Variables
+- To use remote git hosted nuget packages you need a personal git token. This is just because git tracks the use of packages rather than it being anonymous
+	- go onto your git profile
+	- go to settings -> developer settings -> Personal access tokens -> Tokens classic
+		- as a minimum select read:packages and you may wish to increase the expiration date.
+			- copy the token it will disapear
+	- Set system wide environment variables as before
+		- GITHUB_USERNAME
+		- GITHUB_PACKAGES_TOKEN
+		- TELBlazorPackageSource
+			- previously we set this to a local location but if you were to want to generally use the remote package this is the source 
+			- https://nuget.pkg.github.com/TechnologyEnhancedLearning/index.json
+			- for the test set this to https://nuget.pkg.github.com/TechnologyEnhancedLearning/index.json but you will probably want to point it back to a local folder afterwards
+    - check credentials are working
+		- open powershell somewhere you can put deletable content
+			- ``` 
+				# Create output folder if it doesn't exist
+				New-Item -ItemType Directory -Path deleteme-test -ErrorAction SilentlyContinue
 
-### Set local environment variables
+				# Build the auth string (username:token)
+				$auth = "$($env:GITHUB_USERNAME):$($env:GITHUB_PACKAGES_TOKEN)"
 
-### Run tests
+				# Build base URL by removing trailing /index.json from the feed URL
+				$baseUrl = $env:TELBlazorPackageSource -replace "/index\.json$", ""
+				$baseUrl = $baseUrl.TrimEnd('/')
+
+				# Download the package with curl using authentication
+				curl.exe -u $auth `
+				  -L "$baseUrl/download/TELBlazor.Components/1.0.0/TELBlazor.Components.1.0.0.nupkg" `
+				  -o deleteme-test\TELBlazor.Components.1.0.0.nupkg
+
+			```
+	    - check there is a nupkg package. its an old one, so just delete it. 
+
+#### Create appsettings
+*Be aware that because WASM code is in the browser appsettings in the wasm client projects are not secret and sensitive data should not go in them*
+
+- TELBlazor.Components.ShowCase.E2ETests.WasServerHost
+	- create appsettings.Development.json
+	- copy paste from appsettings.Development.json.template
+	- the template is source controlled so wont have anything that needs to be secure
+	- if you have preferences for logging this is where to configure it, if you want to add creating a text file for example add it here and then add it as dependency in the solution and a reference in the program.cs
+	- logging can be used to get information during testing and test against it
+- TELBlazor.Components.ShowCase.E2ETests.WasmServerHost.Client
+	- follow the same process
+	- client side appsetting are exposed through the wasm so dont put secure information in them
+	- the client will have different logging options as it can only log to browser console, http to a logging api, storage
+- TELBlazor.Components.ShowCase.ShowCase.WasmServerHost.Client
+	- this is the project that become the gh-pages
+	- the appsettings go into the wasm so no secrets in here
+	- any of these projects could be used to view changes but if not looking at nojs this project could have different appsettings just for development as it isnt used to test against.
+= TELBlazor.Components.UnitTests
+		- as above
+
+#### Install packages
+- first set yourpackage.settings.props.local if you havent already via environment variables and hard coding to the following
+		- TELBlazorPackageSource -> a local folder outside of the solution
+		- NupkgOutputPath -> the same local folder outside of the solution
+		- UseTELBlazorComponentsProjectReference -> true
+		- TELBlazorPackageVersion -> 1.0.0 will do for now
+		- DisablePackageGeneration -> true
+		- E2ETracingEnabled -> true
+		- HeadlessTesting -> true
+- right click the solution and copy full path (we need admin rights so dont just open terminal)
+- open powershell from windows as administrator
+- cd and paste to your solution
+- ```   
+		# 1. Check environment variables and local props
+		Write-Output "Have you set your environment variables and local props?"
+        dotnet clean
+		
+		# 2. Restore NuGet packages (reads central package versions and props)
+		Write-Output "Restore Nuget"
+		dotnet restore
+
+		# 3. Restore .NET CLI tools (Playwright, report manager for code coverage)
+		Write-Output "Restore Tools"
+		dotnet tool restore
+
+		# 4. Install Node dependencies (gulp, playwright, frontend libs)
+		Write-Output "Restore Node"
+		npm install
+		
+		# 5. Build solution or run other commands as needed
+		Write-Output "Build solution without build package, using project references instead of local package or remote package"
+		dotnet build
+
+```
+
+
+
+#### Check Setup 
+
+- Run tests in test runner
+- run ps1
+- check report generator
+- use these setting to check credentials get remote package
+- check make local package
+- check works local package consumption
+
+
 
 
 
@@ -169,6 +280,9 @@ from the repo and ShowCase project for how to include the package.
 - There is a readme in the CICD
 - A DevShowCase sight is created using a DevPackage and the same in production
 	- The dev pipeline also publishes a coverage report
+
+## Local Files and Development Settings
+
 
 # Solution Detail
 
