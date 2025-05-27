@@ -2,4 +2,26 @@
 <Project>
   <Import Project="PackageSettings.props" />
   <Import Project="PackageSettings.props.local" Condition="Exists('PackageSettings.props.local')"/>
+	<PropertyGroup>
+		
+		<!-- coverlet.msbuild, specifically msbuild props here we set when cicd testing fails on coverage -->
+		<CollectCoverage>true</CollectCoverage>
+		<CoverletOutputFormat>cobertura</CoverletOutputFormat>
+		<Threshold>50</Threshold>
+		<ThresholdType>line</ThresholdType>
+		<ThresholdStat>total</ThresholdStat>
+		<ThresholdBranch>50</ThresholdBranch>
+		<ThresholdMethod>50</ThresholdMethod>
+		
+		<!-- What to test -->
+		<Include>[TELBlazor.Components]*</Include>
+		<ExcludeByAttribute>ExcludeFromCodeCoverage</ExcludeByAttribute>
+		<ExcludeByFile>**/Program.cs,**/Components/TestComponents/*.*</ExcludeByFile>
+		<IncludeTestAssembly>true</IncludeTestAssembly>
+		
+		<!--centralising TestResults output could reduce abitity to run tests in parralel-->
+		<CoverletOutput>$(MSBuildThisFileDirectory)AllTestResults/</CoverletOutput>
+		<MergeWith>$(MSBuildThisFileDirectory)AllTestResults/coverage.json</MergeWith>
+
+	</PropertyGroup>
 </Project>

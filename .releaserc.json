@@ -84,5 +84,5 @@
     ],
     "@semantic-release/github"
   ],
-  "repositoryUrl": "https://github.com/TechnologyEnhancedLearning/GitPageBlazorWASM"
+  "repositoryUrl": "https://github.com/TechnologyEnhancedLearning/TELBlazor"
 }

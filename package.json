@@ -1,1 +1,13 @@
-{}
+{
+  "dependencies": {
+    "nhse-tel-frontend": "^0.0.2",
+    "playwright": "^1.52.0"
+  },
+  "devDependencies": {
+    "gulp": "^5.0.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-sass": "^5.1.0",
+    "sass": "^1.86.3"
+  },
+  "description": ""
+}

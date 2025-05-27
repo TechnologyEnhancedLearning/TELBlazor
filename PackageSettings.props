@@ -1,19 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <!--Overwrite with PackageSettings.props.local-->
   <PropertyGroup>
-    <!-- Define the output path where the package will be stored -->
-	 
-	<!-- being set in csproj directly in cicd at the moment -->
+    
+	  <!-- Define the output path where the package will be stored -->
     <NupkgOutputPath>$(NupkgOutputPath)</NupkgOutputPath>
+	
+	  <!--can be local folder-->
 	<TELBlazorPackageSource>$(TELBlazorPackageSource)</TELBlazorPackageSource>
-
+	
+	  <!--Use project reference for faster iteration in development-->
 	<UseTELBlazorComponentsProjectReference Condition="'$(UseTELBlazorComponentsProjectReference)' == '' ">false</UseTELBlazorComponentsProjectReference>
 	<UseTELBlazorComponentsProjectReference Condition="'$(UseTELBlazorComponentsProjectReference)' != '' ">$(UseTELBlazorComponentsProjectReference)</UseTELBlazorComponentsProjectReference>
-
+	
+	  <!--manually change this to build and use local packages, or add the project automated generation e.g. msbuild number-->
 	<TELBlazorPackageVersion>$(TELBlazorPackageVersion)</TELBlazorPackageVersion>
-
+	
+	  <!--Building the components project makes the package publish isnt needed-->
     <DisablePackageGeneration>$(DisablePackageGeneration)</DisablePackageGeneration>
-
+	
+	  <!--Testing settings-->
+	<E2ETracingEnabled Condition="'$(E2ETracingEnabled)' == ''">false</E2ETracingEnabled>
+	<E2ETracingEnabled Condition="'$(E2ETracingEnabled)' != ''">$(E2ETracingEnabled)</E2ETracingEnabled>
+	<HeadlessTesting Condition="'$(HeadlessTesting)' == ''">true</HeadlessTesting>
+	<HeadlessTesting Condition="'$(HeadlessTesting)' != ''">$(HeadlessTesting)</HeadlessTesting>
+  
   </PropertyGroup>
 
 </Project>
+
