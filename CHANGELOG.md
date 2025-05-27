@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/TechnologyEnhancedLearning/TELBlazor/compare/v1.1.0...v1.2.0) (2025-05-27)
+
+
+### Features
+
+* **cicd:** Update release.yml ([fc0e758](https://github.com/TechnologyEnhancedLearning/TELBlazor/commit/fc0e758a3213042759b78ad23db163303ae0a88a))
+
 # [1.1.0](https://github.com/TechnologyEnhancedLearning/TELBlazor/compare/v1.0.4...v1.1.0) (2025-05-27)
 
 
