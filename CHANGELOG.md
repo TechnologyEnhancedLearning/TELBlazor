@@ -1,3 +1,10 @@
+# [1.4.0-feat-button-for-cicd-testing.3](https://github.com/TechnologyEnhancedLearning/TELBlazor/compare/v1.4.0-feat-button-for-cicd-testing.2...v1.4.0-feat-button-for-cicd-testing.3) (2025-05-27)
+
+
+### Features
+
+* **button:** cicd pr branch checks stuch ([6b84387](https://github.com/TechnologyEnhancedLearning/TELBlazor/commit/6b843876d08e38cb96dbde6e4cc569195d9a5e5d))
+
 # [1.4.0-feat-button-for-cicd-testing.2](https://github.com/TechnologyEnhancedLearning/TELBlazor/compare/v1.4.0-feat-button-for-cicd-testing.1...v1.4.0-feat-button-for-cicd-testing.2) (2025-05-27)
 
 
