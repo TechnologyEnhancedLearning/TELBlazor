@@ -16,6 +16,14 @@ on:
         required: true
       WASMSERVERHOST_APPSETTINGS_DEVELOPMENT:
         required: true
+      UNITTESTS_APPSETTINGS_PRODUCTION:
+        required: true
+      WASMSTATICCLIENT_APPSETTINGS_PRODUCTION:
+        required: true
+      WASMSERVERHOSTCLIENT_APPSETTINGS_PRODUCTION:
+        required: true
+      WASMSERVERHOST_APPSETTINGS_PRODUCTION:
+        required: true
       PACKAGES_TOKEN:
         required: true
         
@@ -27,7 +35,7 @@ env:
   # Nuget Set Up
   TELBLAZOR_PACKAGE_LOCAL_OUTPUT_PATH: ${{ github.workspace }}/CICDPackageLocation
   TELBLAZOR_PACKAGE_SOURCE: ${{ github.workspace }}/CICDPackageLocation
-  #TELBLAZOR_PACKAGE_SOURCE: "https://nuget.pkg.github.com/TechnologyEnhancedLearning/index.json"
+
   
   # Build Set Up
   # May need coverlet.collector xplat if using the packaged version to test
