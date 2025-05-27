@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<PropertyGroup>
+	    
+		<!--your local system environment variables-->
+		<TELBlazorPackageSource>$(LocalPackagePath)</TELBlazorPackageSource>
+		<NupkgOutputPath>$(LocalPackagePath)</NupkgOutputPath>
+		
+		<!--for faster iteration-->
+		<UseTELBlazorComponentsProjectReference>true</UseTELBlazorComponentsProjectReference>
+		
+		<!--manually change this to build and use local packages, or add the project automated generation e.g. msbuild number-->
+		<TELBlazorPackageVersion>10.9.9</TELBlazorPackageVersion>
+		
+		<!--Building the components project makes the package publish isnt needed-->
+		<DisablePackageGeneration>true</DisablePackageGeneration>
+		
+		<!--Testing settings-->
+		<E2ETracingEnabled>true</E2ETracingEnabled>
+		<HeadlessTesting>true</HeadlessTesting>
+
+	</PropertyGroup>
+</Project>

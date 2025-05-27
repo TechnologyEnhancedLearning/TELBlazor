@@ -32,14 +32,18 @@ they stay in the pull request ui. they are also only targetted on master
 	- repo tag
 	- packages with new package and version
 	- TELBlazor-ShowCase site
+	
+## dependabot
+- npm and node
+- seperate script to auto merge
 
 # Git setup
 
 ## Pull requests
 - Branch checks for master (they dont directly use Reuseable Ci Checks instead they use them via the pull_request yml, unsure why not directly available)
-- template needs completing
-- pr reviews rule needs turning on once can get reviewers
+
 
 # Notes
 - doesnt run easily with nektos act due to git ref checks and calling other workflows
+- for tests use the run-tests-and-report-with-env-values.ps1 file
 

@@ -1,5 +1,3 @@
-#qqqq to do refactor to here
-# naming with the yml name because 
 name: Reusable CI Checks
 
 on:
@@ -9,33 +7,52 @@ on:
         required: false
         type: boolean
         default: false
+    secrets:
+      UNITTESTS_APPSETTINGS_DEVELOPMENT:
+        required: true
+      WASMSTATICCLIENT_APPSETTINGS_DEVELOPMENT:
+        required: true
+      WASMSERVERHOSTCLIENT_APPSETTINGS_DEVELOPMENT:
+        required: true
+      WASMSERVERHOST_APPSETTINGS_DEVELOPMENT:
+        required: true
+      UNITTESTS_APPSETTINGS_PRODUCTION:
+        required: true
+      WASMSTATICCLIENT_APPSETTINGS_PRODUCTION:
+        required: true
+      WASMSERVERHOSTCLIENT_APPSETTINGS_PRODUCTION:
+        required: true
+      WASMSERVERHOST_APPSETTINGS_PRODUCTION:
+        required: true
+      PACKAGES_TOKEN:
+        required: true
         
 env:
 
   # Permission
-  # GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  # PACKAGES_TOKEN: ${{ secrets.NUGETKEY }}
-  # GITHUB_USERNAME: "Phil-NHS"
+  PACKAGES_TOKEN: ${{ secrets.PACKAGES_TOKEN }}
 
   # Nuget Set Up
   TELBLAZOR_PACKAGE_LOCAL_OUTPUT_PATH: ${{ github.workspace }}/CICDPackageLocation
   TELBLAZOR_PACKAGE_SOURCE: ${{ github.workspace }}/CICDPackageLocation
-  #TELBLAZOR_PACKAGE_SOURCE: "https://nuget.pkg.github.com/TechnologyEnhancedLearning/index.json"
+
   
   # Build Set Up
-  USE_TEL_BLAZOR_COMPONENTS_PROJECT_REFERENCE: false
+  # May need coverlet.collector xplat if using the packaged version to test
+  USE_TEL_BLAZOR_COMPONENTS_PROJECT_REFERENCE: true
   DISABLE_PACKAGE_GENERATION: true
+  E2E_TRACING_ENABLED: false
   
   # Check Dummy Data
   TELBLAZOR_PACKAGE_VERSION: "0.0.0-ci-checks"
-  
+  HEADLESS_TESTING: true
     
 jobs:
 
     # Build Package
     # Build Solution useing package
     reuseable-ci-checks-solution-build:
-      name: Check solution builds
+      name: Check solution builds as Release
       runs-on: ubuntu-latest
       continue-on-error:  ${{ inputs.runall }}
       outputs:
@@ -52,7 +69,26 @@ jobs:
               
         - name: Replace local environment variable in nuget config because cant provide it as a parameter
           run: sed -i "s|%TELBlazorPackageSource%|$TELBLAZOR_PACKAGE_LOCAL_OUTPUT_PATH|g" nuget.config
-       
+          
+        - name: Create appsettings development from secrets
+          run: |
+            declare -A paths
+            paths["./TELBlazor.Components.UnitTests/appsettings.Development.json"]='${{ secrets.UNITTESTS_APPSETTINGS_DEVELOPMENT }}'
+            paths["./TELBlazor.Components.ShowCase.WasmStaticClient/wwwroot/appsettings.Development.json"]='${{ secrets.WASMSTATICCLIENT_APPSETTINGS_DEVELOPMENT }}'
+            paths["./TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/TELBlazor.Components.ShowCase.E2ETests.WasmServerHost.Client/wwwroot/appsettings.Development.json"]='${{ secrets.WASMSERVERHOSTCLIENT_APPSETTINGS_DEVELOPMENT }}'
+            paths["./TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/appsettings.Development.json"]='${{ secrets.WASMSERVERHOST_APPSETTINGS_DEVELOPMENT }}'
+            
+            paths["./TELBlazor.Components.UnitTests/appsettings.Production.json"]='${{ secrets.UNITTESTS_APPSETTINGS_PRODUCTION }}'
+            paths["./TELBlazor.Components.ShowCase.WasmStaticClient/wwwroot/appsettings.Production.json"]='${{ secrets.WASMSTATICCLIENT_APPSETTINGS_PRODUCTION }}'
+            paths["./TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/TELBlazor.Components.ShowCase.E2ETests.WasmServerHost.Client/wwwroot/appsettings.Production.json"]='${{ secrets.WASMSERVERHOSTCLIENT_APPSETTINGS_PRODUCTION }}'
+            paths["./TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/appsettings.Production.json"]='${{ secrets.WASMSERVERHOST_APPSETTINGS_PRODUCTION }}'
+
+            for path in "${!paths[@]}"; do
+              mkdir -p "$(dirname "$path")"
+              printf '%s' "${paths[$path]}" > "$path"
+            done
+            
+
         - name: Clean lock files because the newly generated package file will superseed the locks
           run: |
             find . -name "packages.lock.json" -type f -exec rm -f {} \;
@@ -63,7 +99,7 @@ jobs:
             node-version: '20'
     
         - name: Install npm packages so we have gulp for retrieving TEL Frontend Css
-          working-directory: ./TELBlazor.Components
+         # working-directory: ./TELBlazor.Components
           run: npm ci   
           
         - name: Build and create package locally
@@ -76,7 +112,8 @@ jobs:
               /p:NupkgOutputPath=$TELBLAZOR_PACKAGE_LOCAL_OUTPUT_PATH \
               /p:UseTELBlazorComponentsProjectReference=$USE_TEL_BLAZOR_COMPONENTS_PROJECT_REFERENCE \
               /p:TELBlazorPackageSource=$TELBLAZOR_PACKAGE_SOURCE \
-              /p:DisablePackageGeneration=$DISABLE_PACKAGE_GENERATION
+              /p:DisablePackageGeneration=$DISABLE_PACKAGE_GENERATION \
+              /p:E2ETracingEnabled=$E2E_TRACING_ENABLED
               
         - name: Build solution without generating new package
           env:
@@ -88,9 +125,9 @@ jobs:
               /p:NupkgOutputPath=$TELBLAZOR_PACKAGE_LOCAL_OUTPUT_PATH \
               /p:UseTELBlazorComponentsProjectReference=$USE_TEL_BLAZOR_COMPONENTS_PROJECT_REFERENCE \
               /p:TELBlazorPackageSource=$TELBLAZOR_PACKAGE_SOURCE \
-              /p:DisablePackageGeneration=$DISABLE_PACKAGE_GENERATION
+              /p:DisablePackageGeneration=$DISABLE_PACKAGE_GENERATION \
+              /p:E2ETracingEnabled=$E2E_TRACING_ENABLED
 
-          
     reuseable-ci-checks-branch-name-check:
       name: Check branch names
       if: success() || failure()
@@ -131,44 +168,174 @@ jobs:
           with:
             configFile: .commitlintrc.json
      
-
-    reuseable-ci-checks-unit-tests:
-        name: Unit test components
+    reuseable-ci-e2e-unit-tests:
+        name: E2E Unit threshold and code report trigger
+        timeout-minutes: 60
         runs-on: ubuntu-latest
         if: success() || failure()
         continue-on-error:  ${{ inputs.runall }}    
         outputs:
           status: ${{ job.status }}
         steps:
-          - name: See other project pipeline for Tests
-            run: echo " See other project pipeline for Tests this is a placeholder"
-   
+          - name: Checkout code
+            uses: actions/checkout@v4
           
-  
-    reuseable-ci-checks-e2e-tests:
-        name: Check with end to end testing including nojs
-        runs-on: ubuntu-latest
-        if: success() || failure()
-        continue-on-error:  ${{ inputs.runall }}    
-        outputs:
-          status: ${{ job.status }}
-        steps:
-          - name: See other project pipeline for Tests
-            run: echo " See other project pipeline for Tests this is a placeholder"
-
- 
-    reuseable-ci-checks-code-coverage:
-        name: Check for code coverage
-        runs-on: ubuntu-latest
-        if: success() || failure()
-        continue-on-error:  ${{ inputs.runall }}    
-        outputs:
-          status: ${{ job.status }}
-        steps:
-          - name: See other project pipeline for Tests
-            run: echo " See other project pipeline for Tests this is a placeholder"
-               
+          - name: Setup .NET
+            uses: actions/setup-dotnet@v4
+            with:
+              global-json-file: global.json
+              
+          - name: Replace local environment variable in nuget config because cant provide it as a parameter
+            run: sed -i "s|%TELBlazorPackageSource%|$TELBLAZOR_PACKAGE_LOCAL_OUTPUT_PATH|g" nuget.config
+       
+          - name: Clean lock files because the newly generated package file will superseed the locks
+            run: |
+              find . -name "packages.lock.json" -type f -exec rm -f {} \;
           
+          - name: Create appsettings development from secrets
+            run: |
+              declare -A paths
+              paths["./TELBlazor.Components.UnitTests/appsettings.Development.json"]='${{ secrets.UNITTESTS_APPSETTINGS_DEVELOPMENT }}'
+              paths["./TELBlazor.Components.ShowCase.WasmStaticClient/wwwroot/appsettings.Development.json"]='${{ secrets.WASMSTATICCLIENT_APPSETTINGS_DEVELOPMENT }}'
+              paths["./TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/TELBlazor.Components.ShowCase.E2ETests.WasmServerHost.Client/wwwroot/appsettings.Development.json"]='${{ secrets.WASMSERVERHOSTCLIENT_APPSETTINGS_DEVELOPMENT }}'
+              paths["./TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/appsettings.Development.json"]='${{ secrets.WASMSERVERHOST_APPSETTINGS_DEVELOPMENT }}'
+
+              paths["./TELBlazor.Components.UnitTests/appsettings.Production.json"]='${{ secrets.UNITTESTS_APPSETTINGS_PRODUCTION }}'
+              paths["./TELBlazor.Components.ShowCase.WasmStaticClient/wwwroot/appsettings.Production.json"]='${{ secrets.WASMSTATICCLIENT_APPSETTINGS_PRODUCTION }}'
+              paths["./TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/TELBlazor.Components.ShowCase.E2ETests.WasmServerHost.Client/wwwroot/appsettings.Production.json"]='${{ secrets.WASMSERVERHOSTCLIENT_APPSETTINGS_PRODUCTION }}'
+              paths["./TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/appsettings.Production.json"]='${{ secrets.WASMSERVERHOST_APPSETTINGS_PRODUCTION }}'
+
+              for path in "${!paths[@]}"; do
+                mkdir -p "$(dirname "$path")"
+                printf '%s' "${paths[$path]}" > "$path"
+              done
+      
+          - name: Set up Node.js so we have gulp for retrieving TEL Frontend Css
+            uses: actions/setup-node@v4
+            with:
+              node-version: '20'
+    
+          - name: Install npm packages so we have gulp for retrieving TEL Frontend Css
+            run: npm ci
+            
+          - name: Install ReportGenerator
+            run: dotnet tool restore
+
+      
+          - name: Build and create package locally
+            env:
+               #Overwrite package generation
+               DISABLE_PACKAGE_GENERATION: false
+            run: |
+              dotnet build TELBlazor.Components -c Debug \
+                /p:TELBlazorPackageVersion=$TELBLAZOR_PACKAGE_VERSION \
+                /p:NupkgOutputPath=$TELBLAZOR_PACKAGE_LOCAL_OUTPUT_PATH \
+                /p:UseTELBlazorComponentsProjectReference=$USE_TEL_BLAZOR_COMPONENTS_PROJECT_REFERENCE \
+                /p:TELBlazorPackageSource=$TELBLAZOR_PACKAGE_SOURCE \
+                /p:DisablePackageGeneration=$DISABLE_PACKAGE_GENERATION \
+                /p:E2ETracingEnabled=$E2E_TRACING_ENABLED \
+                /p:HeadlessTesting=$HEADLESS_TESTING 
+              
+          - name: Build solution without generating new package
+            env:
+                #Overwrite package generation
+                DISABLE_PACKAGE_GENERATION: true
+            run: |
+              dotnet build TELBlazor.sln -c Debug \
+                /p:TELBlazorPackageVersion=$TELBLAZOR_PACKAGE_VERSION \
+                /p:NupkgOutputPath=$TELBLAZOR_PACKAGE_LOCAL_OUTPUT_PATH \
+                /p:UseTELBlazorComponentsProjectReference=$USE_TEL_BLAZOR_COMPONENTS_PROJECT_REFERENCE \
+                /p:TELBlazorPackageSource=$TELBLAZOR_PACKAGE_SOURCE \
+                /p:DisablePackageGeneration=$DISABLE_PACKAGE_GENERATION \
+                /p:E2ETracingEnabled=$E2E_TRACING_ENABLED \
+                /p:HeadlessTesting=$HEADLESS_TESTING 
+                
+              
+          - name: Ensure browsers are installed
+            run: pwsh TELBlazor.Components.ShowCase.E2ETests/bin/Debug/net8.0/playwright.ps1 install --with-deps  
+
+
+          - name: Run tests with coverage threshold check
+            id: unit_e2e_tests
+            env:
+              TELBlazorPackageVersion: ${{ env.TELBLAZOR_PACKAGE_VERSION }}
+              NupkgOutputPath: ${{ env.TELBLAZOR_PACKAGE_LOCAL_OUTPUT_PATH }}
+              UseTELBlazorComponentsProjectReference: ${{ env.USE_TEL_BLAZOR_COMPONENTS_PROJECT_REFERENCE }}
+              TELBlazorPackageSource: ${{ env.TELBLAZOR_PACKAGE_SOURCE }}
+              DisablePackageGeneration: ${{ env.DISABLE_PACKAGE_GENERATION }}
+              E2ETracingEnabled: ${{ env.E2E_TRACING_ENABLED }}
+              HeadlessTesting: ${{ env.HEADLESS_TESTING }}
+            run: |
+              dotnet test --no-build --no-restore \
+                /p:TELBlazorPackageVersion=$TELBLAZOR_PACKAGE_VERSION \
+                /p:NupkgOutputPath=$TELBLAZOR_PACKAGE_LOCAL_OUTPUT_PATH \
+                /p:UseTELBlazorComponentsProjectReference=$USE_TEL_BLAZOR_COMPONENTS_PROJECT_REFERENCE \
+                /p:TELBlazorPackageSource=$TELBLAZOR_PACKAGE_SOURCE \
+                /p:DisablePackageGeneration=$DISABLE_PACKAGE_GENERATION \
+                /p:E2ETracingEnabled=$E2E_TRACING_ENABLED \
+                /p:HeadlessTesting=$HEADLESS_TESTING 
+                
+            continue-on-error: true
+
+          - name: Generate Coverage Report
+            run: |
+              dotnet reportgenerator \
+                -reports:"**/AllTestResults/**/coverage.cobertura.xml" \
+                -targetdir:CoverageReport \
+                -reporttypes:"Html;XmlSummary" 
+
+                  
+          - name: Upload coverage report
+            if: always()
+            uses: actions/upload-artifact@v4
+            with:
+              name: coverage-report
+              path: CoverageReport
+          
+              
+          - name: Get artifact location
+            env:
+               PACKAGES_TOKEN: ${{ secrets.PACKAGES_TOKEN }}
+               GH_TOKEN: ${{ secrets.PACKAGES_TOKEN }}
+            run: |
+              # Get the artifact list for the current workflow run
+              ARTIFACT_LIST=$(gh api "repos/TechnologyEnhancedLearning/TELBlazor/actions/runs/${GITHUB_RUN_ID}/artifacts")
+              # Echo the entire artifact list for debugging purposes
+              echo "Artifact List: $ARTIFACT_LIST"
+              
+              ARTIFACT_URL=$(echo "$ARTIFACT_LIST" | jq -r '.artifacts[] | select(.name=="coverage-report") | .url')
+              
+              # Echo the artifact URL to confirm
+              echo "Artifact URL: $ARTIFACT_URL"
+              echo "artifact_url=$ARTIFACT_URL" >> $GITHUB_ENV
+              
+          
+          - name: Trigger workflow in TELBlazor-CodeReport repo
+            env:
+               PACKAGES_TOKEN: ${{ secrets.PACKAGES_TOKEN }}
+               GH_TOKEN: ${{ secrets.PACKAGES_TOKEN }}
+            run: |
+              repo_owner="TechnologyEnhancedLearning"
+              repo_name="TELBlazor-CodeReport"
+              event_type="artifact_ready" 
+              # Trigger the workflow
+              curl -L \
+                -X POST \
+                -H "Accept: application/vnd.github+json" \
+                -H "Authorization: Bearer $PACKAGES_TOKEN" \
+                -H "X-GitHub-Api-Version: 2022-11-28" \
+                https://api.github.com/repos/$repo_owner/$repo_name/dispatches \
+                -d "{\"event_type\": \"$event_type\", \"client_payload\": {\"artifact_url\": \"$artifact_url\"}}"  
+                
+          - name: Fail job if test failed after report is generated
+            if: steps.unit_e2e_tests.outcome != 'success'  # optional conditional, but optional
+            run: |
+              if [[ "${{ steps.some-step.outputs.status }}" != "success" ]]; then
+                echo "❌ One or more steps failed."
+                exit 1
+              fi
+            
+
     reuseable-ci-checks-check-for-failed-jobs:
       name: Check for failures
       if: ${{ inputs.runall }}
@@ -176,9 +343,7 @@ jobs:
         - reuseable-ci-checks-solution-build
         - reuseable-ci-checks-branch-name-check
         - reuseable-ci-checks-commitlint
-        - reuseable-ci-checks-unit-tests
-        - reuseable-ci-checks-e2e-tests
-        - reuseable-ci-checks-code-coverage
+        - reuseable-ci-e2e-unit-tests
       
       runs-on: ubuntu-latest
       steps:
@@ -186,18 +351,14 @@ jobs:
           run: |
             echo "Solution Build: ${{ needs.reuseable-ci-checks-solution-build.outputs.status }}"
             echo "Branch Name Check: ${{ needs.reuseable-ci-checks-branch-name-check.outputs.status }}"
-            echo "Commitlint: ${{ needs.reuseable-ci-checks-commitlint.outputs.status }}"
-            echo "Unit Tests: ${{ needs.reuseable-ci-checks-unit-tests.outputs.status }}"
-            echo "E2E Tests: ${{ needs.reuseable-ci-checks-e2e-tests.outputs.status }}"
-            echo "Code Coverage: ${{ needs.reuseable-ci-checks-code-coverage.outputs.status }}"
-
+            echo "Commit Lint Check: ${{ needs.reuseable-ci-checks-commitlint.outputs.status }}"
+            echo "Tests: ${{ needs.reuseable-ci-e2e-unit-tests.outputs.status }}"
+                  
             # Check if any job is not success (failure, cancelled, skipped)
             if [[ "${{ needs.reuseable-ci-checks-solution-build.outputs.status }}" != "success" || \
                   "${{ needs.reuseable-ci-checks-branch-name-check.outputs.status }}" != "success" || \
                   "${{ needs.reuseable-ci-checks-commitlint.outputs.status }}" != "success" || \
-                  "${{ needs.reuseable-ci-checks-unit-tests.outputs.status }}" != "success" || \
-                  "${{ needs.reuseable-ci-checks-e2e-tests.outputs.status }}" != "success" || \
-                  "${{ needs.reuseable-ci-checks-code-coverage.outputs.status }}" != "success" ]]; then
+                  "${{ needs.reuseable-ci-e2e-unit-tests.outputs.status }}" != "success" ]]; then
               echo "❌ One or more jobs failed."
               exit 1
             fi

@@ -1,6 +1,36 @@
+//.NET Core
+@using System.Diagnostics
+@using System.IO
+
+// ASP.NET Core / Blazor
+@using Microsoft.AspNetCore.Components.Rendering
 @using Microsoft.AspNetCore.Components.Web
-@using Microsoft.JSInterop
 @using Microsoft.Extensions.DependencyInjection
-@using Bunit
-@using Bunit.TestDoubles
+@using Microsoft.AspNetCore.Components.Forms
+@using Microsoft.JSInterop
+
+// Testing Frameworks
 @using Xunit
+@using Xunit.Abstractions
+@using Bunit
+@using Bunit.Rendering
+@using Bunit.TestDoubles
+@using FluentAssertions
+@using AutoFixture
+@using Moq
+
+// Application Components & Services
+@using TELBlazor.Components
+@using TELBlazor.Components.Components.BaseComponents
+@using TELBlazor.Components.Core.Models.Logging
+@using TELBlazor.Components.Core.Services.HelperServices
+@using TELBlazor.Components.Core.Configuration
+
+// Unit tests
+@using TELBlazor.Components.UnitTests.DI
+@using TELBlazor.Components.Components.TestComponents
+@using TELBlazor.Components.Core.Enums
+@using TELBlazor.Components.Core.Extensions
+
+// Log
+@using Serilog.Sinks.InMemory

@@ -3,12 +3,15 @@
 		<TargetFramework>net8.0</TargetFramework>
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
+		<Configurations>Debug;Release;ci</Configurations>
 	</PropertyGroup>
 	<ItemGroup>
 		<SupportedPlatform Include="browser" />
 	</ItemGroup>
 	<ItemGroup>
+		<PackageReference Include="Blazored.LocalStorage" />
 		<PackageReference Include="Microsoft.AspNetCore.Components.Web" />
+		<PackageReference Include="Serilog" />
 		<PackageReference Include="TELBlazor.Components" />
 	</ItemGroup>
 	<ItemGroup>
@@ -17,4 +20,11 @@
 	<ItemGroup>
 		<ProjectReference Include="..\TELBlazor.Components\TELBlazor.Components.csproj" Condition="'$(UseTELBlazorComponentsProjectReference)' == 'true'" />
 	</ItemGroup>
+	<Target Name="RunGulp" BeforeTargets="PrepareForBuild">
+		<!-- 
+			1) Use solution root as working dir so npx picks up root/node_modules
+			2) Tell gulp to run the gulpfile in this project directory
+		-->
+		<Exec WorkingDirectory="$(MSBuildProjectDirectory)/.." Command="npx gulp --cwd &quot;$(MSBuildProjectDirectory)&quot; --gulpfile &quot;$(MSBuildProjectDirectory)/gulpfile.js&quot;" />
+	</Target>
 </Project>

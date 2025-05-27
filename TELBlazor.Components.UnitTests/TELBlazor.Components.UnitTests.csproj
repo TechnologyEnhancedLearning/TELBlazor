@@ -1,32 +1,47 @@
-<Project Sdk="Microsoft.NET.Sdk.Razor">
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
 	<PropertyGroup>
 		<TargetFramework>net8.0</TargetFramework>
 		<Nullable>enable</Nullable>
 		<IsPackable>false</IsPackable>
+		<Configurations>Debug;Release;ci</Configurations>
 	</PropertyGroup>
 
 	<ItemGroup>
-		<Using Include="Bunit" />
-		<Using Include="Bunit.TestDoubles" />
-		<Using Include="Microsoft.Extensions.DependencyInjection" />
-		<Using Include="Xunit"/>
+	  <Content Include="appsettings.Development.json.template" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="bunit"  />
+
+
+		<PackageReference Include="FluentAssertions" />
 		<PackageReference Include="Microsoft.NET.Test.Sdk" />
-		<PackageReference Include="coverlet.collector">
-			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-			<PrivateAssets>all</PrivateAssets>
-		</PackageReference>
-		<PackageReference Include="xunit"/>
+		<PackageReference Include="Serilog" />
+		<PackageReference Include="Serilog.Expressions" />
+		<PackageReference Include="Serilog.Extensions.Logging" />
+		<PackageReference Include="Serilog.Formatting.Compact" />
+		<PackageReference Include="Serilog.Settings.Configuration" />
+		<PackageReference Include="Serilog.Sinks.InMemory" />
+		<PackageReference Include="Serilog.Sinks.InMemory.Assertions" />
+		<PackageReference Include="Serilog.Sinks.BrowserConsole" />
+		<PackageReference Include="Serilog.Sinks.XUnit" />
+		<PackageReference Include="bunit" />
+
+		<PackageReference Include="AutoFixture" />
+		<PackageReference Include="AutoFixture.AutoMoq" />
+		<PackageReference Include="coverlet.msbuild" />
+
+		<PackageReference Include="xunit" />
+
 		<PackageReference Include="xunit.runner.visualstudio">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
 		  </PackageReference>
+		<PackageReference Include="TELBlazor.Components" />
 	</ItemGroup>
 
 
-
+	<ItemGroup>
+		<ProjectReference Include="..\TELBlazor.Components\TELBlazor.Components.csproj" Condition="'$(UseTELBlazorComponentsProjectReference)' == 'true'" />
+	</ItemGroup>
 </Project>

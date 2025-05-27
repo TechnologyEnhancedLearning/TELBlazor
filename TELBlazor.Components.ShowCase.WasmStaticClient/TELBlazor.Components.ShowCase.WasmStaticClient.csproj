@@ -7,6 +7,7 @@
 
 	<PublishDir>$(MSBuildProjectDirectory)\..\docs\</PublishDir>
 	<WWWRootDir>$(PublishDir)\wwwroot\</WWWRootDir>
+	<Configurations>Debug;Release;ci</Configurations>
   </PropertyGroup>
 	
   <Target Name="AddNoJekyllForGitHubPagesDeployment" AfterTargets="Publish">
@@ -20,21 +21,37 @@
 		</ItemGroup>
 
 		<!-- Copy contents of wwwroot to PublishDir -->
-		<Copy
-		  SourceFiles="@(WWWRootFiles)"
-		  DestinationFiles="@(WWWRootFiles->'$(PublishDir)\%(RecursiveDir)%(Filename)%(Extension)')"
-		  SkipUnchangedFiles="true" />
+		<Copy SourceFiles="@(WWWRootFiles)" DestinationFiles="@(WWWRootFiles->'$(PublishDir)\%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="true" />
 
 		<!-- Delete wwwroot in the publish folder to flatten structure -->
 		<RemoveDir Directories="$(WWWRootDir)" />
-	</Target>	
+	</Target>
+
+	<ItemGroup>
+	  <None Include="wwwroot\appsettings.Development.json.template" />
+	</ItemGroup>	
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" />
+    <PackageReference Include="Serilog" />
+    <PackageReference Include="Serilog.Extensions.Logging" />
+	<PackageReference Include="Blazored.LocalStorage" />
+	<PackageReference Include="Microsoft.Extensions.Http" />
+	<PackageReference Include="Serilog.Formatting.Compact" />
+	<PackageReference Include="Serilog.Settings.Configuration" />
+	<PackageReference Include="Serilog.Sinks.BrowserConsole" />
+	<PackageReference Include="Serilog.Sinks.Http" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\TELBlazor.Components.ShowCase.Shared\TELBlazor.Components.ShowCase.Shared.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="wwwroot\appsettings.Production.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>

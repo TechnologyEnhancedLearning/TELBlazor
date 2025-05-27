@@ -12,10 +12,7 @@ permissions:
 env:
 
   # Permission
-  
-  # GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  
-  # Try other token so semver has the ability to add comments
+  # Need more permissive token
   GITHUB_TOKEN: ${{ secrets.NUGETKEY }}
   PACKAGES_TOKEN: ${{ secrets.NUGETKEY }}
   GITHUB_USERNAME: "Phil-NHS"
@@ -27,6 +24,7 @@ env:
   # Build Set Up
   USE_TEL_BLAZOR_COMPONENTS_PROJECT_REFERENCE: false
   DISABLE_PACKAGE_GENERATION: false
+  E2E_TRACING_ENABLED: false
 
 jobs:
 
@@ -35,7 +33,22 @@ jobs:
     uses: ./.github/workflows/reuseable-ci-checks.yml
     with:
       runall: true
-    
+    secrets:
+      # Dev
+      UNITTESTS_APPSETTINGS_DEVELOPMENT: ${{ secrets.UNITTESTS_APPSETTINGS_DEVELOPMENT }}
+      WASMSTATICCLIENT_APPSETTINGS_DEVELOPMENT: ${{ secrets.WASMSTATICCLIENT_APPSETTINGS_DEVELOPMENT }}
+      WASMSERVERHOSTCLIENT_APPSETTINGS_DEVELOPMENT: ${{ secrets.WASMSERVERHOSTCLIENT_APPSETTINGS_DEVELOPMENT }}
+      WASMSERVERHOST_APPSETTINGS_DEVELOPMENT: ${{ secrets.WASMSERVERHOST_APPSETTINGS_DEVELOPMENT }}
+      
+      # Token
+      PACKAGES_TOKEN: ${{secrets.NUGETKEY }}
+      
+      # Prod
+      UNITTESTS_APPSETTINGS_PRODUCTION: ${{ secrets.UNITTESTS_APPSETTINGS_PRODUCTION }}
+      WASMSTATICCLIENT_APPSETTINGS_PRODUCTION: ${{ secrets.WASMSTATICCLIENT_APPSETTINGS_PRODUCTION }}
+      WASMSERVERHOSTCLIENT_APPSETTINGS_PRODUCTION: ${{ secrets.WASMSERVERHOSTCLIENT_APPSETTINGS_PRODUCTION }}
+      WASMSERVERHOST_APPSETTINGS_PRODUCTION: ${{ secrets.WASMSERVERHOST_APPSETTINGS_PRODUCTION }}
+
 
   # Now we've done due diligence
   # The checks have been allowed to run if the workflow fails so if there a multiple fails we know. 
@@ -68,9 +81,6 @@ jobs:
             @semantic-release/github
           echo "Semantic Release packages installed."
           npm ls --depth=0 # Debug: List installed packages
-       
-      
-
 
       - name: Run semantic version (None Blocking)
         run: |
@@ -143,6 +153,26 @@ jobs:
       - name: Replace local environment variable in nuget config because cant provide it as a parameter
         run: sed -i "s|%TELBlazorPackageSource%|$TELBLAZOR_PACKAGE_LOCAL_OUTPUT_PATH|g" nuget.config
        
+      - name: Create appsettings development from secrets
+        run: |
+          declare -A paths
+          paths["./TELBlazor.Components.UnitTests/appsettings.Development.json"]='${{ secrets.UNITTESTS_APPSETTINGS_DEVELOPMENT }}'
+          paths["./TELBlazor.Components.ShowCase.WasmStaticClient/wwwroot/appsettings.Development.json"]='${{ secrets.WASMSTATICCLIENT_APPSETTINGS_DEVELOPMENT }}'
+          paths["./TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/TELBlazor.Components.ShowCase.E2ETests.WasmServerHost.Client/wwwroot/appsettings.Development.json"]='${{ secrets.WASMSERVERHOSTCLIENT_APPSETTINGS_DEVELOPMENT }}'
+          paths["./TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/appsettings.Development.json"]='${{ secrets.WASMSERVERHOST_APPSETTINGS_DEVELOPMENT }}'
+
+          paths["./TELBlazor.Components.UnitTests/appsettings.Production.json"]='${{ secrets.UNITTESTS_APPSETTINGS_PRODUCTION }}'
+          paths["./TELBlazor.Components.ShowCase.WasmStaticClient/wwwroot/appsettings.Production.json"]='${{ secrets.WASMSTATICCLIENT_APPSETTINGS_PRODUCTION }}'
+          paths["./TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/TELBlazor.Components.ShowCase.E2ETests.WasmServerHost.Client/wwwroot/appsettings.Production.json"]='${{ secrets.WASMSERVERHOSTCLIENT_APPSETTINGS_PRODUCTION }}'
+          paths["./TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/appsettings.Production.json"]='${{ secrets.WASMSERVERHOST_APPSETTINGS_PRODUCTION }}'
+
+
+          for path in "${!paths[@]}"; do
+            mkdir -p "$(dirname "$path")"
+            printf '%s' "${paths[$path]}" > "$path"
+          done     
+
+
       - name: Clean lock files because the newly generated package file will supersede the locks
         run: |
           find . -name "packages.lock.json" -type f -exec rm -f {} \;
@@ -153,7 +183,6 @@ jobs:
           node-version: '20'
     
       - name: Install npm packages so we have gulp for retrieving TEL Frontend Css
-        working-directory: ./TELBlazor.Components
         run: npm ci
         #CI is an install that adheres to package-lock
       
@@ -185,6 +214,7 @@ jobs:
       DEV_TELBLAZOR_PACKAGE_VERSION: ${{ needs.generate-dev-semantic-version.outputs.dev-package-version }}
 
     steps:
+    
       - name: Checkout Code
         uses: actions/checkout@v4
 
@@ -208,7 +238,25 @@ jobs:
       - name: debug DEV_TELBLAZOR_PACKAGE_VERSION
         run: |
           echo "DEV_TELBLAZOR_PACKAGE_VERSION  $DEV_TELBLAZOR_PACKAGE_VERSION"
-      
+          
+      - name: Create appsettings development from secrets
+        run: |
+          declare -A paths
+          paths["./TELBlazor.Components.UnitTests/appsettings.Development.json"]='${{ secrets.UNITTESTS_APPSETTINGS_DEVELOPMENT }}'
+          paths["./TELBlazor.Components.ShowCase.WasmStaticClient/wwwroot/appsettings.Development.json"]='${{ secrets.WASMSTATICCLIENT_APPSETTINGS_DEVELOPMENT }}'
+          paths["./TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/TELBlazor.Components.ShowCase.E2ETests.WasmServerHost.Client/wwwroot/appsettings.Development.json"]='${{ secrets.WASMSERVERHOSTCLIENT_APPSETTINGS_DEVELOPMENT }}'
+          paths["./TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/appsettings.Development.json"]='${{ secrets.WASMSERVERHOST_APPSETTINGS_DEVELOPMENT }}'
+          
+          paths["./TELBlazor.Components.UnitTests/appsettings.Production.json"]='${{ secrets.UNITTESTS_APPSETTINGS_PRODUCTION }}'
+          paths["./TELBlazor.Components.ShowCase.WasmStaticClient/wwwroot/appsettings.Production.json"]='${{ secrets.WASMSTATICCLIENT_APPSETTINGS_PRODUCTION }}'
+          paths["./TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/TELBlazor.Components.ShowCase.E2ETests.WasmServerHost.Client/wwwroot/appsettings.Production.json"]='${{ secrets.WASMSERVERHOSTCLIENT_APPSETTINGS_PRODUCTION }}'
+          paths["./TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/appsettings.Production.json"]='${{ secrets.WASMSERVERHOST_APPSETTINGS_PRODUCTION }}'
+
+          for path in "${!paths[@]}"; do
+            mkdir -p "$(dirname "$path")"
+            printf '%s' "${paths[$path]}" > "$path"
+          done        
+          
       - name: Clean lock files because the newly generated package file will superseed the locks
         run: |
           echo "Listing packages.lock.json files:"
@@ -220,7 +268,26 @@ jobs:
           echo "Listing packages.lock.json files:"
           find . -name "packages.lock.json" -type f -print
 
+      - name: Set up Node.js so we have gulp for retrieving TEL Frontend Css
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+    
+      - name: Install npm packages so we have gulp for retrieving TEL Frontend Css
+        run: npm ci   
 
+      - name: Build solution without generating new package
+        env:
+              #Overwrite package generation
+          DISABLE_PACKAGE_GENERATION: true
+        run: |
+          dotnet build TELBlazor.sln -c Release \
+            /p:TELBlazorPackageVersion=$DEV_TELBLAZOR_PACKAGE_VERSION \
+            /p:NupkgOutputPath=$TELBLAZOR_PACKAGE_LOCAL_OUTPUT_PATH \
+            /p:UseTELBlazorComponentsProjectReference=$USE_TEL_BLAZOR_COMPONENTS_PROJECT_REFERENCE \
+            /p:TELBlazorPackageSource=$TELBLAZOR_PACKAGE_SOURCE \
+            /p:DisablePackageGeneration=$DISABLE_PACKAGE_GENERATION \
+            /p:E2ETracingEnabled=$E2E_TRACING_ENABLED
 
       - name: Publish WasmStaticClient
         run: |
@@ -247,12 +314,14 @@ jobs:
           ARTIFACT_LIST=$(gh api "repos/TechnologyEnhancedLearning/TELBlazor/actions/runs/${GITHUB_RUN_ID}/artifacts")
           # Echo the entire artifact list for debugging purposes
           echo "Artifact List: $ARTIFACT_LIST"
-          # Extract the download URL from the artifact list (first artifact in the list)
-          #ARTIFACT_URL=$(echo "$ARTIFACT_LIST" | jq -r '.artifacts[0].archive_download_url')
-          ARTIFACT_URL=$(echo "$ARTIFACT_LIST" | jq -r '.artifacts[0].url')
+          
+          # Change this line to select by name instead of position
+          ARTIFACT_URL=$(echo "$ARTIFACT_LIST" | jq -r '.artifacts[] | select(.name=="published-telblazor-components-showcase-wasmstaticclient-using-dev-package-${{env.DEV_TELBLAZOR_PACKAGE_VERSION}}") | .url')
+              
           # Echo the artifact URL to confirm
           echo "Artifact URL: $ARTIFACT_URL"
           echo "artifact_url=$ARTIFACT_URL" >> $GITHUB_ENV
+          
 
       - name: Trigger workflow in TELBlazor-DevShowCase repo
         run: |

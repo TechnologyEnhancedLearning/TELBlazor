@@ -6,14 +6,37 @@
     <Nullable>enable</Nullable>
     <NoDefaultLaunchSettingsFile>true</NoDefaultLaunchSettingsFile>
     <StaticWebAssetProjectMode>Default</StaticWebAssetProjectMode>
+	  <!--to enable e2e tests-->
+	<PreserveCompilationContext>true</PreserveCompilationContext>
+	<Configurations>Debug;Release;ci</Configurations>
+  
   </PropertyGroup>
+	<ItemGroup>
+		<!-- Logging -->
+		<PackageReference Include="Serilog" />
+		<PackageReference Include="Serilog.Extensions.Logging" />
+		<PackageReference Include="Serilog.Formatting.Compact" />
+		<PackageReference Include="Serilog.Settings.Configuration" />
+		<PackageReference Include="Serilog.Sinks.BrowserConsole" />
+		<PackageReference Include="Serilog.Sinks.Http" />
 
-  <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" />
+		<!-- Utilities -->
+		<PackageReference Include="Blazored.LocalStorage" />
+		<PackageReference Include="Microsoft.Extensions.Http" />
+	</ItemGroup>
+	
+	<ItemGroup>
+		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" />
+	</ItemGroup>
+	
+	<ItemGroup>
+		<ProjectReference Include="..\..\TELBlazor.Components.ShowCase.Shared\TELBlazor.Components.ShowCase.Shared.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\TELBlazor.Components.ShowCase.Shared\TELBlazor.Components.ShowCase.Shared.csproj" />
+    <Content Update="wwwroot\appsettings.Production.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>

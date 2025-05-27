@@ -1,0 +1,16 @@
+﻿@page "/CssSourceChecker/"
+<PageTitle>@Title</PageTitle>
+<ShowCase 
+    Title="@Title" 
+    Instructions="@Instructions" 
+    Description="@Description" 
+    IsTestComponent=@IsTestComponent>
+        <CssSourceChecker/>
+</ShowCase>
+
+@code {
+    private bool IsTestComponent => true;
+    private string Title => "CssSourceChecker";
+    private string Instructions => "This element just shows css";
+    private string Description => "Just a test elements";
+}

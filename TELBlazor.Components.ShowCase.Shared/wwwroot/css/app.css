@@ -1,6 +1,5 @@
-
+/* Css just for showcase and to match frontend prototype showcase partially*/
 /* RCL Styles remember bundled scoped css we may not use it but it is extremely normal to so we may in future*/
-/*@import '_content/TELBlazor.Components/TELBlazor.Components.bundle.scp.css';qqqq del if other works for all prj*/
 @import '../../TELBlazor.Components/TELBlazor.Components.bundle.scp.css';
 
 
@@ -87,3 +86,45 @@ code {
 }
 
 
+
+/* ==========================================================================
+   #APP-PANE   
+   ========================================================================== */
+
+.app-pane {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    overflow: inherit;
+    position: relative;
+}
+
+.app-pane__side-bar {
+    -ms-flex: 0 0 auto;
+    -webkit-box-flex: 0;
+    flex: 0 0 auto;
+    width: 250px;
+    padding:24px 24px 0 0;
+}
+
+.app-pane__main-content {
+    -ms-flex: 1 1 100%;
+    // sass-lint:disable-line no-duplicate-properties -ms-flex-direction: column;
+    -webkit-box-direction: normal;
+    -webkit-box-flex: 1;
+    -webkit-box-orient: vertical;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    // sass-lint:disable-line no-duplicate-properties display: flex;
+    // sass-lint:disable-line no-duplicate-properties flex: 1 1 100%;
+    flex-direction: column;
+    min-width: 0;
+
+    @include nhsuk-media-query($from: desktop) {
+        padding-left: nhsuk-spacing(9);
+    }
+}
+
+
+.app-contents-list .nhsuk-contents-list__list {
+    margin-bottom: 0;
+}
