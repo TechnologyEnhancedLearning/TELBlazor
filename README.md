@@ -1,12 +1,20 @@
-
 # TELBlazor
 TEL Blazor Component Library Package
+
+# This ReadMe
+
+This readme is the repo readme, it is also used as the package readme as this is the solution for making the TELBlazor.Components package.
+There is also a cicd readme in the workflow folder.
+
+The [MVCBlazor repo ](https://github.com/TechnologyEnhancedLearning/MVCBlazor) readme has exploration of various of the choices and alternatives to what is implemented here. And the other blazor repos may
+also be a useful resource when developing for this repo.
 
 # Purpose
 
 Progressive components, that use the server prerendering in Global Wasm Blazor to ensure that if the user has no JS they will get html. And that html can be created to have working post actions.
 The render cycle will hydrate the prerender and the post actions will be overrided by services injected in the components.
 It is client side so the users browser will do the work.
+  
   
    
 # Links
@@ -34,80 +42,112 @@ It is client side so the users browser will do the work.
 
 # Set Up
 
-## How to set up this solution locally
+## "It works on my machine"
+qqqq run release first make branch for kevin
+### Hi Kevin, Please rewrite or correct these steps. 
+- im expecting ome global node may end up not working if anything as its already set up on my machine
+
+### Steps
+
+#### Get the repo
+1. Go to [TELBlazor Repo](https://github.com/TechnologyEnhancedLearning/TELBlazor) hit code and get the clone string
+1. Clone the repo locally
+1. Go to [TELBlazor Repo](https://github.com/TechnologyEnhancedLearning/TELBlazor) 
+	- create a branch (**there is branch name checks in cicd**) so for example call it "docs-readme-setup-instructions"
+	- [branch lint rule](https://github.com/TechnologyEnhancedLearning/TELBlazor/blob/master/.releaserc.json)
+	- you commits will look like this "docs(readme): added detail on commit rules"
+1. Fetch, and checkout your new branch locally so you can add to the readme as you go
+	- create commit "docs(readme): first commit"
+	- see [commit rules](https://github.com/TechnologyEnhancedLearning/TELBlazor/blob/master/.commitlintrc.json)
+	- *these rules also enable the versioning in cicd*
+	- Bonus dont wait for the pipeline to fail your commit names and expose your secrets: you may want to add
+		- gitguardian from confluence docs (follow it to the letter) [gitguardian global setup instructions](https://hee-tis.atlassian.net/wiki/spaces/TP/pages/3855253505/GitGuardian+Setup+-+Simplified+Version)
+        - and add a pre-commit and push hook (you need both as you cannot lint what hasnt yet been commit) you add these to your templates if you want them for every repo, or just to this repo, or you can be lazy and add them into the gitguardian hook
+		-	```
+				#### --- Commitlint Logic (force local config) ---
+				REPO_ROOT=$(git rev-parse --show-toplevel)
+				CONFIG_PATH="$REPO_ROOT/.commitlintrc.json"
+				echo "COMMIT_MSG_FILE is one msg behind it is only set to the commit your trying to commit after the commit succeeds so this script is one behind"
+				echo "so would work best in prepush template"
+				COMMIT_MSG_FILE="$REPO_ROOT/.git/COMMIT_EDITMSG"
+
+				# Check if the local .commitlintrc.json exists in the repository root
+				if [ -f "$CONFIG_PATH" ]; then
+
+					echo "✅ Local .commitlintrc.json found at: $CONFIG_PATH. Running commitlint..."
+					echo "⚠️ if commit lint fails in precommit its actually reading previous commit name you need to reset or squash make a new commit and change .git/COMMIT_EDITMSG to something that would pass. ⚠️"
+
+					if command -v npx &> /dev/null; then
+					
+							cd "$REPO_ROOT" || exit 1
+
+							# Debug: Print the commit message file content
+							if [ -f "$COMMIT_MSG_FILE" ]; then
+								echo "Commit message content:"
+								cat "$COMMIT_MSG_FILE"
+							else
+								echo "❌ Commit message file not found!"
+								exit 1
+							fi
+							
+							
+							# Run commitlint, explicitly pointing to the local config and providing the commit message via stdin
+							OUTPUT1=$(npx.cmd --no -- commitlint --config=".commitlintrc.json" --edit="$COMMIT_MSG_FILE" 2>&1)
+							
+							EXIT_CODE1=$?
+							# echo "!!!!!!!!!!! OUTPUT1"
+							# echo "$OUTPUT1"
+							
+							
+							# OUTPUT2=$(npx.cmd --no -- commitlint --config=".commitlintrc.json" --from=origin/master --to=HEAD 2>&1)
+							
+							# EXIT_CODE2=$?
+							# echo "!!!!!!!!!!! OUTPUT2"
+							# echo "$OUTPUT2"
+							
+							# OUTPUT3=$(npx.cmd --no -- commitlint --config=".commitlintrc.json"  --from-last-tag 2>&1)
+							
+							
+							# EXIT_CODE3=$?
+							# echo "!!!!!!!!!!! OUTPUT3"
+							# echo "$OUTPUT3"
+							
+
+
+						#if [ "$EXIT_CODE1" -ne 0 ] || [ "$EXIT_CODE2" -ne 0 ] || [ "$EXIT_CODE3" -ne 0 ];  then
+						if [ "$EXIT_CODE1" -ne 0 ];  then
+							echo "❌ Commitlint failed:"
+							
+							echo "$OUTPUT1"
+							exit 1
+						else
+							echo "✅ Commitlint passed!"
+						fi
+					else
+						echo "⚠️ npx not found. Please ensure Node.js and npm are installed to use commitlint."
+						# Optionally fail here
+						# exit 1
+					fi
+				else
+					echo "ℹ️ No local .commitlintrc.json found in $REPO_ROOT. Skipping commitlint."
+				fi
+			``` 
+### Install packages
+
+### Create local files
+
+### Set local environment variables
+
+### Run tests
+
+
+
+### How to set up this solution locally
 *Be aware wasm wwwroot appsettings are public*
 - TELBlazor\TELBlazor.Components.ShowCase.E2ETests\bin\Debug\net8.0\playwright.ps1 need to be run as admin
 - local hook for commits, recommended for pre commit, and pre push as can only check the commit name value post commit
 
-```
-	# --- Commitlint Logic (force local config) ---
-	REPO_ROOT=$(git rev-parse --show-toplevel)
-	CONFIG_PATH="$REPO_ROOT/.commitlintrc.json"
-	echo "COMMIT_MSG_FILE is one msg behind it is only set to the commit your trying to commit after the commit succeeds so this script is one behind"
-	echo "so would work best in prepush template"
-	COMMIT_MSG_FILE="$REPO_ROOT/.git/COMMIT_EDITMSG"
 
-	# Check if the local .commitlintrc.json exists in the repository root
-	if [ -f "$CONFIG_PATH" ]; then
-
-		echo "✅ Local .commitlintrc.json found at: $CONFIG_PATH. Running commitlint..."
-		echo "⚠️ if commit lint fails in precommit its actually reading previous commit name you need to reset or squash make a new commit and change .git/COMMIT_EDITMSG to something that would pass. ⚠️"
-
-		if command -v npx &> /dev/null; then
-		
-				cd "$REPO_ROOT" || exit 1
-
-				# Debug: Print the commit message file content
-				if [ -f "$COMMIT_MSG_FILE" ]; then
-					echo "Commit message content:"
-					cat "$COMMIT_MSG_FILE"
-				else
-					echo "❌ Commit message file not found!"
-					exit 1
-				fi
-				
-				
-				# Run commitlint, explicitly pointing to the local config and providing the commit message via stdin
-				OUTPUT1=$(npx.cmd --no -- commitlint --config=".commitlintrc.json" --edit="$COMMIT_MSG_FILE" 2>&1)
-				
-				EXIT_CODE1=$?
-				# echo "!!!!!!!!!!! OUTPUT1"
-				# echo "$OUTPUT1"
-				
-				
-				# OUTPUT2=$(npx.cmd --no -- commitlint --config=".commitlintrc.json" --from=origin/master --to=HEAD 2>&1)
-				
-				# EXIT_CODE2=$?
-				# echo "!!!!!!!!!!! OUTPUT2"
-				# echo "$OUTPUT2"
-				
-				# OUTPUT3=$(npx.cmd --no -- commitlint --config=".commitlintrc.json"  --from-last-tag 2>&1)
-				
-				
-				# EXIT_CODE3=$?
-				# echo "!!!!!!!!!!! OUTPUT3"
-				# echo "$OUTPUT3"
-				
-
-
-			#if [ "$EXIT_CODE1" -ne 0 ] || [ "$EXIT_CODE2" -ne 0 ] || [ "$EXIT_CODE3" -ne 0 ];  then
-			if [ "$EXIT_CODE1" -ne 0 ];  then
-				echo "❌ Commitlint failed:"
-				
-				echo "$OUTPUT1"
-				exit 1
-			else
-				echo "✅ Commitlint passed!"
-			fi
-		else
-			echo "⚠️ npx not found. Please ensure Node.js and npm are installed to use commitlint."
-			# Optionally fail here
-			# exit 1
-		fi
-	else
-		echo "ℹ️ No local .commitlintrc.json found in $REPO_ROOT. Skipping commitlint."
-	fi
-```
 - open powershell admin
 	- go to e2e project bin/Debug/net8
 	- run the playwright script with "install"

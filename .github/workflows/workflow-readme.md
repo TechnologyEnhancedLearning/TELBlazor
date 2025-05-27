@@ -37,10 +37,14 @@ they stay in the pull request ui. they are also only targetted on master
 - npm and node
 - seperate script to auto merge
 
+## automerge-passing-minor-patch-dependabot-prs
+- 
+
 # Git setup
 
 ## Pull requests
-- Branch checks for master (they dont directly use Reuseable Ci Checks instead they use them via the pull_request yml, unsure why not directly available)
+- Branch checks for master dont work, they don't run the workflow dispatch.
+If we want these checks one solution is every check in its own yml (they dont directly use Reuseable Ci Checks instead they use them via the pull_request yml)
 
 
 # Notes

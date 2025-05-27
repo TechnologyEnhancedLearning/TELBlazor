@@ -3,8 +3,14 @@ name: Pull Request Checks
 on:
   pull_request:
     branches: ['**']  # Run on all branches
+  workflow_dispatch:
 
 jobs:
+  dummy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Dummy Step
+        run: echo "This is a dummy job to allow workflow_dispatch"
   pull-request-call-reusable-ci-checks-workflow:
     name: Pull Request run CI Checks
     uses: ./.github/workflows/reuseable-ci-checks.yml
