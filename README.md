@@ -6,8 +6,7 @@ TEL Blazor Component Library Package
 This readme is the repo readme, it is also used as the package readme as this is the solution for making the TELBlazor.Components package.
 There is also a cicd readme in the workflow folder.
 
-The [MVCBlazor repo ](https://github.com/TechnologyEnhancedLearning/MVCBlazor) readme has exploration of various of the choices and alternatives to what is implemented here. And the other blazor repos may
-also be a useful resource when developing for this repo.
+The [MVCBlazor repo ](https://github.com/TechnologyEnhancedLearning/MVCBlazor) readme has exploration of various of the choices and alternatives to what is implemented here, which may be useful along with the other blazor repos, when developing for this repo.
 
 # Purpose
 
@@ -43,26 +42,51 @@ It is client side so the users browser will do the work.
 # Set Up
 
 ## "It works on my machine"
-qqqq run release first make branch for kevin
+
 ### Hi Kevin, Please rewrite or correct these steps. 
-- im expecting ome global node may end up not working if anything as its already set up on my machine
+- im expecting maybe global node may end up not working, if anything, as its already set up globally on my machine with the packages for this project.
+
+### 
+
+### Prerequisites
+- **Visual Studio 2022** (Community or higher)
+- **.NET 8 SDK version 8.0.407 or later** (see global.json requirement below)
+- **Node.js 18+** and npm
+- **Git** configured with your credentials
+- **PowerShell 5.1+** 
+> ⚠️ **Important:** All commands in this guide require **PowerShell running as Administrator**
 
 ### Steps
 
 #### Get the repo
+1. Open powershell as admin
+1. In powershell navigate (```cd```) to the folder the repo will go
+1. Check prequisites
+	- ```
+		### 1. Verify Prerequisites
+
+		**Open PowerShell as Administrator** and verify your setup:
+
+		```powershell
+		# Check .NET SDK version (should be 8.0.407 or later)
+		dotnet --version
+
+		# Check Node.js version (should be 18+)
+		node --version
+	
+	  ```
 1. Go to [TELBlazor Repo](https://github.com/TechnologyEnhancedLearning/TELBlazor) hit code and get the clone string
-1. Clone the repo locally
+1. Clone the repo locally using powershell terminal
 1. Go to [TELBlazor Repo](https://github.com/TechnologyEnhancedLearning/TELBlazor) 
-	- create a branch (**there is branch name checks in cicd**) so for example call it "docs-readme-setup-instructions"
-	- [branch lint rule](https://github.com/TechnologyEnhancedLearning/TELBlazor/blob/master/.releaserc.json)
-	- you commits will look like this "docs(readme): added detail on commit rules"
+	- create a branch (**there is branch name checks in cicd [branch lint rules](https://github.com/TechnologyEnhancedLearning/TELBlazor/blob/master/.releaserc.json)**) so for example call it "docs-readme-setup-instructions"
+	- your commits should look like this "docs(readme): added detail on commit rules"
 1. Fetch, and checkout your new branch locally so you can add to the readme as you go
 	- create commit "docs(readme): first commit"
 	- see [commit rules](https://github.com/TechnologyEnhancedLearning/TELBlazor/blob/master/.commitlintrc.json)
 	- *these rules also enable the versioning in cicd*
-	- Bonus dont wait for the pipeline to fail your commit names and expose your secrets: you may want to add
+	- Bonus (you could do this while cloning): if you don't want to wait for the pipeline to fail your commit names and for pushes to accidently expose your secrets: you may want to add
 		- gitguardian from confluence docs (follow it to the letter) [gitguardian global setup instructions](https://hee-tis.atlassian.net/wiki/spaces/TP/pages/3855253505/GitGuardian+Setup+-+Simplified+Version)
-        - and add a pre-commit and push hook (you need both as you cannot lint what hasnt yet been commit) you add these to your templates if you want them for every repo, or just to this repo, or you can be lazy and add them into the gitguardian hook
+        - and add a pre-commit and push hook (you need both as you cannot lint what hasnt yet been commit) you can add these to your git templates if you want them for every repo, or just to this repos pre- push- commits, or you can be lazy and add them into the gitguardian hook
 		-	```
 				#### --- Commitlint Logic (force local config) ---
 				REPO_ROOT=$(git rev-parse --show-toplevel)
@@ -132,27 +156,53 @@ qqqq run release first make branch for kevin
 					echo "ℹ️ No local .commitlintrc.json found in $REPO_ROOT. Skipping commitlint."
 				fi
 			``` 
+#### About configuration (just to read)
+
+Visual studio caches the environmental variables so to avoid restarting it you may want to have multiple 
+environment variables, even if at times they are set to the same values. Then you can switch in configuration 
+which environment value is used rather than the underlying value, but be careful not to leave nuget.config 
+changed. Remember to delete your lock files when changing which package your using* ```%envvalue%``` syntax in nuget.config can be populated by environment values by visual studio but not via command line and cicd has to replace the values with ```sed```
+- The intention of the configuration is you should be able to switch between local packages, remote package, and project references. It will also enable parrallel development with consuming projects, so package changes can be seen in situ during development.
+- Troubleshooting
+    - delete local `TELBlazor.Components` packages
+    - check `TELBlazorPackageVersion` has been incremented
+    - delete lock files
+	- clean solution
+	- check environment values in `props` and `nuget.config`
+	- restore nuget packages 
+	- restore solution
+	- if still not working close visual studio and reopen
+	- if there are still issues its easier to problem solve by using a random `TELBlazor.Components` and ensuring it fails and says it found the source but not the version
+- Variables Recommended to add to environment variables (Do this in the next section)
+	- **TELBlazorPackageSource** → https://nuget.pkg.github.com/TechnologyEnhancedLearning/index.json
+	- **TELPackageSource** → https://nuget.pkg.github.com/TechnologyEnhancedLearning/index.json
+	- **LocalPackageSource** → e.g. C:\dev\LocalPackages
+	- **NupkgOutputPath** → e.g. C:\dev\LocalPackages
+- Other variables you may want to set up
+	- Any of the nuget.config and PackageSetting.props values but visual studio caches environment values so nothing you expect to change regularly
+
 
 #### Create local files
-- Right click PackgeSettings.props.local and open with xml editor or any preffered way of opening it
+- Right click PackgeSettings.props.local and open with xml editor or any preferred way of opening it
 - copy paste PackgeSettings.props.local.template into it
-- Settings Detail
-	- Recommended starting point
-		- TELBlazorPackageSource -> create a local environmental variable system wide to where ever you want to make packages on your machine
-			(go into windows edit environmental system variables, then look for environmental variables button, then add to system wide). This will be useful for 
-			developing a consuming project and the package at the same time and making sure the changes will work.
-		- NupkgOutputPath set this to the same variable as above
-		- UseTELBlazorComponentsProjectReference set it true for faster development
-		- TELBlazorPackageVersion set it to a number higher than the production value and increase it everytime you want to produce and use the package locally if not using the project reference
-		  (this could be an environmental variable and set by the build number or some increasing number to allow automated increments across this project and a consuming project )
-		- DisablePackageGeneration we publish the package on build if this isnt flagged. set it to true so can build the solution without making the package
-		- E2ETracingEnabled set to true its for testing
-		- HeadlessTesting set to true unless you want to see what the E2E tests are doing in a browser while they test
-	- you can copy paste PackageSettings.props.local.template and then change them
+- Set environmental variables (go into windows, edit environmental system variables, then look for environmental variables button, then add to system wide) 	
+	- **TELBlazorPackageSource** → https://nuget.pkg.github.com/TechnologyEnhancedLearning/index.json
+	- **TELPackageSource** → https://nuget.pkg.github.com/TechnologyEnhancedLearning/index.json
+	- **LocalPackageSource** → e.g. C:\dev\LocalPackages
+	- **NupkgOutputPath** → e.g. C:\dev\LocalPackages
+- System environment variables or PackageSetting.props.local variables but recommend the latter
+    - **UseTELBlazorComponentsProjectReference** set it true for faster development
+	- **TELBlazorPackageVersion** set it to a number higher than the production value and increase it every-time you want to produce and use the package locally if not using the project reference
+      - if this were set to auto increment to a file accessible by other projects that would be ideal
+	- **DisablePackageGeneration** we publish the package on build if this isnt flagged. Set it to true so you can build the solution without making the package
+		- You may want to build the solution without package generation, the TELBlazor.Components with package generation for example
+	- **E2ETracingEnabled** set to true its for testing
+	- **HeadlessTesting** set to true unless you want to see what the E2E tests are doing in a browser while they test
+
 #### Create More Environment Variables
 - To use remote git hosted nuget packages you need a personal git token. This is just because git tracks the use of packages rather than it being anonymous
 	- go onto your git profile
-	- go to settings -> developer settings -> Personal access tokens -> Tokens classic
+	- go to settings → developer settings → Personal access tokens → Tokens classic
 		- as a minimum select read:packages and you may wish to increase the expiration date.
 			- copy the token it will disapear
 	- Set system wide environment variables as before
@@ -183,39 +233,50 @@ qqqq run release first make branch for kevin
 			```
 	    - check there is a nupkg package. its an old one, so just delete it. 
 
+#### Set nuget to have the source (powershell)
+````
+dotnet nuget add source "https://nuget.pkg.github.com/TechnologyEnhancedLearning/index.json" `
+  --name "github" `
+  --username $env:GITHUB_USERNAME `
+  --password $env:GITHUB_TOKEN `
+  --store-password-in-clear-text
+````
+
+
 #### Create appsettings
 *Be aware that because WASM code is in the browser appsettings in the wasm client projects are not secret and sensitive data should not go in them*
 
-- TELBlazor.Components.ShowCase.E2ETests.WasServerHost
+- **TELBlazor.Components.ShowCase.E2ETests.WasmServerHost**
 	- create appsettings.Development.json
 	- copy paste from appsettings.Development.json.template
 	- the template is source controlled so wont have anything that needs to be secure
 	- if you have preferences for logging this is where to configure it, if you want to add creating a text file for example add it here and then add it as dependency in the solution and a reference in the program.cs
-	- logging can be used to get information during testing and test against it
-- TELBlazor.Components.ShowCase.E2ETests.WasmServerHost.Client
+	- *logging can be used to get information during testing and test against it*
+- **TELBlazor.Components.ShowCase.E2ETests.WasmServerHost.Client**
 	- follow the same process
 	- client side appsetting are exposed through the wasm so dont put secure information in them
 	- the client will have different logging options as it can only log to browser console, http to a logging api, storage
-- TELBlazor.Components.ShowCase.ShowCase.WasmServerHost.Client
+- **TELBlazor.Components.ShowCase.ShowCase.WasmServerHost.Client**
 	- this is the project that become the gh-pages
 	- the appsettings go into the wasm so no secrets in here
 	- any of these projects could be used to view changes but if not looking at nojs this project could have different appsettings just for development as it isnt used to test against.
-= TELBlazor.Components.UnitTests
+- **TELBlazor.Components.UnitTests**
 		- as above
 
 #### Install packages
-- first set yourpackage.settings.props.local if you havent already via environment variables and hard coding to the following
-		- TELBlazorPackageSource -> a local folder outside of the solution
-		- NupkgOutputPath -> the same local folder outside of the solution
-		- UseTELBlazorComponentsProjectReference -> true
-		- TELBlazorPackageVersion -> 1.0.0 will do for now
-		- DisablePackageGeneration -> true
-		- E2ETracingEnabled -> true
-		- HeadlessTesting -> true
+- first set packagesettings.props.local if you havent already via environment variables to the following
+	- **TELBlazorPackageSource** → a local folder outside of the solution
+	- **NupkgOutputPath** → the same local folder outside of the solution
+	- **UseTELBlazorComponentsProjectReference** → true
+	- **TELBlazorPackageVersion** → 1.0.0 will do for now
+	- **DisablePackageGeneration** → true
+	- **E2ETracingEnabled** → true
+	- **HeadlessTesting** → true
 - right click the solution and copy full path (we need admin rights so dont just open terminal)
 - open powershell from windows as administrator
-- cd and paste to your solution
-- ```   
+- paste the route paste and cd to the solution folder
+- then run the following
+- 	```   
 		# 1. Check environment variables and local props
 		Write-Output "Have you set your environment variables and local props?"
         dotnet clean
@@ -235,35 +296,99 @@ qqqq run release first make branch for kevin
 		# 5. Build solution or run other commands as needed
 		Write-Output "Build solution without build package, using project references instead of local package or remote package"
 		dotnet build
+		
+		# 6. Setup playwright
+		Write-Output "Playwright setup"
+		& ".\TELBlazor.Components.ShowCase.E2ETests\bin\Debug\net8.0\playwright.ps1" install
+	```
 
-```
+#### Check Setup Worked
+
+- Look in components **TELBlazor.Components.TELBlazorPackageVersion**
+	- **TELFrontEndPackageVersion** check the package versions
+	- it should match the version number in your `props.local` currently
+	- check nhsuk version in `package.json`
+- check `nhsuk.css` was generated by gulp in `TELBlazor.Components.ShowCase.Shared.wwwroot.css`
+- Open test runner and run tests 
+	- wait 10 seconds, then if its going make a cup of tea
+- reuse previous terminal, or right click solution and open a terminal
+	- ``` ./run-tests-and-report-with-env-values.ps1 ```
+		- (this is just a useful script for running tests and report similar to the cicd if you want to run the cicd locally you could use "nektos act" instead)
+	- it will quietly slowly do the E2E after the first tables appear so enjoy your tea and skim the readme for 5 minutes
+- look in AllTestResults folder at the solution level you should see coverage.cobertura.xml
+- find index.html at the the top level in the folder CoverageReport, open it in chrome and bookmark it if you like
+- run TELBlazor.Components.ShowCase.E2ETests.WasmServerHost
+    - take note of the TELBlazor Package Version
+	- have a click around, change the loglevel look in the browser console
+	- the host runs the client
+	- you can put debugger in program.cs of WasmServerHost because this part isnt running in the browser as the wasm
+	- once the wasm takes over to debug in the browser you need to do some setup
+		- TODO QQQQ I cant remember what i havent set up on new machine yet, i presume it doesnt work for you kevin?
+- run TELBlazor.Components.ShowCase.E2ETests.WasmServerHost	
+	- This is pure wasm so notice the loader initially this is because there is no prerender
+- go into tools in the top vs bar you should see toggle test coverage highlighting. Go to loglevelswitcher.razor it should be highlighted red 
+	- qqqq todo isnt for mine is it for yours kevin?
 
 
-
-#### Check Setup 
-
+##### Check Setup with Package Creation
+*The TELBlazor Package Version is actually parsed from the number provided in props so don't rely on it to match the package being shown soley if your still using the ref, the project will display the new number you put in*
+- change local props to
+	- set `packagesettings.props.local` if you haven't already via environment variables and hard coding to the following
+		- **TELBlazorPackageSource** → a local folder outside of the solution
+		- **NupkgOutputPath** → the same local folder outside of the solution
+		- **UseTELBlazorComponentsProjectReference** → false
+		- **TELBlazorPackageVersion** → pick something greater than [Find package number not dev package number, dev packages have -branchname](https://github.com/TechnologyEnhancedLearning/TELBlazor/pkgs/nuget/TELBlazor.Components)
+			- make sure its changed so its more than the TELBlazor Package Version you previously noted
+		- **DisablePackageGeneration** → false
+		- **E2ETracingEnabled** → false
+		- **HeadlessTesting** → false 
+		
+*When doing package generation remember you need to keep incrementing the package number to get changes into the project, it would be nice to have this as an env value as an automated increment*
+- delete the local package in your package folder
+- delete the lock files
+- clean/build solution (because of build order you may need to build TELBlazor.Components first if there are issues)
+	- check package created in your package location
+- make a change to the html of `TELBlazor.Components.Components.TestComponents.CssSourceChecker.cs` you can search graphitti-wall add a <p> if you don't see it in the next build the package is in use rather than the reference :)
+- run the hosted project does it work now its set to use the package
+	- package number will have increased
+	- you shouldnt see the html you added
+- run the wasm project does it work now its set to uses package
+	- you shouldnt see the html you added
+	- Tip it can be useful to launch incognito 
+		- right click an index.html, browser with, add chrome chrome_proxy.exe and --incognito flag then select it when running the project its now an available options
 - Run tests in test runner
-- run ps1
-- check report generator
-- use these setting to check credentials get remote package
-- check make local package
-- check works local package consumption
+	- its no longer headless so you should see multiple windows open
+
+###### Optional
+- run ps1 test script
+	
+
+##### Check Setup With Package reference remote
+
+- *You can change the value of the env system values but visual studio caches them so swapping for a different env value is faster just remember it needs changing back for cicd*
+	- **TELBlazorPackageSource** → https://nuget.pkg.github.com/TechnologyEnhancedLearning/index.json
+		- change it in nuget.config and .props, the easiest way is to change the environment variable used, but dont commit it to cicd 
+		- *For development you will probably just use a local or remote source so you are likely just to set the environment variables and leave them after the setup checks*
+	- **NupkgOutputPath** → the same local folder outside of the solution
+	- **UseTELBlazorComponentsProjectReference** → false
+	- **TELBlazorPackageVersion** → [Find package number not dev package number, dev packages have -branchname](https://github.com/TechnologyEnhancedLearning/TELBlazor/pkgs/nuget/TELBlazor.Components)
+	- **DisablePackageGeneration** → true
+	- **E2ETracingEnabled** → false
+	- **HeadlessTesting** → true 
+- delete lock files
+- clean/build
+- *if caching issues close and reopen visual studio*
+- Run tests in test runner
+- run the hosted project
+- run the wasm project
+- check that the right package is being used
 
 
 
 
 
-### How to set up this solution locally
-*Be aware wasm wwwroot appsettings are public*
-- TELBlazor\TELBlazor.Components.ShowCase.E2ETests\bin\Debug\net8.0\playwright.ps1 need to be run as admin
-- local hook for commits, recommended for pre commit, and pre push as can only check the commit name value post commit
 
-
-- open powershell admin
-	- go to e2e project bin/Debug/net8
-	- run the playwright script with "install"
-
-## How to include package
+## How to consume TELBlazor.Components 
 1. Select a production version of the package [Package list for TELBlazor.Component on git](https://github.com/TechnologyEnhancedLearning/TELBlazor/pkgs/nuget/TELBlazor.Components)
 1. Set up css references and dependency injection using lean host examples WasmServerHost, WasmServerHost.Client and WasmStaticClient
 from the repo and ShowCase project for how to include the package. 

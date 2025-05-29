@@ -9,6 +9,13 @@ namespace TELBlazor.Components.ShowCase.E2ETests.Helpers
 {
     public static class BrowserHelper
     {
+        // Setting value using PackageSetting.props potentially replace appsettings.Test.json in future especially if apis
+        static bool headless =>
+        #if HEADLESS_TESTING
+                        true;
+        #else
+                        false;
+        #endif
 
         public static async Task<IBrowserContext> CreateBrowserContextAsync(IPlaywright playwright, string browserType, bool jsEnabled, ViewportType viewport, string baseUrl)
         {
