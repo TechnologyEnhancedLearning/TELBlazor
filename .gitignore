@@ -198,3 +198,4 @@ CHANGELOG.md
 
 
 /AllTestResults/coverage.cobertura.xml
+/TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/Logs/*.txt

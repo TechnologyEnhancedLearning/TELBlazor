@@ -139,6 +139,19 @@
           "xunit.core": "2.4.1"
         }
       },
+      "TELBlazor.Components": {
+        "type": "Direct",
+        "requested": "[1.4.0, )",
+        "resolved": "1.4.0",
+        "contentHash": "2EVdlHZ8E7DZHSE6b+ZUFHTiRq0Vp9+7kMxyRkaRx3Di4B84rwX9Uo3bAzWf/0MrF9/rDslXEUpO/RdCkbECHA==",
+        "dependencies": {
+          "Microsoft.AspNetCore.Components.Web": "8.0.14",
+          "Microsoft.Extensions.DependencyInjection": "8.0.1",
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "8.0.2",
+          "Microsoft.Extensions.Http": "8.0.1",
+          "Microsoft.Extensions.Options.ConfigurationExtensions": "8.0.0"
+        }
+      },
       "xunit": {
         "type": "Direct",
         "requested": "[2.9.0, )",
@@ -1664,13 +1677,6 @@
         "contentHash": "5ZTQZvmPLlBw6QzCOwM0KnMsZw6eGjbmC176QHZlcbQoMhGIeGcYzYwn5w9yXxf+4phtplMuVqTpTbFDQh2bqQ==",
         "dependencies": {
           "xunit.extensibility.core": "[2.9.0]"
-        }
-      },
-      "telblazor.components": {
-        "type": "Project",
-        "dependencies": {
-          "Microsoft.AspNetCore.Components.Web": "[8.0.14, )",
-          "Microsoft.Extensions.Http": "[8.0.1, )"
         }
       },
       "Microsoft.AspNetCore.Components.Web": {
