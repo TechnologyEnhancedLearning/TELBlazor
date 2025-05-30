@@ -454,7 +454,7 @@
           "Blazored.LocalStorage": "[4.5.0, )",
           "Microsoft.AspNetCore.Components.Web": "[8.0.14, )",
           "Serilog": "[4.2.0, )",
-          "TELBlazor.Components": "[1.4.0, )"
+          "TELBlazor.Components": "[1.5.0, )"
         }
       },
       "Microsoft.AspNetCore.Components.Web": {
@@ -510,9 +510,9 @@
       },
       "TELBlazor.Components": {
         "type": "CentralTransitive",
-        "requested": "[1.4.0, )",
-        "resolved": "1.4.0",
-        "contentHash": "2EVdlHZ8E7DZHSE6b+ZUFHTiRq0Vp9+7kMxyRkaRx3Di4B84rwX9Uo3bAzWf/0MrF9/rDslXEUpO/RdCkbECHA==",
+        "requested": "[1.5.0, )",
+        "resolved": "1.5.0",
+        "contentHash": "svqglB/V1smietDa8VmcsVjikI2220AclXWb+wJrqly3mKhQIxJINMhEfApilG6bSN/uyYh029UxwNGWhCrsyw==",
         "dependencies": {
           "Microsoft.AspNetCore.Components.Web": "8.0.14",
           "Microsoft.Extensions.DependencyInjection": "8.0.1",
