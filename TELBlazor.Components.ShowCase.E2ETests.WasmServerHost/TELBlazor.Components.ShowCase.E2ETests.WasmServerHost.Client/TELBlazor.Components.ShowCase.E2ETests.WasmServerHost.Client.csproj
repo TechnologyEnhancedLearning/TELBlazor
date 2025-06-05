@@ -11,6 +11,10 @@
 	<Configurations>Debug;Release;ci</Configurations>
   
   </PropertyGroup>
+
+  <ItemGroup>
+    <Content Remove="Properties\launchSettings.template.json" />
+  </ItemGroup>
 	<ItemGroup>
 		<!-- Logging -->
 		<PackageReference Include="Serilog" />
