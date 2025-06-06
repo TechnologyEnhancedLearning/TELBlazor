@@ -87,6 +87,10 @@ It is client side so the users browser will do the work.
 	- Bonus (you could do this while cloning): if you don't want to wait for the pipeline to fail your commit names and for pushes to accidently expose your secrets: you may want to add
 		- gitguardian from confluence docs (follow it to the letter) [gitguardian global setup instructions](https://hee-tis.atlassian.net/wiki/spaces/TP/pages/3855253505/GitGuardian+Setup+-+Simplified+Version)
         - and add a pre-commit and push hook (you need both as you cannot lint what hasnt yet been commit) you can add these to your git templates if you want them for every repo, or just to this repos pre- push- commits, or you can be lazy and add them into the gitguardian hook
+		- you will need git commitlint globally (angular because it goes with the versioning tool for repo versioning)
+			```
+				npm install -g @commitlint/cli @commitlint/config-angular
+			```
 		-	```
 				#### --- Commitlint Logic (force local config) ---
 				REPO_ROOT=$(git rev-parse --show-toplevel)
@@ -242,6 +246,8 @@ dotnet nuget add source "https://nuget.pkg.github.com/TechnologyEnhancedLearning
   --store-password-in-clear-text
 ````
 
+Note: You may also wish to go into your user appdata or roaming and find your global nuget config and add the credentials in there. Do this by copying the 
+TELPackage part of the config but with the system environment variable values you set earlier. This will mean LH for example will be able to access TEL packages and so will other projects.
 
 #### Create appsettings
 *Be aware that because WASM code is in the browser appsettings in the wasm client projects are not secret and sensitive data should not go in them*

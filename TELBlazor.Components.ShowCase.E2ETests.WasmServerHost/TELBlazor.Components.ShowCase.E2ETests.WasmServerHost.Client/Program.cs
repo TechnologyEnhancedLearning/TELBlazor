@@ -52,7 +52,7 @@ Log.Logger = new LoggerConfiguration()
     .CreateLogger();
 
 // Add Serilog to logging providers
-builder.Logging.AddSerilog(Log.Logger, dispose: true);
+builder.Logging.AddSerilog(Log.Logger, dispose: true);//qqqq may not need dispose for client
 
 //for really bad fails
 try
@@ -71,7 +71,7 @@ try
     builder.Services.AddBlazoredLocalStorage();
 
     //Scoped because being consumed with storage where singleton doesnt survive mvc page teardown
-    builder.Services.AddScoped<LoggingLevelSwitch>(sp => levelSwitch);
+    //qqqq do we need it builder.Services.AddScoped<LoggingLevelSwitch>(sp => levelSwitch);
     builder.Services.AddScoped<ILogLevelSwitcherService, SerilogLogLevelSwitcherService>();
     builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 

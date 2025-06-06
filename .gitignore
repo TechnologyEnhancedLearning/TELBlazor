@@ -199,3 +199,7 @@ CHANGELOG.md
 
 /AllTestResults/coverage.cobertura.xml
 /TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/Logs/*.txt
+/TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/TELBlazor.Components.ShowCase.E2ETests.WasmServerHost.Client/wwwroot/appsettings.json
+/TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/TELBlazor.Components.ShowCase.E2ETests.WasmServerHost.Client/wwwroot/appsettings.ci.json
+/TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/TELBlazor.Components.ShowCase.E2ETests.WasmServerHost.Client/wwwroot/appsettings.Development.json
+/TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/TELBlazor.Components.ShowCase.E2ETests.WasmServerHost.Client/wwwroot/appsettings.Production.json

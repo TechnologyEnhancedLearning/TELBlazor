@@ -3,7 +3,9 @@
 	<PropertyGroup>
 	    
 		<!--your local system environment variables-->
-		<TELBlazorPackageSource>$(LocalPackagePath)</TELBlazorPackageSource>
+		<TELBlazorPackageSource>$(TELBlazorPackageSource)</TELBlazorPackageSource>
+		<!--<TELBlazorPackageSource>$(LocalPackagePath)</TELBlazorPackageSource>-->
+		<!--<TELBlazorPackageSource>$(TELPackageSource)</TELBlazorPackageSource>-->
 		<NupkgOutputPath>$(LocalPackagePath)</NupkgOutputPath>
 		
 		<!--for faster iteration-->
