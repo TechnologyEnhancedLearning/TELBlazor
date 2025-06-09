@@ -454,7 +454,7 @@
           "Blazored.LocalStorage": "[4.5.0, )",
           "Microsoft.AspNetCore.Components.Web": "[8.0.14, )",
           "Serilog": "[4.2.0, )",
-          "TELBlazor.Components": "[1.6.0, )"
+          "TELBlazor.Components": "[1.7.0, )"
         }
       },
       "Microsoft.AspNetCore.Components.Web": {
@@ -510,15 +510,17 @@
       },
       "TELBlazor.Components": {
         "type": "CentralTransitive",
-        "requested": "[1.6.0, )",
-        "resolved": "1.6.0",
-        "contentHash": "/mLXDt0WNv9UAEjGa20xcBiBoSxqVko4x6Q5++VyPi2HzQdueo6NQOKVhJbg43/bWACmE+jx9cQCA3B/EUsnwg==",
+        "requested": "[1.7.0, )",
+        "resolved": "1.7.0",
+        "contentHash": "AevRvCFMhFTl4Dd+Bweif6hhIwDVe5cS9f7io7/x/fC8tptOg6klgjqmtRl+U60FKuBcChTs9/IId+szbngUDQ==",
         "dependencies": {
+          "Blazored.LocalStorage": "4.5.0",
           "Microsoft.AspNetCore.Components.Web": "8.0.14",
           "Microsoft.Extensions.DependencyInjection": "8.0.1",
           "Microsoft.Extensions.DependencyInjection.Abstractions": "8.0.2",
           "Microsoft.Extensions.Http": "8.0.1",
-          "Microsoft.Extensions.Options.ConfigurationExtensions": "8.0.0"
+          "Microsoft.Extensions.Options.ConfigurationExtensions": "8.0.0",
+          "Serilog": "4.2.0"
         }
       }
     },
