@@ -18,6 +18,12 @@
 		<Content Remove="packages.lock.json" />
 	</ItemGroup>
 	<ItemGroup>
+	  <None Remove="Services\HelperServices\gitinclude.txt" />
+	</ItemGroup>
+	<ItemGroup>
+	  <Content Include="Services\HelperServices\gitinclude.txt" />
+	</ItemGroup>
+	<ItemGroup>
 		<ProjectReference Include="..\TELBlazor.Components\TELBlazor.Components.csproj" Condition="'$(UseTELBlazorComponentsProjectReference)' == 'true'" />
 	</ItemGroup>
 	<Target Name="RunGulp" BeforeTargets="PrepareForBuild">

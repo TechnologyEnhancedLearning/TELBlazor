@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TELBlazor.Components.Core.Configuration;
 
-namespace TELBlazor.Components.Core.DI
+namespace TELBlazor.Components.OptionalImplementations.Core.DI
 {
     public static class DI
     {
