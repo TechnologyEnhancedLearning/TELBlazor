@@ -9,7 +9,7 @@ namespace TELBlazor.Components.ShowCase.E2ETests.Helpers
 {
     public static class BrowserHelper
     {
-        // Setting value using PackageSetting.props potentially replace appsettings.Test.json in future especially if apis
+        // qqqq Setting value using PackageSetting.props potentially replace appsettings.Test.json in future especially if using apis during testing
         static bool headless =>
         #if HEADLESS_TESTING
                         true;
@@ -22,7 +22,6 @@ namespace TELBlazor.Components.ShowCase.E2ETests.Helpers
 
             IBrowser browser;
 
-            bool headless = (bool.TryParse(Environment.GetEnvironmentVariable("HEADLESS_TESTING"), out var result) && result);
             switch (browserType.ToLower())
             {
                 case "chromium":

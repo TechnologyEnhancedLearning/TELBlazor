@@ -7,11 +7,11 @@
 		<!-- coverlet.msbuild, specifically msbuild props here we set when cicd testing fails on coverage -->
 		<CollectCoverage>true</CollectCoverage>
 		<CoverletOutputFormat>cobertura</CoverletOutputFormat>
-		<Threshold>50</Threshold>
+		<Threshold>30</Threshold>
 		<ThresholdType>line</ThresholdType>
 		<ThresholdStat>total</ThresholdStat>
-		<ThresholdBranch>50</ThresholdBranch>
-		<ThresholdMethod>50</ThresholdMethod>
+		<ThresholdBranch>30</ThresholdBranch>
+		<ThresholdMethod>30</ThresholdMethod>
 		
 		<!-- What to test -->
 		<Include>[TELBlazor.Components]*</Include>

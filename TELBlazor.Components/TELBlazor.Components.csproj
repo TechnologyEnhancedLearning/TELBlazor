@@ -34,6 +34,9 @@
 	<ItemGroup>
 		<PackageReference Include="Microsoft.AspNetCore.Components.Web" />
 		<PackageReference Include="Microsoft.Extensions.Http" />
+		<!--OptionalImplementations add package weight in future it may be beneficial to make them a seperate package-->
+		<PackageReference Include="Blazored.LocalStorage" />
+		<PackageReference Include="Serilog" />
 	</ItemGroup>
 	<ItemGroup>
 		<Content Remove="packages.lock.json" />
@@ -44,6 +47,9 @@
 		<Compile Remove="..\CICDPackageLocation\**\*.cs" />
 		<Content Remove="..\CICDPackageLocation\**\*" />
 		<None Remove="..\CICDPackageLocation\**\*" />
+	</ItemGroup>
+	<ItemGroup>
+	  <Content Include="Core\DI\gitinclude.txt" />
 	</ItemGroup>
 	<ItemGroup>
 		<Folder Include="Assets\" />
@@ -68,9 +74,7 @@
 			2) Tell gulp to run the gulpfile in this project directory
 			3) Gulp to add the TELFrontend css version to version info file
 		  -->
-		<Exec
-		  WorkingDirectory="$(MSBuildProjectDirectory)/.."
-		  Command="npx gulp --cwd &quot;$(MSBuildProjectDirectory)&quot; --gulpfile &quot;$(MSBuildProjectDirectory)/gulpfile.js&quot;" />
+		<Exec WorkingDirectory="$(MSBuildProjectDirectory)/.." Command="npx gulp --cwd &quot;$(MSBuildProjectDirectory)&quot; --gulpfile &quot;$(MSBuildProjectDirectory)/gulpfile.js&quot;" />
 	</Target>
 
 </Project>
