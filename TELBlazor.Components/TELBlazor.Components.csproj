@@ -48,6 +48,7 @@
 		<Content Remove="..\CICDPackageLocation\**\*" />
 		<None Remove="..\CICDPackageLocation\**\*" />
 	</ItemGroup>
+
 	<ItemGroup>
 	  <Content Include="Core\DI\gitinclude.txt" />
 	</ItemGroup>
@@ -61,13 +62,6 @@
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Content>
 	</ItemGroup>
-	<Target Name="CleanVersionInfoFile" BeforeTargets="WriteTELBlazorPackageVersionToFile">
-		<Delete Files="TELBlazorPackageVersion/VersionInfo.cs" />
-	</Target>
-	<Target Name="WriteTELBlazorPackageVersionToFile" BeforeTargets="RunGulp">
-		<WriteLinesToFile File="wwwroot/TELBlazorPackageVersion.txt" Lines="$(TELBlazorPackageVersion)" Overwrite="true" Encoding="UTF-8" />
-		<WriteLinesToFile File="TELBlazorPackageVersion/VersionInfo.cs" Lines="namespace TELBlazor.Components.TELBlazorPackageVersion { public static class VersionInfo { public static string TELBlazorPackageVersion = &quot;$(TELBlazorPackageVersion)&quot; %3B; } }" Overwrite="true" Encoding="UTF-8" />
-	</Target>
 	<Target Name="RunGulp" BeforeTargets="PrepareForBuild">
 		 <!-- 
 			1) Use solution root as working dir so npx picks up root/node_modules

@@ -27,7 +27,7 @@ function getTELFrontEndPackageVersion() {
 
 // Task that adds a second public static string to existing file that provides the TELFrontend.css version
 gulp.task("add-telFrontEndVersion-to-versionInfo", function (done) {
-    const versionFilePath = "TELBlazorPackageVersion/VersionInfo.cs";
+    const versionFilePath = "TELBlazorPackageVersion/VersionInfo.TELFrontEnd.cs";
     const TELFrontEndPackageVersion = getTELFrontEndPackageVersion();
 
     if (TELFrontEndPackageVersion === null) {
@@ -37,29 +37,16 @@ gulp.task("add-telFrontEndVersion-to-versionInfo", function (done) {
 
     console.log(`Adding TELFrontEndPackageVersion to CS file at: ${versionFilePath}`);
 
-    if (fs.existsSync(versionFilePath)) {
-        console.log("File exists, adding TELFrontEndPackageVersion string");
 
-        // Read existing content
-        let existingContent = fs.readFileSync(versionFilePath, "utf8");
-        console.log("Existing content:", existingContent);
+    // Read existing content
+    let existingContent = fs.readFileSync(versionFilePath, "utf8");
+    console.log("Existing content:", existingContent);
 
-        // Find the closing brace of the class
-        const closingBraceIndex = existingContent.lastIndexOf("}");
-        const secondLastBraceIndex = existingContent.lastIndexOf("}", closingBraceIndex - 1);
+    const content = ` namespace TELBlazor.Components.TELBlazorPackageVersion{public static partial class VersionInfo{public static readonly string TELFrontEndPackageVersion = "${TELFrontEndPackageVersion}";}} `;
 
-        if (closingBraceIndex > 0 && secondLastBraceIndex > 0) {
-            // Insert the new property before the class closing brace
-            const newContent = existingContent.substring(0, secondLastBraceIndex) +
-                ` public static string TELFrontEndPackageVersion = "${TELFrontEndPackageVersion}"; ` +
-                existingContent.substring(secondLastBraceIndex);
-
-            fs.writeFileSync(versionFilePath, newContent);
-            console.log("Second string added successfully!");
-        } else {
-            console.error("Couldn't find proper location to insert second string");
-        }
-    }
+    // Write or overwrite the file completely
+    fs.writeFileSync(versionFilePath, content, "utf8");
+    console.log(`VersionInfo.TELFrontEnd.cs file updated with version ${TELFrontEndPackageVersion}`);
 
     done();
 });
