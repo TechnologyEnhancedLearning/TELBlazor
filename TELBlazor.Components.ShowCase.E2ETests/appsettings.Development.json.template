@@ -1,0 +1,16 @@
+﻿{
+   "Testing": {
+      "Headless": true,
+      "Tracing": false,
+      "TestTimeout": 30000,
+      "BaseUrl": "https://localhost:5001",
+      "BrowserType": "chromium",
+      "SlowMo": 0,
+      "Video": false
+    },
+  "Properties": {
+    "Application": "TELBlazor E2E Tests",
+    "Environment": "Development"
+  },
+  "AllowedHosts": "*"
+}

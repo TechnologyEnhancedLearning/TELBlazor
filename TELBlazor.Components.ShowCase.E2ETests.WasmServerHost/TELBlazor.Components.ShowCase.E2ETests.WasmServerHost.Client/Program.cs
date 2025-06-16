@@ -26,7 +26,7 @@ using Blazored.LocalStorage;
 using TELBlazor.Components.Core.Configuration;
 using TELBlazor.Components.Core.Services.HelperServices;
 using TELBlazor.Components.ShowCase.E2ETests.WasmServerHost;
-using TELBlazor.Components.ShowCase.Shared.Services.HelperServices;
+using TELBlazor.Components.OptionalImplementations.Core.Services.HelperServices;
 
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);

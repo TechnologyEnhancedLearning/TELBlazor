@@ -203,3 +203,6 @@ CHANGELOG.md
 /TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/TELBlazor.Components.ShowCase.E2ETests.WasmServerHost.Client/wwwroot/appsettings.ci.json
 /TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/TELBlazor.Components.ShowCase.E2ETests.WasmServerHost.Client/wwwroot/appsettings.Development.json
 /TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/TELBlazor.Components.ShowCase.E2ETests.WasmServerHost.Client/wwwroot/appsettings.Production.json
+/TELBlazor.Components.ShowCase.E2ETests/appsettings.Production.json
+/TELBlazor.Components.ShowCase.E2ETests/appsettings.json
+/.runsettings

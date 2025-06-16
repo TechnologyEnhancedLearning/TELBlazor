@@ -18,7 +18,8 @@ namespace TELBlazor.Components.ShowCase.E2ETests.Pages.BaseComponentPages
         private readonly bool _tracingEnabled;
         public TELButtonPageTests()
         {
-            _tracingEnabled = (bool.TryParse(Environment.GetEnvironmentVariable("E2ETracingEnabled"), out var result) && result);
+            _tracingEnabled = (bool.TryParse(Environment.GetEnvironmentVariable("TracingEnabled"), out var result) && result);
+            var runFilenameqqqq = Environment.GetEnvironmentVariable("RunSettingFile");
         }
 
         // Axe needs js
@@ -40,6 +41,8 @@ namespace TELBlazor.Components.ShowCase.E2ETests.Pages.BaseComponentPages
 
         public async Task TELBlazorButtonMeetsAxeAccesibilityStandards(string browserType, bool jsEnabled, ViewportHelper.ViewportType viewport)
         {
+
+       
 
             using IPlaywright playwright = await Microsoft.Playwright.Playwright.CreateAsync();
 

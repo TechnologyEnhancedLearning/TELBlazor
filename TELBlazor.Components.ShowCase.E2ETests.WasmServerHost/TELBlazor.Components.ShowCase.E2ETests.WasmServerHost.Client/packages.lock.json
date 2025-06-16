@@ -308,8 +308,10 @@
       "telblazor.components": {
         "type": "Project",
         "dependencies": {
+          "Blazored.LocalStorage": "[4.5.0, )",
           "Microsoft.AspNetCore.Components.Web": "[8.0.14, )",
-          "Microsoft.Extensions.Http": "[8.0.1, )"
+          "Microsoft.Extensions.Http": "[8.0.1, )",
+          "Serilog": "[4.2.0, )"
         }
       },
       "telblazor.components.showcase.shared": {

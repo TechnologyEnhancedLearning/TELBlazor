@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<RunSettings>
+	<!--<xUnit>-->
+  <RunConfiguration>
+    <EnvironmentVariables>
+        <TracingEnabled>False</TracingEnabled>
+        <RunSettingFile>"CICD.runsettings"</RunSettingFile>
+    </EnvironmentVariables>
+  </RunConfiguration>
+  <Playwright>
+    <LaunchOptions>
+      <Headless>true</Headless>
+		
+    </LaunchOptions>
+  </Playwright>
+		<!--</xUnit>-->
+</RunSettings>
