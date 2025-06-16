@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Hosting;
-using Microsoft.Playwright.Xunit;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Playwright;
+using Microsoft.Playwright.Xunit;
 using System.Threading.Tasks;
 
 namespace TELBlazor.Components.ShowCase.E2ETests.BlazeWright

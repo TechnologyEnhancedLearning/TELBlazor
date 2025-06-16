@@ -78,8 +78,8 @@ It is client side so the users browser will do the work.
 1. Go to [TELBlazor Repo](https://github.com/TechnologyEnhancedLearning/TELBlazor) hit code and get the clone string
 1. Clone the repo locally using powershell terminal
 1. Go to [TELBlazor Repo](https://github.com/TechnologyEnhancedLearning/TELBlazor) 
-	- create a branch (**there is branch name checks in cicd [branch lint rules](https://github.com/TechnologyEnhancedLearning/TELBlazor/blob/master/.releaserc.json)**) so for example call it "docs-readme-setup-instructions"
-	- your commits should look like this "docs(readme): added detail on commit rules"
+	- create a branch (**there is branch name checks in cicd [branch lint rules](https://github.com/TechnologyEnhancedLearning/TELBlazor/blob/master/.releaserc.json)**) so for example call it **"docs-readme-setup-instructions"**
+	- your commits should look like this **"docs(readme): added detail on commit rules"**
 1. Fetch, and checkout your new branch locally so you can add to the readme as you go
 	- create commit "docs(readme): first commit"
 	- see [commit rules](https://github.com/TechnologyEnhancedLearning/TELBlazor/blob/master/.commitlintrc.json)
@@ -200,8 +200,6 @@ changed. Remember to delete your lock files when changing which package your usi
       - if this were set to auto increment to a file accessible by other projects that would be ideal
 	- **DisablePackageGeneration** we publish the package on build if this isnt flagged. Set it to true so you can build the solution without making the package
 		- You may want to build the solution without package generation, the TELBlazor.Components with package generation for example
-	- **E2ETracingEnabled** set to true its for testing
-	- **HeadlessTesting** set to true unless you want to see what the E2E tests are doing in a browser while they test
 
 #### Create More Environment Variables
 - To use remote git hosted nuget packages you need a personal git token. This is just because git tracks the use of packages rather than it being anonymous
@@ -252,6 +250,10 @@ TELPackage part of the config but with the system environment variable values yo
 #### Create appsettings
 *Be aware that because WASM code is in the browser appsettings in the wasm client projects are not secret and sensitive data should not go in them*
 
+- **Solution Level**
+	- From the runsettingsTemplate you will make your local runnsettings for testing **".runsettings"** this is where you set tracing and headless
+	- From packagesettings.props.local.template make packagesettings.props.local
+	- packagesettings.props.local overwrite packagesettings.props in directory build props
 - **TELBlazor.Components.ShowCase.E2ETests.WasmServerHost**
 	- create appsettings.Development.json
 	- copy paste from appsettings.Development.json.template
@@ -276,8 +278,9 @@ TELPackage part of the config but with the system environment variable values yo
 	- **UseTELBlazorComponentsProjectReference** → true
 	- **TELBlazorPackageVersion** → 1.0.0 will do for now
 	- **DisablePackageGeneration** → true
-	- **E2ETracingEnabled** → true
-	- **HeadlessTesting** → true
+- in .runsettings
+	- **TracingEnabled** → true
+	- **Headless** → false
 - right click the solution and copy full path (we need admin rights so dont just open terminal)
 - open powershell from windows as administrator
 - paste the route paste and cd to the solution folder
@@ -346,7 +349,8 @@ TELPackage part of the config but with the system environment variable values yo
 		- **TELBlazorPackageVersion** → pick something greater than [Find package number not dev package number, dev packages have -branchname](https://github.com/TechnologyEnhancedLearning/TELBlazor/pkgs/nuget/TELBlazor.Components)
 			- make sure its changed so its more than the TELBlazor Package Version you previously noted
 		- **DisablePackageGeneration** → false
-		- **E2ETracingEnabled** → false
+	- set .runsettings
+		- **Tracing** → false
 		- **HeadlessTesting** → false 
 		
 *When doing package generation remember you need to keep incrementing the package number to get changes into the project, it would be nice to have this as an env value as an automated increment*
@@ -379,8 +383,9 @@ TELPackage part of the config but with the system environment variable values yo
 	- **UseTELBlazorComponentsProjectReference** → false
 	- **TELBlazorPackageVersion** → [Find package number not dev package number, dev packages have -branchname](https://github.com/TechnologyEnhancedLearning/TELBlazor/pkgs/nuget/TELBlazor.Components)
 	- **DisablePackageGeneration** → true
-	- **E2ETracingEnabled** → false
-	- **HeadlessTesting** → true 
+	- set .runsettings
+		- **Tracing** → true
+		- **HeadlessTesting** → true 
 - delete lock files
 - clean/build
 - *if caching issues close and reopen visual studio*

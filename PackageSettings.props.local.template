@@ -16,10 +16,10 @@
 		
 		<!--Building the components project makes the package publish isnt needed-->
 		<DisablePackageGeneration>true</DisablePackageGeneration>
-		
+		<RunSettingsFilePath>$(SolutionDir)\.runsettings</RunSettingsFilePath>
 		<!--Testing settings-->
-		<E2ETracingEnabled>true</E2ETracingEnabled>
-		<HeadlessTesting>true</HeadlessTesting>
+		<!--<E2ETracingEnabled>true</E2ETracingEnabled>
+		<HeadlessTesting>true</HeadlessTesting>-->
 
 	</PropertyGroup>
 </Project>

@@ -6,11 +6,10 @@ $env:NupkgOutputPath = "$PSScriptRoot\CICDPackageLocation"
 $env:UseTELBlazorComponentsProjectReference = "true"
 $env:TELBlazorPackageSource = "$PSScriptRoot\CICDPackageLocation"
 $env:DisablePackageGeneration = "false"
-$env:E2ETracingEnabled = "true"
-$env:HeadlessTesting = "true"
+
 
 # Run Tests
-dotnet test --no-build --no-restore
+dotnet test --no-build --no-restore --settings .runsettings
 
 
 # Create Report from Test outputs

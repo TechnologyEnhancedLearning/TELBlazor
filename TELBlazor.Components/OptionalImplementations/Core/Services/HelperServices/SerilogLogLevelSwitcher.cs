@@ -5,7 +5,7 @@ using TELBlazor.Components.Core.Services.HelperServices;
 using Blazored.LocalStorage;
 using TELBlazor.Components.Core.Models.Logging;
 
-namespace TELBlazor.Components.ShowCase.Shared.Services.HelperServices
+namespace TELBlazor.Components.OptionalImplementations.Core.Services.HelperServices
 {
     /// <summary>
     /// The TELBlazor Component system uses serilog in testing etc, but you can use your own logging system instead

@@ -8,7 +8,7 @@
     <IsPackable>false</IsPackable>
     <IsTestProject>true</IsTestProject>
     <Configurations>Debug;Release;ci</Configurations>
-	  <DefineConstants Condition="'$(HeadlessTesting)' == 'true'">$(DefineConstants);HEADLESS_TESTING</DefineConstants>
+	
   </PropertyGroup>
 	
   <ItemGroup>

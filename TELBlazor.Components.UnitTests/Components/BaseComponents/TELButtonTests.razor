@@ -75,7 +75,7 @@
 
         // Act
         var button = cut.Find("button[aria-label='Click the button']");
-        var assistiveTextSpan = cut.Find("span"); // Assuming the assistive text uses this class
+        var assistiveTextSpan = cut.Find("span.nhsuk-u-visually-hidden"); // Assuming the assistive text uses this class
         button.Click();
 
         // Assert
