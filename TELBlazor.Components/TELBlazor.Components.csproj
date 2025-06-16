@@ -49,9 +49,9 @@
 		<None Remove="..\CICDPackageLocation\**\*" />
 	</ItemGroup>
 
-	<ItemGroup>
+	<!--<ItemGroup>
 	  <Content Include="Core\DI\gitinclude.txt" />
-	</ItemGroup>
+	</ItemGroup>-->
 	<ItemGroup>
 		<Folder Include="Assets\" />
 		<Folder Include="wwwroot\css\" />

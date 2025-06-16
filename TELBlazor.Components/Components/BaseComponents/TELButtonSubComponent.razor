@@ -8,7 +8,7 @@
     aria-describedby="@AriaDescribedBy"
     title="@ToolTipTitle"
     tabindex="@TabIndex">
-    @ButtonText
+    <span class="button-text">@ButtonText</span>
     @if (!string.IsNullOrEmpty(AssistiveText))
     {
         <span id="@AriaDescribedBy" class="nhsuk-u-visually-hidden"> @AssistiveText</span> <!-- Hidden element for screen readers -->
