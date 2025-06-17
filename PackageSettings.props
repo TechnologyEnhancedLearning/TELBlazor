@@ -18,7 +18,7 @@
 	<!-- What to test -->
 	<Include>[TELBlazor.Components]*</Include>
 	<ExcludeByAttribute>ExcludeFromCodeCoverage</ExcludeByAttribute>
-	<ExcludeByFile>**/Program.cs,**/Components/TestComponents/*.*</ExcludeByFile>
+	<ExcludeByFile>**/Program.cs,**/OptionalImplementations/TestComponents/**/*.*</ExcludeByFile>
 	<IncludeTestAssembly>true</IncludeTestAssembly>
 
 	<!--centralising TestResults output could reduce abitity to run tests in parralel-->

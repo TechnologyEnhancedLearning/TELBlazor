@@ -1,0 +1,15 @@
+﻿@page "/SearchExperiment/"
+<PageTitle>@Title</PageTitle>
+<ShowCase Title="@Title"
+          Instructions="@Instructions"
+          Description="@Description"
+          IsTestComponent="@IsTestComponent">
+    <SearchExperiment />
+</ShowCase>
+
+@code {
+    private bool IsTestComponent => true;
+    private string Title => "SearchExperiment";
+    private string Instructions => "Try searching";
+    private string Description => "This is not a prototype for the new search component its a test component just for a component needing a service only";
+}
