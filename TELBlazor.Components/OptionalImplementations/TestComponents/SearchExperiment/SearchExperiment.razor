@@ -1,5 +1,8 @@
 ﻿<!--qqqq see microsoft default and ecommerce-->
-
+<!--@bind-value="SearchText"
+@bind-value:event="oninput"-->
+<!--will want debounce-->
+<!--will want cancel if still going-->
 
 <header class="nhsuk-header" role="banner">
     <div id="content-header">
@@ -8,7 +11,7 @@
                 <div class="nhsuk-header__search-wrap" id="wrap-search">
                     <form class="nhsuk-header__search-form" id="search" method="get" role="search" action="/search/results">
                         <label class="nhsuk-u-visually-hidden" for="search-field">Search the learning hub</label>
-                        <input class="nhsuk-search__input" id="search-field" name="term" type="search" placeholder="Search the learning hub" autocomplete="off">
+                        <input class="nhsuk-search__input" id="search-field" name="term" type="search" placeholder="Search the learning hub" autocomplete="off" >
                         <ul id="search-field_listbox" class="nhsuk-list autosuggestion-menu" style="display:none"></ul>
                         <button class="nhsuk-search__submit" type="submit">
                             <svg class="nhsuk-icon nhsuk-icon__search" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false" width="27" height="27">
