@@ -10,29 +10,21 @@ namespace TELBlazor.Components.ShowCase.E2ETests.Helpers
 {
     public static class BrowserHelper
     {
-        // qqqq Setting value using PackageSetting.props potentially replace appsettings.Test.json in future especially if using apis during testing
-        //static bool headless =>
-        //#if HEADLESS_TESTING
-        //                true;
-        //#else
-        //                false;
-        //#endif
 
         public static async Task<IBrowserContext> CreateBrowserContextAsync(IPlaywright playwright, string browserType, bool jsEnabled, ViewportType viewport, string baseUrl)
         {
-            //bool headless = Headless
             IBrowser browser;
 
             switch (browserType.ToLower())
             {
                 case "chromium":
-                    browser = await playwright.Chromium.LaunchAsync(new BrowserTypeLaunchOptions { /*Headless = headless*/ });
+                    browser = await playwright.Chromium.LaunchAsync(new BrowserTypeLaunchOptions {  });
                     break;
                 case "firefox":
-                    browser = await playwright.Firefox.LaunchAsync(new BrowserTypeLaunchOptions { /*Headless = headless*/ });
+                    browser = await playwright.Firefox.LaunchAsync(new BrowserTypeLaunchOptions {  });
                     break;
                 case "webkit":
-                    browser = await playwright.Webkit.LaunchAsync(new BrowserTypeLaunchOptions { /*Headless = headless*/ });
+                    browser = await playwright.Webkit.LaunchAsync(new BrowserTypeLaunchOptions { });
                     break;
                 default:
                     throw new ArgumentException($"Unsupported browser type: {browserType}");

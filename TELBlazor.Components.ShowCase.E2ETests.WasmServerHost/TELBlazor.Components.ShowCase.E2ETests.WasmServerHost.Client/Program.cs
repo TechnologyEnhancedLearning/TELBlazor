@@ -71,7 +71,7 @@ try
     builder.Services.AddBlazoredLocalStorage();
 
     //Scoped because being consumed with storage where singleton doesnt survive mvc page teardown
-    //qqqq do we need it builder.Services.AddScoped<LoggingLevelSwitch>(sp => levelSwitch);
+    // qqqq do we need it builder.Services.AddScoped<LoggingLevelSwitch>(sp => levelSwitch);
     builder.Services.AddScoped<ILogLevelSwitcherService, SerilogLogLevelSwitcherService>();
     builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 

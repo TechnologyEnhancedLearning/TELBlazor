@@ -14,8 +14,21 @@ namespace TELBlazor.Components.OptionalImplementations.Core.DI
 {
     public static class DI
     {
-        public static IServiceCollection AddTELBlazorComponentServices(this IServiceCollection services,
-            bool IsClient,
+        private static IServiceCollection AddTELBlazorComponentServicessShared(this IServiceCollection services,
+            ITELBlazorBaseComponentConfiguration TELBlazorBaseComponentConfiguration
+            )
+        {
+            throw new NotImplementedException("This method is not implemented yet. See DI task");
+        }
+        public static IServiceCollection AddTELBlazorComponentServicesClient(this IServiceCollection services,
+
+            ITELBlazorBaseComponentConfiguration TELBlazorBaseComponentConfiguration
+            )
+        {
+            throw new NotImplementedException("This method is not implemented yet. See DI task");
+        }
+        public static IServiceCollection AddTELBlazorComponentServicesServer(this IServiceCollection services,
+
             ITELBlazorBaseComponentConfiguration TELBlazorBaseComponentConfiguration
             )
         {

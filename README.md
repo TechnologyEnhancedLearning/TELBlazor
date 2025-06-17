@@ -162,10 +162,13 @@ It is client side so the users browser will do the work.
 			``` 
 #### About configuration (just to read)
 
-Visual studio caches the environmental variables so to avoid restarting it you may want to have multiple 
-environment variables, even if at times they are set to the same values. Then you can switch in configuration 
-which environment value is used rather than the underlying value, but be careful not to leave nuget.config 
-changed. Remember to delete your lock files when changing which package your using* ```%envvalue%``` syntax in nuget.config can be populated by environment values by visual studio but not via command line and cicd has to replace the values with ```sed```
+Visual studio caches the environmental variables so to avoid restarting it you may want to have multiple
+environment variables, even if at times they are set to the same values. Then you can switch in configuration
+which environment value is used rather than the underlying value, but be careful not to leave nuget.config
+changed. Remember to delete your lock files when changing which package your using* ```%envvalue%``` syntax in 
+nuget.config can be populated by environment values by visual studio but not via command line and cicd has to 
+replace the values with ```sed```
+
 - The intention of the configuration is you should be able to switch between local packages, remote package, and project references. It will also enable parrallel development with consuming projects, so package changes can be seen in situ during development.
 - Troubleshooting
     - delete local `TELBlazor.Components` packages
@@ -176,7 +179,7 @@ changed. Remember to delete your lock files when changing which package your usi
 	- restore nuget packages 
 	- restore solution
 	- if still not working close visual studio and reopen
-	- if there are still issues its easier to problem solve by using a random `TELBlazor.Components` and ensuring it fails and says it found the source but not the version
+	- if there are still issues its easier to problem solve by using a random very high `TELBlazor.Components` package version number and ensuring it fails and says it found the source but not the version
 - Variables Recommended to add to environment variables (Do this in the next section)
 	- **TELBlazorPackageSource** → https://nuget.pkg.github.com/TechnologyEnhancedLearning/index.json
 	- **TELPackageSource** → https://nuget.pkg.github.com/TechnologyEnhancedLearning/index.json
@@ -186,7 +189,7 @@ changed. Remember to delete your lock files when changing which package your usi
 	- Any of the nuget.config and PackageSetting.props values but visual studio caches environment values so nothing you expect to change regularly
 
 
-#### Create local files
+#### Create local files (do this)
 - Right click PackgeSettings.props.local and open with xml editor or any preferred way of opening it
 - copy paste PackgeSettings.props.local.template into it
 - Set environmental variables (go into windows, edit environmental system variables, then look for environmental variables button, then add to system wide) 	
@@ -194,7 +197,7 @@ changed. Remember to delete your lock files when changing which package your usi
 	- **TELPackageSource** → https://nuget.pkg.github.com/TechnologyEnhancedLearning/index.json
 	- **LocalPackageSource** → e.g. C:\dev\LocalPackages
 	- **NupkgOutputPath** → e.g. C:\dev\LocalPackages
-- System environment variables or PackageSetting.props.local variables but recommend the latter
+- Change system environment variables or PackageSetting.props.local variables can be changed but I recommend the latter
     - **UseTELBlazorComponentsProjectReference** set it true for faster development
 	- **TELBlazorPackageVersion** set it to a number higher than the production value and increase it every-time you want to produce and use the package locally if not using the project reference
       - if this were set to auto increment to a file accessible by other projects that would be ideal
@@ -334,7 +337,7 @@ TELPackage part of the config but with the system environment variable values yo
 	- once the wasm takes over to debug in the browser you need to do some setup
 		- TODO QQQQ I cant remember what i havent set up on new machine yet, i presume it doesnt work for you kevin?
 - run TELBlazor.Components.ShowCase.E2ETests.WasmServerHost	
-	- This is pure wasm so notice the loader initially this is because there is no prerender
+	- This is pure wasm so notice that there is a loader initially this is because there is no prerender
 - go into tools in the top vs bar you should see toggle test coverage highlighting. Go to loglevelswitcher.razor it should be highlighted red 
 	- qqqq todo isnt for mine is it for yours kevin?
 
@@ -346,7 +349,7 @@ TELPackage part of the config but with the system environment variable values yo
 		- **TELBlazorPackageSource** → a local folder outside of the solution
 		- **NupkgOutputPath** → the same local folder outside of the solution
 		- **UseTELBlazorComponentsProjectReference** → false
-		- **TELBlazorPackageVersion** → pick something greater than [Find package number not dev package number, dev packages have -branchname](https://github.com/TechnologyEnhancedLearning/TELBlazor/pkgs/nuget/TELBlazor.Components)
+		- **TELBlazorPackageVersion** → pick something greater than the production package number. The one without the dash [TELBlazor.Components Prod and Dev Package location](https://github.com/TechnologyEnhancedLearning/TELBlazor/pkgs/nuget/TELBlazor.Components)
 			- make sure its changed so its more than the TELBlazor Package Version you previously noted
 		- **DisablePackageGeneration** → false
 	- set .runsettings

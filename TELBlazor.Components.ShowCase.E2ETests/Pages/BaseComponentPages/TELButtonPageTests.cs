@@ -19,7 +19,6 @@ namespace TELBlazor.Components.ShowCase.E2ETests.Pages.BaseComponentPages
         public TELButtonPageTests()
         {
             _tracingEnabled = (bool.TryParse(Environment.GetEnvironmentVariable("TracingEnabled"), out var result) && result);
-            var runFilenameqqqq = Environment.GetEnvironmentVariable("RunSettingFile");
         }
 
         // Axe needs js
