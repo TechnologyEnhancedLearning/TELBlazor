@@ -1,17 +1,76 @@
-﻿<!--qqqq see microsoft default and ecommerce-->
+﻿@using System.Diagnostics
+<!--qqqq see microsoft default and ecommerce-->
 <!--@bind-value="SearchText"
 @bind-value:event="oninput"-->
 <!--will want debounce-->
 <!--will want cancel if still going-->
-
+@inherits TELComponentBase
+<!--think it will be a specific service instead-->
+@inject NavigationManager NavigationManager 
+@* @implements IDisposable *@
+@using static DummyData
 <header class="nhsuk-header" role="banner">
     <div id="content-header">
         <div class="nhsuk-width-container nhsuk-header__container app-width-container ">
             <div class="nhsuk-header__search">
                 <div class="nhsuk-header__search-wrap" id="wrap-search">
-                    <form class="nhsuk-header__search-form" id="search" method="get" role="search" action="/search/results">
+                    <!--qqqq ending up with nojsfallback in both places may need button redesign-->
+                        <EditForm Model="FormData" OnSubmit="SendSearchRequest" action="@(NoJSActionUrl)"
+                                role="form" 
+                                tabindex="0" 
+                                method="post" >
+                                <!--shouldnt need-->
+                        @foreach (var keyValuePair in FormData)
+                        {
+                            <input tabindex="-1" type="hidden" name="@keyValuePair.Key" value="@keyValuePair.Value" />
+                        }
+                        <div class="nhsuk-header__search-form" role="search">
+                            <label class="nhsuk-u-visually-hidden" for="search-field">Search the learning hub</label>
+                            <input class="nhsuk-search__input"
+                                   id="search-field-some-guid"
+                                   name="term"
+                                   type="search"
+                                   list="search-suggestions-some-guid"
+                                   placeholder="Search the learning hub"
+                                   autocomplete="off"
+                                   @bind-value="searchText"
+                                   @bind-value:event="oninput"
+                                   @onkeyup="HandleInput"
+                                   @ref="searchInput" 
+                                   />
+                            <datalist id="search-suggestions-some-guid" class="nhsuk-list autosuggestion-menu">
+                                @foreach (var suggestion in suggestions)
+                                {
+                                    <option>@suggestion</option>
+                                }
+                            </datalist>
+                      
+
+                                   <!--button needs changing for icon-->
+                            <TELButton IsSubmitButtonForEditForm=true
+                                   NoJSActionUrl="@NoJSActionUrl"
+                                   ButtonStyle="TELButtonStyle.Primary"
+                                   PreventDoubleClick=false
+                                       ButtonText="🔎"
+                                   AdditionalCssClasses=""
+                                   AriaLabel="Make search request"
+                                   AssistiveText="The page will auto search on debounce if you have js enabled"
+                                   TabIndex="0"
+                                       ToolTipTitle="Click to search"/>
+                        @*          <svg class="nhsuk-icon nhsuk-icon__search" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false" width="27" height="27">
+                                    <path d="M19.71 18.29l-4.11-4.1a7 7 0 1 0-1.41 1.41l4.1 4.11a1 1 0 0 0 1.42 0 1 1 0 0 0 0-1.42zM5 10a5 5 0 1 1 5 5 5 5 0 0 1-5-5z"></path>
+                                </svg>
+                            </TELButton>  *@
+                        </div>
+                 </EditForm>
+                  
+
+
+
+                    @*Copy original*@
+@*                     <form class="nhsuk-header__search-form" id="search" method="get" role="search" action="/search/results">
                         <label class="nhsuk-u-visually-hidden" for="search-field">Search the learning hub</label>
-                        <input class="nhsuk-search__input" id="search-field" name="term" type="search" placeholder="Search the learning hub" autocomplete="off" >
+                        <input class="nhsuk-search__input" id="search-field" name="term" type="search" placeholder="Search the learning hub" autocomplete="off">
                         <ul id="search-field_listbox" class="nhsuk-list autosuggestion-menu" style="display:none"></ul>
                         <button class="nhsuk-search__submit" type="submit">
                             <svg class="nhsuk-icon nhsuk-icon__search" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false" width="27" height="27">
@@ -26,9 +85,137 @@
                             </svg>
                             <span class="nhsuk-u-visually-hidden">Close search</span>
                         </label>
-                    </form>
+                    </form> *@
+
+
                 </div>
             </div>
         </div>
     </div>
 </header>
+@* <section class="search-suggestions">
+    <h3>Search Suggestions</h3>
+    <datalist id="search-suggestions-some-guid" class="nhsuk-list autosuggestion-menu">
+        @foreach (var suggestion in suggestions)
+        {
+            <option>@suggestion</option>
+        }
+</datalist>
+</section> *@
+<section class="search-results">
+    <h3>Search Results</h3>
+    <ul>
+        @foreach (var result in searchResults)
+        {
+            <li>@result</li>
+        }
+    </ul>
+</section>
+@code{
+
+    [Parameter] public Dictionary<string, string> FormData { get; set; } = new();//shouldnt need
+    [EditorRequired, Parameter] public required string NoJSActionUrl { get; set; } = "nojsfallback/mvcendpoint/search"; // URL for the form submission
+    private List<string> searchResults = new List<string>();
+    private string searchText = string.Empty;
+    private List<string> suggestions = new List<string>();
+    protected ElementReference searchInput;
+
+
+
+
+    private CancellationTokenSource _cts;
+    /*avoid potential memory leak from mvc taredown by counting down not up by not search on first 3 letters can initiate*/
+    private Timer? _debounceTimer;
+    private readonly TimeSpan _debouncePeriod = TimeSpan.FromMilliseconds(500);
+
+    // SendSearchRequest SendSuggestionRequest presumeably same end point but maybe a bool for no suggestions
+
+    private void StartDebounceCountdown()
+    {
+        // Dispose any existing timer first
+        _debounceTimer?.Dispose();
+
+        // Start a new one-shot countdown timer
+        _debounceTimer = new Timer(_ =>
+        {
+            _debounceTimer?.Dispose();
+            _debounceTimer = null;
+        },
+        null,
+        _debouncePeriod,
+        Timeout.InfiniteTimeSpan);
+    }
+
+    private async Task SendSearchRequest()
+    {
+        <!--qqqq will look very similar because isnt meta data or additional information per term to display-->
+        suggestions.Clear();
+
+        _cts?.Cancel(); // cancel prior search
+        _cts = new CancellationTokenSource();
+
+        try
+        {
+            await Task.Delay(200, _cts.Token); // simulate network delay
+        // Fake search results — in real life this could be an API call
+        searchResults = AllTerms
+                .Where(x => x.Contains(searchText, StringComparison.OrdinalIgnoreCase))
+            .OrderBy(x => x)
+            .ToList();
+        }
+        catch (OperationCanceledException)
+        {
+            // Ignore cancelled searches
+        }
+    }
+    private async Task GetSuggestionsAsync()
+    {
+        _cts?.Cancel(); // cancel prior search
+        _cts = new CancellationTokenSource();
+
+        try
+        {
+            await Task.Delay(200, _cts.Token); // simulate network delay
+
+            suggestions = DummyData.AllTerms
+                .Where(x => x.Contains(searchText, StringComparison.OrdinalIgnoreCase))
+                .OrderBy(x => x)
+                .Take(10)
+                .ToList();
+
+        }
+        catch (OperationCanceledException)
+        {
+            // Ignore cancelled searches
+        }
+    }
+
+    
+    public async Task HandleInput(KeyboardEventArgs args)
+    {
+        if (args.Key == null || args.Key.Equals("Enter"))
+        {
+            
+            /*fire forget?*/
+            await SendSearchRequest();
+            //_ = SendSearchRequest();
+        }
+        else if (_debounceTimer != null || searchText.Length < 4 )
+        {
+            StartDebounceCountdown();
+        }
+        else
+        {
+            StartDebounceCountdown();
+            /*fire forget?*/
+            await GetSuggestionsAsync();
+           // _ = GetSuggestionsAsync();
+        }
+    }
+    /*careful mvc taredown wont call it so self dispose too*/
+    // says not implement
+    // public void Dispose()
+    // {
+    //     _debounceTimer?.Dispose();
+    // }
+}

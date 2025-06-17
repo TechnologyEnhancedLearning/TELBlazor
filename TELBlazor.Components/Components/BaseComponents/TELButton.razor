@@ -19,26 +19,26 @@ else
 {
     @*FormData as the model doesnt really mean anything were not using it if its blazor*@
     <EditForm 
-    Model="FormData"
-    OnSubmit="HandleClick"
-    action="@NoJSActionUrl"
-    role="form"
-    tabindex="-1"
-    method="post">
-        @foreach (var keyValuePair in FormData)
-        {
-            <input tabindex="-1" type="hidden" name="@keyValuePair.Key" value="@keyValuePair.Value" />
-        }
-        <TELButtonSubComponent 
-        ButtonStyle="@ButtonStyle"
-        ButtonText="@ButtonText"
-        AriaLabel="@AriaLabel"
-        AssistiveText="@AssistiveText"
-        TabIndex="@TabIndex"
-        ToolTipTitle="@ToolTipTitle"
-        AdditionalCssClasses="@AdditionalCssClasses"
-        PreventDoubleClick="@PreventDoubleClick"
-        />
+        Model="FormData"
+        OnSubmit="HandleClick"
+        action="@NoJSActionUrl"
+        role="form"
+        tabindex="-1"
+        method="post">
+            @foreach (var keyValuePair in FormData)
+            {
+                <input tabindex="-1" type="hidden" name="@keyValuePair.Key" value="@keyValuePair.Value" />
+            }
+            <TELButtonSubComponent 
+            ButtonStyle="@ButtonStyle"
+            ButtonText="@ButtonText"
+            AriaLabel="@AriaLabel"
+            AssistiveText="@AssistiveText"
+            TabIndex="@TabIndex"
+            ToolTipTitle="@ToolTipTitle"
+            AdditionalCssClasses="@AdditionalCssClasses"
+            PreventDoubleClick="@PreventDoubleClick"
+            />
     </EditForm>
 }
 
