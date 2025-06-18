@@ -1,5 +1,7 @@
 # TELBlazor
-TEL Blazor Component Library Package
+TELBlazor is a reusable component library for building accessible, interactive web applications using [Blazor](https://dotnet.microsoft.com/apps/aspnet/web-apps/blazor). 
+It provides a set of UI components styled using SCSS, designed for digital learning platforms and other interactive NHS and public sector web services.
+It is client side so the users browser will do the work.
 
 # This ReadMe
 
@@ -8,13 +10,71 @@ There is also a cicd readme in the workflow folder.
 
 The [MVCBlazor repo ](https://github.com/TechnologyEnhancedLearning/MVCBlazor) readme has exploration of various of the choices and alternatives to what is implemented here, which may be useful along with the other blazor repos, when developing for this repo.
 
-# Purpose
+## Features
 
-Progressive components, that use the server prerendering in Global Wasm Blazor to ensure that if the user has no JS they will get html. And that html can be created to have working post actions.
-The render cycle will hydrate the prerender and the post actions will be overrided by services injected in the components.
-It is client side so the users browser will do the work.
+- Component library written using [Blazor](https://dotnet.microsoft.com/apps/aspnet/web-apps/blazor)
+- Supports progressive enhancement (many components degrade gracefully without JavaScript)
+- Styled using NHS Design System SCSS (imported as a Node.js package)
+- Includes example usage in a Blazor WebAssembly demo application
   
-  
+# Zero to hero
+
+## You will need
+
+Ensure you have the following installed:
+
+- .NET 8 SDK
+- A modern code editor like Visual Studio 2022+ or Visual Studio Code
+- Powershell 5.1+ (for running scripts)
+- Optional: Node.js (if you're working with SCSS locally)
+
+---
+
+## Getting started
+
+1. **Clone the repository**
+
+    ```bash
+    git clone https://github.com/TechnologyEnhancedLearning/TELBlazor.git
+    cd TELBlazor
+    ```
+
+2. **Restore dependencies**
+
+    ```bash
+    dotnet restore
+    ```
+
+3. **Run the demo app**
+
+    ```bash
+    dotnet run --project samples/TELBlazor.Demo
+    ```
+
+4. **Open in your browser**
+
+    Navigate to: [http://localhost:5000](http://localhost:5000)
+
+---
+
+## Try it in a Razor component
+
+Once the project is running, try editing the `Index.razor` page in the `TELBlazor.Demo` project and add a component:
+
+```razor
+<Heading Level="1">Welcome to TELBlazor</Heading>
+<Button Colour="Primary" OnClick="@(() => Console.WriteLine("Clicked!"))">
+    Click Me
+</Button>
+```
+
+---
+
+## Project Structure Overview
+
+- `src/TELBlazor.Components` – Reusable Blazor components
+- `samples/TELBlazor.Demo` – Demo Blazor WebAssembly app showcasing the components
+- `src/TELBlazor.Components.Tests` – Unit tests for the component library
    
 # Links
 
@@ -39,14 +99,8 @@ It is client side so the users browser will do the work.
 
 [NHSE TEL Frontend](https://github.com/TechnologyEnhancedLearning/nhse-tel-frontend)
 
-# Set Up
 
-## "It works on my machine"
-
-### Hi Kevin, Please rewrite or correct these steps. 
-- im expecting maybe global node may end up not working, if anything, as its already set up globally on my machine with the packages for this project.
-
-### 
+# Detailed Project Set Up
 
 ### Prerequisites
 - **Visual Studio 2022** (Community or higher)
@@ -85,7 +139,7 @@ It is client side so the users browser will do the work.
 	- see [commit rules](https://github.com/TechnologyEnhancedLearning/TELBlazor/blob/master/.commitlintrc.json)
 	- *these rules also enable the versioning in cicd*
 	- Bonus (you could do this while cloning): if you don't want to wait for the pipeline to fail your commit names and for pushes to accidently expose your secrets: you may want to add
-		- gitguardian from confluence docs (follow it to the letter) [gitguardian global setup instructions](https://hee-tis.atlassian.net/wiki/spaces/TP/pages/3855253505/GitGuardian+Setup+-+Simplified+Version)
+		- gitguardian from confluence docs (follow it to the letter) [gitguardian global setup instructions](https://hee-tis.atlassian.net/wiki/spaces/TP/pages/3855253505/GitGuardian+Setup+-+Simplified+Version) - Note: you will need Python 3.x installed for this to work
         - and add a pre-commit and push hook (you need both as you cannot lint what hasnt yet been commit) you can add these to your git templates if you want them for every repo, or just to this repos pre- push- commits, or you can be lazy and add them into the gitguardian hook
 		- you will need git commitlint globally (angular because it goes with the versioning tool for repo versioning)
 			```
@@ -162,10 +216,12 @@ It is client side so the users browser will do the work.
 			``` 
 #### About configuration (just to read)
 
-Visual studio caches the environmental variables so to avoid restarting it you may want to have multiple
+Visual studio caches the environment variables so to avoid restarting it you may want to have multiple
 environment variables, even if at times they are set to the same values. Then you can switch in configuration
 which environment value is used rather than the underlying value, but be careful not to leave nuget.config
-changed. Remember to delete your lock files when changing which package your using* ```%envvalue%``` syntax in 
+changed. 
+
+Remember to delete your lock files when changing which package your using* ```%envvalue%``` syntax in 
 nuget.config can be populated by environment values by visual studio but not via command line and cicd has to 
 replace the values with ```sed```
 
@@ -571,3 +627,7 @@ Viewed best [raw ReadMe see chrome](https://raw.githubusercontent.com/Technology
 |  | &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#9495; FallbackServiceProvider.cs |
 |  | &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#9507; HtmlComparisons |
 |  | &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#9495; TestDoubles |
+
+## License
+
+This project is licensed under the MIT License. See the licence file for details.
