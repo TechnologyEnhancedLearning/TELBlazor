@@ -1,5 +1,9 @@
 ﻿{
   "APIs": {
+    "SearchApi": {
+      "BaseUrl": "https://lh-openapi.dev.local",
+      "BearerToken": "your_token_here"
+    }
   },
   "Serilog": {
     "Using": [

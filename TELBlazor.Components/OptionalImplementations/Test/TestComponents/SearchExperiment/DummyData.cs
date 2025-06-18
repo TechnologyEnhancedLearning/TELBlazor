@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TELBlazor.Components.OptionalImplementations.TestComponents.SearchExperiment
+namespace TELBlazor.Components.OptionalImplementations.Test.TestComponents.SearchExperiment
 {
     public static class DummyData
     {

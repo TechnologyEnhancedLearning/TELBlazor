@@ -27,7 +27,7 @@ using TELBlazor.Components.Core.Configuration;
 using TELBlazor.Components.Core.Services.HelperServices;
 using TELBlazor.Components.ShowCase.E2ETests.WasmServerHost;
 using TELBlazor.Components.OptionalImplementations.Core.Services.HelperServices;
-
+using TELBlazor.Components.OptionalImplementations.Core.DI;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -76,7 +76,7 @@ try
     //Scoped because being consumed with storage where singleton doesnt survive mvc page teardown
     builder.Services.AddScoped<LoggingLevelSwitch>(sp => levelSwitch);
     builder.Services.AddScoped<ILogLevelSwitcherService, SerilogLogLevelSwitcherService>();
-
+    builder.Services.AddTELBlazorComponentServicesForTestComponents();
 
     var app = builder.Build();
     // This is less blazor more endpoint logging
