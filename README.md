@@ -264,12 +264,12 @@ TELPackage part of the config but with the system environment variable values yo
 	- From the runsettingsTemplate you will make your local runnsettings for testing **".runsettings"** this is where you set tracing and headless
 	- From PackageSetting.props.local.template make a new PackageSetting.props.local file in the route directory (ensure 'Show All Files' option is checked in the Solution Explorer to see this)
 		- PackageSetting.props.local overwrite PackageSetting.props in directory build props
-		- The following can be changed in System environment variables or PackageSetting.props.local variables can be changed but the latter is recommended.
-			- **UseTELBlazorComponentsProjectReference** set it true for faster development
-			- **TELBlazorPackageVersion** set it to a number higher than the production value and increase it every-time you want to produce and use the package locally if not using the project reference
-				- if this were set to auto increment to a file accessible by other projects that would be ideal
-			- **DisablePackageGeneration** we publish the package on build if this isnt flagged. Set it to true so you can build the solution without making the package
-				- You may want to build the solution without package generation, the TELBlazor.Components with package generation for example
+			- For development, set the following in your system or in the `PackageSettings.props.local` file:
+				- **TELBlazorPackageSource** → a local folder outside of the solution (can also be set to the remote source)
+				- **NupkgOutputPath** → the same local folder outside of the solution (can also be set to the remote path)
+				- **UseTELBlazorComponentsProjectReference** → true  (for faster development)
+				- **TELBlazorPackageVersion** → 1.0.0 (will do for now but will need to be incremented for package generation)
+				- **DisablePackageGeneration** → true (set to false for package generation)
 - **TELBlazor.Components.ShowCase.E2ETests.WasmServerHost**
 	- create appsettings.Development.json
 	- copy paste from appsettings.Development.json.template
@@ -287,17 +287,11 @@ TELPackage part of the config but with the system environment variable values yo
 - **TELBlazor.Components.UnitTests**
 		- as above
 
-#### Install packages
-- first set packagesettings.props.local if you havent already via environment variables to the following
-	- **TELBlazorPackageSource** → a local folder outside of the solution
-	- **NupkgOutputPath** → the same local folder outside of the solution
-	- **UseTELBlazorComponentsProjectReference** → true
-	- **TELBlazorPackageVersion** → 1.0.0 will do for now
-	- **DisablePackageGeneration** → true
-- in .runsettings
+#### Set development config and install packages
+- in .runsettings, set:
 	- **TracingEnabled** → true
 	- **Headless** → false
-- right click the solution and copy full path (we need admin rights so dont just open terminal)
+- right click the solution and copy full path (or open terminal if running as admin)
 - open powershell from windows as administrator
 - paste the route paste and cd to the solution folder
 - then run the following
