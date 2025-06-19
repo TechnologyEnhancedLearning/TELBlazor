@@ -189,37 +189,51 @@ replace the values with ```sed```
 	- Any of the nuget.config and PackageSetting.props values but visual studio caches environment values so nothing you expect to change regularly
 
 
-#### Create local files (do this)
-- Right click PackgeSettings.props.local and open with xml editor or any preferred way of opening it
-- copy paste PackgeSettings.props.local.template into it
-- Set environmental variables (go into windows, edit environmental system variables, then look for environmental variables button, then add to system wide) 	
+#### Configure environment variables and package settings
+- Set environmental variables (go into Start → Edit environment system variables, then look for the 'Environment variables' button). Add the following System variables: 	
 	- **TELBlazorPackageSource** → https://nuget.pkg.github.com/TechnologyEnhancedLearning/index.json
 	- **TELPackageSource** → https://nuget.pkg.github.com/TechnologyEnhancedLearning/index.json
-	- **LocalPackageSource** → e.g. C:\dev\LocalPackages
+	- **LocalPackageSource** → e.g. C:\dev\LocalPackages (make sure folder exists)
 	- **NupkgOutputPath** → e.g. C:\dev\LocalPackages
-- Change system environment variables or PackageSetting.props.local variables can be changed but I recommend the latter
+- Copy the `PackageSettings.props.local.template` file to `PackageSettings.props.local` in the solution root directory (make sure you have 'Show all files' option selected in the Solution Explorer)
+- Right click PackageSettings.props.local and open with xml editor or any preferred way of opening it
+- The following can be changed in System environment variables or PackageSetting.props.local variables can be changed but the latter is recommended.
     - **UseTELBlazorComponentsProjectReference** set it true for faster development
 	- **TELBlazorPackageVersion** set it to a number higher than the production value and increase it every-time you want to produce and use the package locally if not using the project reference
       - if this were set to auto increment to a file accessible by other projects that would be ideal
 	- **DisablePackageGeneration** we publish the package on build if this isnt flagged. Set it to true so you can build the solution without making the package
 		- You may want to build the solution without package generation, the TELBlazor.Components with package generation for example
 
-#### Create More Environment Variables
-- To use remote git hosted nuget packages you need a personal git token. This is just because git tracks the use of packages rather than it being anonymous
-	- go onto your git profile
-	- go to settings → developer settings → Personal access tokens → Tokens classic
-		- as a minimum select read:packages and you may wish to increase the expiration date.
-			- copy the token it will disapear
-	- Set system wide environment variables as before
-		- GITHUB_USERNAME
-		- GITHUB_PACKAGES_TOKEN
-		- TELBlazorPackageSource
-			- previously we set this to a local location but if you were to want to generally use the remote package this is the source 
-			- https://nuget.pkg.github.com/TechnologyEnhancedLearning/index.json
-			- for the test set this to https://nuget.pkg.github.com/TechnologyEnhancedLearning/index.json but you will probably want to point it back to a local folder afterwards
-    - check credentials are working
-		- open powershell somewhere you can put deletable content
-			- ``` 
+#### Create GitHub Personal Access Token (PAT) for remote package source
+
+To use remote git hosted nuget packages you need a personal git token. This is just because git tracks the use of packages rather than it being anonymous
+
+- go to your [GitHub profile](https://github.com/settings/profile)
+- go to Settings → Developer settings → Personal access tokens → Tokens classic → Generate new token (classic)
+	- give it a Note, e.g. "TELBlazor Package Access"
+	- set the expiration date to something reasonable (e.g. 90 days)
+	- select the scopes you need for the token
+		- as a minimum select `read:packages` and you may wish to increase the expiration date.
+		- if you want to publish packages you will need `write:packages` and `delete:packages` but this is not recommended for development
+	- Generate token
+	- copy the token immediately (it will not be accessible again)
+- Set system wide environment variables as before
+	- GITHUB_USERNAME / [Your GitHub username]
+	- GITHUB_PACKAGES_TOKEN / [The copied token]
+
+	NOTE: You may need to restart Visual Studio, Powershell or your OC for these changes to take effect.
+
+- Check environment variables are stored:
+	
+			``` 
+				echo $env:GITHUB_USERNAME
+				echo $env:GITHUB_PACKAGES_TOKEN
+
+			```
+
+	- and, for a more thorough test, check they are working. Open a Powershell in a folder where you can put deletable content:
+	
+			``` 
 				# Create output folder if it doesn't exist
 				New-Item -ItemType Directory -Path deleteme-test -ErrorAction SilentlyContinue
 
@@ -236,14 +250,14 @@ replace the values with ```sed```
 				  -o deleteme-test\TELBlazor.Components.1.0.0.nupkg
 
 			```
-	    - check there is a nupkg package. its an old one, so just delete it. 
+	    - check there is a nupkg package. It's an old one, so delete it. 
 
 #### Set nuget to have the source (powershell)
 ````
 dotnet nuget add source "https://nuget.pkg.github.com/TechnologyEnhancedLearning/index.json" `
   --name "github" `
   --username $env:GITHUB_USERNAME `
-  --password $env:GITHUB_TOKEN `
+  --password $env:GITHUB_PACKAGES_TOKEN `
   --store-password-in-clear-text
 ````
 
