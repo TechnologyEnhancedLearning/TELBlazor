@@ -88,6 +88,7 @@ It is client side so the users browser will do the work.
 		- gitguardian from confluence docs (follow it to the letter) [gitguardian global setup instructions](https://hee-tis.atlassian.net/wiki/spaces/TP/pages/3855253505/GitGuardian+Setup+-+Simplified+Version)
         - and add a pre-commit and push hook (you need both as you cannot lint what hasnt yet been commit) you can add these to your git templates if you want them for every repo, or just to this repos pre- push- commits, or you can be lazy and add them into the gitguardian hook
 		- you will need git commitlint globally (angular because it goes with the versioning tool for repo versioning)
+			
 			```
 				npm install -g @commitlint/cli @commitlint/config-angular
 			```
@@ -195,14 +196,6 @@ replace the values with ```sed```
 	- **TELPackageSource** → https://nuget.pkg.github.com/TechnologyEnhancedLearning/index.json
 	- **LocalPackageSource** → e.g. C:\dev\LocalPackages (make sure folder exists)
 	- **NupkgOutputPath** → e.g. C:\dev\LocalPackages
-- Copy the `PackageSettings.props.local.template` file to `PackageSettings.props.local` in the solution root directory (make sure you have 'Show all files' option selected in the Solution Explorer)
-- Right click PackageSettings.props.local and open with xml editor or any preferred way of opening it
-- The following can be changed in System environment variables or PackageSetting.props.local variables can be changed but the latter is recommended.
-    - **UseTELBlazorComponentsProjectReference** set it true for faster development
-	- **TELBlazorPackageVersion** set it to a number higher than the production value and increase it every-time you want to produce and use the package locally if not using the project reference
-      - if this were set to auto increment to a file accessible by other projects that would be ideal
-	- **DisablePackageGeneration** we publish the package on build if this isnt flagged. Set it to true so you can build the solution without making the package
-		- You may want to build the solution without package generation, the TELBlazor.Components with package generation for example
 
 #### Create GitHub Personal Access Token (PAT) for remote package source
 
@@ -252,7 +245,7 @@ To use remote git hosted nuget packages you need a personal git token. This is j
 			```
 	    - check there is a nupkg package. It's an old one, so delete it. 
 
-#### Set nuget to have the source (powershell)
+#### Create the NuGet package source (powershell)
 ````
 dotnet nuget add source "https://nuget.pkg.github.com/TechnologyEnhancedLearning/index.json" `
   --name "github" `
@@ -269,8 +262,14 @@ TELPackage part of the config but with the system environment variable values yo
 
 - **Solution Level**
 	- From the runsettingsTemplate you will make your local runnsettings for testing **".runsettings"** this is where you set tracing and headless
-	- From packagesettings.props.local.template make packagesettings.props.local
-	- packagesettings.props.local overwrite packagesettings.props in directory build props
+	- From PackageSetting.props.local.template make a new PackageSetting.props.local file in the route directory (ensure 'Show All Files' option is checked in the Solution Explorer to see this)
+		- PackageSetting.props.local overwrite PackageSetting.props in directory build props
+		- The following can be changed in System environment variables or PackageSetting.props.local variables can be changed but the latter is recommended.
+			- **UseTELBlazorComponentsProjectReference** set it true for faster development
+			- **TELBlazorPackageVersion** set it to a number higher than the production value and increase it every-time you want to produce and use the package locally if not using the project reference
+				- if this were set to auto increment to a file accessible by other projects that would be ideal
+			- **DisablePackageGeneration** we publish the package on build if this isnt flagged. Set it to true so you can build the solution without making the package
+				- You may want to build the solution without package generation, the TELBlazor.Components with package generation for example
 - **TELBlazor.Components.ShowCase.E2ETests.WasmServerHost**
 	- create appsettings.Development.json
 	- copy paste from appsettings.Development.json.template
