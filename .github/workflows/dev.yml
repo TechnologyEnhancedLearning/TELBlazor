@@ -12,9 +12,6 @@ permissions:
 
 env:
 
-
-
-
   # Permission
   GITHUB_TOKEN: ${{ secrets.NUGETKEY }}
   TEL_GIT_PACKAGES_TOKEN: ${{ secrets.NUGETKEY }}

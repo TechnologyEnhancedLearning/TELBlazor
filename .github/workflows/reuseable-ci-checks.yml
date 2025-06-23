@@ -261,8 +261,8 @@ jobs:
               
           - name: Get artifact location
             env:
-            # requires local set env
-            GH_TOKEN: ${{ secrets.TEL_GIT_PACKAGES_TOKEN }}
+              # requires local set env
+              GH_TOKEN: ${{ secrets.TEL_GIT_PACKAGES_TOKEN }}
             run: |
               # Get the artifact list for the current workflow run
               ARTIFACT_LIST=$(gh api "repos/TechnologyEnhancedLearning/TELBlazor/actions/runs/${GITHUB_RUN_ID}/artifacts")
