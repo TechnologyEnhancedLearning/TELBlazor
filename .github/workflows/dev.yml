@@ -16,7 +16,6 @@ env:
 
 
   # Permission
-  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   GITHUB_TOKEN: ${{ secrets.NUGETKEY }}
   TEL_GIT_PACKAGES_TOKEN: ${{ secrets.NUGETKEY }}
   GITHUB_USERNAME: "Phil-NHS"
