@@ -11,7 +11,7 @@
 		<EnableDefaultEmbeddedResources>true</EnableDefaultEmbeddedResources>
 		<AddRazorSupportForMvc>true</AddRazorSupportForMvc>
 
-		<GeneratePackageOnBuild Condition="'$(DisablePackageGeneration)' != 'true'">true</GeneratePackageOnBuild>
+		<GeneratePackageOnBuild>$(!DisablePackageGeneration)</GeneratePackageOnBuild>
 		<PackageId>TELBlazor.Components</PackageId>
 		<Version>$(TELBlazorPackageVersion)</Version>
 		<Authors>TEL</Authors>
@@ -22,7 +22,7 @@
 		<RepositoryUrl>https://github.com/TechnologyEnhancedLearning/TELBlazor</RepositoryUrl>
 		<RepositoryType>git</RepositoryType>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
-		<PackageOutputPath>$(NupkgOutputPath)</PackageOutputPath>
+		<PackageOutputPath>$(NugetPackagesOutputPath)</PackageOutputPath>
 		<Configurations>Debug;Release</Configurations>
 
 	</PropertyGroup>
