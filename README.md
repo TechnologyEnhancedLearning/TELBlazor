@@ -88,6 +88,7 @@ It is client side so the users browser will do the work.
 		- gitguardian from confluence docs (follow it to the letter) [gitguardian global setup instructions](https://hee-tis.atlassian.net/wiki/spaces/TP/pages/3855253505/GitGuardian+Setup+-+Simplified+Version)
         - and add a pre-commit and push hook (you need both as you cannot lint what hasnt yet been commit) you can add these to your git templates if you want them for every repo, or just to this repos pre- push- commits, or you can be lazy and add them into the gitguardian hook
 		- you will need git commitlint globally (angular because it goes with the versioning tool for repo versioning)
+			
 			```
 				npm install -g @commitlint/cli @commitlint/config-angular
 			```
@@ -189,37 +190,43 @@ replace the values with ```sed```
 	- Any of the nuget.config and PackageSetting.props values but visual studio caches environment values so nothing you expect to change regularly
 
 
-#### Create local files (do this)
-- Right click PackgeSettings.props.local and open with xml editor or any preferred way of opening it
-- copy paste PackgeSettings.props.local.template into it
-- Set environmental variables (go into windows, edit environmental system variables, then look for environmental variables button, then add to system wide) 	
+#### Configure environment variables and package settings
+- Set environmental variables (go into Start → Edit environment system variables, then look for the 'Environment variables' button). Add the following System variables: 	
 	- **TELBlazorPackageSource** → https://nuget.pkg.github.com/TechnologyEnhancedLearning/index.json
 	- **TELPackageSource** → https://nuget.pkg.github.com/TechnologyEnhancedLearning/index.json
-	- **LocalPackageSource** → e.g. C:\dev\LocalPackages
+	- **LocalPackageSource** → e.g. C:\dev\LocalPackages (make sure folder exists)
 	- **NupkgOutputPath** → e.g. C:\dev\LocalPackages
-- Change system environment variables or PackageSetting.props.local variables can be changed but I recommend the latter
-    - **UseTELBlazorComponentsProjectReference** set it true for faster development
-	- **TELBlazorPackageVersion** set it to a number higher than the production value and increase it every-time you want to produce and use the package locally if not using the project reference
-      - if this were set to auto increment to a file accessible by other projects that would be ideal
-	- **DisablePackageGeneration** we publish the package on build if this isnt flagged. Set it to true so you can build the solution without making the package
-		- You may want to build the solution without package generation, the TELBlazor.Components with package generation for example
 
-#### Create More Environment Variables
-- To use remote git hosted nuget packages you need a personal git token. This is just because git tracks the use of packages rather than it being anonymous
-	- go onto your git profile
-	- go to settings → developer settings → Personal access tokens → Tokens classic
-		- as a minimum select read:packages and you may wish to increase the expiration date.
-			- copy the token it will disapear
-	- Set system wide environment variables as before
-		- GITHUB_USERNAME
-		- GITHUB_PACKAGES_TOKEN
-		- TELBlazorPackageSource
-			- previously we set this to a local location but if you were to want to generally use the remote package this is the source 
-			- https://nuget.pkg.github.com/TechnologyEnhancedLearning/index.json
-			- for the test set this to https://nuget.pkg.github.com/TechnologyEnhancedLearning/index.json but you will probably want to point it back to a local folder afterwards
-    - check credentials are working
-		- open powershell somewhere you can put deletable content
-			- ``` 
+#### Create GitHub Personal Access Token (PAT) for remote package source
+
+To use remote git hosted nuget packages you need a personal git token. This is just because git tracks the use of packages rather than it being anonymous
+
+- go to your [GitHub profile](https://github.com/settings/profile)
+- go to Settings → Developer settings → Personal access tokens → Tokens classic → Generate new token (classic)
+	- give it a Note, e.g. "TELBlazor Package Access"
+	- set the expiration date to something reasonable (e.g. 90 days)
+	- select the scopes you need for the token
+		- as a minimum select `read:packages` and you may wish to increase the expiration date.
+		- if you want to publish packages you will need `write:packages` and `delete:packages` but this is not recommended for development
+	- Generate token
+	- copy the token immediately (it will not be accessible again)
+- Set system wide environment variables as before
+	- GITHUB_USERNAME / [Your GitHub username]
+	- GITHUB_PACKAGES_TOKEN / [The copied token]
+
+	NOTE: You may need to restart Visual Studio, Powershell or your OC for these changes to take effect.
+
+- Check environment variables are stored:
+	
+			``` 
+				echo $env:GITHUB_USERNAME
+				echo $env:GITHUB_PACKAGES_TOKEN
+
+			```
+
+	- and, for a more thorough test, check they are working. Open a Powershell in a folder where you can put deletable content:
+	
+			``` 
 				# Create output folder if it doesn't exist
 				New-Item -ItemType Directory -Path deleteme-test -ErrorAction SilentlyContinue
 
@@ -236,14 +243,14 @@ replace the values with ```sed```
 				  -o deleteme-test\TELBlazor.Components.1.0.0.nupkg
 
 			```
-	    - check there is a nupkg package. its an old one, so just delete it. 
+	    - check there is a nupkg package. It's an old one, so delete it. 
 
-#### Set nuget to have the source (powershell)
+#### Create the NuGet package source (powershell)
 ````
 dotnet nuget add source "https://nuget.pkg.github.com/TechnologyEnhancedLearning/index.json" `
   --name "github" `
   --username $env:GITHUB_USERNAME `
-  --password $env:GITHUB_TOKEN `
+  --password $env:GITHUB_PACKAGES_TOKEN `
   --store-password-in-clear-text
 ````
 
@@ -255,8 +262,14 @@ TELPackage part of the config but with the system environment variable values yo
 
 - **Solution Level**
 	- From the runsettingsTemplate you will make your local runnsettings for testing **".runsettings"** this is where you set tracing and headless
-	- From packagesettings.props.local.template make packagesettings.props.local
-	- packagesettings.props.local overwrite packagesettings.props in directory build props
+	- From PackageSetting.props.local.template make a new PackageSetting.props.local file in the route directory (ensure 'Show All Files' option is checked in the Solution Explorer to see this)
+		- PackageSetting.props.local overwrite PackageSetting.props in directory build props
+			- For development, set the following in your system or in the `PackageSettings.props.local` file:
+				- **TELBlazorPackageSource** → a local folder outside of the solution (can also be set to the remote source)
+				- **NupkgOutputPath** → the same local folder outside of the solution (can also be set to the remote path)
+				- **UseTELBlazorComponentsProjectReference** → true  (for faster development)
+				- **TELBlazorPackageVersion** → 1.0.0 (will do for now but will need to be incremented for package generation)
+				- **DisablePackageGeneration** → true (set to false for package generation)
 - **TELBlazor.Components.ShowCase.E2ETests.WasmServerHost**
 	- create appsettings.Development.json
 	- copy paste from appsettings.Development.json.template
@@ -274,17 +287,11 @@ TELPackage part of the config but with the system environment variable values yo
 - **TELBlazor.Components.UnitTests**
 		- as above
 
-#### Install packages
-- first set packagesettings.props.local if you havent already via environment variables to the following
-	- **TELBlazorPackageSource** → a local folder outside of the solution
-	- **NupkgOutputPath** → the same local folder outside of the solution
-	- **UseTELBlazorComponentsProjectReference** → true
-	- **TELBlazorPackageVersion** → 1.0.0 will do for now
-	- **DisablePackageGeneration** → true
-- in .runsettings
+#### Set development config and install packages
+- in .runsettings, set:
 	- **TracingEnabled** → true
 	- **Headless** → false
-- right click the solution and copy full path (we need admin rights so dont just open terminal)
+- right click the solution and copy full path (or open terminal if running as admin)
 - open powershell from windows as administrator
 - paste the route paste and cd to the solution folder
 - then run the following
