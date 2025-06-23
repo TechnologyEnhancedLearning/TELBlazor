@@ -320,7 +320,7 @@
           "Blazored.LocalStorage": "[4.5.0, )",
           "Microsoft.AspNetCore.Components.Web": "[8.0.14, )",
           "Serilog": "[4.2.0, )",
-          "TELBlazor.Components": "[1.9.0, )"
+          "TELBlazor.Components": "[1.9.0-local, )"
         }
       },
       "Microsoft.AspNetCore.Components.Web": {

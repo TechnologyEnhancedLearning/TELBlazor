@@ -41,14 +41,8 @@ It is client side so the users browser will do the work.
 
 # Set Up
 
-## "It works on my machine"
+## Prerequisites
 
-### Hi Kevin, Please rewrite or correct these steps. 
-- im expecting maybe global node may end up not working, if anything, as its already set up globally on my machine with the packages for this project.
-
-### 
-
-### Prerequisites
 - **Visual Studio 2022** (Community or higher)
 - **.NET 8 SDK version 8.0.407 or later** (see global.json requirement below)
 - **Node.js 18+** and npm
@@ -56,27 +50,19 @@ It is client side so the users browser will do the work.
 - **PowerShell 5.1+** 
 > ⚠️ **Important:** All commands in this guide require **PowerShell running as Administrator**
 
-### Steps
+### Quick Setup ⚡
 
-#### Get the repo
-1. Open powershell as admin
-1. In powershell navigate (```cd```) to the folder the repo will go
-1. Check prequisites
-	- ```
-		### 1. Verify Prerequisites
+***Tip if any of these steps will take some time on your machine read the contribution and configuration sections with a 🍵***
+- **Get the repo:** open powershell as admin, ```cd``` to where you keep your repos. run ```git clone https://github.com/TechnologyEnhancedLearning/TELBlazor.git```
+- **Create local gitignored configuration files from templates:** open the project in visual studio
+	- search template
+		- create a copy of each template removing the .template post fix
+- ****
 
-		**Open PowerShell as Administrator** and verify your setup:
 
-		```powershell
-		# Check .NET SDK version (should be 8.0.407 or later)
-		dotnet --version
+- read the contribution section before creating a branch or commits
 
-		# Check Node.js version (should be 18+)
-		node --version
-	
-	  ```
-1. Go to [TELBlazor Repo](https://github.com/TechnologyEnhancedLearning/TELBlazor) hit code and get the clone string
-1. Clone the repo locally using powershell terminal
+# Contributing to the project
 1. Go to [TELBlazor Repo](https://github.com/TechnologyEnhancedLearning/TELBlazor) 
 	- create a branch (**there is branch name checks in cicd [branch lint rules](https://github.com/TechnologyEnhancedLearning/TELBlazor/blob/master/.releaserc.json)**) so for example call it **"docs-readme-setup-instructions"**
 	- your commits should look like this **"docs(readme): added detail on commit rules"**
@@ -197,6 +183,42 @@ replace the values with ```sed```
 	- **LocalPackageSource** → e.g. C:\dev\LocalPackages (make sure folder exists)
 	- **NupkgOutputPath** → e.g. C:\dev\LocalPackages
 
+## Contribution Rules
+- commit rules
+- branch rules
+
+## Configurations for Development
+-
+## Tips
+
+# old
+
+
+### Setup With Checks
+
+### Steps
+
+#### Get the repo
+1. Open powershell as admin
+1. In powershell navigate (```cd```) to the folder the repo will go
+1. Check prequisites
+	- ```
+		### 1. Verify Prerequisites
+
+		**Open PowerShell as Administrator** and verify your setup:
+
+		```powershell
+		# Check .NET SDK version (should be 8.0.407 or later)
+		dotnet --version
+
+		# Check Node.js version (should be 18+)
+		node --version
+	
+	  ```
+1. Go to [TELBlazor Repo](https://github.com/TechnologyEnhancedLearning/TELBlazor) hit code and get the clone string
+1. Clone the repo locally using powershell terminal
+
+
 #### Create GitHub Personal Access Token (PAT) for remote package source
 
 To use remote git hosted nuget packages you need a personal git token. This is just because git tracks the use of packages rather than it being anonymous
@@ -212,7 +234,7 @@ To use remote git hosted nuget packages you need a personal git token. This is j
 	- copy the token immediately (it will not be accessible again)
 - Set system wide environment variables as before
 	- GITHUB_USERNAME / [Your GitHub username]
-	- GITHUB_PACKAGES_TOKEN / [The copied token]
+	- GITHUB_TEL_GIT_PACKAGES_TOKEN / [The copied token]
 
 	NOTE: You may need to restart Visual Studio, Powershell or your OC for these changes to take effect.
 
@@ -220,7 +242,7 @@ To use remote git hosted nuget packages you need a personal git token. This is j
 	
 			``` 
 				echo $env:GITHUB_USERNAME
-				echo $env:GITHUB_PACKAGES_TOKEN
+				echo $env:GITHUB_TEL_GIT_PACKAGES_TOKEN
 
 			```
 
@@ -231,7 +253,7 @@ To use remote git hosted nuget packages you need a personal git token. This is j
 				New-Item -ItemType Directory -Path deleteme-test -ErrorAction SilentlyContinue
 
 				# Build the auth string (username:token)
-				$auth = "$($env:GITHUB_USERNAME):$($env:GITHUB_PACKAGES_TOKEN)"
+				$auth = "$($env:GITHUB_USERNAME):$($env:GITHUB_TEL_GIT_PACKAGES_TOKEN)"
 
 				# Build base URL by removing trailing /index.json from the feed URL
 				$baseUrl = $env:TELBlazorPackageSource -replace "/index\.json$", ""
@@ -250,7 +272,7 @@ To use remote git hosted nuget packages you need a personal git token. This is j
 dotnet nuget add source "https://nuget.pkg.github.com/TechnologyEnhancedLearning/index.json" `
   --name "github" `
   --username $env:GITHUB_USERNAME `
-  --password $env:GITHUB_PACKAGES_TOKEN `
+  --password $env:GITHUB_TEL_GIT_PACKAGES_TOKEN `
   --store-password-in-clear-text
 ````
 

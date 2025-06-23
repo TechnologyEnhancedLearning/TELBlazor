@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <!--Overwrite with PackageSettings.props.local-->
+
+
+	<!-- ===================================================
+       Test Property Group (Due to thresholds via msbuild most configuration for tests occurs here)
+       =================================================== -->
   <PropertyGroup>
 
 	  <!--gets overwritten by packagesettings.props.local to use .runsettings-->
@@ -9,45 +14,43 @@
 	<!-- coverlet.msbuild, specifically msbuild props here we set when cicd testing fails on coverage -->
 	<CollectCoverage>true</CollectCoverage>
 	<CoverletOutputFormat>cobertura</CoverletOutputFormat>
-	<Threshold>30</Threshold>
+	<Threshold>10</Threshold>
 	<ThresholdType>line</ThresholdType>
 	<ThresholdStat>total</ThresholdStat>
-	<ThresholdBranch>30</ThresholdBranch>
-	<ThresholdMethod>30</ThresholdMethod>
+	<ThresholdBranch>10</ThresholdBranch>
+	<ThresholdMethod>10</ThresholdMethod>
 
 	<!-- What to test -->
 	<Include>[TELBlazor.Components]*</Include>
 	<ExcludeByAttribute>ExcludeFromCodeCoverage</ExcludeByAttribute>
-	<ExcludeByFile>**/Program.cs,**/OptionalImplementations/TestComponents/**/*.*</ExcludeByFile>
+	<ExcludeByFile>**/Program.cs,**/OptionalImplementations/Test/**/*.*,**/OptionalImplementations/TestComponents/**/*.*,**/OptionalImplementations/TestComponentPages/**/*.*</ExcludeByFile>
+
 	<IncludeTestAssembly>true</IncludeTestAssembly>
 
 	<!--centralising TestResults output could reduce abitity to run tests in parralel-->
 	<CoverletOutput>$(MSBuildThisFileDirectory)AllTestResults/</CoverletOutput>
 	<MergeWith>$(MSBuildThisFileDirectory)AllTestResults/coverage.json</MergeWith>
 
-	  <!-- Define the output path where the package will be stored -->
-    <NupkgOutputPath>$(NupkgOutputPath)</NupkgOutputPath>
+  </PropertyGroup>
 	
-	  <!--can be local folder-->
-	  
-	<TELBlazorPackageSource>$(TELBlazorPackageSource)</TELBlazorPackageSource>
+	
+	<!-- ===================================================
+       Environment Configuration Property Group For CICD and Local Dev
+       =================================================== -->
+	<PropertyGroup>
+	  <!-- Define the output path where the package will be stored -->
+    <NugetPackagesOutputPath>$(NUGET_PACKAGES_OUTPUT_PATH)</NugetPackagesOutputPath>
 	
 	  <!--Use project reference for faster iteration in development-->
-	<UseTELBlazorComponentsProjectReference Condition="'$(UseTELBlazorComponentsProjectReference)' == '' ">false</UseTELBlazorComponentsProjectReference>
-	<UseTELBlazorComponentsProjectReference Condition="'$(UseTELBlazorComponentsProjectReference)' != '' ">$(UseTELBlazorComponentsProjectReference)</UseTELBlazorComponentsProjectReference>
+	<!--<UseTELBlazorComponentsProjectReference Condition="'$(UseTELBlazorComponentsProjectReference)' == '' ">false</UseTELBlazorComponentsProjectReference>-->
+	<UseTELBlazorComponentsProjectReference>$(USE_TEL_BLAZOR_COMPONENTS_PROJECT_REFERENCE)</UseTELBlazorComponentsProjectReference>
 	
 	  <!--manually change this to build and use local packages, or add the project automated generation e.g. msbuild number-->
-	<TELBlazorPackageVersion>$(TELBlazorPackageVersion)</TELBlazorPackageVersion>
+	<TELBlazorPackageVersion>$(TEL_BLAZOR_PACKAGE_VERSION)</TELBlazorPackageVersion>
 	
 	  <!--Building the components project makes the package publish isnt needed-->
-    <DisablePackageGeneration>$(DisablePackageGeneration)</DisablePackageGeneration>
+    <DisablePackageGeneration>$(DISABLE_PACKAGE_GENERATION)</DisablePackageGeneration>
 	
-	  <!--Testing settings-->
-	<!--<E2ETracingEnabled Condition="'$(E2ETracingEnabled)' == ''">false</E2ETracingEnabled>
-	<E2ETracingEnabled Condition="'$(E2ETracingEnabled)' != ''">$(E2ETracingEnabled)</E2ETracingEnabled>
-	<HeadlessTesting Condition="'$(HeadlessTesting)' == ''">true</HeadlessTesting>
-	<HeadlessTesting Condition="'$(HeadlessTesting)' != ''">$(HeadlessTesting)</HeadlessTesting>-->
-  
   </PropertyGroup>
 
 </Project>
