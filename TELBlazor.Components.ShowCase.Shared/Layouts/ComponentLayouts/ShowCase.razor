@@ -1,4 +1,5 @@
-﻿@layout ComponentPageLayout
+﻿
+@layout ComponentPageLayout
 <div class="component-showcase">
     @if(IsTestComponent){
         <h1 class="test-component-warning-header">This is a Test Component</h1>
@@ -7,7 +8,9 @@
     }
     
     <h2>@Title</h2>
+    <JSDisabledWarning/>
     <TELBlazorPackageVersionInformation />
+    
     <div class="component-presentor">
         @ChildContent
     </div>

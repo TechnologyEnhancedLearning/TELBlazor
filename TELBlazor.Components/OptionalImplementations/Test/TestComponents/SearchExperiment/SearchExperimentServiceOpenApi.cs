@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging;
 using Serilog.Core;
 using System;
 using System.Collections.Generic;
@@ -126,7 +125,7 @@ namespace TELBlazor.Components.OptionalImplementations.Test.TestComponents.Searc
                 return response?.conceptDocument?.conceptDocumentList?
             .Select(x => x.click?.payload?.clickTargetUrl)
             .Where(url => !string.IsNullOrWhiteSpace(url)).DefaultIfEmpty("Soz nout found. ⚠️I'm actually just hitting the suggestion endpoint atm. coz t'uther bokked. ⚠️").ToList<string>()
-            ?? new List<string>() { "Soz nout found. ⚠️I'm actually just hitting the suggestion endpoint atm.coz t'uther bokked. ⚠️" };
+            ?? new List<string>() { "Soz nout found. ⚠I'm actually just hitting the suggestion endpoint atm.coz t'uther bokked. ⚠️" };
             }
             catch (Exception ex)
             {
