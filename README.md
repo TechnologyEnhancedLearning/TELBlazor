@@ -219,6 +219,42 @@ replace the values with ```sed```
 1. Clone the repo locally using powershell terminal
 
 
+## Contribution Rules
+- commit rules
+- branch rules
+
+## Configurations for Development
+-
+## Tips
+
+# old
+
+
+### Setup With Checks
+
+### Steps
+
+#### Get the repo
+1. Open powershell as admin
+1. In powershell navigate (```cd```) to the folder the repo will go
+1. Check prequisites
+	- ```
+		### 1. Verify Prerequisites
+
+		**Open PowerShell as Administrator** and verify your setup:
+
+		```powershell
+		# Check .NET SDK version (should be 8.0.407 or later)
+		dotnet --version
+
+		# Check Node.js version (should be 18+)
+		node --version
+	
+	  ```
+1. Go to [TELBlazor Repo](https://github.com/TechnologyEnhancedLearning/TELBlazor) hit code and get the clone string
+1. Clone the repo locally using powershell terminal
+
+
 #### Create GitHub Personal Access Token (PAT) for remote package source
 
 To use remote git hosted nuget packages you need a personal git token. This is just because git tracks the use of packages rather than it being anonymous
@@ -242,7 +278,7 @@ To use remote git hosted nuget packages you need a personal git token. This is j
 	
 			``` 
 				echo $env:GITHUB_USERNAME
-				echo $env:TEL_GIT_PACKAGES_TOKEN
+				echo $env:GITHUB_TEL_GIT_PACKAGES_TOKEN
 
 			```
 
@@ -253,7 +289,7 @@ To use remote git hosted nuget packages you need a personal git token. This is j
 				New-Item -ItemType Directory -Path deleteme-test -ErrorAction SilentlyContinue
 
 				# Build the auth string (username:token)
-				$auth = "$($env:GITHUB_USERNAME):$($env:TEL_GIT_PACKAGES_TOKEN)"
+				$auth = "$($env:GITHUB_USERNAME):$($env:GITHUB_TEL_GIT_PACKAGES_TOKEN)"
 
 				# Build base URL by removing trailing /index.json from the feed URL
 				$baseUrl = $env:TELBlazorPackageSource -replace "/index\.json$", ""
@@ -272,7 +308,7 @@ To use remote git hosted nuget packages you need a personal git token. This is j
 dotnet nuget add source "https://nuget.pkg.github.com/TechnologyEnhancedLearning/index.json" `
   --name "github" `
   --username $env:GITHUB_USERNAME `
-  --password $env:TEL_GIT_PACKAGES_TOKEN `
+  --password $env:GITHUB_TEL_GIT_PACKAGES_TOKEN `
   --store-password-in-clear-text
 ````
 
