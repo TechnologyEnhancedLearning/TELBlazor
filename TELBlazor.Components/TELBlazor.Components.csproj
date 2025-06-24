@@ -22,7 +22,7 @@
 		<RepositoryUrl>https://github.com/TechnologyEnhancedLearning/TELBlazor</RepositoryUrl>
 		<RepositoryType>git</RepositoryType>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
-		<PackageOutputPath>$(NupkgOutputPath)</PackageOutputPath>
+		<PackageOutputPath>$(NugetPackagesOutputPath)</PackageOutputPath>
 		<Configurations>Debug;Release</Configurations>
 
 	</PropertyGroup>
@@ -48,12 +48,19 @@
 		<Content Remove="..\CICDPackageLocation\**\*" />
 		<None Remove="..\CICDPackageLocation\**\*" />
 	</ItemGroup>
+	<ItemGroup>
+	  <Compile Remove="TELBlazorPackageVersion\VersionInfo.TELBlazorAssembly.cs" />
+	</ItemGroup>
+	<ItemGroup>
+	  <Content Include="TELBlazorPackageVersion\VersionInfo.TELBlazorAssembly.cs" />
+	</ItemGroup>
 
 	<!--<ItemGroup>
 	  <Content Include="Core\DI\gitinclude.txt" />
 	</ItemGroup>-->
 	<ItemGroup>
 		<Folder Include="Assets\" />
+		<Folder Include="OptionalImplementations\Test\TestServices\" />
 		<Folder Include="wwwroot\css\" />
 		<Folder Include="wwwroot\js\" />
 	</ItemGroup>
@@ -69,6 +76,10 @@
 			3) Gulp to add the TELFrontend css version to version info file
 		  -->
 		<Exec WorkingDirectory="$(MSBuildProjectDirectory)/.." Command="npx gulp --cwd &quot;$(MSBuildProjectDirectory)&quot; --gulpfile &quot;$(MSBuildProjectDirectory)/gulpfile.js&quot;" />
+	</Target>
+	<Target Name="GenerateTELBlazorPackageVersion" BeforeTargets="RunGulp">
+		<Delete Files="TELBlazorPackageVersion/VersionInfo.cs" />
+		<WriteLinesToFile File="TELBlazorPackageVersion\VersionInfo.TELBlazor.cs" Lines="namespace TELBlazor.Components.TELBlazorPackageVersion{public static partial class VersionInfo{public const string TELBlazorPackageVersion = &quot;$(TELBlazorPackageVersion)&quot; %3B; } }" Overwrite="true" Encoding="UTF-8" />
 	</Target>
 
 </Project>

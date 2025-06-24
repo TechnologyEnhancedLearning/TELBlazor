@@ -5,8 +5,11 @@
 <!--will want debounce-->
 <!--will want cancel if still going-->
 @inherits TELComponentBase
-<!--think it will be a specific service instead-->
+<!--think it will be a specific service instead but we would probably have this in an option on this component potentially?-->
+<!-- NavigationManager.NavigateTo($"search/{searchText}/1");-->
+<!--also we on query a bit so navigation manager would be good for that https://example.com/search?Term=blazor&Filters=video&Filters=article&Sortby=1&CataloguePageIndex=2-->
 @inject NavigationManager NavigationManager 
+@inject ISearchExperimentService searchExperimentService
 @* @implements IDisposable *@
 @using static DummyData
 <header class="nhsuk-header" role="banner">
@@ -16,14 +19,17 @@
                 <div class="nhsuk-header__search-wrap" id="wrap-search">
                     <!--qqqq ending up with nojsfallback in both places may need button redesign-->
                         <EditForm Model="FormData" OnSubmit="SendSearchRequest" action="@(NoJSActionUrl)"
-                                role="form" 
+                              FormName="SearchMainForm"
+                              name="SearchMainForm"
+                              role="form" 
                                 tabindex="0" 
                                 method="post" >
                                 <!--shouldnt need-->
-                        @foreach (var keyValuePair in FormData)
+                         @foreach (var keyValuePair in FormData)
                         {
                             <input tabindex="-1" type="hidden" name="@keyValuePair.Key" value="@keyValuePair.Value" />
-                        }
+                        } 
+
                         <div class="nhsuk-header__search-form" role="search">
                             <label class="nhsuk-u-visually-hidden" for="search-field">Search the learning hub</label>
                             <input class="nhsuk-search__input"
@@ -48,7 +54,7 @@
 
                                    <!--button needs changing for icon-->
                             <TELButton IsSubmitButtonForEditForm=true
-                                   NoJSActionUrl="@NoJSActionUrl"
+
                                    ButtonStyle="TELButtonStyle.Primary"
                                    PreventDoubleClick=false
                                        ButtonText="🔎"
@@ -63,45 +69,13 @@
                             </TELButton>  *@
                         </div>
                  </EditForm>
-                  
-
-
-
-                    @*Copy original*@
-@*                     <form class="nhsuk-header__search-form" id="search" method="get" role="search" action="/search/results">
-                        <label class="nhsuk-u-visually-hidden" for="search-field">Search the learning hub</label>
-                        <input class="nhsuk-search__input" id="search-field" name="term" type="search" placeholder="Search the learning hub" autocomplete="off">
-                        <ul id="search-field_listbox" class="nhsuk-list autosuggestion-menu" style="display:none"></ul>
-                        <button class="nhsuk-search__submit" type="submit">
-                            <svg class="nhsuk-icon nhsuk-icon__search" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false" width="27" height="27">
-                                <path d="M19.71 18.29l-4.11-4.1a7 7 0 1 0-1.41 1.41l4.1 4.11a1 1 0 0 0 1.42 0 1 1 0 0 0 0-1.42zM5 10a5 5 0 1 1 5 5 5 5 0 0 1-5-5z"></path>
-                            </svg>
-                            <span class="nhsuk-u-visually-hidden">Search</span>
-                        </button>
-
-                        <label for="header-mobile-search-control" class="nhsuk-search__close" id="close-search">
-                            <svg class="nhsuk-icon nhsuk-icon__close" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false" width="27" height="27">
-                                <path d="M13.41 12l5.3-5.29a1 1 0 1 0-1.42-1.42L12 10.59l-5.29-5.3a1 1 0 0 0-1.42 1.42l5.3 5.29-5.3 5.29a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l5.29-5.3 5.29 5.3a1 1 0 0 0 1.42 0 1 1 0 0 0 0-1.42z"></path>
-                            </svg>
-                            <span class="nhsuk-u-visually-hidden">Close search</span>
-                        </label>
-                    </form> *@
-
 
                 </div>
             </div>
         </div>
     </div>
 </header>
-@* <section class="search-suggestions">
-    <h3>Search Suggestions</h3>
-    <datalist id="search-suggestions-some-guid" class="nhsuk-list autosuggestion-menu">
-        @foreach (var suggestion in suggestions)
-        {
-            <option>@suggestion</option>
-        }
-</datalist>
-</section> *@
+
 <section class="search-results">
     <h3>Search Results</h3>
     <ul>
@@ -120,8 +94,18 @@
     private List<string> suggestions = new List<string>();
     protected ElementReference searchInput;
 
-
-
+    ///  <summary>
+    ///  This is just for controller actions in a nojs environment
+    /// </summary>
+    [Parameter] public string NoJSControllerSetSearchText { get; set; } = String.Empty;
+    ///  <summary>
+    ///  This is just for controller actions in a nojs environment
+    /// </summary>
+    [Parameter] public List<string> NoJSControllerSetSearchResults { get; set; } = new();
+    ///  <summary>
+    ///  This is just for controller actions in a nojs environment
+    /// </summary>
+    [Parameter] public List<string> NoJSControllerSetSuggestions { get; set; } = new();
 
     private CancellationTokenSource _cts;
     /*avoid potential memory leak from mvc taredown by counting down not up by not search on first 3 letters can initiate*/
@@ -129,6 +113,15 @@
     private readonly TimeSpan _debouncePeriod = TimeSpan.FromMilliseconds(500);
 
     // SendSearchRequest SendSuggestionRequest presumeably same end point but maybe a bool for no suggestions
+
+
+    protected override void OnParametersSet()
+    {
+        searchText = NoJSControllerSetSearchText;
+        searchResults = NoJSControllerSetSearchResults;
+        suggestions = NoJSControllerSetSuggestions;
+    }
+
 
     private void StartDebounceCountdown()
     {
@@ -156,12 +149,7 @@
 
         try
         {
-            await Task.Delay(200, _cts.Token); // simulate network delay
-        // Fake search results — in real life this could be an API call
-        searchResults = AllTerms
-                .Where(x => x.Contains(searchText, StringComparison.OrdinalIgnoreCase))
-            .OrderBy(x => x)
-            .ToList();
+            searchResults = (await searchExperimentService.SearchAsync(searchText)).ToList<string>();
         }
         catch (OperationCanceledException)
         {
@@ -175,13 +163,8 @@
 
         try
         {
-            await Task.Delay(200, _cts.Token); // simulate network delay
-
-            suggestions = DummyData.AllTerms
-                .Where(x => x.Contains(searchText, StringComparison.OrdinalIgnoreCase))
-                .OrderBy(x => x)
-                .Take(10)
-                .ToList();
+           
+            suggestions = (await searchExperimentService.GetSuggestionsAsync(searchText)).ToList<string>();
 
         }
         catch (OperationCanceledException)

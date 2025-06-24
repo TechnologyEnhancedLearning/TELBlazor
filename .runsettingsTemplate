@@ -1,17 +1,15 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <RunSettings>
-
-  <RunConfiguration>
-    <EnvironmentVariables>
-        <TracingEnabled>True</TracingEnabled>
-        <RunSettingFile>".runsettingsTemplate"</RunSettingFile>
-    </EnvironmentVariables>
-  </RunConfiguration>
-  <Playwright>
-    <LaunchOptions>
-      <Headless>false</Headless>
-		
-    </LaunchOptions>
-  </Playwright>
-
+	<RunConfiguration>
+		<EnvironmentVariables>
+			<TracingEnabled>True</TracingEnabled>
+			<RunSettingFile>".runsettings"</RunSettingFile>
+		</EnvironmentVariables>
+	</RunConfiguration>
+	<Playwright>
+		<LaunchOptions>
+			<Headless>false</Headless>
+		</LaunchOptions>
+	</Playwright>
 </RunSettings>
+

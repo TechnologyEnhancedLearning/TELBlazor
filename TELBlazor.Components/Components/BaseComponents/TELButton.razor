@@ -55,7 +55,7 @@ else
     ///</summary>
     [Parameter] public bool IsSubmitButtonForEditForm { get; set; } = false;
     [Parameter] public Dictionary<string, string> FormData { get; set; } = new();
-    [EditorRequired, Parameter] public required string NoJSActionUrl { get; set; } // URL for the form submission
+    [Parameter] public string NoJSActionUrl { get; set; } = null; // URL for the form submission (not required because there may be a parent form with it if its a submit for a form)
     [Parameter] public EventCallback OnClick { get; set; } // Not required because the submit wont use it, when its placed in a form.
     [Parameter] public bool PreventDoubleClick { get; set; } = false; // View Component equivalent behaviour
 

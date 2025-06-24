@@ -4,12 +4,21 @@
           Instructions="@Instructions"
           Description="@Description"
           IsTestComponent="@IsTestComponent">
-    <SearchExperiment />
+    <SearchExperiment NoJSActionUrl="@NoJSActionUrl"
+          NoJSControllerSetSearchText="@NoJSSearchText"
+          NoJSControllerSetSearchResults="@NoJSSearchResults"
+          NoJSControllerSetSuggestions="@NoJSSuggestions"/>
+    <h1>qqqq put a readme link or markdig section per component here in future</h1>
 </ShowCase>
 
 @code {
     private bool IsTestComponent => true;
     private string Title => "SearchExperiment";
-    private string Instructions => "Try searching";
+    private string Instructions => "Try searching: ⚠️ Warning: This is a test element. It is only hitting the suggestion endpoint currently for searches and for suggestions, as that is all that is available. Suggestions shown won’t necessarily lead to effective or relevant search results.";
     private string Description => "This is not a prototype for the new search component its a test component just for a component needing a service only";
+    private string NoJSSearchText = "Example previous nojs search";
+    private string NoJSActionUrl = "/nojsformsubmitstubpage";
+    private List<string> NoJSSearchResults = new List<string>() {"In a nojs browser", " the user would first get a blanks components ", " they then send their data",  " the Controller would provide","this static info back", "including original provideds search", "having used the same service", "serverside in its controller"};
+    private List<string> NoJSSuggestions = new List<string>() {"Unsure if this would work ","it might do but we wouldnt", " want to spam a page reload per button press ", " so maybe there would be different suggestions in nojs" };
+
 }

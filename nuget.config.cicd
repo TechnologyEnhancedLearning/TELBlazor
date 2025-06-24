@@ -1,39 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
 
-This config is replaced with the template in cicd.
-It is gitignored too so further changes wont propogate.
-Source can be safely changed without needing to change the environmental variable and reload vs.
+This config is replaces nuget.config in cicd.
+It provides credentials incase the TEL git packages feed is used.
 
 -->
 <configuration>
 	<packageSources>
 		<clear />
 		<add key="nuget.org" value="https://api.nuget.org/v3/index.json" />
-		<!--Check local source first prioritise local over remote where duplicate version number accidently occurs-->
-		<add key="TELBlazorPackageSource" value="%LOCAL_PACKAGES_PATH%" />
-		<!--<add key="TELGitPackageSource" value="https://nuget.pkg.github.com/TechnologyEnhancedLearning/index.json" />-->
+		<add key="TELBlazorPackageSource" value="%TEL_BLAZOR_PACKAGE_SOURCE%" />
 	</packageSources>
 	<packageSourceCredentials>
-		<TELGitPackageSource>
+		<TELBlazorPackageSource>
 			<!-- for cicd -->
 			<add key="Username" value="%GITHUB_USERNAME%" />
 			<!--cleartext for benefit of github actions-->
 			<add key="ClearTextPassword" value="%TEL_GIT_PACKAGES_TOKEN%" />
-		</TELGitPackageSource>
+		</TELBlazorPackageSource>
 	</packageSourceCredentials>
 	<packageSourceMapping>
 		<!-- Filter by package to get right package from GitHub -->
 		<packageSource key="TELBlazorPackageSource">
 			<package pattern="TELBlazor.Components" />
 		</packageSource>
-		<!-- Filter by package to get right package from GitHub -->
-		<!--<packageSource key="TELGitPackageSource">
-			<package pattern="TELBlazor.Components" />
-		</packageSource>-->
 		<!-- All other packages will be fetched from NuGet.org -->
 		<packageSource key="nuget.org">
 			<package pattern="*" />
 		</packageSource>
-	</packageSourceMapping>
+</packageSourceMapping>
 </configuration>

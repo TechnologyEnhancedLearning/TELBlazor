@@ -1,4 +1,6 @@
 // Microsoft namespaces
+// Still required server side even if not used so components dont fail
+using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
@@ -6,27 +8,22 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Http;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-
 // Serilog core (used via appsettings, do not delete even if vs marks not in use)
 using Serilog;
 using Serilog.Configuration;
 using Serilog.Core;
 using Serilog.Events;
-
 // Serilog extensions and sinks (used via appsettings, do not delete even if vs marks not in use)
 using Serilog.Extensions.Logging;
 using Serilog.Formatting.Compact;
 using Serilog.Settings.Configuration;
 using Serilog.Sinks.BrowserConsole;
-
-// Still required server side even if not used so components dont fail
-using Blazored.LocalStorage;
-
 // TELBlazor components
 using TELBlazor.Components.Core.Configuration;
 using TELBlazor.Components.Core.Services.HelperServices;
-using TELBlazor.Components.ShowCase.E2ETests.WasmServerHost;
+using TELBlazor.Components.OptionalImplementations.Core.DI;
 using TELBlazor.Components.OptionalImplementations.Core.Services.HelperServices;
+using TELBlazor.Components.ShowCase.E2ETests.WasmServerHost;
 
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
@@ -74,7 +71,7 @@ try
     // qqqq do we need it builder.Services.AddScoped<LoggingLevelSwitch>(sp => levelSwitch);
     builder.Services.AddScoped<ILogLevelSwitcherService, SerilogLogLevelSwitcherService>();
     builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
-
+    builder.Services.AddTELBlazorComponentServicesForTestComponents();
     await builder.Build().RunAsync();
 }
 catch (Exception ex)
