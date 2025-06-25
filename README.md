@@ -167,7 +167,7 @@ It is recommended you check setup by reading this section and making sure packag
 
 #### Testing the project
 - you can use the test runner
-- runsettings allows configuration of headless and tracing|
+- runsettings allows configuration of headless and tracing
 - packagesettings.props sets thresholds
 - running at solution level ./run-tests-and-report-with-env-values.ps1 (see in the file for specific arguments you may want to set)
 	- will produce a test coverage site [your repo folder]/TELBlazor/CoverageReport/index.html
@@ -273,7 +273,7 @@ It is recommended you check setup by reading this section and making sure packag
 	- fetch, pull, squash to before the change and then git push force
 
 
-## How to consume TELBlazor.Components 
+# How to consume TELBlazor.Components 
 1. Select a production version of the package [Package list for TELBlazor.Component on git](https://github.com/TechnologyEnhancedLearning/TELBlazor/pkgs/nuget/TELBlazor.Components)
 1. Set up css references and dependency injection using lean host examples WasmServerHost, WasmServerHost.Client and WasmStaticClient
 from the repo and ShowCase project for how to include the package. 
