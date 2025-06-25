@@ -8,6 +8,12 @@ on:
         required: false
         type: boolean
         default: false
+      base_sha:
+        required: false
+        type: string
+      head_sha:
+        required: false
+        type: string
     secrets:
       UNITTESTS_APPSETTINGS_DEVELOPMENT:
         required: true
@@ -27,6 +33,7 @@ on:
         required: true
       TEL_GIT_PACKAGES_TOKEN:
         required: true
+
         
 env:
 
@@ -164,6 +171,9 @@ jobs:
         - uses: wagoid/commitlint-github-action@v5
           with:
             configFile: .commitlintrc.json
+            # Only set from/to if inputs are provided, otherwise let action use defaults
+            from: ${{ inputs.base_sha != '' && inputs.base_sha || null }}
+            to: ${{ inputs.head_sha != '' && inputs.head_sha || null }}
      
     reuseable-ci-e2e-unit-tests:
         name: E2E Unit threshold and code report trigger

@@ -8,14 +8,12 @@ There is also a cicd readme in the workflow folder.
 
 The [MVCBlazor repo ](https://github.com/TechnologyEnhancedLearning/MVCBlazor) readme has exploration of various of the choices and alternatives to what is implemented here, which may be useful along with the other blazor repos, when developing for this repo.
 
-*For cicd information, component specific information see readmes in solution files*
+*There are specific readmes within the solution for topics like components and cicd*
 
 # Purpose
 
-Progressive components, that use the server prerendering in Global Wasm Blazor to ensure that if the user has no JS they will get html. And that html can be created to have working post actions.
-The render cycle will hydrate the prerender and the post actions will be overrided by services injected in the components.
-It is client side so the users browser will do the work.
-  
+Progressive Blazor components, intended for a Hosted Blazor Webassembly architecture with prerendering. They provide clientside functionality with 
+the ability to produce static prerendered html. The prerendered html is written to have server-side interactvity via form posts and fallback mechanism to support browsers without javascript enabled. 
   
    
 # Links
@@ -46,7 +44,7 @@ It is client side so the users browser will do the work.
 ## Prerequisites
 
 - **Visual Studio 2022** (Community or higher)
-- **.NET 8 SDK version 8.0.407 or later** (see global.json requirement below)
+- **.NET 8 SDK version 8.0.407 or later** (see global.json file in the solution)
 - **Node.js 18+** and npm
 - **Git** configured with your credentials
 - **PowerShell 5.1+** 
@@ -55,15 +53,14 @@ It is client side so the users browser will do the work.
 ### Quick Setup ⚡
 
 
-- **Get the repo:** open powershell as admin, ```cd``` to where you keep your repos. run ```git clone https://github.com/TechnologyEnhancedLearning/TELBlazor.git```
+- **Get the repo:** open powershell as admin, ```cd``` to where you keep your repos. Run ```git clone https://github.com/TechnologyEnhancedLearning/TELBlazor.git```
 - **Create local gitignored configuration files from templates:** open the project in visual studio
 	- search template
 		- create a copy of each template removing the .template post fix
-- **Create GitHub Personal Access Token (PAT) for remote package source:**
-	- go to your [GitHub profile](https://github.com/settings/profile)
-		- you maybe able to go directly with [your github tokens section](https://github.com/settings/tokens)
-	- go to Settings → Developer settings → Personal access tokens → Tokens classic → Generate new token (classic)
-		- give it a Note, e.g. "TELBlazor Package Access"
+- **Create GitHub Personal Access Token (PAT) for consuming [TEL git hosted nuget packages](https://github.com/orgs/TechnologyEnhancedLearning/packages) :**
+	- go to your [GitHub profile tokens section](https://github.com/settings/tokens)
+	- Select Personal access tokens → Tokens classic → Generate new token (classic)
+		- give it a Note, e.g. "TEL Package Access" (we will be storing it as the env var TEL_GIT_PACKAGES_TOKEN)
 		- set the expiration date to something reasonable (e.g. 90 days)
 		- select the scopes you need for the token
 			- as a minimum select `read:packages` and you may wish to increase the expiration date.
@@ -71,21 +68,20 @@ It is client side so the users browser will do the work.
 		- Generate token
 		- copy the token ***immediately*** (it will not be accessible again)
 	- **Set system wide environment variables (useful for future projects too):**
-		- Open Start, type "Environment Variables", and select "Edit the system environment variables".
-		- In the System Properties window, click Environment Variables….
-		- Under **System variables**, click New….
-		- Enter the Variable name and Variable values:
-			- **Add:** GITHUB_USERNAME / [Your GitHub username]
-			- **Add:** TEL_GIT_PACKAGES_TOKEN / [The copied token]
-		- then click ok
+		- Open Start, type "Environment Variables", and select "Edit the system environment variables"
+		- In the System Properties window, click Environment Variables
+		- Under **System variables**, click New
+		- Enter the variable names and variable values as follows:
+			- GITHUB_USERNAME / [Your GitHub username]
+			- TEL_GIT_PACKAGES_TOKEN / [The copied token]
+		- then click OK
 		- Click OK again to close all dialogs.
-		- Restart visual studio and any open command prompts or apps to pick up the change.
 - **Restore Nuget, Npm, Tooling, playwright and build:**
-	- run admin powershell terminal in the repo root
-	- run the following command
+	- run a new admin powershell terminal in the TELBlazor repo root
+	- run the following commands
 	```   
 		#1. Restore
-        dotnet clean
+		dotnet clean
 		dotnet restore
 		
 		#2. Nuget TEL Git Feed setups
@@ -117,13 +113,16 @@ The project should now work. See other sections for what projects to run, and co
 > ⚠️ read the contribution section before creating a branch or commits ⚠️
 
 
-### Getting Started with the Project
+### Getting Started with the Project following Setup
+
+It is recommended you check setup by reading this section and making sure packages can be created and consumed and all tests pass.
 
 #### Contributing to the project
 
 - [Branch naming rules](https://github.com/TechnologyEnhancedLearning/TELBlazor/blob/master/.releaserc.json)
 - ⚠️ Commit names are used to generate the package version, repo version and change log so much be correct ⚠️[Commit Naming Rules](https://github.com/TechnologyEnhancedLearning/TELBlazor/blob/master/.commitlintrc.json)
-	- e.g. "docs(readme): added detail on commit rules"
+	- e.g. 
+		> "docs(readme): added detail on commit rules"
 	
 #### Configuring the project
 
@@ -133,25 +132,60 @@ The project should now work. See other sections for what projects to run, and co
 |nuget.config|overwritten in cicd so feel free to change it| Remote and local telblazor nuget sources |Comment in/out depending which source you need|	
 |Package.Settings.Props | Used by CICD can receive environment variables or msbuild parameters | 	NugetPackagesOutputPath  UseTELBlazorComponentsProjectReference  TELBlazorPackageVersion DisablePackageGeneration | For CICD |
 |Package.Settings.Props.local| overwrite package.settings.props locally | NugetPackagesOutputPath | Where you want your package creating |
-|Package.Settings.Props.local|  | UseTELBlazorComponentsProjectReference | For quick development use the project reference instead of a package |
-|Package.Settings.Props.local| | TELBlazorPackageVersion | local package version you're creating or consuming |
-|Package.Settings.Props.local|	 | DisablePackageGeneration | Stops package creation on build. |
+|Package.Settings.Props.local| overwrite package.settings.props locally | UseTELBlazorComponentsProjectReference | For quick development use the project reference instead of a package |
+|Package.Settings.Props.local| overwrite package.settings.props locally| TELBlazorPackageVersion | local package version you're creating or consuming |
+|Package.Settings.Props.local|overwrite package.settings.props locally | DisablePackageGeneration | Stops package creation on build. |
 |appsettings | | | Serilog configuration |
 
-*Its recommended not to build the solution with package generation enabled and project reference disabled at the same time.*
-*Creating your package outside of the project can be convenient for other local solutions consuming it.*
+> **Nb.** Its recommended not to build the solution with package generation enabled and project reference disabled at the same time.
+> **Nb.** Creating your package outside of the project can be convenient for other local solutions consuming it.
+
+
+
+#### Running the projects
+- depending on whether your consuming a package or using a project reference set package.settings.props.local UseTELBlazorComponentsProjectReference to what you want
+- run wasmserverhost to see the showcase as blazor wasm prerendered
+- run wasmstaticclient to see pure wasm site
+
+#### Building the package
+- To build a package
+	- nuget config
+		- ensure the feed is still set to local```<add key="TELBlazorPackageSource" value="%LOCAL_PACKAGES_PATH%" />```
+	- Package.settings.props.local to create package
+		- NugetPackagesOutputPath -> LOCAL_PACKAGES_PATH
+		- UseTELBlazorComponentsProjectReference -> true
+		- TELBlazorPackageVersion -> 9.9.9-local of something higher than you have
+		- DisablePackageGeneration -> false
+	- delete lock files
+	- build solution
+	- change package.settings.props.local to consume package
+		- UseTELBlazorComponentsProjectReference -> false
+		- DisablePackageGeneration -> true
+	- build solution
+
+
+
+#### Testing the project
+- you can use the test runner
+- runsettings allows configuration of headless and tracing|
+- packagesettings.props sets thresholds
+- running at solution level ./run-tests-and-report-with-env-values.ps1 (see in the file for specific arguments you may want to set)
+	- will produce a test coverage site [your repo folder]/TELBlazor/CoverageReport/index.html
+
+
 
 #### Tips
 
 - If you don't want to wait for the pipeline to fail your commit names and for pushes to accidently expose your secrets: you may want to add
 	- gitguardian from confluence docs (follow it to the letter) [gitguardian global setup instructions](https://hee-tis.atlassian.net/wiki/spaces/TP/pages/3855253505/GitGuardian+Setup+-+Simplified+Version)
-	- and add a pre-commit and push hook (you need both as you cannot lint what hasnt yet been commit) you can add these to your git templates if you want them for every repo, or just to this repos pre- push- commits, or you can be lazy and add them into the gitguardian hook
+	- and add a pre-commit and push hook (you need both as you cannot lint what hasn't yet been commit) you can add these to your git templates if you want them for every repo, or just to this repos pre- push- commits, or you can be lazy and add them into the gitguardian hook
 	- you will need git commitlint globally (angular because it goes with the versioning tool for repo versioning)
 		
 		```
 			npm install -g @commitlint/cli @commitlint/config-angular
 		```
-	-	```
+	-	You can put into your pre-push, pre-commit hook, or into the gitguardian hooks some logic like the below.
+	```
 			#### --- Commitlint Logic (force local config) ---
 			REPO_ROOT=$(git rev-parse --show-toplevel)
 			CONFIG_PATH="$REPO_ROOT/.commitlintrc.json"
@@ -221,47 +255,22 @@ The project should now work. See other sections for what projects to run, and co
 			fi
 		``` 
 
-#### Building the package
-- To build a package
-	- nuget config
-		- ensure the feed is still set to local```<add key="TELBlazorPackageSource" value="%LOCAL_PACKAGES_PATH%" />```
-	- Package.settings.props.local to create package
-		- NugetPackagesOutputPath -> LOCAL_PACKAGES_PATH
-		- UseTELBlazorComponentsProjectReference -> true
-		- TELBlazorPackageVersion -> 9.9.9-local of something higher than you have
-		- DisablePackageGeneration -> false
-	- delete lock files
-	- build solution
-	- change package.settings.props.local to consume package
-		- UseTELBlazorComponentsProjectReference -> false
-		- DisablePackageGeneration -> true
-	- build solution
-
-#### Running the projects
-- depending on whether your consuming a package or using a project reference set package.settings.props.local UseTELBlazorComponentsProjectReference to what you want
-- run wasmserverhost to see the showcase as blazor wasm prerendered
-- run wasmstaticclient to see pure wasm site
-
-#### Testing the project
-- you can use the test runner
-- runsettings allows configuration of headless and tracing|
-- packagesettings.props sets thresholds
-- running at solution level ./run-tests-and-report-with-env-values.ps1 (see in the file for specific arguments you may want to set)
-	- will produce a test coverage site [your repo folder]/TELBlazor/CoverageReport/index.html
-	
-
-### Troubleshooting Package build errors 
-    - delete local `TELBlazor.Components` packages
-    - check `TELBlazorPackageVersion` has been incremented
-    - delete lock files
-	- clean solution
-	- check environment values in `props` and `nuget.config`
-	- restore nuget packages 
-	- restore solution
-	- if still not working delete bin and obj
-	- if still not working close visual studio and reopen
-	- if there are still issues its easier to problem solve by using a random very high `TELBlazor.Components` package version number and ensuring it fails and says it found the source but not the version
-
+### Troubleshooting 
+#### Package build errors 
+- delete local `TELBlazor.Components` packages
+- check `TELBlazorPackageVersion` has been incremented
+- delete lock files
+- clean solution
+- check environment values in `props` and `nuget.config`
+- restore nuget packages 
+- restore solution
+- if still not working delete bin and obj
+- if still not working close visual studio and reopen
+- if there are still issues its easier to problem solve by using a random very high `TELBlazor.Components` package version number and ensuring it fails and says it found the source but not the version
+#### Git commit names
+- git commit names can be caught locally
+- if they are not
+	- fetch, pull, squash to before the change and then git push force
 
 
 ## How to consume TELBlazor.Components 

@@ -32,6 +32,9 @@ jobs:
     uses: ./.github/workflows/reuseable-ci-checks.yml
     with:
       runall: true
+      # Commit being run against
+      base_sha: ${{ github.event.before }}
+      head_sha: ${{ github.event.after }}
     secrets:
       # Dev
       UNITTESTS_APPSETTINGS_DEVELOPMENT: ${{ secrets.UNITTESTS_APPSETTINGS_DEVELOPMENT }}
@@ -47,6 +50,7 @@ jobs:
       WASMSTATICCLIENT_APPSETTINGS_PRODUCTION: ${{ secrets.WASMSTATICCLIENT_APPSETTINGS_PRODUCTION }}
       WASMSERVERHOSTCLIENT_APPSETTINGS_PRODUCTION: ${{ secrets.WASMSERVERHOSTCLIENT_APPSETTINGS_PRODUCTION }}
       WASMSERVERHOST_APPSETTINGS_PRODUCTION: ${{ secrets.WASMSERVERHOST_APPSETTINGS_PRODUCTION }}
+      
 
 
   # Now we've done due diligence
