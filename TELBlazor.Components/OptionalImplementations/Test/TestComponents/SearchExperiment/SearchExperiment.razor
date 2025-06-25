@@ -1,13 +1,5 @@
 ﻿@using System.Diagnostics
-<!--qqqq see microsoft default and ecommerce-->
-<!--@bind-value="SearchText"
-@bind-value:event="oninput"-->
-<!--will want debounce-->
-<!--will want cancel if still going-->
 @inherits TELComponentBase
-<!--think it will be a specific service instead but we would probably have this in an option on this component potentially?-->
-<!-- NavigationManager.NavigateTo($"search/{searchText}/1");-->
-<!--also we on query a bit so navigation manager would be good for that https://example.com/search?Term=blazor&Filters=video&Filters=article&Sortby=1&CataloguePageIndex=2-->
 @inject NavigationManager NavigationManager 
 @inject ISearchExperimentService searchExperimentService
 @* @implements IDisposable *@
@@ -17,7 +9,6 @@
         <div class="nhsuk-width-container nhsuk-header__container app-width-container ">
             <div class="nhsuk-header__search">
                 <div class="nhsuk-header__search-wrap" id="wrap-search">
-                    <!--qqqq ending up with nojsfallback in both places may need button redesign-->
                         <EditForm Model="FormData" OnSubmit="SendSearchRequest" action="@(NoJSActionUrl)"
                               FormName="SearchMainForm"
                               name="SearchMainForm"
@@ -110,7 +101,7 @@
     private CancellationTokenSource _cts;
     /*avoid potential memory leak from mvc taredown by counting down not up by not search on first 3 letters can initiate*/
     private Timer? _debounceTimer;
-    private readonly TimeSpan _debouncePeriod = TimeSpan.FromMilliseconds(500);
+    private readonly TimeSpan _debouncePeriod = TimeSpan.FromMilliseconds(300);
 
     // SendSearchRequest SendSuggestionRequest presumeably same end point but maybe a bool for no suggestions
 
@@ -125,73 +116,81 @@
 
     private void StartDebounceCountdown()
     {
-        // Dispose any existing timer first
-        _debounceTimer?.Dispose();
 
-        // Start a new one-shot countdown timer
-        _debounceTimer = new Timer(_ =>
+        // Reset timer on every keystroke
+        _debounceTimer?.Dispose();
+        _debounceTimer = null;
+        _debounceTimer = new Timer(async _ =>
         {
+            // Invoke on UI thread
+            Logger.LogInformation($"debounce searchText {searchText}");
+            await InvokeAsync(() => GetSuggestionsAsync());
             _debounceTimer?.Dispose();
             _debounceTimer = null;
-        },
-        null,
-        _debouncePeriod,
-        Timeout.InfiniteTimeSpan);
+
+
+        }, null, _debouncePeriod, Timeout.InfiniteTimeSpan);
     }
 
     private async Task SendSearchRequest()
     {
         <!--qqqq will look very similar because isnt meta data or additional information per term to display-->
-        suggestions.Clear();
+        //suggestions.Clear();
 
-        _cts?.Cancel(); // cancel prior search
-        _cts = new CancellationTokenSource();
+        // _cts?.Cancel(); // cancel prior search
+        // _cts = new CancellationTokenSource();
 
-        try
-        {
+        // try
+        // {
             searchResults = (await searchExperimentService.SearchAsync(searchText)).ToList<string>();
-        }
-        catch (OperationCanceledException)
-        {
-            // Ignore cancelled searches
-        }
+            await InvokeAsync(StateHasChanged);
+            // }
+        // catch (OperationCanceledException)
+        // {
+        //     // Ignore cancelled searches
+        // }
     }
     private async Task GetSuggestionsAsync()
     {
-        _cts?.Cancel(); // cancel prior search
-        _cts = new CancellationTokenSource();
+        // _cts?.Cancel(); // cancel prior search
+        // _cts = new CancellationTokenSource();
 
-        try
-        {
-           
-            suggestions = (await searchExperimentService.GetSuggestionsAsync(searchText)).ToList<string>();
-
-        }
-        catch (OperationCanceledException)
-        {
-            // Ignore cancelled searches
-        }
+        // try
+        // {
+        Logger.LogInformation($"GetSuggestionsAsync searchText {searchText}");
+        suggestions = (await searchExperimentService.GetSuggestionsAsync(searchText)).ToList<string>();
+        await InvokeAsync(StateHasChanged);
+        // }
+        // catch (OperationCanceledException)
+        // {
+        //     // Ignore cancelled searches
+        // }
     }
 
-    
+
     public async Task HandleInput(KeyboardEventArgs args)
     {
+        Logger.LogInformation($"handleinput searchText {searchText}");
         if (args.Key == null || args.Key.Equals("Enter"))
         {
-            
+
             /*fire forget?*/
+            //suggestions.Clear();
             await SendSearchRequest();
             //_ = SendSearchRequest();
         }
-        else if (_debounceTimer != null || searchText.Length < 4 )
+        else if ( searchText.Length < 3 )
         {
-            StartDebounceCountdown();
+            
+            _debounceTimer?.Dispose();
+            _debounceTimer = null;
+  
         }
         else
         {
             StartDebounceCountdown();
             /*fire forget?*/
-            await GetSuggestionsAsync();
+            //await GetSuggestionsAsync();
            // _ = GetSuggestionsAsync();
         }
     }
