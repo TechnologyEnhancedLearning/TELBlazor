@@ -8,6 +8,12 @@ on:
         required: false
         type: boolean
         default: false
+      base_sha:
+        required: false
+        type: string
+      head_sha:
+        required: false
+        type: string
     secrets:
       UNITTESTS_APPSETTINGS_DEVELOPMENT:
         required: true
@@ -25,23 +31,22 @@ on:
         required: true
       WASMSERVERHOST_APPSETTINGS_PRODUCTION:
         required: true
-      PACKAGES_TOKEN:
+      TEL_GIT_PACKAGES_TOKEN:
         required: true
+
         
 env:
 
   # Permission
-  PACKAGES_TOKEN: ${{ secrets.PACKAGES_TOKEN }}
+  TEL_GIT_PACKAGES_TOKEN: ${{ secrets.TEL_GIT_PACKAGES_TOKEN }}
 
   # Nuget Set Up
-  TELBLAZOR_PACKAGE_LOCAL_OUTPUT_PATH: ${{ github.workspace }}/CICDPackageLocation
-  TELBLAZOR_PACKAGE_SOURCE: ${{ github.workspace }}/CICDPackageLocation
+  NUGET_PACKAGES_OUTPUT_PATH: ${{ github.workspace }}/CICDPackageLocation
+  LOCAL_PACKAGES_PATH: ${{ github.workspace }}/CICDPackageLocation
 
-  
   # Build Set Up
   # May need coverlet.collector xplat if using the packaged version to test
   USE_TEL_BLAZOR_COMPONENTS_PROJECT_REFERENCE: true
-  DISABLE_PACKAGE_GENERATION: true
   
   # Check Dummy Data
   TELBLAZOR_PACKAGE_VERSION: "0.0.0-ci-checks"
@@ -59,15 +64,23 @@ jobs:
       steps:
       
         - name: Checkout code
-          uses: actions/checkout@v3
+          uses: actions/checkout@v4
           
         - name: Setup .NET
           uses: actions/setup-dotnet@v4
           with:
             global-json-file: global.json
               
+        - name: Replace nuget.config with CI template
+          run: |
+            rm -f nuget.config
+            cp nuget.config.cicd nuget.config
+    
         - name: Replace local environment variable in nuget config because cant provide it as a parameter
-          run: sed -i "s|%TELBlazorPackageSource%|$TELBLAZOR_PACKAGE_LOCAL_OUTPUT_PATH|g" nuget.config
+          run: |
+            sed -i "s|%TEL_BLAZOR_PACKAGE_SOURCE%|$LOCAL_PACKAGES_PATH|g" nuget.config
+            # sed -i "s|%GITHUB_USERNAME%|$GITHUB_USERNAME|g" nuget.config
+            # sed -i "s|%TEL_GIT_PACKAGES_TOKEN%|$TEL_GIT_PACKAGES_TOKEN|g" nuget.config
           
         - name: Create appsettings development from secrets
           run: |
@@ -102,29 +115,21 @@ jobs:
           run: npm ci   
           
         - name: Build and create package locally
-          env:
-             #Overwrite package generation
-             DISABLE_PACKAGE_GENERATION: false
           run: |
             dotnet build TELBlazor.Components -c Release \
               /p:TELBlazorPackageVersion=$TELBLAZOR_PACKAGE_VERSION \
-              /p:NupkgOutputPath=$TELBLAZOR_PACKAGE_LOCAL_OUTPUT_PATH \
+              /p:NugetPackagesOutputPath=$NUGET_PACKAGES_OUTPUT_PATH \
               /p:UseTELBlazorComponentsProjectReference=$USE_TEL_BLAZOR_COMPONENTS_PROJECT_REFERENCE \
-              /p:TELBlazorPackageSource=$TELBLAZOR_PACKAGE_SOURCE \
-              /p:DisablePackageGeneration=$DISABLE_PACKAGE_GENERATION
+              /p:DisablePackageGeneration=false
 
               
         - name: Build solution without generating new package
-          env:
-              #Overwrite package generation
-              DISABLE_PACKAGE_GENERATION: true
           run: |
             dotnet build TELBlazor.sln -c Release \
               /p:TELBlazorPackageVersion=$TELBLAZOR_PACKAGE_VERSION \
-              /p:NupkgOutputPath=$TELBLAZOR_PACKAGE_LOCAL_OUTPUT_PATH \
+              /p:NugetPackagesOutputPath=$NUGET_PACKAGES_OUTPUT_PATH \
               /p:UseTELBlazorComponentsProjectReference=$USE_TEL_BLAZOR_COMPONENTS_PROJECT_REFERENCE \
-              /p:TELBlazorPackageSource=$TELBLAZOR_PACKAGE_SOURCE \
-              /p:DisablePackageGeneration=$DISABLE_PACKAGE_GENERATION
+              /p:DisablePackageGeneration=true
 
 
     reuseable-ci-checks-branch-name-check:
@@ -166,6 +171,9 @@ jobs:
         - uses: wagoid/commitlint-github-action@v5
           with:
             configFile: .commitlintrc.json
+            # Only set from/to if inputs are provided, otherwise let action use defaults
+            from: ${{ inputs.base_sha != '' && inputs.base_sha || null }}
+            to: ${{ inputs.head_sha != '' && inputs.head_sha || null }}
      
     reuseable-ci-e2e-unit-tests:
         name: E2E Unit threshold and code report trigger
@@ -184,8 +192,16 @@ jobs:
             with:
               global-json-file: global.json
               
+          - name: Replace nuget.config with CI template
+            run: |
+              rm -f nuget.config
+              cp nuget.config.cicd nuget.config
+    
           - name: Replace local environment variable in nuget config because cant provide it as a parameter
-            run: sed -i "s|%TELBlazorPackageSource%|$TELBLAZOR_PACKAGE_LOCAL_OUTPUT_PATH|g" nuget.config
+            run: |
+              sed -i "s|%TEL_BLAZOR_PACKAGE_SOURCE%|$LOCAL_PACKAGES_PATH|g" nuget.config
+            # sed -i "s|%GITHUB_USERNAME%|$GITHUB_USERNAME|g" nuget.config
+            # sed -i "s|%TEL_GIT_PACKAGES_TOKEN%|$TEL_GIT_PACKAGES_TOKEN|g" nuget.config
        
           - name: Clean lock files because the newly generated package file will superseed the locks
             run: |
@@ -222,30 +238,20 @@ jobs:
 
       
           - name: Build and create package locally
-            env:
-               #Overwrite package generation
-               DISABLE_PACKAGE_GENERATION: false
             run: |
               dotnet build TELBlazor.Components -c Debug \
                 /p:TELBlazorPackageVersion=$TELBLAZOR_PACKAGE_VERSION \
-                /p:NupkgOutputPath=$TELBLAZOR_PACKAGE_LOCAL_OUTPUT_PATH \
+                /p:NugetPackagesOutputPath=$NUGET_PACKAGES_OUTPUT_PATH \
                 /p:UseTELBlazorComponentsProjectReference=$USE_TEL_BLAZOR_COMPONENTS_PROJECT_REFERENCE \
-                /p:TELBlazorPackageSource=$TELBLAZOR_PACKAGE_SOURCE \
-                /p:DisablePackageGeneration=$DISABLE_PACKAGE_GENERATION \
-                /p:E2ETracingEnabled=$E2E_TRACING_ENABLED \
-                /p:HeadlessTesting=$HEADLESS_TESTING 
+                /p:DisablePackageGeneration=false
               
           - name: Build solution without generating new package
-            env:
-                #Overwrite package generation
-                DISABLE_PACKAGE_GENERATION: true
             run: |
               dotnet build TELBlazor.sln -c Debug \
                 /p:TELBlazorPackageVersion=$TELBLAZOR_PACKAGE_VERSION \
-                /p:NupkgOutputPath=$TELBLAZOR_PACKAGE_LOCAL_OUTPUT_PATH \
+                /p:NugetPackagesOutputPath=$NUGET_PACKAGES_OUTPUT_PATH \
                 /p:UseTELBlazorComponentsProjectReference=$USE_TEL_BLAZOR_COMPONENTS_PROJECT_REFERENCE \
-                /p:TELBlazorPackageSource=$TELBLAZOR_PACKAGE_SOURCE \
-                /p:DisablePackageGeneration=$DISABLE_PACKAGE_GENERATION
+                /p:DisablePackageGeneration=true
                 
               
           - name: Ensure browsers are installed
@@ -254,20 +260,12 @@ jobs:
 
           - name: Run tests with coverage threshold check
             id: unit_e2e_tests
-            env:
-              TELBlazorPackageVersion: ${{ env.TELBLAZOR_PACKAGE_VERSION }}
-              NupkgOutputPath: ${{ env.TELBLAZOR_PACKAGE_LOCAL_OUTPUT_PATH }}
-              UseTELBlazorComponentsProjectReference: ${{ env.USE_TEL_BLAZOR_COMPONENTS_PROJECT_REFERENCE }}
-              TELBlazorPackageSource: ${{ env.TELBLAZOR_PACKAGE_SOURCE }}
-              DisablePackageGeneration: ${{ env.DISABLE_PACKAGE_GENERATION }}
-
             run: |
               dotnet test --no-build --no-restore \
                 /p:TELBlazorPackageVersion=$TELBLAZOR_PACKAGE_VERSION \
-                /p:NupkgOutputPath=$TELBLAZOR_PACKAGE_LOCAL_OUTPUT_PATH \
+                /p:NugetPackagesOutputPath=$NUGET_PACKAGES_OUTPUT_PATH \
                 /p:UseTELBlazorComponentsProjectReference=$USE_TEL_BLAZOR_COMPONENTS_PROJECT_REFERENCE \
-                /p:TELBlazorPackageSource=$TELBLAZOR_PACKAGE_SOURCE \
-                /p:DisablePackageGeneration=$DISABLE_PACKAGE_GENERATION
+                /p:DisablePackageGeneration=true
                 
             continue-on-error: true
 
@@ -289,8 +287,8 @@ jobs:
               
           - name: Get artifact location
             env:
-               PACKAGES_TOKEN: ${{ secrets.PACKAGES_TOKEN }}
-               GH_TOKEN: ${{ secrets.PACKAGES_TOKEN }}
+              # requires local set env
+              GH_TOKEN: ${{ secrets.TEL_GIT_PACKAGES_TOKEN }}
             run: |
               # Get the artifact list for the current workflow run
               ARTIFACT_LIST=$(gh api "repos/TechnologyEnhancedLearning/TELBlazor/actions/runs/${GITHUB_RUN_ID}/artifacts")
@@ -305,9 +303,6 @@ jobs:
               
           
           - name: Trigger workflow in TELBlazor-CodeReport repo
-            env:
-               PACKAGES_TOKEN: ${{ secrets.PACKAGES_TOKEN }}
-               GH_TOKEN: ${{ secrets.PACKAGES_TOKEN }}
             run: |
               repo_owner="TechnologyEnhancedLearning"
               repo_name="TELBlazor-CodeReport"
@@ -316,18 +311,17 @@ jobs:
               curl -L \
                 -X POST \
                 -H "Accept: application/vnd.github+json" \
-                -H "Authorization: Bearer $PACKAGES_TOKEN" \
+                -H "Authorization: Bearer $TEL_GIT_PACKAGES_TOKEN" \
                 -H "X-GitHub-Api-Version: 2022-11-28" \
                 https://api.github.com/repos/$repo_owner/$repo_name/dispatches \
                 -d "{\"event_type\": \"$event_type\", \"client_payload\": {\"artifact_url\": \"$artifact_url\"}}"  
                 
           - name: Fail job if test failed after report is generated
-            if: steps.unit_e2e_tests.outcome != 'success'  # optional conditional, but optional
+            if: steps.unit_e2e_tests.outcome != 'success'
             run: |
-              if [[ "${{ steps.some-step.outputs.status }}" != "success" ]]; then
+                echo "{{steps.unit_e2e_tests.outcome }}"
                 echo "❌ One or more steps failed."
                 exit 1
-              fi
             
 
     reuseable-ci-checks-check-for-failed-jobs:

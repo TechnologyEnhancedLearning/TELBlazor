@@ -21,11 +21,15 @@ namespace TELBlazor.Components.Core.Compliance
 
         /// <summary>
         /// The title attribute for the button, shown as a tooltip.
+        /// <h1>😱😱😱😱😱 1st rule of aria don't use aria, second rule of aria ... 😱😱😱😱</h1>
+        /// qqqq
         /// </summary>
         /// <remarks>
         /// Use a brief message that reinforces the button's action. 
         /// Example: "Click to save the current list".
         /// Tooltips can provide additional context or information to users hovering over the button.
+        /// For more info, see <see href="https://service-manual.nhs.uk/accessibility/development" />
+        /// For more info, see <see href="https://service-manual.nhs.uk/accessibility/development#use-aria-patterns" />
         /// </remarks>
         public string ToolTipTitle { get; set; }
 
@@ -40,13 +44,14 @@ namespace TELBlazor.Components.Core.Compliance
         public string AssistiveText { get; set; }
 
         /// <summary>
-        /// The ARIA role of the button.
+        /// The ARIA role of the button
         /// </summary>
         /// <remarks>
         /// Define the role of the button to provide additional context for assistive technologies.
         /// Example: "button".
         /// Use roles that accurately describe the element's function. If unsure, refer to 
         /// the ARIA roles documentation to choose the appropriate role.
+
         /// </remarks>
         public string AriaRole { get; set; }
 
@@ -61,6 +66,7 @@ namespace TELBlazor.Components.Core.Compliance
         /// Example: 0.
         /// The default is 0, which includes it in the natural tab order. 
         /// This property helps with keyboard navigation.
+   
         /// </remarks>
         public int TabIndex { get; set; }
     }

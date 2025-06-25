@@ -10,6 +10,7 @@
 	</ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="Blazored.LocalStorage" />
+		<PackageReference Include="Markdig" />
 		<PackageReference Include="Microsoft.AspNetCore.Components.Web" />
 		<PackageReference Include="Serilog" />
 		<PackageReference Include="TELBlazor.Components" />
@@ -33,4 +34,5 @@
 		-->
 		<Exec WorkingDirectory="$(MSBuildProjectDirectory)/.." Command="npx gulp --cwd &quot;$(MSBuildProjectDirectory)&quot; --gulpfile &quot;$(MSBuildProjectDirectory)/gulpfile.js&quot;" />
 	</Target>
+
 </Project>

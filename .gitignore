@@ -206,3 +206,5 @@ CHANGELOG.md
 /TELBlazor.Components.ShowCase.E2ETests/appsettings.Production.json
 /TELBlazor.Components.ShowCase.E2ETests/appsettings.json
 /.runsettings
+/nuget.config
+/nuget.config

@@ -1,18 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+
+This config is replaces nuget.config in cicd.
+It provides credentials incase the TEL git packages feed is used.
+
+-->
 <configuration>
 	<packageSources>
 		<clear />
 		<add key="nuget.org" value="https://api.nuget.org/v3/index.json" />
-
-		<add key="TELBlazorPackageSource" value="%TELBlazorPackageSource%" />
-		
+		<add key="TELBlazorPackageSource" value="%TEL_BLAZOR_PACKAGE_SOURCE%" />
 	</packageSources>
 	<packageSourceCredentials>
 		<TELBlazorPackageSource>
 			<!-- for cicd -->
 			<add key="Username" value="%GITHUB_USERNAME%" />
 			<!--cleartext for benefit of github actions-->
-			<add key="ClearTextPassword" value="%GITHUB_PACKAGES_TOKEN%" />
+			<add key="ClearTextPassword" value="%TEL_GIT_PACKAGES_TOKEN%" />
 		</TELBlazorPackageSource>
 	</packageSourceCredentials>
 	<packageSourceMapping>
