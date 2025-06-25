@@ -1,3 +1,10 @@
+## [1.9.1](https://github.com/TechnologyEnhancedLearning/TELBlazor/compare/v1.9.0...v1.9.1) (2025-06-25)
+
+
+### Bug Fixes
+
+* **search:** Improved debounce ([fbc7b0b](https://github.com/TechnologyEnhancedLearning/TELBlazor/commit/fbc7b0be762982b8701c24e696133e0dd2facd97))
+
 # [1.9.0](https://github.com/TechnologyEnhancedLearning/TELBlazor/compare/v1.8.0...v1.9.0) (2025-06-25)
 
 
