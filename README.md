@@ -273,7 +273,7 @@ It is recommended you check setup by reading this section and making sure packag
 	- fetch, pull, squash to before the change and then git push force
 
 
-# How to consume TELBlazor.Components 
+# How to consume TELBlazor.Components
 1. Select a production version of the package [Package list for TELBlazor.Component on git](https://github.com/TechnologyEnhancedLearning/TELBlazor/pkgs/nuget/TELBlazor.Components)
 1. Set up css references and dependency injection using lean host examples WasmServerHost, WasmServerHost.Client and WasmStaticClient
 from the repo and ShowCase project for how to include the package. 
