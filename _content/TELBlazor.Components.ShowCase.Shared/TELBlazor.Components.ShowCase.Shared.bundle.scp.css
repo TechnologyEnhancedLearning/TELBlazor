@@ -31,3 +31,18 @@
     color: #4b5563;  
     line-height: 1.6;
 }
+h1[b-q5956azksr], h2[b-q5956azksr], h3[b-q5956azksr], h4[b-q5956azksr], h5[b-q5956azksr], h6[b-q5956azksr] {
+    color: #4b5563;
+}
+.component-readme-html-container[b-q5956azksr] {
+    border: 1.5px solid #d1d5db; /* subtle gray border */
+    background-color: #f9fafb; /* very light gray background */
+    padding: 1.25rem; /* comfortable padding */
+    border-radius: 0.5rem; /* rounded corners */
+    box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.05); /* gentle inset shadow */
+    max-height: 400px; /* limit height */
+    overflow-y: auto; /* scroll if content is tall */
+    color: #374151; /* dark gray text */
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
