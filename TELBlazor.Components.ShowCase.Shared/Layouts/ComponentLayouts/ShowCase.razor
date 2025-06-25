@@ -1,6 +1,7 @@
 ﻿
 @layout ComponentPageLayout
-<div class="component-showcase">
+@inject HttpClient Http
+<section class="component-showcase">
     @if(IsTestComponent){
         <h1 class="test-component-warning-header">This is a Test Component</h1>
         <p>Test components are components not for production but to aid testing. Or to demo a feature not planned for production.</p>
@@ -11,19 +12,28 @@
     <JSDisabledWarning/>
     <TELBlazorPackageVersionInformation />
     
-    <div class="component-presentor">
+    <section class="component-presentor">
+        <h2>Component Example Implementation</h2>
         @ChildContent
-    </div>
-    <div class="component-information">
+    </section>
+    <section class="component-information">
         <h2>Instructions</h2>
         <p>@Instructions</p>
-    </div>
-    <div class="component-information">
-        <h2>Description</h2>
+    </section>
+    <section class="component-information">
+        <h2>Short Description</h2>
         <p>@Description</p>
-    </div>
+    </section>
+    @if (ComponentReadMeMarkdownUrl != string.Empty)
+    {
+        <section class="component-readme">
+            <h2>ReadMe.Md from Components Folder in the Solution</h2>
+            <a href="@ComponentReadMeMarkdownUrl" target="_blank" rel="noopener noreferrer">See the file directly</a>
+            <div class="component-readme-html-container">@((MarkupString)ComponentReadMeHtmlContent)</div>
+        </section>
+    }
 
-</div>
+</section>
 @code
 {
 
@@ -33,13 +43,41 @@
     [Parameter, EditorRequired]
     public required string Title { get; set; } = string.Empty;
 
+    /// <summary>
+    /// Description of what the example implementation shows
+    /// </summary>
     [Parameter,EditorRequired]
     public required string Description { get; set; } = string.Empty;
-
+    /// <summary>
+    /// Instructions of how to interact with example implementation
+    /// </summary>
     [Parameter, EditorRequired]
     public required string Instructions { get; set; } = string.Empty;
 
     [Parameter, EditorRequired]
     public required RenderFragment ChildContent { get; set; }
+    /// <summary>
+    /// Markdown of how the generic component not the showcase specific implementation
+    /// </summary>
+    [Parameter] public string ComponentReadMeMarkdownUrl { get; set; } = string.Empty;
+
+    private string ComponentReadMeHtmlContent = "<em>Loading...</em>";
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            if (!string.IsNullOrWhiteSpace(ComponentReadMeMarkdownUrl))
+            {
+                var markdown = await Http.GetStringAsync(ComponentReadMeMarkdownUrl);
+                ComponentReadMeHtmlContent = Markdig.Markdown.ToHtml(markdown);
+            }
+        }
+        catch (Exception ex)
+        {
+            ComponentReadMeHtmlContent = $"<p><strong>Error:</strong> Could not load markdown.<br/>{ex.Message}</p>";
+        }
+    }
 }
+
 

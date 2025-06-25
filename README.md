@@ -191,6 +191,7 @@ It is recommended you check setup by reading this section and making sure packag
 			CONFIG_PATH="$REPO_ROOT/.commitlintrc.json"
 			echo "COMMIT_MSG_FILE is one msg behind it is only set to the commit your trying to commit after the commit succeeds so this script is one behind"
 			echo "so would work best in prepush template"
+			echo "To fix squash out the commit following renaming and renaming commit_editmsg and if pushed to remote git push --force"
 			COMMIT_MSG_FILE="$REPO_ROOT/.git/COMMIT_EDITMSG"
 
 			# Check if the local .commitlintrc.json exists in the repository root
@@ -278,7 +279,7 @@ It is recommended you check setup by reading this section and making sure packag
 1. Set up css references and dependency injection using lean host examples WasmServerHost, WasmServerHost.Client and WasmStaticClient
 from the repo and ShowCase project for how to include the package. 
 1. You will need a copy of nhsuk.css and a reference <link href="css/nhsuk.css" rel="stylesheet" /> see gulp in the previously mentioned projects
-
+1. See setup notes for instructions on getting a git nuget token for consuming the package.
 
 # Solution and Pipeline
 
@@ -304,11 +305,11 @@ from the repo and ShowCase project for how to include the package.
  - TELBlazor.Components.ShowCase.Shared
 	- this is a razor component library
  - TELBlazor.Components.ShowCase.E2ETests.WasmServerHost
-	- Wasm global hosted
+	- Wasm host
  - TELBlazor.Components.ShowCase.E2ETests.WasmServerHost.Client 
-	- Wasm global hosted
+	- Wasm hosted
  - TELBlazor.Components.ShowCase.WasmStaticClient
-	- Wasm global standalone 
+	- Wasm standalone 
 	
 
 
