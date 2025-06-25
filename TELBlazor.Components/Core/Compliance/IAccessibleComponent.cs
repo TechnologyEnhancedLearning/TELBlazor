@@ -22,7 +22,7 @@ namespace TELBlazor.Components.Core.Compliance
         /// <summary>
         /// The title attribute for the button, shown as a tooltip.
         /// <h1>😱😱😱😱😱 1st rule of aria don't use aria, second rule of aria ... 😱😱😱😱</h1>
-        /// qqqq
+        /// qqqq get feedback :( 
         /// </summary>
         /// <remarks>
         /// Use a brief message that reinforces the button's action. 

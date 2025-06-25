@@ -147,16 +147,16 @@ namespace TELBlazor.Components.OptionalImplementations.Test.TestComponents.Searc
 
         private class ConceptItem
         {
-            public string id { get; set; }
+            //public string id { get; set; }
             public string title { get; set; }
-            public string concept { get; set; }
+            //public string concept { get; set; }
             public Click click { get; set; }
         }
 
         private class Click
         {
             public Payload payload { get; set; }
-            public string url { get; set; }
+            //public string url { get; set; }
         }
 
         private class Payload
@@ -164,33 +164,7 @@ namespace TELBlazor.Components.OptionalImplementations.Test.TestComponents.Searc
             public string clickTargetUrl { get; set; }
         }
 
-        //    // Minimal classes to match the API response shape
-        //    private class SearchResponse
-        //    {
-        //        public ConceptDocument conceptDocument { get; set; }
-        //    }
-
-        //    private class ConceptDocument
-        //    {
-        //        public List<ConceptItem> conceptDocumentList { get; set; }
-        //    }
-
-        //    private class ConceptItem
-        //    {
-        //        public string title { get; set; }
-        //        public Click click { get; set; }
-        //    }
-
-        //    private class Click
-        //    {
-        //        public Payload payload { get; set; }
-        //    }
-
-        //    private class Payload
-        //    {
-        //        public string clickTargetUrl { get; set; }
-        //    }
-        }
-
     }
+
+}
 
