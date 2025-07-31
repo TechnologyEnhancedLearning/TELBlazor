@@ -54,28 +54,28 @@ the ability to produce static prerendered html. The prerendered html is written 
 
 
 - **Get the repo:** open powershell as admin, ```cd``` to where you keep your repos. Run ```git clone https://github.com/TechnologyEnhancedLearning/TELBlazor.git```
-- **Create local gitignored configuration files from templates:** open the project in visual studio
+- **Create local gitignored configuration files from templates:** open the project in Visual Studio
 	- search template
-		- create a copy of each template removing the .template post fix
+		- create a copy of each template removing the '.template' post fix
 - **Create GitHub Personal Access Token (PAT) for consuming [TEL git hosted nuget packages](https://github.com/orgs/TechnologyEnhancedLearning/packages) :**
 	- go to your [GitHub profile tokens section](https://github.com/settings/tokens)
-	- Select Personal access tokens → Tokens classic → Generate new token (classic)
-		- give it a Note, e.g. "TEL Package Access" (we will be storing it as the env var TEL_GIT_PACKAGES_TOKEN)
+	- Select**Personal access tokens** → **Tokens classic** → **Generate new token (classic)**
+		- give it a Note, e.g. 'TEL Package Access' (we will be storing it as the env var 'TEL_GIT_PACKAGES_TOKEN')
 		- set the expiration date to something reasonable (e.g. 90 days)
 		- select the scopes you need for the token
 			- as a minimum select `read:packages` and you may wish to increase the expiration date.
 			- if you want to publish packages you will need `write:packages` and `delete:packages` but this is not recommended for development
-		- Generate token
+		- generate token
 		- copy the token ***immediately*** (it will not be accessible again)
 	- **Set system wide environment variables (useful for future projects too):**
-		- Open Start, type "Environment Variables", and select "Edit the system environment variables"
-		- In the System Properties window, click Environment Variables
-		- Under **System variables**, click New
-		- Enter the variable names and variable values as follows:
+		- open Start, type 'Environment Variables', and select **Edit the system environment variables**
+		- in the **System Properties** window, select **Environment Variables**
+		- under **System variables**, select **New**
+		- enter the variable names and variable values as follows:
 			- GITHUB_USERNAME / [Your GitHub username]
 			- TEL_GIT_PACKAGES_TOKEN / [The copied token]
-		- then click OK
-		- Click OK again to close all dialogs.
+		- then select **OK**
+		- select **OK** again to close all dialogs.
 - **Restore Nuget, Npm, Tooling, playwright and build:**
 	- run a new admin powershell terminal in the TELBlazor repo root
 	- run the following commands
@@ -120,9 +120,9 @@ It is recommended you check setup by reading this section and making sure packag
 #### Contributing to the project
 
 - [Branch naming rules](https://github.com/TechnologyEnhancedLearning/TELBlazor/blob/master/.releaserc.json)
-- ⚠️ Commit names are used to generate the package version, repo version and change log so much be correct ⚠️[Commit Naming Rules](https://github.com/TechnologyEnhancedLearning/TELBlazor/blob/master/.commitlintrc.json)
+- ⚠️ commit names are used to generate the package version, repo version and change log so much be correct ⚠️[Commit Naming Rules](https://github.com/TechnologyEnhancedLearning/TELBlazor/blob/master/.commitlintrc.json)
 	- e.g. 
-		> "docs(readme): added detail on commit rules"
+		> 'docs(readme): added detail on commit rules'
 	
 #### Configuring the project
 
@@ -137,7 +137,7 @@ It is recommended you check setup by reading this section and making sure packag
 |Package.Settings.Props.local|overwrite package.settings.props locally | DisablePackageGeneration | Stops package creation on build. |
 |appsettings | | | Serilog configuration |
 
-> **Nb.** Its recommended not to build the solution with package generation enabled and project reference disabled at the same time.
+> **Nb.** It is recommended not to build the solution with package generation enabled and project reference disabled at the same time.
 > **Nb.** Creating your package outside of the project can be convenient for other local solutions consuming it.
 
 
@@ -148,29 +148,29 @@ It is recommended you check setup by reading this section and making sure packag
 - run wasmstaticclient to see pure wasm site
 
 #### Building the package
-- To build a package
+- to build a package
 	- nuget config
 		- ensure the feed is still set to local```<add key="TELBlazorPackageSource" value="%LOCAL_PACKAGES_PATH%" />```
-	- Package.settings.props.local to create package
-		- NugetPackagesOutputPath -> LOCAL_PACKAGES_PATH
-		- UseTELBlazorComponentsProjectReference -> true
-		- TELBlazorPackageVersion -> 9.9.9-local of something higher than you have
-		- DisablePackageGeneration -> false
-	- delete lock files
+	- **package.settings.props.local** to create package
+		- NugetPackagesOutputPath -> 'LOCAL_PACKAGES_PATH'
+		- UseTELBlazorComponentsProjectReference -> 'true'
+		- TELBlazorPackageVersion -> '9.9.9-local' or something higher than you have
+		- DisablePackageGeneration -> 'false'
+	- delete **.lock** files
 	- build solution
-	- change package.settings.props.local to consume package
-		- UseTELBlazorComponentsProjectReference -> false
-		- DisablePackageGeneration -> true
+	- change **package.settings.props.local** to consume package
+		- UseTELBlazorComponentsProjectReference -> 'false'
+		- DisablePackageGeneration -> 'true'
 	- build solution
 
 
 
 #### Testing the project
 - you can use the test runner
-- runsettings allows configuration of headless and tracing
-- packagesettings.props sets thresholds
-- running at solution level ./run-tests-and-report-with-env-values.ps1 (see in the file for specific arguments you may want to set)
-	- will produce a test coverage site [your repo folder]/TELBlazor/CoverageReport/index.html
+- **runsettings** allows configuration of headless and tracing
+- **packagesettings.props** sets thresholds
+- running at solution level **./run-tests-and-report-with-env-values.ps1** (see in the file for specific arguments you may want to set)
+	- will produce a test coverage site **[your repo folder]/TELBlazor/CoverageReport/index.html**
 
 
 
@@ -258,35 +258,35 @@ It is recommended you check setup by reading this section and making sure packag
 
 ### Troubleshooting 
 #### Package build errors 
-- delete local `TELBlazor.Components` packages
-- check `TELBlazorPackageVersion` has been incremented
-- delete lock files
-- clean solution
-- check environment values in `props` and `nuget.config`
+- delete local **TELBlazor.Components** packages
+- check **TELBlazorPackageVersion** has been incremented
+- delete **.lock** files
+- clean the solution
+- check environment values in **props** and **nuget.config**
 - restore nuget packages 
-- restore solution
-- if still not working delete bin and obj
-- if still not working close visual studio and reopen
-- if there are still issues its easier to problem solve by using a random very high `TELBlazor.Components` package version number and ensuring it fails and says it found the source but not the version
+- restore the solution
+- if still not working delete **bin** and **obj**
+- if still not working, restart Visual Studio
+- if there are still issues its easier to problem solve by using a random very high **TELBlazor.Components** package version number and ensuring it fails and says it found the source but not the version
 #### Git commit names
 - git commit names can be caught locally
 - if they are not
-	- fetch, pull, squash to before the change and then git push force
+	- **fetch**, **pull** and **squash** before the change and then `git push origin <your_branch_name> --force`
 
 
 # How to consume TELBlazor.Components
-1. Select a production version of the package [Package list for TELBlazor.Component on git](https://github.com/TechnologyEnhancedLearning/TELBlazor/pkgs/nuget/TELBlazor.Components)
-1. Set up css references and dependency injection using lean host examples WasmServerHost, WasmServerHost.Client and WasmStaticClient
+1. select a production version of the package [Package list for TELBlazor.Component on git](https://github.com/TechnologyEnhancedLearning/TELBlazor/pkgs/nuget/TELBlazor.Components)
+1. set up CSS references and dependency injection using lean host examples WasmServerHost, WasmServerHost.Client and WasmStaticClient
 from the repo and ShowCase project for how to include the package. 
-1. You will need a copy of nhsuk.css and a reference <link href="css/nhsuk.css" rel="stylesheet" /> see gulp in the previously mentioned projects
-1. See setup notes for instructions on getting a git nuget token for consuming the package.
+1. you will need a copy of nhsuk.css and a reference <link href="css/nhsuk.css" rel="stylesheet" /> see gulp in the previously mentioned projects
+1. see setup notes for instructions on getting a git nuget token for consuming the package.
 
 # Solution and Pipeline
 
 ## Features of CICD
-- There is a readme in the CICD
-- A DevShowCase sight is created using a DevPackage and the same in production
-	- The dev pipeline also publishes a coverage report
+- there is a readme in the CICD
+- a DevShowCase site is created using a DevPackage and the same in production
+	- the dev pipeline also publishes a coverage report
 
 
 # Solution Detail
@@ -319,7 +319,7 @@ from the repo and ShowCase project for how to include the package.
 ## Notes
 
 ### Stuff you don't need to know (but may be useful for a specific issue on searching the readme)
-- It is not render auto per components because the intention is to be used in MVC views.
+- it is not render auto per components because the intention is to be used in MVC views.
 - Xunit is used with Bunit and Nunit with playwright, either could be 
 changed so that they are using the same and this could be done in future 
 as the libraries improve but currently each is being used with the 
