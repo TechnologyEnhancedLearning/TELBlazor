@@ -15,7 +15,7 @@ namespace TELBlazor.Components.OptionalImplementations.Test.TestComponents.Searc
     //curl -X 'GET' \
     //  'https://lh-openapi.dev.local/Search/GetAutoSuggestionResult/blood' \
     //  -H 'accept: */*' \
-    //  -H 'Authorization: Bearer eyJhbGciOiJSUzI1NiIsImtpZCI6IkVCREI0RUNGNzZCRDk4Rjc2MzU1RkQxQzg3OTAzRTdGIiwidHlwIjoiYXQrand0In0.eyJuYmYiOjE3NTAyNDY1NzEsImV4cCI6MTc1MDI1MDE3MSwiaXNzIjoiaHR0cHM6Ly9saC1hdXRoLmRldi5sb2NhbCIsImF1ZCI6ImxlYXJuaW5naHViYXBpIiwiY2xpZW50X2lkIjoibGVhcm5pbmdodWJvcGVuYXBpIiwic3ViIjoiNTc1NDEiLCJhdXRoX3RpbWUiOjE3NTAyNDY0NjAsImlkcCI6ImxvY2FsIiwiZW1haWwiOiJwaGlsaXAudGF0ZUBuaHMubmV0IiwiZ2l2ZW5fbmFtZSI6IlRlc3RRUVFRRmlyc3QiLCJmYW1pbHlfbmFtZSI6IlRlc3RRUVFRTGFzdCIsInJvbGUiOiJBZG1pbmlzdHJhdG9yIiwiZWxmaF91c2VyTmFtZSI6IlRlc3RRUVFRIiwianRpIjoiQ0JBRTRFODY3QjM1M0FGMDcxNDQ2NUI5NEJBRjUyOEYiLCJzaWQiOiIxRURDNTUyRUREMDVFNEI2ODk3REFEQzI1MTVCQUZENSIsImlhdCI6MTc1MDI0NjU3MSwic2NvcGUiOlsibGVhcm5pbmdodWJhcGkiXSwiYW1yIjpbInB3ZCJdfQ.spMsOk4OAB9CDMEleutkmRygzOgOFXq15MFvHP9I0WmWHYWJOLwO-0GmfV5MzDvP-ovYQvuphE5XDJibpyzfOkGAMeFq58o2PwzHvmDfDNhqsgexBd8pXm6VEin_obj70hngvG_VFD1_JkndrT7_091fU4St6Z6_UfyVvKYD9uSOwpbr5UaBAtJYbYnB3p_0C5qtzLUhKK6Xjgbr_BMLKTo9d0RGRJ5an16_VYh8Vm3gOxBjdfizzEyOoGOns2tROPB3WO6z1RO5jODVALzZDORs_ad6wlMDq4-cORBHuRbOIwOQW6k7xLIIex5VKTEebFBwAP8ihS6SvsGa16Fs-A'
+    //  -H 'Authorization: Bearer '
 
 //    {
 //  "stats": {
