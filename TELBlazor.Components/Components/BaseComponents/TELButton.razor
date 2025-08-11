@@ -1,6 +1,6 @@
 ﻿@inherits TELComponentBase
 @implements IAccessibleComponent
-@inject ILogger<TELButton> Logger
+@inject ILogger<TELButton> TELButtonLogger
 
 @if (IsSubmitButtonForEditForm)
 {
@@ -96,7 +96,8 @@ else
     [ExcludeFromCodeCoverage]
     private async Task HandleClick()
     {
-        Logger.LogInformation($"Button clicked: {ButtonText}");
+        TELButtonLogger.LogInformation($"Button clicked, text: {ButtonText}");
+        TELButtonLogger.LogDebug($"Debug log should only happen if overide works");
 
         if (PreventDoubleClick && !isClickedRecently)
         {
