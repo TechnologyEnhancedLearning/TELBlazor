@@ -96,8 +96,7 @@ else
     [ExcludeFromCodeCoverage]
     private async Task HandleClick()
     {
-        TELButtonLogger.LogInformation($"Button clicked, text: {ButtonText}");
-        TELButtonLogger.LogDebug($"Debug log should only happen if overide works");
+        TELButtonLogger.LogInformation($"Button clicked: {ButtonText}");
 
         if (PreventDoubleClick && !isClickedRecently)
         {
