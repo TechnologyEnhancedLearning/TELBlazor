@@ -123,7 +123,7 @@
         _debounceTimer = new Timer(async _ =>
         {
             // Invoke on UI thread
-            Logger.LogInformation($"debounce searchText {searchText}");
+            BaseLogger.LogInformation($"debounce searchText {searchText}");
             await InvokeAsync(() => GetSuggestionsAsync());
             _debounceTimer?.Dispose();
             _debounceTimer = null;
@@ -157,7 +157,7 @@
 
         // try
         // {
-        Logger.LogInformation($"GetSuggestionsAsync searchText {searchText}");
+        BaseLogger.LogInformation($"GetSuggestionsAsync searchText {searchText}");
         suggestions = (await searchExperimentService.GetSuggestionsAsync(searchText)).ToList<string>();
         await InvokeAsync(StateHasChanged);
         // }
@@ -170,7 +170,7 @@
 
     public async Task HandleInput(KeyboardEventArgs args)
     {
-        Logger.LogInformation($"handleinput searchText {searchText}");
+        BaseLogger.LogInformation($"handleinput searchText {searchText}");
         if (args.Key == null || args.Key.Equals("Enter"))
         {
 
