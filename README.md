@@ -123,7 +123,9 @@ It is recommended you check setup by reading this section and making sure packag
 - ⚠️ commit names are used to generate the package version, repo version and change log so much be correct ⚠️[Commit Naming Rules](https://github.com/TechnologyEnhancedLearning/TELBlazor/blob/master/.commitlintrc.json)
 	- e.g. 
 		> 'docs(readme): added detail on commit rules'
-	
+[![semantic-release: angular](https://img.shields.io/badge/semantic--release-angular-e10079?logo=semantic-release)](https://github.com/semantic-release/semantic-release)
+[Commit conventions](https://github.com/angular/angular/blob/main/contributing-docs/commit-message-guidelines.md)
+
 #### Configuring the project
 
 | File | Description | Variable | Purpose|

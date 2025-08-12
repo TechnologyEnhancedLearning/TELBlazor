@@ -1,3 +1,10 @@
+# [1.10.0-refactor-logging.1](https://github.com/TechnologyEnhancedLearning/TELBlazor/compare/v1.9.1...v1.10.0-refactor-logging.1) (2025-08-12)
+
+
+### Features
+
+* **pr readme:** we're due a version bump i feel ([f8d4314](https://github.com/TechnologyEnhancedLearning/TELBlazor/commit/f8d431497cfb5b659a2afdccd501774523a2127f))
+
 ## [1.9.1](https://github.com/TechnologyEnhancedLearning/TELBlazor/compare/v1.9.0...v1.9.1) (2025-06-25)
 
 
