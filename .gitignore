@@ -208,3 +208,24 @@ CHANGELOG.md
 /.runsettings
 /nuget.config
 /nuget.config
+
+
+# qqqq Apply after cleared files - remove current ignores to clear
+
+# AllTestResults/*
+# !AllTestResults/gitinclude.txt
+
+# CICDPackageLocation/*
+# !CICDPackageLocation/gitinclude.txt
+
+# CoverageReport/*
+# !CoverageReport/gitinclude.txt
+
+# docs/css/*
+# !docs/css/gitinclude.txt
+
+#TELBlazor.Components.ShowCase.E2ETests/Reports/*
+#!TELBlazor.Components.ShowCase.E2ETests/Reports/gitinclude.txt
+
+#TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/Logs/*
+#!TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/Logs/gitinclude.txt
