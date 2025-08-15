@@ -173,7 +173,10 @@ It is recommended you check setup by reading this section and making sure packag
 - **packagesettings.props** sets thresholds
 - running at solution level **./run-tests-and-report-with-env-values.ps1** (see in the file for specific arguments you may want to set)
 	- will produce a test coverage site **[your repo folder]/TELBlazor/CoverageReport/index.html**
-
+	- then look at CoverageReport in solution root and you can bookmark index.html to see your coverage
+	- E2E project has a Reports folder for tracings
+- Similarly run-tests-and-report-using-local-props.ps1 runs just using your local props file
+- appsettings.Development can be set in the E2E Host to log to the Logs folder at project route, see template
 
 
 #### Tips
@@ -186,7 +189,7 @@ It is recommended you check setup by reading this section and making sure packag
 		```
 			npm install -g @commitlint/cli @commitlint/config-angular
 		```
-	-	You can put into your pre-push, pre-commit hook, or into the gitguardian hooks some logic like the below.
+	-	You can put into your pre-push, pre-commit hook, commit-ms, or into the gitguardian hooks some logic like the below.
 	```
 			#### --- Commitlint Logic (force local config) ---
 			REPO_ROOT=$(git rev-parse --show-toplevel)
@@ -270,6 +273,7 @@ It is recommended you check setup by reading this section and making sure packag
 - if still not working delete **bin** and **obj**
 - if still not working, restart Visual Studio
 - if there are still issues its easier to problem solve by using a random very high **TELBlazor.Components** package version number and ensuring it fails and says it found the source but not the version
+
 #### Git commit names
 - git commit names can be caught locally
 - if they are not

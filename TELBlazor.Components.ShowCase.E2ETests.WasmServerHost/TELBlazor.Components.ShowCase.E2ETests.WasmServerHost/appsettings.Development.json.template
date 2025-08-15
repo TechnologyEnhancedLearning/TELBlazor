@@ -35,6 +35,7 @@
         "Name": "File",
         "Args": {
           "path": "Logs/log-development2-.txt",
+          // Adjust the path as needed for your environment because currently its relative to bin e.g. "path": "C:/dev/repos/TELBlazor/TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/Logs/log-development2-.txt",
           "rollingInterval": "Day",
           "rollOnFileSizeLimit": true,
           "formatter": "Serilog.Formatting.Compact.CompactJsonFormatter, Serilog.Formatting.Compact"

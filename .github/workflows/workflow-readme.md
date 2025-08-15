@@ -83,4 +83,4 @@ The individual steps also automatically pass so can see if any error at the end 
 - for tests use the run-tests-and-report-with-env-values.ps1 file
 
 ## Versioning
-
+Via semantic release and recorded as a generate c# file used by a blazor component
