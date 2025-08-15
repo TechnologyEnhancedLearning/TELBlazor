@@ -48,17 +48,6 @@
 		<Content Remove="..\CICDPackageLocation\**\*" />
 		<None Remove="..\CICDPackageLocation\**\*" />
 	</ItemGroup>
-	<!--qqqq remove <ItemGroup>
-	  <Compile Remove="TELBlazorPackageVersion\VersionInfo.TELBlazorAssembly.cs" />
-	</ItemGroup>
-	<ItemGroup>
-	  <Compile Include="TELBlazorPackageVersion\VersionInfo.TELBlazorAssembly.cs" />
-	  <Content Include="TELBlazorPackageVersion\VersionInfo.TELBlazorAssembly.cs" />
-	</ItemGroup>-->
-
-	<!--<ItemGroup>
-	  <Content Include="Core\DI\gitinclude.txt" />
-	</ItemGroup>-->
 	<ItemGroup>
 		<Folder Include="Assets\" />
 		<Folder Include="OptionalImplementations\Test\TestServices\" />
