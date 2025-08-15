@@ -43,8 +43,15 @@ gulp.task("add-telFrontEndVersion-to-versionInfo", function (done) {
         console.log("This pre-existing content will boe over written :", existingContent);
     }
 
-    const content = ` namespace TELBlazor.Components.TELBlazorPackageVersion{public static partial class VersionInfo{public static readonly string TELFrontEndPackageVersion = "${TELFrontEndPackageVersion}";}} `;
-
+    const content = `// This file is auto-generated. Do not edit manually.
+namespace TELBlazor.Components.TELBlazorPackageVersion
+{
+    public static partial class VersionInfo
+    {
+        public static readonly string TELFrontEndPackageVersion = "${TELFrontEndPackageVersion}";
+    }
+}
+`;
     // Write or overwrite the file completely
     fs.writeFileSync(versionFilePath, content, "utf8");
     console.log(`VersionInfo.TELFrontEnd.cs file updated with version ${TELFrontEndPackageVersion}`);

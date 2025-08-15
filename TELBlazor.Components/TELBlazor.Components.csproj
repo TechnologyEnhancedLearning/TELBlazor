@@ -69,7 +69,18 @@
 	</Target>
 	<Target Name="GenerateTELBlazorPackageVersion" BeforeTargets="RunGulp">
 		<Delete Files="TELBlazorPackageVersion/VersionInfo.cs" />
-		<WriteLinesToFile File="TELBlazorPackageVersion\VersionInfo.TELBlazor.cs" Lines="namespace TELBlazor.Components.TELBlazorPackageVersion{public static partial class VersionInfo{public const string TELBlazorPackageVersion = &quot;$(TELBlazorPackageVersion)&quot; %3B; } }" Overwrite="true" Encoding="UTF-8" />
+		<WriteLinesToFile 
+			File="TELBlazorPackageVersion\VersionInfo.TELBlazor.cs" 
+			Lines="// This file is auto-generated. Do not edit manually.
+namespace TELBlazor.Components.TELBlazorPackageVersion
+{
+	public static partial class VersionInfo
+	{
+		public const string TELBlazorPackageVersion = &quot;$(TELBlazorPackageVersion)&quot;%3B;
+	}
+}"
+			Overwrite="true" 
+			Encoding="UTF-8" />
 	</Target>
 
 </Project>
