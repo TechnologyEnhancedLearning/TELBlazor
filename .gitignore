@@ -229,3 +229,8 @@ CHANGELOG.md
 
 #TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/Logs/*
 #!TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/Logs/gitinclude.txt
+
+#**/wwwroot/css/*
+#!**/wwwroot/css/gitinclude.txt
+#!**/wwwroot/css/app.css
+
