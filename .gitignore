@@ -210,27 +210,29 @@ CHANGELOG.md
 /nuget.config
 
 
-# qqqq Apply after cleared files - remove current ignores to clear
+AllTestResults/*
+!AllTestResults/gitinclude.txt
 
-# AllTestResults/*
-# !AllTestResults/gitinclude.txt
+CICDPackageLocation/*
+!CICDPackageLocation/gitinclude.txt
 
-# CICDPackageLocation/*
-# !CICDPackageLocation/gitinclude.txt
+CoverageReport/*
+!CoverageReport/gitinclude.txt
 
-# CoverageReport/*
-# !CoverageReport/gitinclude.txt
+docs/css/*
+!docs/css/gitinclude.txt
 
-# docs/css/*
-# !docs/css/gitinclude.txt
+TELBlazor.Components.ShowCase.E2ETests/Reports/*
+!TELBlazor.Components.ShowCase.E2ETests/Reports/gitinclude.txt
 
-#TELBlazor.Components.ShowCase.E2ETests/Reports/*
-#!TELBlazor.Components.ShowCase.E2ETests/Reports/gitinclude.txt
+TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/Logs/*
+!TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/Logs/gitinclude.txt
 
-#TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/Logs/*
-#!TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/Logs/gitinclude.txt
+**/wwwroot/css/*
+!**/wwwroot/css/app.css
 
-#**/wwwroot/css/*
-#!**/wwwroot/css/app.css
+/tools/
+**/wwwroot/TELBlazorPackageVersion.txt
 
-#/tools/
+# Generated version info files
+TELBlazor.Components/TELBlazorPackageVersion/VersionInfo*.cs
