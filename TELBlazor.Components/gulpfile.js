@@ -37,10 +37,11 @@ gulp.task("add-telFrontEndVersion-to-versionInfo", function (done) {
 
     console.log(`Adding TELFrontEndPackageVersion to CS file at: ${versionFilePath}`);
 
-
-    // Read existing content
-    let existingContent = fs.readFileSync(versionFilePath, "utf8");
-    console.log("Existing content:", existingContent);
+    // Read existing content only if file exists
+    if (fs.existsSync(versionFilePath)) {
+        let existingContent = fs.readFileSync(versionFilePath, "utf8");
+        console.log("This pre-existing content will boe over written :", existingContent);
+    }
 
     const content = ` namespace TELBlazor.Components.TELBlazorPackageVersion{public static partial class VersionInfo{public static readonly string TELFrontEndPackageVersion = "${TELFrontEndPackageVersion}";}} `;
 
