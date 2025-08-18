@@ -64,10 +64,14 @@
 		<!--<Delete Files="TELBlazorPackageVersion/VersionInfo.TELBlazor.cs" />
 		<Delete Files="TELBlazorPackageVersion/VersionInfo.cs" />-->
 
-	<Target Name="PreBuildCleanup" BeforeTargets="GenerateTELBlazorPackageVersion;RunGulp">
+	<PropertyGroup>
+		<!-- Exclude generated files from auto-inclusion to prevent duplicates -->
+		<DefaultItemExcludes>$(DefaultItemExcludes);TELBlazorPackageVersion\VersionInfo.*.cs</DefaultItemExcludes>
+	</PropertyGroup>
+	<Target Name="PreBuildCleanup" BeforeTargets="GenerateTELBlazorPackageVersion;RunGulp;CoreCompile;BeforeCompile">
 		<Delete Files="TELBlazorPackageVersion/VersionInfo.TELBlazor.cs" />
 	</Target>
-	<Target Name="GenerateTELBlazorPackageVersion" DependsOnTargets="PreBuildCleanup" BeforeTargets="RunGulp;CoreCompile">
+	<Target Name="GenerateTELBlazorPackageVersion" DependsOnTargets="PreBuildCleanup" BeforeTargets="RunGulp;CoreCompile;BeforeCompile">
 		<WriteLinesToFile
 			File="TELBlazorPackageVersion\VersionInfo.TELBlazor.cs"
 			Lines="// This file is auto-generated. Do not edit manually.
@@ -82,14 +86,18 @@ namespace TELBlazor.Components.TELBlazorPackageVersion
 			Encoding="UTF-8" />
 	</Target>
 <!-- qqqq was this beforetargets corecompile -->
-	<Target Name="RunGulp" DependsOnTargets="GenerateTELBlazorPackageVersion" BeforeTargets="CoreCompile">
+	<Target Name="RunGulp" DependsOnTargets="GenerateTELBlazorPackageVersion" BeforeTargets="CoreCompile;BeforeCompile">
 		<Exec WorkingDirectory="$(MSBuildProjectDirectory)/.."
 			  Command="npx gulp --cwd &quot;$(MSBuildProjectDirectory)&quot; --gulpfile &quot;$(MSBuildProjectDirectory)/gulpfile.js&quot;" />
 	</Target>
+	
+	
 	<!--qqqq i dont think this should be needed-->
-	<ItemGroup>
-		<Compile Include="TELBlazorPackageVersion\VersionInfo.TELBlazor.cs" />
-		<Compile Include="TELBlazorPackageVersion\VersionInfo.TELFrontEnd.cs" />
-	</ItemGroup>
+	<Target Name="CompileVersionInfoBeforeRazor" DependsOnTargets="GenerateTELBlazorPackageVersion;RunGulp;PreBuildCleanup" BeforeTargets="CoreCompile;BeforeCompile">
+		<ItemGroup>
+			<Compile Include="TELBlazorPackageVersion\VersionInfo.TELBlazor.cs" />
+			<Compile Include="TELBlazorPackageVersion\VersionInfo.TELFrontEnd.cs" />
+		</ItemGroup>
+	</Target>
 </Project>
 
