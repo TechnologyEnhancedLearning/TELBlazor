@@ -58,6 +58,6 @@
     <PackageVersion Include="Microsoft.Playwright.Xunit" Version="1.50.0" />
     <PackageVersion Include="Verify.Playwright" Version="3.0.0" />
     <!-- Internal packages -->
-    <PackageVersion Include="TELBlazor.Components" Version="$(TELBlazorPackageVersion)" />
+    <PackageVersion Include="TELBlazor.Components" Version="$(TELBlazorPackageVersion)" IncludePrerelease="true"/>
   </ItemGroup>
 </Project>

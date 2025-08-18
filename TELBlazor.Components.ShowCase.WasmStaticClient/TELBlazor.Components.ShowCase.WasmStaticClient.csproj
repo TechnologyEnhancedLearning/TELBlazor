@@ -42,11 +42,14 @@
 	<PackageReference Include="Serilog.Settings.Configuration" />
 	<PackageReference Include="Serilog.Sinks.BrowserConsole" />
 	<PackageReference Include="Serilog.Sinks.Http" />
+
+	<!--Overrided by project reference when configured to do so-->
+	<PackageReference Include="TELBlazor.Components" IncludePrerelease="true" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\TELBlazor.Components.ShowCase.Shared\TELBlazor.Components.ShowCase.Shared.csproj" />
-    <ProjectReference Include="..\TELBlazor.Components\TELBlazor.Components.csproj" />
+	<ProjectReference Include="..\TELBlazor.Components\TELBlazor.Components.csproj" Condition="'$(UseTELBlazorComponentsProjectReference)' == 'true'" />
   </ItemGroup>
 
   <ItemGroup>

@@ -141,9 +141,9 @@
       },
       "TELBlazor.Components": {
         "type": "Direct",
-        "requested": "[1.9.5-local, )",
-        "resolved": "1.10.0-refactor-logging.1-250812-1712",
-        "contentHash": "GLxrOCQUIWGGBObMTQlofwBmUw5HwU31dR2JUeEWcFP40s2bpNfBMX92kZkov1zxABKH7ioxMpc86MANI/06rw==",
+        "requested": "[1.9.9, )",
+        "resolved": "1.9.9",
+        "contentHash": "l3oiHqxM2b8BIidNdYd/cyPThdZSL2vVYQWeXE/I/ywKBfQmCbO7KzdK9uXTFruwVFRz4yFd3cJWq3ivDYwEDA==",
         "dependencies": {
           "Blazored.LocalStorage": "4.5.0",
           "Microsoft.AspNetCore.Components.Web": "8.0.14",

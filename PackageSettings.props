@@ -50,7 +50,9 @@
 	
 	  <!--Building the components project makes the package publish isnt needed-->
     <DisablePackageGeneration>$(DISABLE_PACKAGE_GENERATION)</DisablePackageGeneration>
-	
+
+		<!--So updates prerelease versions-->
+	<RestorePrerelease>true</RestorePrerelease>
   </PropertyGroup>
 
 </Project>

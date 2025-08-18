@@ -35,7 +35,6 @@
 	
 	<ItemGroup>
 		<ProjectReference Include="..\..\TELBlazor.Components.ShowCase.Shared\TELBlazor.Components.ShowCase.Shared.csproj" />
-		<ProjectReference Include="..\..\TELBlazor.Components\TELBlazor.Components.csproj" />
   </ItemGroup>
 
   <ItemGroup>

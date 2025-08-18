@@ -48,7 +48,7 @@ namespace TELBlazor.Components.TELBlazorPackageVersion
 {
     public static partial class VersionInfo
     {
-        public static readonly string TELFrontEndPackageVersion = "${TELFrontEndPackageVersion}";
+        public const string TELFrontEndPackageVersion = "${TELFrontEndPackageVersion}";
     }
 }
 `;
