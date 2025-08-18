@@ -86,6 +86,10 @@ namespace TELBlazor.Components.TELBlazorPackageVersion
 		<Exec WorkingDirectory="$(MSBuildProjectDirectory)/.."
 			  Command="npx gulp --cwd &quot;$(MSBuildProjectDirectory)&quot; --gulpfile &quot;$(MSBuildProjectDirectory)/gulpfile.js&quot;" />
 	</Target>
-
+	<!--qqqq i dont think this should be needed-->
+	<ItemGroup>
+		<Compile Include="TELBlazorPackageVersion\VersionInfo.TELBlazor.cs" />
+		<Compile Include="TELBlazorPackageVersion\VersionInfo.TELFrontEnd.cs" />
+	</ItemGroup>
 </Project>
 
