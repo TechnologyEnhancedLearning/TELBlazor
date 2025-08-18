@@ -64,10 +64,10 @@
 		<!--<Delete Files="TELBlazorPackageVersion/VersionInfo.TELBlazor.cs" />
 		<Delete Files="TELBlazorPackageVersion/VersionInfo.cs" />-->
 
-	<Target Name="PreBuildCleanup" BeforeTargets="GenerateTELBlazorPackageVersion">
+	<Target Name="PreBuildCleanup" BeforeTargets="GenerateTELBlazorPackageVersion;RunGulp">
 		<Delete Files="TELBlazorPackageVersion/VersionInfo.TELBlazor.cs" />
 	</Target>
-	<Target Name="GenerateTELBlazorPackageVersion" DependsOnTargets="PreBuildCleanup" BeforeTargets="RunGulp">
+	<Target Name="GenerateTELBlazorPackageVersion" DependsOnTargets="PreBuildCleanup" BeforeTargets="RunGulp;CoreCompile">
 		<WriteLinesToFile
 			File="TELBlazorPackageVersion\VersionInfo.TELBlazor.cs"
 			Lines="// This file is auto-generated. Do not edit manually.
@@ -81,8 +81,8 @@ namespace TELBlazor.Components.TELBlazorPackageVersion
 			Overwrite="true"
 			Encoding="UTF-8" />
 	</Target>
-
-	<Target Name="RunGulp" DependsOnTargets="GenerateTELBlazorPackageVersion" BeforeTargets="PrepareForBuild">
+<!-- qqqq was this beforetargets corecompile -->
+	<Target Name="RunGulp" DependsOnTargets="GenerateTELBlazorPackageVersion" BeforeTargets="CoreCompile">
 		<Exec WorkingDirectory="$(MSBuildProjectDirectory)/.."
 			  Command="npx gulp --cwd &quot;$(MSBuildProjectDirectory)&quot; --gulpfile &quot;$(MSBuildProjectDirectory)/gulpfile.js&quot;" />
 	</Target>
