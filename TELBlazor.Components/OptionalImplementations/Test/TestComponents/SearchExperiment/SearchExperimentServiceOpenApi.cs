@@ -14,7 +14,7 @@ namespace TELBlazor.Components.OptionalImplementations.Test.TestComponents.Searc
 {
     public class SearchExperimentServiceOpenApi :ISearchExperimentService
     {
-        //qqqq can do alot better
+        //qqqq very very much just bit of proof of concept.
         private readonly HttpClient _httpClient;
         private readonly string _baseUrl;
         private readonly ILogger<SearchExperimentServiceOpenApi> _logger; // logger
