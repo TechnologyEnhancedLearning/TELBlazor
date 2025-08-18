@@ -59,13 +59,12 @@
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Content>
 	</ItemGroup>
-<!--qqqq tidy up and comment later-->
-		<!--Ensure no stale version cs files and that new ones are generated-->
-		<!--<Delete Files="TELBlazorPackageVersion/VersionInfo.TELBlazor.cs" />
-		<Delete Files="TELBlazorPackageVersion/VersionInfo.cs" />-->
 
+	<!--
+		Build partial classes for the version info. Compile version into before rest of the project so accessible for razor.
+	-->
 	<PropertyGroup>
-		<!-- Exclude generated files from auto-inclusion to prevent duplicates -->
+		<!-- Exclude generated files from auto-inclusion to prevent duplicates as we want to control order of compilation-->
 		<DefaultItemExcludes>$(DefaultItemExcludes);TELBlazorPackageVersion\VersionInfo.*.cs</DefaultItemExcludes>
 	</PropertyGroup>
 	<Target Name="PreBuildCleanup" BeforeTargets="GenerateTELBlazorPackageVersion;RunGulp;CoreCompile;BeforeCompile">
@@ -85,14 +84,10 @@ namespace TELBlazor.Components.TELBlazorPackageVersion
 			Overwrite="true"
 			Encoding="UTF-8" />
 	</Target>
-<!-- qqqq was this beforetargets corecompile -->
 	<Target Name="RunGulp" DependsOnTargets="GenerateTELBlazorPackageVersion" BeforeTargets="CoreCompile;BeforeCompile">
 		<Exec WorkingDirectory="$(MSBuildProjectDirectory)/.."
 			  Command="npx gulp --cwd &quot;$(MSBuildProjectDirectory)&quot; --gulpfile &quot;$(MSBuildProjectDirectory)/gulpfile.js&quot;" />
 	</Target>
-	
-	
-	<!--qqqq i dont think this should be needed-->
 	<Target Name="CompileVersionInfoBeforeRazor" DependsOnTargets="GenerateTELBlazorPackageVersion;RunGulp;PreBuildCleanup" BeforeTargets="CoreCompile;BeforeCompile">
 		<ItemGroup>
 			<Compile Include="TELBlazorPackageVersion\VersionInfo.TELBlazor.cs" />
