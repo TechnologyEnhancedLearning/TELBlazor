@@ -59,18 +59,17 @@
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Content>
 	</ItemGroup>
-	<Target Name="RunGulp" BeforeTargets="PrepareForBuild">
-		 <!-- 
-			1) Use solution root as working dir so npx picks up root/node_modules
-			2) Tell gulp to run the gulpfile in this project directory
-			3) Gulp to add the TELFrontend css version to version info file
-		  -->
-		<Exec WorkingDirectory="$(MSBuildProjectDirectory)/.." Command="npx gulp --cwd &quot;$(MSBuildProjectDirectory)&quot; --gulpfile &quot;$(MSBuildProjectDirectory)/gulpfile.js&quot;" />
+<!--qqqq tidy up and comment later-->
+		<!--Ensure no stale version cs files and that new ones are generated-->
+		<!--<Delete Files="TELBlazorPackageVersion/VersionInfo.TELBlazor.cs" />
+		<Delete Files="TELBlazorPackageVersion/VersionInfo.cs" />-->
+
+	<Target Name="PreBuildCleanup" BeforeTargets="GenerateTELBlazorPackageVersion">
+		<Delete Files="TELBlazorPackageVersion/VersionInfo.TELBlazor.cs" />
 	</Target>
-	<Target Name="GenerateTELBlazorPackageVersion" BeforeTargets="RunGulp">
-		<Delete Files="TELBlazorPackageVersion/VersionInfo.cs" />
-		<WriteLinesToFile 
-			File="TELBlazorPackageVersion\VersionInfo.TELBlazor.cs" 
+	<Target Name="GenerateTELBlazorPackageVersion" DependsOnTargets="PreBuildCleanup" BeforeTargets="RunGulp">
+		<WriteLinesToFile
+			File="TELBlazorPackageVersion\VersionInfo.TELBlazor.cs"
 			Lines="// This file is auto-generated. Do not edit manually.
 namespace TELBlazor.Components.TELBlazorPackageVersion
 {
@@ -79,8 +78,13 @@ namespace TELBlazor.Components.TELBlazorPackageVersion
 		public const string TELBlazorPackageVersion = &quot;$(TELBlazorPackageVersion)&quot;%3B;
 	}
 }"
-			Overwrite="true" 
+			Overwrite="true"
 			Encoding="UTF-8" />
+	</Target>
+
+	<Target Name="RunGulp" DependsOnTargets="GenerateTELBlazorPackageVersion" BeforeTargets="PrepareForBuild">
+		<Exec WorkingDirectory="$(MSBuildProjectDirectory)/.."
+			  Command="npx gulp --cwd &quot;$(MSBuildProjectDirectory)&quot; --gulpfile &quot;$(MSBuildProjectDirectory)/gulpfile.js&quot;" />
 	</Target>
 
 </Project>
