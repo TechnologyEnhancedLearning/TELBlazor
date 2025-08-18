@@ -9,5 +9,9 @@
     "gulp-sass": "^5.1.0",
     "sass": "^1.86.3"
   },
-  "description": ""
+  "description": "",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/TechnologyEnhancedLearning/TELBlazor.git"
+  }
 }
