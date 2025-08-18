@@ -1,1 +1,0 @@
- namespace TELBlazor.Components.TELBlazorPackageVersion{public static partial class VersionInfo{public static readonly string TELFrontEndPackageVersion = "0.0.2";}} 

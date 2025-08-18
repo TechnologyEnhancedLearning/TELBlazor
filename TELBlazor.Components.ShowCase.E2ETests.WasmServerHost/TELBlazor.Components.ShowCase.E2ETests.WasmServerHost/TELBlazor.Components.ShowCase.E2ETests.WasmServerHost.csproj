@@ -28,8 +28,4 @@
     <ProjectReference Include="..\TELBlazor.Components.ShowCase.E2ETests.WasmServerHost.Client\TELBlazor.Components.ShowCase.E2ETests.WasmServerHost.Client.csproj" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" />
   </ItemGroup>
-
-<ItemGroup>
-  <Folder Include="Logs\" />
-</ItemGroup>
 </Project>

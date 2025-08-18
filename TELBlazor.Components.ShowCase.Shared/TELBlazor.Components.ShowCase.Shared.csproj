@@ -13,7 +13,9 @@
 		<PackageReference Include="Markdig" />
 		<PackageReference Include="Microsoft.AspNetCore.Components.Web" />
 		<PackageReference Include="Serilog" />
-		<PackageReference Include="TELBlazor.Components" />
+		
+		<!--Overrided by project reference when configured to do so-->
+		<PackageReference Include="TELBlazor.Components" IncludePrerelease="true" />
 	</ItemGroup>
 	<ItemGroup>
 		<Content Remove="packages.lock.json" />

@@ -49,7 +49,7 @@ Log.Logger = new LoggerConfiguration()
     .CreateLogger();
 
 // Add Serilog to logging providers
-builder.Logging.AddSerilog(Log.Logger, dispose: true);//qqqq may not need dispose for client
+builder.Logging.AddSerilog(Log.Logger);
 
 //for really bad fails
 try

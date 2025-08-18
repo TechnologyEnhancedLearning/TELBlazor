@@ -348,7 +348,6 @@
           "Serilog.Settings.Configuration": "[8.0.0, )",
           "Serilog.Sinks.BrowserConsole": "[8.0.0, )",
           "Serilog.Sinks.Http": "[8.0.0, )",
-          "TELBlazor.Components": "[1.9.3-local, )",
           "TELBlazor.Components.ShowCase.Shared": "[1.0.0, )"
         }
       },
@@ -359,7 +358,7 @@
           "Markdig": "[0.41.3, )",
           "Microsoft.AspNetCore.Components.Web": "[8.0.14, )",
           "Serilog": "[4.2.0, )",
-          "TELBlazor.Components": "[1.9.3-local, )"
+          "TELBlazor.Components": "[1.2.6-local, )"
         }
       },
       "Markdig": {

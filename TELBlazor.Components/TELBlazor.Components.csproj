@@ -48,17 +48,6 @@
 		<Content Remove="..\CICDPackageLocation\**\*" />
 		<None Remove="..\CICDPackageLocation\**\*" />
 	</ItemGroup>
-	<!--qqqq remove <ItemGroup>
-	  <Compile Remove="TELBlazorPackageVersion\VersionInfo.TELBlazorAssembly.cs" />
-	</ItemGroup>
-	<ItemGroup>
-	  <Compile Include="TELBlazorPackageVersion\VersionInfo.TELBlazorAssembly.cs" />
-	  <Content Include="TELBlazorPackageVersion\VersionInfo.TELBlazorAssembly.cs" />
-	</ItemGroup>-->
-
-	<!--<ItemGroup>
-	  <Content Include="Core\DI\gitinclude.txt" />
-	</ItemGroup>-->
 	<ItemGroup>
 		<Folder Include="Assets\" />
 		<Folder Include="OptionalImplementations\Test\TestServices\" />
@@ -70,18 +59,45 @@
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Content>
 	</ItemGroup>
-	<Target Name="RunGulp" BeforeTargets="PrepareForBuild">
-		 <!-- 
-			1) Use solution root as working dir so npx picks up root/node_modules
-			2) Tell gulp to run the gulpfile in this project directory
-			3) Gulp to add the TELFrontend css version to version info file
-		  -->
-		<Exec WorkingDirectory="$(MSBuildProjectDirectory)/.." Command="npx gulp --cwd &quot;$(MSBuildProjectDirectory)&quot; --gulpfile &quot;$(MSBuildProjectDirectory)/gulpfile.js&quot;" />
-	</Target>
-	<Target Name="GenerateTELBlazorPackageVersion" BeforeTargets="RunGulp">
-		<Delete Files="TELBlazorPackageVersion/VersionInfo.cs" />
-		<WriteLinesToFile File="TELBlazorPackageVersion\VersionInfo.TELBlazor.cs" Lines="namespace TELBlazor.Components.TELBlazorPackageVersion{public static partial class VersionInfo{public const string TELBlazorPackageVersion = &quot;$(TELBlazorPackageVersion)&quot; %3B; } }" Overwrite="true" Encoding="UTF-8" />
-	</Target>
+<!--qqqq tidy up and comment later-->
+		<!--Ensure no stale version cs files and that new ones are generated-->
+		<!--<Delete Files="TELBlazorPackageVersion/VersionInfo.TELBlazor.cs" />
+		<Delete Files="TELBlazorPackageVersion/VersionInfo.cs" />-->
 
+	<PropertyGroup>
+		<!-- Exclude generated files from auto-inclusion to prevent duplicates -->
+		<DefaultItemExcludes>$(DefaultItemExcludes);TELBlazorPackageVersion\VersionInfo.*.cs</DefaultItemExcludes>
+	</PropertyGroup>
+	<Target Name="PreBuildCleanup" BeforeTargets="GenerateTELBlazorPackageVersion;RunGulp;CoreCompile;BeforeCompile">
+		<Delete Files="TELBlazorPackageVersion/VersionInfo.TELBlazor.cs" />
+	</Target>
+	<Target Name="GenerateTELBlazorPackageVersion" DependsOnTargets="PreBuildCleanup" BeforeTargets="RunGulp;CoreCompile;BeforeCompile">
+		<WriteLinesToFile
+			File="TELBlazorPackageVersion\VersionInfo.TELBlazor.cs"
+			Lines="// This file is auto-generated. Do not edit manually.
+namespace TELBlazor.Components.TELBlazorPackageVersion
+{
+	public static partial class VersionInfo
+	{
+		public const string TELBlazorPackageVersion = &quot;$(TELBlazorPackageVersion)&quot;%3B;
+	}
+}"
+			Overwrite="true"
+			Encoding="UTF-8" />
+	</Target>
+<!-- qqqq was this beforetargets corecompile -->
+	<Target Name="RunGulp" DependsOnTargets="GenerateTELBlazorPackageVersion" BeforeTargets="CoreCompile;BeforeCompile">
+		<Exec WorkingDirectory="$(MSBuildProjectDirectory)/.."
+			  Command="npx gulp --cwd &quot;$(MSBuildProjectDirectory)&quot; --gulpfile &quot;$(MSBuildProjectDirectory)/gulpfile.js&quot;" />
+	</Target>
+	
+	
+	<!--qqqq i dont think this should be needed-->
+	<Target Name="CompileVersionInfoBeforeRazor" DependsOnTargets="GenerateTELBlazorPackageVersion;RunGulp;PreBuildCleanup" BeforeTargets="CoreCompile;BeforeCompile">
+		<ItemGroup>
+			<Compile Include="TELBlazorPackageVersion\VersionInfo.TELBlazor.cs" />
+			<Compile Include="TELBlazorPackageVersion\VersionInfo.TELFrontEnd.cs" />
+		</ItemGroup>
+	</Target>
 </Project>
 

@@ -12,71 +12,6 @@ using System.Text.Json;
 
 namespace TELBlazor.Components.OptionalImplementations.Test.TestComponents.SearchExperiment
 {
-    //curl -X 'GET' \
-    //  'https://lh-openapi.dev.local/Search/GetAutoSuggestionResult/blood' \
-    //  -H 'accept: */*' \
-    //  -H 'Authorization: Bearer '
-
-//    {
-//  "stats": {
-//    "totalHits": 23,
-//    "searchEngineTimeInMillis": 3,
-//    "searchEngineRoundTripTimeInMillis": 4,
-//    "searchProcessingTimeInMillis": 5
-//  },
-//  "catalogueDocument": {
-//    "id": "catalogues_documents",
-//    "totalHits": 0,
-//    "catalogueDocumentList": []
-//  },
-//  "conceptDocument": {
-//    "id": "concepts_documents",
-//    "totalHits": 6,
-//    "conceptDocumentList": [
-//      {
-//        "id": "blood transfusion_hee-local",
-//        "title": "426 Blood Transfusion - Non Registered Staff, Mandatory Training Workbook 2019-20",
-//        "concept": "blood transfusion",
-//        "click": {
-//            "payload": {
-//                "searchSignal": {
-//                    "stats": {
-//                        "totalHits": 23
-//                    },
-//              "searchId": "5b3e2cb9-2a6b-4d9a-8879-a7ba336abf3e",
-//              "profileSignature": {
-//                        "applicationId": "HEE",
-//                "profileType": "SEARCHER",
-//                "profileId": "auto-suggestion-local"
-//              },
-//              "userQuery": "q=blood",
-//              "query": "q=blood",
-//              "timeOfSearch": 1750247278498
-//                },
-//            "hitNumber": 4,
-//            "clickTargetUrl": "blood transfusion_hee-local",
-//            "documentFields": {
-//                    "name": null,
-//              "title": "426 Blood Transfusion - Non Registered Staff, Mandatory Training Workbook 2019-20"
-//            },
-//            "containerId": "concepts_documents",
-//            "timeOfClick": null
-//            },
-//          "url": "/signals/hee/signal/click-hee"
-//        }
-//    }
-//    ]
-//  },
-//  "resourceDocument": {
-//    "id": "resources_documents",
-//    "totalHits": 17,
-//    "resourceDocumentList": [
-//      {
-
-//    }
-//    ]
-//  }
-//}
     public class SearchExperimentServiceOpenApi :ISearchExperimentService
     {
         //qqqq can do alot better
@@ -90,11 +25,6 @@ namespace TELBlazor.Components.OptionalImplementations.Test.TestComponents.Searc
             _baseUrl = configuration["SearchApi:BaseUrl"] ?? "https://lh-openapi.dev.local";
             _logger = logger;
 
-            //var token = configuration["SearchApi:BearerToken"];
-            //if (!string.IsNullOrEmpty(token))
-            //{
-            //    _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-            //}
         }
         public async Task<IEnumerable<string>> GetSuggestionsAsync(string term, CancellationToken cancellationToken = default)
         {
