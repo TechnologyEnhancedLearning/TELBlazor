@@ -1,3 +1,10 @@
+# [1.10.0-refactor-logging.2](https://github.com/TechnologyEnhancedLearning/TELBlazor/compare/v1.10.0-refactor-logging.1...v1.10.0-refactor-logging.2) (2025-08-18)
+
+
+### Features
+
+* **cicd:** Tidy and version increment check ([77dbf5d](https://github.com/TechnologyEnhancedLearning/TELBlazor/commit/77dbf5de821a94ec1c033ff132835c111c334a74))
+
 # [1.10.0-refactor-logging.1](https://github.com/TechnologyEnhancedLearning/TELBlazor/compare/v1.9.1...v1.10.0-refactor-logging.1) (2025-08-12)
 
 
