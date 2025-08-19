@@ -84,7 +84,7 @@ jobs:
             # $NF is a special variable in awk that means “the last field” of the current line.
             # print $NF prints just that last field.
             SEMVER_CHANGED=true
-            echo "semantic-version-change-required=$SEMVER_CHANGED""
+            echo "semantic-version-change-required=$SEMVER_CHANGED"
             echo "version change required true"
             echo "semantic-release-version=$SEMVER_VERSION" >> $GITHUB_OUTPUT
             echo "semantic-version-change-required=$SEMVER_CHANGED" >> $GITHUB_OUTPUT
