@@ -303,13 +303,13 @@ from the repo and ShowCase project for how to include the package.
 - Repo TELBlazor
 
  - TELBlazor.Components
-	- this is a razor component library
+	- this is a blazor component library
  - TELBlazor.Components.UnitTests
 	- Bunit template from bunit site, configured to use Xunit
  - TELBlazor.Components.ShowCase.E2ETests
     - NUnit Playwright Test project
  - TELBlazor.Components.ShowCase.Shared
-	- this is a razor component library
+	- this is a set of example pages to showcase the blazor component and to enable testing with E2E
  - TELBlazor.Components.ShowCase.E2ETests.WasmServerHost
 	- Wasm host
  - TELBlazor.Components.ShowCase.E2ETests.WasmServerHost.Client 
