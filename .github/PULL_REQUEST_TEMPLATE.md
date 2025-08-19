@@ -20,7 +20,7 @@ _Paste screenshots for all views created or changed: mobile, tablet and desktop,
 
 ### Linked package consumer tasks
 [TD-####](https://hee-tis.atlassian.net/browse/TD-####)
-[ ] - consumers also need to update nhsuk css dependency to : __put_required_nhsuk_semantic_version_here__
+[ ] Consumers also need to update nhsuk css dependency to : __put_required_nhsuk_semantic_version_here__
 
 ### Logging
 _Provide description of any component scoped logging or specific level logging to check
