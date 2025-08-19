@@ -118,6 +118,7 @@ jobs:
           else
             # Get version include prerelease tag
             # Dry run returns different text DEV_SEMVER_VERSION=$(echo "$OUTPUT" | grep -oP 'Published release \K[^\s]+')
+            echo "in else so status was zero for error"
             DEV_SEMVER_VERSION=$(echo "$SEMVER_OUTPUT_RAW" | grep -oP 'Dry run: would publish version \K[^\s]+')
             echo "DEV_SEMVER_VERSION = $DEV_SEMVER_VERSION"
             echo "version change required true"
