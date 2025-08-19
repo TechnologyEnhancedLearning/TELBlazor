@@ -94,20 +94,25 @@ jobs:
           # qqqq now were dry running do we need to error handle?
           set +e
           # Due to dry-run need to catch error differently : SEMVER_OUTPUT_RAW=$(npx semantic-release --dry-run 2>&1) || STATUS=$?
+          echo "running semantic-release"
           SEMVER_OUTPUT_RAW=$(npx semantic-release --dry-run 2>&1)
           STATUS=$?
+          echo "status = $STATUS"
           set -e
           echo "$SEMVER_OUTPUT_RAW"
 
           # 0 not exclusively due to no version bump so check output
           if [ "${STATUS:-0}" -ne 0 ]; then
-            if echo "$SEMVER_OUTPUT_RAW" | grep -q "No release published"; then
+            echo "in if status 0"
+            if echo "$SEMVER_OUTPUT_RAW" | grep -q "There are no relevant changes"; then
+              echo "in if no release published"
               # No new version, but we can find the current version
               echo "No new version required getting current version from git tags"
               DEV_SEMVER_VERSION=$(git describe --tags --abbrev=0 2>/dev/null || echo "0.0.0-version-not-found") # last git tag so if multiple bumps in other branches making package version there will be some discrepancy but the purpose is distinguishing them for dev purposes.
               echo "DEV_SEMVER_VERSION = $DEV_SEMVER_VERSION"
               exit 0   # treat as success code didnt fail there just was no version increment required          
             else
+              echo "in else no release published"
               exit $STATUS   # real error → fail pipeline
             fi
           else
