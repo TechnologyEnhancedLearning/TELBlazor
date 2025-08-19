@@ -89,42 +89,70 @@ jobs:
       # qqqq if we are not versioning the repo why arnt we dry running
       - name: Run dev semantic version (None Blocking)
         run: |
-          # Set pipefail so we can check if pipefail is semantic-release classifying no version bump required as an error
-          # qqqq set -o pipefail
-          # qqqq now were dry running do we need to error handle?
-          set +e
+
+          #set +e
           # Due to dry-run need to catch error differently : SEMVER_OUTPUT_RAW=$(npx semantic-release --dry-run 2>&1) || STATUS=$?
           echo "running semantic-release"
           SEMVER_OUTPUT_RAW=$(npx semantic-release --dry-run 2>&1)
           STATUS=$?
           echo "status = $STATUS"
+          #set -e
+          echo "$SEMVER_OUTPUT_RAW"          
+          
+          # Get fallback version
+          FALLBACK_VERSION=$(git describe --tags --abbrev=0 2>/dev/null || echo "0.0.0-version-not-found")
+          echo "FALLBACK_VERSION=$FALLBACK_VERSION"
+    
+          set +e
+          # Check what's in the output
+          GREP_NO_CHANGES=$(echo "$SEMVER_OUTPUT_RAW" | grep -q 'There are no relevant changes' && echo "true" || echo "false")
+          GREP_WOULD_PUBLISH=$(echo "$SEMVER_OUTPUT_RAW" | grep -q 'Dry run: would publish version' && echo "true" || echo "false")
+          echo "GREP_NO_CHANGES=$GREP_NO_CHANGES"
+          echo "GREP_WOULD_PUBLISH=$GREP_WOULD_PUBLISH"
           set -e
-          echo "$SEMVER_OUTPUT_RAW"
+          
+          # Check for no changes and set DEV_SEMVER_VERSION accordingly
+          if echo "$SEMVER_OUTPUT_RAW" | grep -q 'There are no relevant changes'; then
+            DEV_SEMVER_VERSION="$FALLBACK_VERSION"
+            echo "No relevant changes found - DEV_SEMVER_VERSION=$DEV_SEMVER_VERSION"
+          elif echo "$SEMVER_OUTPUT_RAW" | grep -q 'Dry run: would publish version'; then
+          # Extract the actual version
+            DEV_SEMVER_VERSION=$(echo "$SEMVER_OUTPUT_RAW" | grep -oP 'Dry run: would publish version \K[^\s]+' || echo "extract-failed")
+            echo "Version change detected - DEV_SEMVER_VERSION=$DEV_SEMVER_VERSION"
+            echo "version change required true"
+          else
+            echo "Neither 'no changes' nor 'would publish' found, using fallback"
+            DEV_SEMVER_VERSION="$FALLBACK_VERSION"
+            echo "DEV_SEMVER_VERSION=$DEV_SEMVER_VERSION"
+          fi
+    
+          exit 0
 
           # 0 not exclusively due to no version bump so check output
-          if [ "${STATUS:-0}" -ne 0 ]; then
-            echo "in if status 0"
-            if echo "$SEMVER_OUTPUT_RAW" | grep -q "There are no relevant changes"; then
-              echo "in if no release published"
-              # No new version, but we can find the current version
-              echo "No new version required getting current version from git tags"
-              DEV_SEMVER_VERSION=$(git describe --tags --abbrev=0 2>/dev/null || echo "0.0.0-version-not-found") # last git tag so if multiple bumps in other branches making package version there will be some discrepancy but the purpose is distinguishing them for dev purposes.
-              echo "DEV_SEMVER_VERSION = $DEV_SEMVER_VERSION"
-              exit 0   # treat as success code didnt fail there just was no version increment required          
-            else
-              echo "in else no release published"
-              exit $STATUS   # real error → fail pipeline
-            fi
-          else
-            # Get version include prerelease tag
-            # Dry run returns different text DEV_SEMVER_VERSION=$(echo "$OUTPUT" | grep -oP 'Published release \K[^\s]+')
-            echo "in else so status was zero for error"
-            DEV_SEMVER_VERSION=$(echo "$SEMVER_OUTPUT_RAW" | grep -oP 'Dry run: would publish version \K[^\s]+')
-            echo "DEV_SEMVER_VERSION = $DEV_SEMVER_VERSION"
-            echo "version change required true"
-            # Just because weve been handling errors
-            exit 0
-          fi
+          # dry release seems not to error 1 qqqq!
+          # if [ "${STATUS:-0}" -ne 0 ]; then
+            # echo "in if status 0"
+            # if echo "$SEMVER_OUTPUT_RAW" | grep -q "There are no relevant changes"; then
+              # echo "in if no release published"
+              # # No new version, but we can find the current version
+              # echo "No new version required getting current version from git tags"
+              # DEV_SEMVER_VERSION=$(git describe --tags --abbrev=0 2>/dev/null || echo "0.0.0-version-not-found") # last git tag so if multiple bumps in other branches making package version there will be some discrepancy but the purpose is distinguishing them for dev purposes.
+              # echo "DEV_SEMVER_VERSION = $DEV_SEMVER_VERSION"
+              # exit 0   # treat as success code didnt fail there just was no version increment required          
+            # else
+              # echo "in else no release published"
+              # exit $STATUS   # real error → fail pipeline
+            # fi
+          # else
+            # # Get version include prerelease tag
+            # # Dry run returns different text DEV_SEMVER_VERSION=$(echo "$OUTPUT" | grep -oP 'Published release \K[^\s]+')
+            # echo "in else so status was zero for error"
+            # DEV_SEMVER_VERSION=$(echo "$SEMVER_OUTPUT_RAW" | grep -oP 'Dry run: would publish version \K[^\s]+')
+            # echo "DEV_SEMVER_VERSION = $DEV_SEMVER_VERSION"
+            # echo "version change required true"
+            # # Just because weve been handling errors
+            # exit 0
+          # fi
       
       
       # qqqq - name: Run semantic version (None Blocking)
