@@ -79,7 +79,7 @@ jobs:
           else
             SEMVER_VERSION=$(echo "$OUTPUT" | grep -oP 'Published release \K[\d.]+')
             echo "semantic-release-version=$SEMVER_VERSION"
-            # VERSION=$(echo "$OUTPUT" | grep "Published release" | awk '{print $NF}') - AI suggestion try if issues
+            # qqqq VERSION=$(echo "$OUTPUT" | grep "Published release" | awk '{print $NF}') - AI suggestion try if issues
             # awk is a text-processing tool that splits each line into fields using whitespace by default.
             # $NF is a special variable in awk that means “the last field” of the current line.
             # print $NF prints just that last field.
@@ -93,7 +93,7 @@ jobs:
           fi
           
       #configured with .releaseserc
-      # - name: Run semantic release
+      # qqqq- name: Run semantic release
         # id: set_semantic_version
         # run: |
           # set +e
