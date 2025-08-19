@@ -88,6 +88,7 @@ jobs:
       #configured with .releaseserc
       # qqqq if we are not versioning the repo why arnt we dry running
       - name: Run dev semantic version (None Blocking)
+        id: detect_semantic_version
         run: |
 
           #set +e
@@ -115,18 +116,19 @@ jobs:
           if echo "$SEMVER_OUTPUT_RAW" | grep -q 'There are no relevant changes'; then
             DEV_SEMVER_VERSION="$FALLBACK_VERSION"
             echo "No relevant changes found - DEV_SEMVER_VERSION=$DEV_SEMVER_VERSION"
+            echo "DEV_SEMVER_VERSION=$DEV_SEMVER_VERSION" >> $GITHUB_ENV
           elif echo "$SEMVER_OUTPUT_RAW" | grep -q 'Dry run: would publish version'; then
           # Extract the actual version
             DEV_SEMVER_VERSION=$(echo "$SEMVER_OUTPUT_RAW" | grep -oP 'Dry run: would publish version \K[^\s]+' || echo "extract-failed")
             echo "Version change detected - DEV_SEMVER_VERSION=$DEV_SEMVER_VERSION"
             echo "version change required true"
+            echo "DEV_SEMVER_VERSION=$DEV_SEMVER_VERSION" >> $GITHUB_ENV
           else
             echo "Neither 'no changes' nor 'would publish' found, using fallback"
             DEV_SEMVER_VERSION="$FALLBACK_VERSION"
             echo "DEV_SEMVER_VERSION=$DEV_SEMVER_VERSION"
+            echo "DEV_SEMVER_VERSION=$DEV_SEMVER_VERSION" >> $GITHUB_ENV
           fi
-    
-          exit 0
 
           # 0 not exclusively due to no version bump so check output
           # dry release seems not to error 1 qqqq!
@@ -191,7 +193,8 @@ jobs:
       - name: Rename Semver Version with branch date time dev
         id: set_dev_semantic_version
         run: |        
-          echo "Dev Semantic Release Output $DEV_SEMVER_VERSION"
+          DEV_SEMVER_VERSION="${{ steps.detect_semantic_version.outputs.DEV_SEMVER_VERSION }}"
+          echo "Dev Semantic Version Output = $DEV_SEMVER_VERSION"
 
           # In development, we always package and update the website—even if there’s no version change.
           # This ensures the CI process runs consistently and the latest code is deployed.
