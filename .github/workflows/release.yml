@@ -56,9 +56,10 @@ jobs:
       - name: run semantic release
         id: set_semantic_version
         run: |
-          # Set pipefail so we can check if pipefail is semantic-release classifying no version bump required as an error
-          set -o pipefail
+          # Set error to not instantly fail so we can check if error is semantic-release classifying no version bump required as an error
+          set +e
           OUTPUT=$(npx semantic-release 2>&1) || STATUS=$?
+          set -e
           echo "$OUTPUT"
 
           # 0 not exclusively due to no version bump so check output
