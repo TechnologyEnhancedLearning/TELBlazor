@@ -335,6 +335,8 @@ recommend tool it is designed for though both support the others tool.
 - not using guid id as i have elsewhere either [Parameter] public string ElementId { get; set; } = $"tel-button-{Guid.NewGuid():N}";
 - various things have been cut from mvcblazor so it is worth returning to for potential solutions if developing this solution [MVCBlazor repo](https://github.com/TechnologyEnhancedLearning/MVCBlazor)
 
+#### Compression
+
 
 # Project Structure and Comments
 

@@ -11,7 +11,12 @@
 	<Configurations>Debug;Release;ci</Configurations>
   
   </PropertyGroup>
-
+	
+  <!--Release optimisations not in use for standard testing-->
+  <PropertyGroup Condition="'$(Configuration)'=='Release'">
+	<PublishTrimmed>true</PublishTrimmed>
+  </PropertyGroup>
+	
   <ItemGroup>
     <Content Remove="Properties\launchSettings.template.json" />
   </ItemGroup>
