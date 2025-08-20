@@ -56,30 +56,62 @@ jobs:
       - name: run semantic release
         id: set_semantic_version
         run: |
+          # qqqq
           # Set error to not instantly fail so we can check if error is semantic-release classifying no version bump required as an error
-          set +e
-          OUTPUT=$(npx semantic-release 2>&1) || STATUS=$?
+          # set +e
+          # OUTPUT=$(npx semantic-release 2>&1) || STATUS=$?
+          # echo "status = $STATUS"
+          # set -e
+          # echo "$OUTPUT"
+          
+          echo "running semantic-release"
+          SEMVER_OUTPUT_RAW=$(npx semantic-release 2>&1)
+          STATUS=$?
           echo "status = $STATUS"
-          set -e
-          echo "$OUTPUT"
+          echo "$SEMVER_OUTPUT_RAW"     
+          
+          # # Check for no changes and set SEMVER_VERSION accordingly
+          # if echo "$SEMVER_OUTPUT_RAW" | grep -q 'There are no relevant changes'; then
+            # DEV_SEMVER_VERSION="$FALLBACK_VERSION"
+            # echo "No relevant changes found - DEV_SEMVER_VERSION=$DEV_SEMVER_VERSION"
+            # echo "DEV_SEMVER_VERSION=$DEV_SEMVER_VERSION" >> $GITHUB_ENV
+          # # Check if version bump expected
+          # elif echo "$SEMVER_OUTPUT_RAW" | grep -q 'Dry run: would publish version'; then
+          # # Extract the actual version
+            # DEV_SEMVER_VERSION=$(echo "$SEMVER_OUTPUT_RAW" | grep -oP 'Dry run: would publish version \K[^\s]+' || echo "extract-failed")
+            # echo "Version change detected - DEV_SEMVER_VERSION=$DEV_SEMVER_VERSION"
+            # echo "version change required true"
+            # echo "DEV_SEMVER_VERSION=$DEV_SEMVER_VERSION" >> $GITHUB_ENV
+            # # Fallback
+          # else
+            # echo " ⚠️ Neither 'no changes' nor 'would publish' found. (using fallback)."
+            # DEV_SEMVER_VERSION="$FALLBACK_VERSION"
+            # echo "DEV_SEMVER_VERSION=$DEV_SEMVER_VERSION"
+            # echo "DEV_SEMVER_VERSION=$DEV_SEMVER_VERSION" >> $GITHUB_ENV
+          # fi
+          
 
           # 0 not exclusively due to no version bump so check output
           if [ "${STATUS:-0}" -ne 0 ]; then
-            if echo "$OUTPUT" | grep -q "No release published"; then
+            echo "Status code is not 0"
+            if echo "$SEMVER_OUTPUT_RAW" | grep -q "No release published"; then
+              echo "no version change detected"
               # No new version, but we can find the current version
-              echo "No new version required getting current version from git tags"
-              SEMVER_VERSION=$(git describe --tags --abbrev=0 2>/dev/null || echo "0.0.0-version-placeholder") # last git tag
+              #echo "No new version required getting current version from git tags"
+              #SEMVER_VERSION=$(git describe --tags --abbrev=0 2>/dev/null || echo "0.0.0-version-placeholder") # last git tag
               echo "semantic-release-version=$SEMVER_VERSION"
               SEMVER_CHANGED=false
               echo "Changes do not warrant a version change. gh_pages and packages won't be updated."
-              echo "semantic-release-version=$SEMVER_VERSION" >> $GITHUB_OUTPUT
+              #echo "semantic-release-version=$SEMVER_VERSION" >> $GITHUB_OUTPUT
               echo "semantic-version-change-required=$SEMVER_CHANGED" >> $GITHUB_OUTPUT
               exit 0   # treat as success code didnt fail there just was no version increment required          
             else
+              echo "exit using status outcome of semver"
               exit $STATUS   # real error → fail pipeline
             fi
           else
-            SEMVER_VERSION=$(echo "$OUTPUT" | grep -oP 'Published release \K[\d.]+')
+            echo "grep semver version"
+            SEMVER_VERSION=$(echo "$SEMVER_OUTPUT_RAW" | grep -oP 'Published release \K[\d.]+')
             echo "semantic-release-version=$SEMVER_VERSION"
             # qqqq VERSION=$(echo "$OUTPUT" | grep "Published release" | awk '{print $NF}') - AI suggestion try if issues
             # awk is a text-processing tool that splits each line into fields using whitespace by default.
@@ -204,7 +236,7 @@ jobs:
       name: Update the production TELBlazor ShowCase page (on this repo)
       needs: [build-telblazor-package-and-publish, generate-semantic-version]
       runs-on: ubuntu-latest
-      if: ${{ needs.generate-semantic-version.outputs.semantic-release-version != '' }}  # Only run if there's a version
+      if: ${{ needs.generate-semantic-version.outputs.semantic-version-change-required == 'true' }}  # Only run if there's a version
       env:
         TELBLAZOR_PACKAGE_VERSION: ${{ needs.generate-semantic-version.outputs.semantic-release-version }}
       steps:
