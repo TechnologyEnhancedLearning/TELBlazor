@@ -22,9 +22,9 @@
         CurrentLogLevel = LogLevelSwitcherService.GetCurrentLogLevel();
     }
 
-    private void SetLogLevel(string level)
+    private async void SetLogLevel(string level)
     {
-        CurrentLogLevel = LogLevelSwitcherService.SetLogLevel(level);
+        CurrentLogLevel = await LogLevelSwitcherService.SetLogLevel(level);
         // No StateHasChanged needed here.  The component will re-render
         // when CurrentLogLevel is updated due to how Blazor change detection works.
     }
@@ -33,11 +33,9 @@
     {
         if (e.Value is string selectedLevel) // Safe casting
         {
-            CurrentLogLevel = e.Value.ToString();
+            CurrentLogLevel = selectedLevel; // Use the safely casted value
             LogLevelSwitcherService.SetLogLevel(CurrentLogLevel);
             StateHasChanged();
         }
     }
-
 }
-
