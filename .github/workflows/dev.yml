@@ -153,7 +153,7 @@ jobs:
           npm ls --depth=0 # Debug: List installed packages
 
       #configured with .releaseserc
-      # qqqq if we are not versioning the repo why arnt we dry running
+      # Dry run we are not versioning the repo
       - name: Run dev semantic version (None Blocking)
         id: detect_semantic_version
         run: |
@@ -184,14 +184,16 @@ jobs:
             DEV_SEMVER_VERSION="$FALLBACK_VERSION"
             echo "No relevant changes found - DEV_SEMVER_VERSION=$DEV_SEMVER_VERSION"
             echo "DEV_SEMVER_VERSION=$DEV_SEMVER_VERSION" >> $GITHUB_ENV
+          # Check if version bump expected
           elif echo "$SEMVER_OUTPUT_RAW" | grep -q 'Dry run: would publish version'; then
           # Extract the actual version
             DEV_SEMVER_VERSION=$(echo "$SEMVER_OUTPUT_RAW" | grep -oP 'Dry run: would publish version \K[^\s]+' || echo "extract-failed")
             echo "Version change detected - DEV_SEMVER_VERSION=$DEV_SEMVER_VERSION"
             echo "version change required true"
             echo "DEV_SEMVER_VERSION=$DEV_SEMVER_VERSION" >> $GITHUB_ENV
+            # Fallback
           else
-            echo "Neither 'no changes' nor 'would publish' found, using fallback"
+            echo " ⚠️ Neither 'no changes' nor 'would publish' found. (using fallback)."
             DEV_SEMVER_VERSION="$FALLBACK_VERSION"
             echo "DEV_SEMVER_VERSION=$DEV_SEMVER_VERSION"
             echo "DEV_SEMVER_VERSION=$DEV_SEMVER_VERSION" >> $GITHUB_ENV
