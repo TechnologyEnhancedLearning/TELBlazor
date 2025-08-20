@@ -102,14 +102,6 @@ jobs:
           FALLBACK_VERSION=$(git describe --tags --abbrev=0 2>/dev/null | cut -c2- || echo "0.0.0-version-not-found")
           echo "FALLBACK_VERSION=$FALLBACK_VERSION"
     
-          set +e
-          # Check what's in the output
-          GREP_NO_CHANGES=$(echo "$SEMVER_OUTPUT_RAW" | grep -q 'There are no relevant changes' && echo "true" || echo "false")
-          # qqqq GREP_WOULD_PUBLISH=$(echo "$SEMVER_OUTPUT_RAW" | grep -q 'Dry run: would publish version' && echo "true" || echo "false")
-          GREP_WOULD_PUBLISH=$(echo "$SEMVER_OUTPUT_RAW" | grep -q 'Published release' && echo "true" || echo "false")
-          echo "GREP_NO_CHANGES=$GREP_NO_CHANGES"
-          echo "GREP_WOULD_PUBLISH=$GREP_WOULD_PUBLISH"
-          set -e
           
           # Check for no changes and set DEV_SEMVER_VERSION accordingly
           if echo "$SEMVER_OUTPUT_RAW" | grep -q 'There are no relevant changes'; then
@@ -117,7 +109,6 @@ jobs:
             echo "No relevant changes found - DEV_SEMVER_VERSION=$DEV_SEMVER_VERSION"
             echo "DEV_SEMVER_VERSION=$DEV_SEMVER_VERSION" >> $GITHUB_ENV
           # Check if version bump expected
-          # qqqq elif echo "$SEMVER_OUTPUT_RAW" | grep -q 'Dry run: would publish version'; then
           elif echo "$SEMVER_OUTPUT_RAW" | grep -q 'Published release'; then
           # Extract the actual version
             DEV_SEMVER_VERSION=$(echo "$SEMVER_OUTPUT_RAW" | grep -oP 'Published release \K[^\s]+' || echo "extract-failed")
