@@ -69,7 +69,6 @@ jobs:
             SEMVER_CHANGED=false
             echo "Changes do not warrant a version change. gh_pages and packages won't be updated."
             echo "semantic-version-change-required=$SEMVER_CHANGED" >> $GITHUB_OUTPUT
-            echo "Changes do not warrant a version change. gh_pages and packages won't be updated."
           # Check if version bump expected
           elif echo "$SEMVER_OUTPUT_RAW" | grep -q 'Published release'; then
             # Extract the actual version, if it fails here we want to know
