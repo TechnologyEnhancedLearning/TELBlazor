@@ -41,8 +41,6 @@ namespace TELBlazor.Components.ShowCase.E2ETests.Pages.BaseComponentPages
         public async Task TELBlazorButtonMeetsAxeAccesibilityStandards(string browserType, bool jsEnabled, ViewportHelper.ViewportType viewport)
         {
 
-       
-
             using IPlaywright playwright = await Microsoft.Playwright.Playwright.CreateAsync();
 
             IBrowserContext browserContext = await BrowserHelper.CreateBrowserContextAsync(playwright, browserType, jsEnabled, viewport, BaseUrl);
@@ -61,7 +59,8 @@ namespace TELBlazor.Components.ShowCase.E2ETests.Pages.BaseComponentPages
 
             await page.GotoOnceNetworkIsIdleAsync("TELButton");
 
-            await page.WaitForSelectorAsync("button");
+            // await page.WaitForSelectorAsync("button");
+            await page.GetByRole(AriaRole.Button, new() { Name = "Click Counter" }).WaitForAsync();
             ILocator button = page.GetByRole(AriaRole.Button, new() { Name = "Click Counter" });
 
             AxeResult axeResults = await button.RunAxe();

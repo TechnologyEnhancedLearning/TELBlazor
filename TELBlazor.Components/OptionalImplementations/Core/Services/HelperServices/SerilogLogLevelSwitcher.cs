@@ -37,12 +37,12 @@ namespace TELBlazor.Components.OptionalImplementations.Core.Services.HelperServi
 
             try
             {
-                string storedLevel = await GetStoredLogLevelWithExpiration();
+                string? storedLevel = await GetStoredLogLevelWithExpiration();
                 if (!string.IsNullOrEmpty(storedLevel))
                 {
                     if (Enum.TryParse(storedLevel, true, out LogEventLevel logLevel) && logLevel > _loggingLevelSwitch.MinimumLevel)
                     {
-                        SetLogLevel(logLevel.ToString());
+                        await SetLogLevel(logLevel.ToString());
                         _logger.LogInformation("Log level initialized from local storage: {Level}", logLevel);
                     }
                 }
@@ -55,7 +55,7 @@ namespace TELBlazor.Components.OptionalImplementations.Core.Services.HelperServi
             }
         }
 
-        public List<string> GetAvailableLogLevels() => Enum.GetNames(typeof(LogEventLevel)).ToList();
+        public List<string> GetAvailableLogLevels() => Enum.GetNames(typeof(LogEventLevel)).ToList<string>();
 
         public string GetCurrentLogLevel()
         {
@@ -65,7 +65,7 @@ namespace TELBlazor.Components.OptionalImplementations.Core.Services.HelperServi
             return logLevel;
         }
 
-        public string SetLogLevel(string level)
+        public async Task<string> SetLogLevel(string level)
         {
             LogAllLevels("Before Change");
             if (string.IsNullOrWhiteSpace(level))
@@ -83,7 +83,7 @@ namespace TELBlazor.Components.OptionalImplementations.Core.Services.HelperServi
                                     _loggingLevelSwitch.MinimumLevel.ToString(), logLevel.ToString());
 
             _loggingLevelSwitch.MinimumLevel = logLevel;
-            StoreLogLevelWithTimestamp(logLevel.ToString());
+            await StoreLogLevelWithTimestamp(logLevel.ToString());
             LogAllLevels("After Change");
             return GetCurrentLogLevel();
         }
@@ -100,7 +100,7 @@ namespace TELBlazor.Components.OptionalImplementations.Core.Services.HelperServi
         }
 
 
-        private async Task<string> GetStoredLogLevelWithExpiration()
+        private async Task<string?> GetStoredLogLevelWithExpiration()
         {
             try
             {

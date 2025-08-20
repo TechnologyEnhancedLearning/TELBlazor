@@ -8,7 +8,7 @@ namespace TELBlazor.Components.Core.Models.Logging
 {
     public class LocalStorageLogLevel : ILocalStorageLogLevel
     {
-        public string Level { get; set; } = null;
+        public required string Level { get; set; }
         public DateTime Expires { get; set; }
     }
 }
