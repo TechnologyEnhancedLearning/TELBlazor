@@ -167,8 +167,8 @@ jobs:
           #set -e
           echo "$SEMVER_OUTPUT_RAW"          
           
-          # Get fallback version
-          FALLBACK_VERSION=$(git describe --tags --abbrev=0 2>/dev/null || echo "0.0.0-version-not-found")
+          # Get fallback version by grabbing the git tag dropping the first character, the "v", or use hardcoded fallback
+          FALLBACK_VERSION=$(git describe --tags --abbrev=0 2>/dev/null | cut -c2- || echo "0.0.0-version-not-found")
           echo "FALLBACK_VERSION=$FALLBACK_VERSION"
     
           set +e
@@ -196,9 +196,6 @@ jobs:
             echo "DEV_SEMVER_VERSION=$DEV_SEMVER_VERSION"
             echo "DEV_SEMVER_VERSION=$DEV_SEMVER_VERSION" >> $GITHUB_ENV
           fi
-
-
-
           
       - name: Rename Semver Version with branch date time dev
         id: set_dev_semantic_version
