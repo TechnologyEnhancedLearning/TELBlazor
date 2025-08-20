@@ -59,6 +59,7 @@ jobs:
           # Set error to not instantly fail so we can check if error is semantic-release classifying no version bump required as an error
           set +e
           OUTPUT=$(npx semantic-release 2>&1) || STATUS=$?
+          echo "status = $STATUS"
           set -e
           echo "$OUTPUT"
 
