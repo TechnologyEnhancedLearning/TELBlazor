@@ -105,7 +105,8 @@ jobs:
           set +e
           # Check what's in the output
           GREP_NO_CHANGES=$(echo "$SEMVER_OUTPUT_RAW" | grep -q 'There are no relevant changes' && echo "true" || echo "false")
-          GREP_WOULD_PUBLISH=$(echo "$SEMVER_OUTPUT_RAW" | grep -q 'Dry run: would publish version' && echo "true" || echo "false")
+          # qqqq GREP_WOULD_PUBLISH=$(echo "$SEMVER_OUTPUT_RAW" | grep -q 'Dry run: would publish version' && echo "true" || echo "false")
+          GREP_WOULD_PUBLISH=$(echo "$SEMVER_OUTPUT_RAW" | grep -q 'Published release' && echo "true" || echo "false")
           echo "GREP_NO_CHANGES=$GREP_NO_CHANGES"
           echo "GREP_WOULD_PUBLISH=$GREP_WOULD_PUBLISH"
           set -e
@@ -116,15 +117,16 @@ jobs:
             echo "No relevant changes found - DEV_SEMVER_VERSION=$DEV_SEMVER_VERSION"
             echo "DEV_SEMVER_VERSION=$DEV_SEMVER_VERSION" >> $GITHUB_ENV
           # Check if version bump expected
-          elif echo "$SEMVER_OUTPUT_RAW" | grep -q 'Dry run: would publish version'; then
+          # qqqq elif echo "$SEMVER_OUTPUT_RAW" | grep -q 'Dry run: would publish version'; then
+          elif echo "$SEMVER_OUTPUT_RAW" | grep -q 'Published release'; then
           # Extract the actual version
-            DEV_SEMVER_VERSION=$(echo "$SEMVER_OUTPUT_RAW" | grep -oP 'Dry run: would publish version \K[^\s]+' || echo "extract-failed")
+            DEV_SEMVER_VERSION=$(echo "$SEMVER_OUTPUT_RAW" | grep -oP 'Published release \K[^\s]+' || echo "extract-failed")
             echo "Version change detected - DEV_SEMVER_VERSION=$DEV_SEMVER_VERSION"
             echo "version change required true"
             echo "DEV_SEMVER_VERSION=$DEV_SEMVER_VERSION" >> $GITHUB_ENV
             # Fallback
           else
-            echo " ⚠️ Neither 'no changes' nor 'would publish' found. (using fallback)."
+            echo " ⚠️ Neither 'no changes' nor 'publish version' found. (using fallback)."
             DEV_SEMVER_VERSION="$FALLBACK_VERSION"
             echo "DEV_SEMVER_VERSION=$DEV_SEMVER_VERSION"
             echo "DEV_SEMVER_VERSION=$DEV_SEMVER_VERSION" >> $GITHUB_ENV
