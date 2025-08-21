@@ -1,3 +1,10 @@
+# [1.14.0](https://github.com/TechnologyEnhancedLearning/TELBlazor/compare/v1.13.0...v1.14.0) (2025-08-21)
+
+
+### Features
+
+* **docs:** want a version bump to see intended load metric improvement ([5dcdd1b](https://github.com/TechnologyEnhancedLearning/TELBlazor/commit/5dcdd1b90354f627f46cb57166650a2bffeb5288))
+
 # [1.13.0](https://github.com/TechnologyEnhancedLearning/TELBlazor/compare/v1.12.0...v1.13.0) (2025-08-20)
 
 
