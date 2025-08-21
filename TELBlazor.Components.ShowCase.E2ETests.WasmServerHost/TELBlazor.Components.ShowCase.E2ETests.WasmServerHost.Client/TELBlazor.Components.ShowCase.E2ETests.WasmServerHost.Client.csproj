@@ -13,7 +13,8 @@
   </PropertyGroup>
 	
   <!--Testing against Release optimisations-->
-  <PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)' == 'Release'">
+
 	  <!-- Trims unused code to reduce size. Can break reflection/serialization. -->
 	  <PublishTrimmed>true</PublishTrimmed>
 
@@ -43,7 +44,6 @@
   -->
 	  <BlazorWebAssemblyPreserveCollationData>false</BlazorWebAssemblyPreserveCollationData>
   </PropertyGroup>
-	
   <ItemGroup>
     <Content Remove="Properties\launchSettings.template.json" />
   </ItemGroup>

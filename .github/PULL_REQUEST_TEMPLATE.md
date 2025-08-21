@@ -42,6 +42,13 @@ _Provide wasm size comparison between prod and dev showcases, does it exceed 8Mb
 
 
 -----
+### Recommended Prepipeline steps
+These test are run by the pipeline but running them locally can be convenient to see issues early or to debug issues seen in the pipeline locally.
+- Run against release configuration by select release configuration at the the top of solution explorer (to check against optimisation such as tree shaking for example)
+	- clean rebuild the solution
+	- run tests against release
+
+-----
 ### Developer checks
 (Leave tasks unticked if they haven't been appropriate for your ticket.)
 
@@ -61,6 +68,8 @@ I have:
 - [ ] Scanned over my pull request and commented with any useful explanations/questions to reviewers
 - [ ] Scanned over cicd warnings relating to the component or area of code I have worked on (give the general ones a look too but antyhing in OptionalImplementations/Test can be ignored)
 - [ ] Maybe? Audit NuGet packages; use lightweight ones (e.g., System.Text.Json); ensure third-party components support trimming.
+- [ ] Scanned in visual studio build info messages about improving code for new code
+- [ ] 
 ---
 ### Peer Reviewers and Assignee checks before Approval
 - [ ] Feedback has been provided
