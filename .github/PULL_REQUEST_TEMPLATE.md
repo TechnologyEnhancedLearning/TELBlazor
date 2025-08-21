@@ -34,11 +34,12 @@ _Provide wasm size comparison between prod and dev showcases, does it exceed 8Mb
 - if using compression check .br or .gz (if Content-Encoding: br or gz is in headers)
 - Sum up
 
-| Showcase | Total WASM Size (Compressed, MB) | Notes |
-|----------|----------------------------------|-------|
-| [Dev](https://technologyenhancedlearning.github.io/TELBlazor-DevShowCase/)      | X.X MB                          |       |
-| [Prod](https://technologyenhancedlearning.github.io/TELBlazor/)     | Y.Y MB                          |       |
+| Measure | [Dev](https://technologyenhancedlearning.github.io/TELBlazor-DevShowCase/) Value  | [Prod](https://technologyenhancedlearning.github.io/TELBlazor/) Value | Difference | Notes |
+|----------|--------------------------------------------------------------------------|----------------------------------------------------------------------|-------|-------|
+|   Load Size   | X.X MB                          |       |
+|   Lighthouse Accessibility Score  | Y.Y MB                          |       |
 | Difference |   |  |
+
 
 -----
 ### Developer checks
@@ -59,7 +60,7 @@ I have:
 - [ ] Tested in [Dev Showcase](https://technologyenhancedlearning.github.io/TELBlazor-DevShowCase/) (including logging by using log level switcher)
 - [ ] Scanned over my pull request and commented with any useful explanations/questions to reviewers
 - [ ] Scanned over cicd warnings relating to the component or area of code I have worked on (give the general ones a look too but antyhing in OptionalImplementations/Test can be ignored)
-
+- [ ] Maybe? Audit NuGet packages; use lightweight ones (e.g., System.Text.Json); ensure third-party components support trimming.
 ---
 ### Peer Reviewers and Assignee checks before Approval
 - [ ] Feedback has been provided
