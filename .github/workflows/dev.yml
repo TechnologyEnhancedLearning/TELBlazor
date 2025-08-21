@@ -89,13 +89,10 @@ jobs:
         id: detect_semantic_version
         run: |
 
-          #set +e
-          # Due to dry-run need to catch error differently : SEMVER_OUTPUT_RAW=$(npx semantic-release --dry-run 2>&1) || STATUS=$?
           echo "running semantic-release"
           SEMVER_OUTPUT_RAW=$(npx semantic-release --dry-run 2>&1)
           STATUS=$?
           echo "status = $STATUS"
-          #set -e
           echo "$SEMVER_OUTPUT_RAW"          
           
           # Get fallback version by grabbing the git tag dropping the first character, the "v", or use hardcoded fallback
@@ -105,7 +102,6 @@ jobs:
           set +e
           # Check what's in the output
           GREP_NO_CHANGES=$(echo "$SEMVER_OUTPUT_RAW" | grep -q 'There are no relevant changes' && echo "true" || echo "false")
-          # qqqq GREP_WOULD_PUBLISH=$(echo "$SEMVER_OUTPUT_RAW" | grep -q 'Dry run: would publish version' && echo "true" || echo "false")
           GREP_WOULD_PUBLISH=$(echo "$SEMVER_OUTPUT_RAW" | grep -q 'Published release' && echo "true" || echo "false")
           echo "GREP_NO_CHANGES=$GREP_NO_CHANGES"
           echo "GREP_WOULD_PUBLISH=$GREP_WOULD_PUBLISH"
@@ -117,7 +113,6 @@ jobs:
             echo "No relevant changes found - DEV_SEMVER_VERSION=$DEV_SEMVER_VERSION"
             echo "DEV_SEMVER_VERSION=$DEV_SEMVER_VERSION" >> $GITHUB_ENV
           # Check if version bump expected
-          # qqqq elif echo "$SEMVER_OUTPUT_RAW" | grep -q 'Dry run: would publish version'; then
           elif echo "$SEMVER_OUTPUT_RAW" | grep -q 'Published release'; then
           # Extract the actual version
             DEV_SEMVER_VERSION=$(echo "$SEMVER_OUTPUT_RAW" | grep -oP 'Published release \K[^\s]+' || echo "extract-failed")
