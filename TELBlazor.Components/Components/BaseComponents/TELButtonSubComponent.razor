@@ -7,7 +7,9 @@
     role="@AriaRole"
     aria-describedby="@AriaDescribedBy"
     title="@ToolTipTitle"
-    tabindex="@TabIndex">
+    tabindex="@TabIndex"
+    disabled="@DisableButton"
+>
     <span class="button-text">@ButtonText</span>
     @if (!string.IsNullOrEmpty(AssistiveText))
     {
@@ -20,13 +22,7 @@
     /// <summary>
     ///  Guid generated on creation to link elements for screen readers
     /// </summary>
-    private string _ariaDescribedBy;
-    public string AriaDescribedBy => _ariaDescribedBy;
-
-    protected override void OnInitialized()
-    {
-        _ariaDescribedBy = $"assistive-text-{Guid.NewGuid()}";
-    }
+    public string AriaDescribedBy {get;} = $"assistive-text-{Guid.NewGuid()}";
 
     /// <summary>
     /// Button Options
@@ -36,6 +32,8 @@
 
     [EditorRequired, Parameter]
     public required string ButtonText { get; set; }
+
+    [Parameter] public bool DisableButton { get; set; } = false; // Disable the button if true
 
     [Parameter] public string AdditionalCssClasses { get; set; } = ""; // Custom CSS classes for additional styling
 

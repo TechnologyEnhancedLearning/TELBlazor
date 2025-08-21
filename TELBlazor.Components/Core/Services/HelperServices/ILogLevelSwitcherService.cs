@@ -10,7 +10,7 @@ namespace TELBlazor.Components.Core.Services.HelperServices
     {
         public string GetCurrentLogLevel();// String so can be more generic
 
-        public string SetLogLevel(string level);
+        public Task<string> SetLogLevel(string level);
 
         public List<string> GetAvailableLogLevels();
         public bool IsInitialized { get; set; }

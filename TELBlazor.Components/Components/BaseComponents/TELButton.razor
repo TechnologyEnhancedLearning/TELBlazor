@@ -13,7 +13,7 @@
         ToolTipTitle="@ToolTipTitle"
         AdditionalCssClasses="@AdditionalCssClasses"
         PreventDoubleClick="@PreventDoubleClick"
-    />
+        DisableButton="@DisableButton" />
 }
 else
 {
@@ -38,7 +38,7 @@ else
             ToolTipTitle="@ToolTipTitle"
             AdditionalCssClasses="@AdditionalCssClasses"
             PreventDoubleClick="@PreventDoubleClick"
-            />
+            DisableButton="@DisableButton" />
     </EditForm>
 }
 
@@ -55,7 +55,7 @@ else
     ///</summary>
     [Parameter] public bool IsSubmitButtonForEditForm { get; set; } = false;
     [Parameter] public Dictionary<string, string> FormData { get; set; } = new();
-    [Parameter] public string NoJSActionUrl { get; set; } = null; // URL for the form submission (not required because there may be a parent form with it if its a submit for a form)
+    [Parameter] public string? NoJSActionUrl { get; set; } = null; // URL for the form submission (not required because there may be a parent form with it if its a submit for a form)
     [Parameter] public EventCallback OnClick { get; set; } // Not required because the submit wont use it, when its placed in a form.
     [Parameter] public bool PreventDoubleClick { get; set; } = false; // View Component equivalent behaviour
 
@@ -64,6 +64,7 @@ else
     // -----------------------------
     [EditorRequired, Parameter] public required string ButtonText { get; set; }
     [Parameter] public TELButtonStyle ButtonStyle { get; set; } = TELButtonStyle.Primary;
+    [Parameter] public bool DisableButton { get; set; } = false; // Disable the button if true
     [Parameter] public string AdditionalCssClasses { get; set; } = "";
     [EditorRequired, Parameter] public required string ToolTipTitle { get; set; }
 
@@ -83,7 +84,6 @@ else
     // -----------------------------
     // Internal State
     // -----------------------------
-    private bool isButtonDisabled = false;
     private bool isClickedRecently = false;
 
     // -----------------------------
@@ -101,7 +101,6 @@ else
         if (PreventDoubleClick && !isClickedRecently)
         {
             isClickedRecently = true;
-            isButtonDisabled = true;
 
             if (OnClick.HasDelegate)
             {
@@ -110,7 +109,6 @@ else
 
             await Task.Delay(1000); // Re-enable after 1 sec
             isClickedRecently = false;
-            isButtonDisabled = false;
         }
         else if (!PreventDoubleClick && OnClick.HasDelegate) // Just call the OnClick handler if double-click prevention is not needed
         {
