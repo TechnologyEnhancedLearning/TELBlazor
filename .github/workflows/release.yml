@@ -85,67 +85,7 @@ jobs:
             exit 1
           fi
           
-
-          # 0 not exclusively due to no version bump so check output
-          # if [ "${STATUS:-0}" -ne 0 ]; then
-            # echo "Status code is not 0"
-            # if echo "$SEMVER_OUTPUT_RAW" | grep -q "No release published"; then
-              # echo "no version change detected"
-              # # No new version, but we can find the current version
-              # #echo "No new version required getting current version from git tags"
-              # #SEMVER_VERSION=$(git describe --tags --abbrev=0 2>/dev/null || echo "0.0.0-version-placeholder") # last git tag
-              # echo "semantic-release-version=$SEMVER_VERSION"
-              # SEMVER_CHANGED=false
-              # echo "Changes do not warrant a version change. gh_pages and packages won't be updated."
-              # #echo "semantic-release-version=$SEMVER_VERSION" >> $GITHUB_OUTPUT
-              # echo "semantic-version-change-required=$SEMVER_CHANGED" >> $GITHUB_OUTPUT
-              # exit 0   # treat as success code didnt fail there just was no version increment required          
-            # else
-              # echo "exit using status outcome of semver"
-              # exit $STATUS   # real error → fail pipeline
-            # fi
-          # else
-            # echo "grep semver version"
-            # SEMVER_VERSION=$(echo "$SEMVER_OUTPUT_RAW" | grep -oP 'Published release \K[\d.]+')
-            # echo "semantic-release-version=$SEMVER_VERSION"
-            # # qqqq VERSION=$(echo "$OUTPUT" | grep "Published release" | awk '{print $NF}') - AI suggestion try if issues
-            # # awk is a text-processing tool that splits each line into fields using whitespace by default.
-            # # $NF is a special variable in awk that means “the last field” of the current line.
-            # # print $NF prints just that last field.
-            # SEMVER_CHANGED=true
-            # echo "semantic-version-change-required=$SEMVER_CHANGED"
-            # echo "version change required true"
-            # echo "semantic-release-version=$SEMVER_VERSION" >> $GITHUB_OUTPUT
-            # echo "semantic-version-change-required=$SEMVER_CHANGED" >> $GITHUB_OUTPUT
-            # # Just because weve been handling errors
-            # exit 0
-          # fi
-          
-      #configured with .releaseserc
-      # qqqq- name: Run semantic release
-        # id: set_semantic_version
-        # run: |
-          # set +e
-          # RELEASE_OUTPUT=$(npx semantic-release 2>&1)
-          # echo "$RELEASE_OUTPUT"
-
-          # # Try to extract the version from the full output
-          # SEMVER_VERSION=$(echo "$RELEASE_OUTPUT" | grep -oP 'Published release \K[\d.]+')
-
-          # # Output it clearly for debugging
-          # echo "Parsed semantic-release version: $SEMVER_VERSION"
-
-          # # Set GitHub Action output
-          # echo "semantic-release-version=$SEMVER_VERSION" >> $GITHUB_OUTPUT
-
-          # # Check if SEMVER_VERSION is empty and echo the message if so
-          # if [ -z "$SEMVER_VERSION" ]; then
-            # echo "Changes do not warrant a version change. gh_pages and packages won't be updated."
-          # fi
-          # set -e
-    
-
-    
+         
   build-telblazor-package-and-publish:
     needs: [generate-semantic-version]
     runs-on: ubuntu-latest
