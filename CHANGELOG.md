@@ -1,3 +1,10 @@
+# [1.15.0](https://github.com/TechnologyEnhancedLearning/TELBlazor/compare/v1.14.0...v1.15.0) (2025-08-21)
+
+
+### Features
+
+* **trigger bump:** need to see a version increment ([1fbdeaa](https://github.com/TechnologyEnhancedLearning/TELBlazor/commit/1fbdeaa7f64305b1c1e20a14a3c2613f05514fad))
+
 # [1.14.0](https://github.com/TechnologyEnhancedLearning/TELBlazor/compare/v1.13.0...v1.14.0) (2025-08-21)
 
 
