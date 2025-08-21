@@ -349,7 +349,6 @@ jobs:
           # Echo the artifact URL to confirm
           echo "Artifact URL: $ARTIFACT_URL"
           echo "artifact_url=$ARTIFACT_URL" >> $GITHUB_ENV
-          
 
       - name: Trigger workflow in TELBlazor-DevShowCase repo
         run: |

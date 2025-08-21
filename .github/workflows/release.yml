@@ -85,7 +85,6 @@ jobs:
             exit 1
           fi
           
-
           # 0 not exclusively due to no version bump so check output
           # if [ "${STATUS:-0}" -ne 0 ]; then
             # echo "Status code is not 0"
