@@ -62,6 +62,7 @@ namespace TELBlazor.Components.ShowCase.E2ETests.Pages.BaseComponentPages
             // await page.WaitForSelectorAsync("button");
             await page.GetByRole(AriaRole.Button, new() { Name = "Click Counter" }).WaitForAsync();
             ILocator button = page.GetByRole(AriaRole.Button, new() { Name = "Click Counter" });
+            await button.WaitForAsync(new() { State = WaitForSelectorState.Visible });
 
             AxeResult axeResults = await button.RunAxe();
 

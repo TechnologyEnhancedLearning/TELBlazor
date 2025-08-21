@@ -10,6 +10,38 @@
 	<Configurations>Debug;Release;ci</Configurations>
   </PropertyGroup>
 	
+  <!--Release optimisations-->
+  <PropertyGroup Condition="'$(Configuration)'=='Release'">
+	  <!-- Trims unused code to reduce size. Can break reflection/serialization. -->
+	  <PublishTrimmed>true</PublishTrimmed>
+
+
+	  <!--
+    Trim culture-specific resources to reduce WASM download size.
+    Current reasoning: Our app only targets invariant formatting (no multi-culture UI).
+    Trade-off: Any culture-specific number, date, or currency formatting will not work.
+    Remove if your app needs localized formatting.
+  -->
+	  <InvariantGlobalization>true</InvariantGlobalization>
+
+	  <!--
+    Trim timezone support to reduce WASM size.
+    Current reasoning: Our app only uses UTC or fixed offsets; we don't need full client-side timezone info.
+    Trade-off: Client-side timezone conversions will not work.
+    Remove if your app displays local time or uses time zone conversions.
+  -->
+	  <InvariantTimeZone>true</InvariantTimeZone>
+	  <BlazorEnableTimeZoneSupport>false</BlazorEnableTimeZoneSupport>
+
+	  <!--
+    Strip collation data for different cultures.
+    Current reasoning: Only invariant string comparisons/sorting are needed, reducing payload size.
+    Trade-off: String comparison may behave differently across cultures; e.g., sorting might be incorrect for localized strings.
+    Remove if your app relies on culturally correct string comparisons/sorting.
+  -->
+	  <BlazorWebAssemblyPreserveCollationData>false</BlazorWebAssemblyPreserveCollationData>
+  </PropertyGroup>
+	
   <Target Name="AddNoJekyllForGitHubPagesDeployment" AfterTargets="Publish">
 	<Touch Files="$(PublishDir).nojekyll" AlwaysCreate="true" />
   </Target>

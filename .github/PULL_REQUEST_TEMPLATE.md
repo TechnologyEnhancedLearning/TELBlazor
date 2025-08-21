@@ -25,6 +25,29 @@ _Paste screenshots for all views created or changed: mobile, tablet and desktop,
 ### Logging
 _Provide description of any component scoped logging or specific level logging to check
 
+### Size Optimisation
+_Provide wasm size comparison between prod and dev showcases, does it exceed 8Mb
+- Network tab in Chrome
+- Disable cache
+- reload
+- filter wasm dll js dotnet.wasm, blazor.webassembly.js, TELBlazor.dll
+- if using compression check .br or .gz (if Content-Encoding: br or gz is in headers)
+- Sum up
+
+| Measure | [Dev](https://technologyenhancedlearning.github.io/TELBlazor-DevShowCase/) Value  | [Prod](https://technologyenhancedlearning.github.io/TELBlazor/) Value | Difference | Notes |
+|----------|--------------------------------------------------------------------------|----------------------------------------------------------------------|-------|-------|
+|   Load Size   | X.X MB                          |       |
+|   Lighthouse Accessibility Score  | Y.Y MB                          |       |
+| Difference |   |  |
+
+
+-----
+### Recommended Prepipeline steps
+These test are run by the pipeline but running them locally can be convenient to see issues early or to debug issues seen in the pipeline locally.
+- Run against release configuration by select release configuration at the the top of solution explorer (to check against optimisation such as tree shaking for example)
+	- clean rebuild the solution
+	- run tests against release
+
 -----
 ### Developer checks
 (Leave tasks unticked if they haven't been appropriate for your ticket.)
@@ -43,8 +66,10 @@ I have:
 - [ ] Updated my Jira ticket with testing notes, including information about other parts of the system that were touched as part of the PR and need  to be tested to ensure nothing is broken
 - [ ] Tested in [Dev Showcase](https://technologyenhancedlearning.github.io/TELBlazor-DevShowCase/) (including logging by using log level switcher)
 - [ ] Scanned over my pull request and commented with any useful explanations/questions to reviewers
-- [ ] Scanned over cicd warnings
-
+- [ ] Scanned over cicd warnings relating to the component or area of code I have worked on (give the general ones a look too but antyhing in OptionalImplementations/Test can be ignored)
+- [ ] Maybe? Audit NuGet packages; use lightweight ones (e.g., System.Text.Json); ensure third-party components support trimming.
+- [ ] Scanned in visual studio build info messages about improving code for new code
+- [ ] 
 ---
 ### Peer Reviewers and Assignee checks before Approval
 - [ ] Feedback has been provided

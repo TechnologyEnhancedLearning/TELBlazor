@@ -13,22 +13,14 @@ namespace TELBlazor.Components.ShowCase.E2ETests.Helpers
 
         public static async Task<IBrowserContext> CreateBrowserContextAsync(IPlaywright playwright, string browserType, bool jsEnabled, ViewportType viewport, string baseUrl)
         {
-            IBrowser browser;
 
-            switch (browserType.ToLower())
+            IBrowser browser = browserType.ToLower() switch
             {
-                case "chromium":
-                    browser = await playwright.Chromium.LaunchAsync(new BrowserTypeLaunchOptions {  });
-                    break;
-                case "firefox":
-                    browser = await playwright.Firefox.LaunchAsync(new BrowserTypeLaunchOptions {  });
-                    break;
-                case "webkit":
-                    browser = await playwright.Webkit.LaunchAsync(new BrowserTypeLaunchOptions { });
-                    break;
-                default:
-                    throw new ArgumentException($"Unsupported browser type: {browserType}");
-            }
+                "chromium" => await playwright.Chromium.LaunchAsync(new BrowserTypeLaunchOptions { }),
+                "firefox" => await playwright.Firefox.LaunchAsync(new BrowserTypeLaunchOptions { }),
+                "webkit" => await playwright.Webkit.LaunchAsync(new BrowserTypeLaunchOptions { }),
+                _ => throw new ArgumentException($"Unsupported browser type: {browserType}")
+            };
 
 
             BrowserNewContextOptions contextOptions = new BrowserNewContextOptions
@@ -42,7 +34,6 @@ namespace TELBlazor.Components.ShowCase.E2ETests.Helpers
             IBrowserContext context = await browser.NewContextAsync(contextOptions);
 
             return context;
-
         }
 
     }

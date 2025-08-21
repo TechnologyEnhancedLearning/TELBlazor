@@ -91,19 +91,22 @@ the ability to produce static prerendered html. The prerendered html is written 
 		  --password $env:TEL_GIT_PACKAGES_TOKEN `
 		  --store-password-in-clear-text
 
-		# 3. Restore .NET CLI tools (Playwright, report manager for code coverage)
+		#3. Install wasm-tools this allows delinking so we can have smalled wasm files producted by client projects consuming the Package. Specifying nuget to stop azure package issues.
+		dotnet workload install wasm-tools --skip-manifest-update --source https://api.nuget.org/v3/index.json
+
+		# 4. Restore .NET CLI tools (Playwright, report manager for code coverage)
 		Write-Output "Restore Tools"
 		dotnet tool restore
 
-		# 4. Install Node dependencies (gulp, playwright, frontend libs)
+		# 5. Install Node dependencies (gulp, playwright, frontend libs)
 		Write-Output "Restore Node"
 		npm install
 		
-		# 5. Build solution or run other commands as needed
+		# 6. Build solution or run other commands as needed
 		Write-Output "Build solution without build package, using project references instead of local package or remote package"
 		dotnet build
 		
-		# 6. Setup playwright
+		# . Setup playwright
 		Write-Output "Playwright setup"
 		& ".\TELBlazor.Components.ShowCase.E2ETests\bin\Debug\net8.0\playwright.ps1" install
 	```
@@ -334,6 +337,8 @@ recommend tool it is designed for though both support the others tool.
    - e.g. data-attribute-telblazorcomponentname="TelBlazorButton"
 - not using guid id as i have elsewhere either [Parameter] public string ElementId { get; set; } = $"tel-button-{Guid.NewGuid():N}";
 - various things have been cut from mvcblazor so it is worth returning to for potential solutions if developing this solution [MVCBlazor repo](https://github.com/TechnologyEnhancedLearning/MVCBlazor)
+
+#### Compression
 
 
 # Project Structure and Comments
