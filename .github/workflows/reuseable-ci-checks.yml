@@ -79,8 +79,6 @@ jobs:
         - name: Replace local environment variable in nuget config because cant provide it as a parameter
           run: |
             sed -i "s|%TEL_BLAZOR_PACKAGE_SOURCE%|$LOCAL_PACKAGES_PATH|g" nuget.config
-            # sed -i "s|%GITHUB_USERNAME%|$GITHUB_USERNAME|g" nuget.config
-            # sed -i "s|%TEL_GIT_PACKAGES_TOKEN%|$TEL_GIT_PACKAGES_TOKEN|g" nuget.config
           
         - name: Create appsettings development from secrets
           run: |
@@ -111,8 +109,10 @@ jobs:
             node-version: '20'
     
         - name: Install npm packages so we have gulp for retrieving TEL Frontend Css
-         # working-directory: ./TELBlazor.Components
-          run: npm ci   
+          run: npm ci
+
+        - name: Install wasm-tools workload (wasm-tools used for delinking so can test against optimised client wasm using TELBlazor package)
+          run: dotnet workload install wasm-tools --skip-manifest-update --source https://api.nuget.org/v3/index.json          
           
         - name: Build and create package locally
           run: |
@@ -233,8 +233,10 @@ jobs:
             
           - name: Install ReportGenerator
             run: dotnet tool restore
+            
+          - name: Install wasm-tools workload (wasm-tools used for delinking so can test against optimised client wasm using TELBlazor package)
+            run: dotnet workload install wasm-tools --skip-manifest-update --source https://api.nuget.org/v3/index.json
 
-      
           - name: Build and create package locally
             run: |
               dotnet build TELBlazor.Components -c Release \
