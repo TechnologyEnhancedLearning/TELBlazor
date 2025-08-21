@@ -200,8 +200,6 @@ jobs:
           - name: Replace local environment variable in nuget config because cant provide it as a parameter
             run: |
               sed -i "s|%TEL_BLAZOR_PACKAGE_SOURCE%|$LOCAL_PACKAGES_PATH|g" nuget.config
-            # sed -i "s|%GITHUB_USERNAME%|$GITHUB_USERNAME|g" nuget.config
-            # sed -i "s|%TEL_GIT_PACKAGES_TOKEN%|$TEL_GIT_PACKAGES_TOKEN|g" nuget.config
        
           - name: Clean lock files because the newly generated package file will superseed the locks
             run: |
@@ -239,7 +237,7 @@ jobs:
       
           - name: Build and create package locally
             run: |
-              dotnet build TELBlazor.Components -c Debug \
+              dotnet build TELBlazor.Components -c Release \
                 /p:TELBlazorPackageVersion=$TELBLAZOR_PACKAGE_VERSION \
                 /p:NugetPackagesOutputPath=$NUGET_PACKAGES_OUTPUT_PATH \
                 /p:UseTELBlazorComponentsProjectReference=$USE_TEL_BLAZOR_COMPONENTS_PROJECT_REFERENCE \
@@ -247,7 +245,7 @@ jobs:
               
           - name: Build solution without generating new package
             run: |
-              dotnet build TELBlazor.sln -c Debug \
+              dotnet build TELBlazor.sln -c Release \
                 /p:TELBlazorPackageVersion=$TELBLAZOR_PACKAGE_VERSION \
                 /p:NugetPackagesOutputPath=$NUGET_PACKAGES_OUTPUT_PATH \
                 /p:UseTELBlazorComponentsProjectReference=$USE_TEL_BLAZOR_COMPONENTS_PROJECT_REFERENCE \
@@ -255,13 +253,13 @@ jobs:
                 
               
           - name: Ensure browsers are installed
-            run: pwsh TELBlazor.Components.ShowCase.E2ETests/bin/Debug/net8.0/playwright.ps1 install --with-deps  
+            run: pwsh TELBlazor.Components.ShowCase.E2ETests/bin/Release/net8.0/playwright.ps1 install --with-deps  
 
 
           - name: Run tests with coverage threshold check
             id: unit_e2e_tests
             run: |
-              dotnet test --no-build --no-restore \
+              dotnet test --no-build --no-restore -c Release \
                 /p:TELBlazorPackageVersion=$TELBLAZOR_PACKAGE_VERSION \
                 /p:NugetPackagesOutputPath=$NUGET_PACKAGES_OUTPUT_PATH \
                 /p:UseTELBlazorComponentsProjectReference=$USE_TEL_BLAZOR_COMPONENTS_PROJECT_REFERENCE \

@@ -204,10 +204,14 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20'
+          
     
       - name: Install npm packages so we have gulp for retrieving TEL Frontend Css
         run: npm ci
         #CI is an install that adheres to package-lock
+        
+      - name: Install wasm-tools workload (wasm-tools used for delinking so can test against optimised client wasm using TELBlazor package)
+        run: dotnet workload install wasm-tools --skip-manifest-update --source https://api.nuget.org/v3/index.json  
       
       - name: Build TELBlazor.Components (it publishes on build)
         run: |
@@ -301,6 +305,9 @@ jobs:
     
       - name: Install npm packages so we have gulp for retrieving TEL Frontend Css
         run: npm ci   
+        
+      - name: Install wasm-tools workload (wasm-tools used for delinking so can test against optimised client wasm using TELBlazor package)
+        run: dotnet workload install wasm-tools --skip-manifest-update --source https://api.nuget.org/v3/index.json  
 
       - name: Build solution without generating new package
         run: |
