@@ -25,28 +25,64 @@ _Paste screenshots for all views created or changed: mobile, tablet and desktop,
 ### Logging
 _Provide description of any component scoped logging or specific level logging to check
 
-### Size Optimisation
-_Provide wasm size comparison between prod and dev showcases, does it exceed 8Mb
-- Network tab in Chrome
-- Disable cache
-- reload
-- filter wasm dll js dotnet.wasm, blazor.webassembly.js, TELBlazor.dll
-- if using compression check .br or .gz (if Content-Encoding: br or gz is in headers)
-- Sum up
+### Performance comparison
 
-| Measure | [Dev](https://technologyenhancedlearning.github.io/TELBlazor-DevShowCase/) Value  | [Prod](https://technologyenhancedlearning.github.io/TELBlazor/) Value | Difference | Notes |
-|----------|--------------------------------------------------------------------------|----------------------------------------------------------------------|-------|-------|
-|   Load Size   | X.X MB                          |       |
-|   Lighthouse Accessibility Score  | Y.Y MB                          |       |
-| Difference |   |  |
+Complete the below comparison table to check for any concerning changes in performance.
 
+Use **Incognito** mode and **disable cache** in the Network tab to get a cold load comparison.
 
------
-### Recommended Prepipeline steps
-These test are run by the pipeline but running them locally can be convenient to see issues early or to debug issues seen in the pipeline locally.
-- Run against release configuration by select release configuration at the the top of solution explorer (to check against optimisation such as tree shaking for example)
-	- clean rebuild the solution
-	- run tests against release
+**Lighthouse**
+
+1. Open the Developer Tools (F12 or Ctrl+Shift+I).
+2. Go to the **Lighthouse** tab.
+3. Deselect the "SEO" category.
+4. Select "Desktop" for the device.
+5. Choose "Navigation (Analyze page load)".
+6. Click "Analyze page load" and wait for the results.
+
+Here's an example of what to look for and compare:
+
+* **First Contentful Paint**: The time it takes for the first text or image to appear. A lower value is better.
+* **Speed Index**: How quickly content is visually displayed during page load. A lower value is better.
+* **Largest Contentful Paint**: The time it takes for the largest content element to be rendered. A lower value is better.
+* **Total Blocking Time**: The total amount of time between First Contentful Paint and Time to Interactive where the main thread was blocked for long enough to prevent input responsiveness. A lower value is better.
+
+**Network**
+
+1. Go to the **Network** tab.
+2. Ensure **"Disable cache"** is checked.
+3. **Clear** the log.
+4. **Preserve log** can be checked to maintain a history of requests.
+5. Perform a hard reload (Ctrl+Shift+R or Cmd+Shift+R).
+6. Copy and paste the bottom line of the log to get the following metrics:
+
+* **Requests**: The total number of requests made.
+* **Transferred**: The compressed size of all transferred resources.
+* **Resources**: The total uncompressed size of all resources.
+* **Finish**: The time from the request initiation to the completion of the last response.
+
+You can also use the `.wasm` filter in the Network tab to inspect the sizes of individual WebAssembly files.
+
+---
+
+### Comparison Table
+
+Please fill in the table below with the values from both the Dev and Prod environments.
+*or just check the values if its quicker and make sure to highlight anything concerning*
+| Measure | [Dev Showcase](https://technologyenhancedlearning.github.io/TELBlazor-DevShowCase/) | [Prod](https://technologyenhancedlearning.github.io/TELBlazor/) | Notes (E.g. Significant change) |
+| :--- | :--- | :--- | :--- |
+| **Lighthouse Performance Score** | | | |
+| **Lighthouse Accessibility Score** | | | |
+| **Lighthouse Best Practices Score** | | | |
+| **First Contentful Paint** | | | |
+| **Speed Index** | | | |
+| **Total Blocking Time** | | | |
+| **Largest Contentful Paint** | | | |
+| **Transferred (Cold Load Payload)** | | | |
+| **Resources (Full App Weight)** | | | |
+| **Requests** | | | |
+| **Finish Time** | | | |
+
 
 -----
 ### Developer checks
