@@ -145,15 +145,45 @@ jobs:
             #BRANCH_NAME="${GITHUB_HEAD_REF}"
             BRANCH_NAME="${GITHUB_HEAD_REF:-${GITHUB_REF_NAME}}"
             echo "Validating branch name: $BRANCH_NAME"
+            
+            # Read allowed branch patterns from .releaserc.json
+            ALLOWED_BRANCHES=$(jq -r '.branches[].name' .releaserc.json)
 
-            if [[ "$BRANCH_NAME" =~ ^(build|chore|ci|docs|feat|fix|perf|refactor|revert|style|test|sample|security|config|bugfix|hotfix)-[a-zA-Z0-9._/-]+$ ]] || [[ "$BRANCH_NAME" == "master" ]]; then
+            VALID=false
+            for pattern in $ALLOWED_BRANCHES; do
+              # Convert wildcard * into regex
+              REGEX="^${pattern//\*/.*}$"
+              if [[ "$BRANCH_NAME" =~ $REGEX ]]; then
+                VALID=true
+                break
+              fi
+            done
+            
+            # Always allow dependabot branches for CI
+            # Semver will ignore the branch but will bump the collected dependabot changes branch
+            if [[ "$BRANCH_NAME" =~ ^dependabot/ ]]; then
+              echo "✅ Branch is a dependabot branch its not for release or versioning but for merging into the dependabot collection branch"
+              VALID=true
+            fi
+
+            if [ "$VALID" = true ]; then
               echo "✅ Branch name is valid"
             else
               echo "❌ Invalid branch name: $BRANCH_NAME"
-              echo "Branch names must follow one of the allowed prefixes:"
-              echo "   build-*, feat-*, fix-*, bugfix-*, hotfix-*, build-*, chore-*, ci-*, docs-*, perf-*, refactor-*, revert-*, style-*, test-*, sample-*, security-*, config-*, bugfix-*, hotfix-*"
+              echo "Allowed branch patterns:"
+              echo "$ALLOWED_BRANCHES"
               exit 1
             fi
+        
+            # qqqq drop
+            # if [[ "$BRANCH_NAME" =~ ^(build|chore|ci|docs|feat|fix|perf|refactor|revert|style|test|sample|security|config|bugfix|hotfix)-[a-zA-Z0-9._/-]+$ ]] || [[ "$BRANCH_NAME" == "master" ]]; then
+              # echo "✅ Branch name is valid"
+            # else
+              # echo "❌ Invalid branch name: $BRANCH_NAME"
+              # echo "Branch names must follow one of the allowed prefixes:"
+              # echo "   build-*, feat-*, fix-*, bugfix-*, hotfix-*, build-*, chore-*, ci-*, docs-*, perf-*, refactor-*, revert-*, style-*, test-*, sample-*, security-*, config-*, bugfix-*, hotfix-*"
+              # exit 1
+            # fi
   
 
     reuseable-ci-checks-commitlint:
