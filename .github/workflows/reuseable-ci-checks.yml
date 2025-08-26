@@ -139,12 +139,18 @@ jobs:
       outputs:
         status: ${{ job.status }}
       runs-on: ubuntu-latest
+      
+      # Checkout so can get access to the file
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
       steps:
         - name: Validate Branch Name
           run: |
             echo "📂 GITHUB_WORKSPACE is: $GITHUB_WORKSPACE"
             echo "📂 Current working directory is: $(pwd)"
             echo "📂 Listing files in current dir:"
+            ls
             ls -alh
             echo "📂 Listing files in workspace root:"
             ls -alh "$GITHUB_WORKSPACE"
