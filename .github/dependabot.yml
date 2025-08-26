@@ -7,6 +7,9 @@ updates:
     open-pull-requests-limit: 100
     target-branch: "Automatic_version_update_dependabot"  
     rebase-strategy: "auto"
+    ignore:
+      # The cicd for TELBlazor manages the version to consume for showcase consuming the package
+      - dependency-name: "TELBlazor.Components"
     
   - package-ecosystem: "npm"
     directory: "/"
