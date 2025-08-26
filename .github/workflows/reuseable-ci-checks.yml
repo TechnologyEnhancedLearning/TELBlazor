@@ -147,7 +147,7 @@ jobs:
             echo "Validating branch name: $BRANCH_NAME"
             
             # Read allowed branch patterns from .releaserc.json
-            ALLOWED_BRANCHES=$(jq -r '.branches[].name' .releaserc.json)
+            ALLOWED_BRANCHES=$(jq -r '.branches[].name' "$GITHUB_WORKSPACE/.releaserc.json)
 
             VALID=false
             for pattern in $ALLOWED_BRANCHES; do
