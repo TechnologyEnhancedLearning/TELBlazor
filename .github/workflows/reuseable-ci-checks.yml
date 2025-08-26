@@ -43,6 +43,7 @@ env:
   # Nuget Set Up
   NUGET_PACKAGES_OUTPUT_PATH: ${{ github.workspace }}/CICDPackageLocation
   LOCAL_PACKAGES_PATH: ${{ github.workspace }}/CICDPackageLocation
+  GITHUB_USERNAME: "Phil-NHS"
 
   # Build Set Up
   # May need coverlet.collector xplat if using the packaged version to test
@@ -79,6 +80,8 @@ jobs:
         - name: Replace local environment variable in nuget config because cant provide it as a parameter
           run: |
             sed -i "s|%TEL_BLAZOR_PACKAGE_SOURCE%|$LOCAL_PACKAGES_PATH|g" nuget.config
+            sed -i "s|%GITHUB_USERNAME%|$GITHUB_USERNAME|g" nuget.config
+            sed -i "s|%TEL_GIT_PACKAGES_TOKEN%|$TEL_GIT_PACKAGES_TOKEN|g" nuget.config
           
         - name: Create appsettings development from secrets
           run: |
@@ -139,21 +142,61 @@ jobs:
       outputs:
         status: ${{ job.status }}
       runs-on: ubuntu-latest
+      
+
+      
       steps:
+        # Checkout so can get access to the file
+        - name: Checkout repository
+          uses: actions/checkout@v4
+      
         - name: Validate Branch Name
           run: |
+            
             #BRANCH_NAME="${GITHUB_HEAD_REF}"
             BRANCH_NAME="${GITHUB_HEAD_REF:-${GITHUB_REF_NAME}}"
             echo "Validating branch name: $BRANCH_NAME"
+            
+            # Read allowed branch patterns from .releaserc.json
+            RELEASERC_PATH="${{ github.workspace }}/.releaserc.json"
+            echo "Using releaserc at: $RELEASERC_PATH"
+            ALLOWED_BRANCHES=$(jq -r '.branches[].name' $RELEASERC_PATH)
 
-            if [[ "$BRANCH_NAME" =~ ^(build|chore|ci|docs|feat|fix|perf|refactor|revert|style|test|sample|security|config|bugfix|hotfix)-[a-zA-Z0-9._/-]+$ ]] || [[ "$BRANCH_NAME" == "master" ]]; then
+            VALID=false
+            for pattern in $ALLOWED_BRANCHES; do
+              # Convert wildcard * into regex
+              REGEX="^${pattern//\*/.*}$"
+              if [[ "$BRANCH_NAME" =~ $REGEX ]]; then
+                VALID=true
+                break
+              fi
+            done
+            
+            # Always allow dependabot branches for CI
+            # Semver will ignore the branch but will bump the collected dependabot changes branch
+            if [[ "$BRANCH_NAME" =~ ^dependabot/ ]]; then
+              echo "✅ Branch is a dependabot branch its not for release or versioning but for merging into the dependabot collection branch"
+              VALID=true
+            fi
+
+            if [ "$VALID" = true ]; then
               echo "✅ Branch name is valid"
             else
               echo "❌ Invalid branch name: $BRANCH_NAME"
-              echo "Branch names must follow one of the allowed prefixes:"
-              echo "   build-*, feat-*, fix-*, bugfix-*, hotfix-*, build-*, chore-*, ci-*, docs-*, perf-*, refactor-*, revert-*, style-*, test-*, sample-*, security-*, config-*, bugfix-*, hotfix-*"
+              echo "Allowed branch patterns:"
+              echo "$ALLOWED_BRANCHES"
               exit 1
             fi
+        
+            # qqqq drop
+            # if [[ "$BRANCH_NAME" =~ ^(build|chore|ci|docs|feat|fix|perf|refactor|revert|style|test|sample|security|config|bugfix|hotfix)-[a-zA-Z0-9._/-]+$ ]] || [[ "$BRANCH_NAME" == "master" ]]; then
+              # echo "✅ Branch name is valid"
+            # else
+              # echo "❌ Invalid branch name: $BRANCH_NAME"
+              # echo "Branch names must follow one of the allowed prefixes:"
+              # echo "   build-*, feat-*, fix-*, bugfix-*, hotfix-*, build-*, chore-*, ci-*, docs-*, perf-*, refactor-*, revert-*, style-*, test-*, sample-*, security-*, config-*, bugfix-*, hotfix-*"
+              # exit 1
+            # fi
   
 
     reuseable-ci-checks-commitlint:
@@ -200,6 +243,8 @@ jobs:
           - name: Replace local environment variable in nuget config because cant provide it as a parameter
             run: |
               sed -i "s|%TEL_BLAZOR_PACKAGE_SOURCE%|$LOCAL_PACKAGES_PATH|g" nuget.config
+              sed -i "s|%GITHUB_USERNAME%|$GITHUB_USERNAME|g" nuget.config
+              sed -i "s|%TEL_GIT_PACKAGES_TOKEN%|$TEL_GIT_PACKAGES_TOKEN|g" nuget.config
        
           - name: Clean lock files because the newly generated package file will superseed the locks
             run: |

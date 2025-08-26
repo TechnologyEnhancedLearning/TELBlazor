@@ -6,6 +6,7 @@ updates:
       interval: "daily"
     open-pull-requests-limit: 100
     target-branch: "Automatic_version_update_dependabot"  
+    rebase-strategy: "auto"
     
   - package-ecosystem: "npm"
     directory: "/"
@@ -13,5 +14,4 @@ updates:
       interval: "daily"
     open-pull-requests-limit: 100
     target-branch: "Automatic_version_update_dependabot"
-
-
+    rebase-strategy: "auto"
