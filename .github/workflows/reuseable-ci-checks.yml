@@ -43,6 +43,7 @@ env:
   # Nuget Set Up
   NUGET_PACKAGES_OUTPUT_PATH: ${{ github.workspace }}/CICDPackageLocation
   LOCAL_PACKAGES_PATH: ${{ github.workspace }}/CICDPackageLocation
+  GITHUB_USERNAME: "Phil-NHS"
 
   # Build Set Up
   # May need coverlet.collector xplat if using the packaged version to test
@@ -79,6 +80,8 @@ jobs:
         - name: Replace local environment variable in nuget config because cant provide it as a parameter
           run: |
             sed -i "s|%TEL_BLAZOR_PACKAGE_SOURCE%|$LOCAL_PACKAGES_PATH|g" nuget.config
+            sed -i "s|%GITHUB_USERNAME%|$GITHUB_USERNAME|g" nuget.config
+            sed -i "s|%TEL_GIT_PACKAGES_TOKEN%|$TEL_GIT_PACKAGES_TOKEN|g" nuget.config
           
         - name: Create appsettings development from secrets
           run: |
@@ -149,22 +152,12 @@ jobs:
       
         - name: Validate Branch Name
           run: |
-            echo "📂 GITHUB_WORKSPACE is: $GITHUB_WORKSPACE"
-            echo "📂 Current working directory is: $(pwd)"
-            echo "📂 Listing files in current dir:"
-            ls
-            ls -alh
-            echo "📂 Listing files in workspace root:"
-            ls -alh "$GITHUB_WORKSPACE"
             
             #BRANCH_NAME="${GITHUB_HEAD_REF}"
             BRANCH_NAME="${GITHUB_HEAD_REF:-${GITHUB_REF_NAME}}"
             echo "Validating branch name: $BRANCH_NAME"
             
             # Read allowed branch patterns from .releaserc.json
-            
-   
-            
             RELEASERC_PATH="${{ github.workspace }}/.releaserc.json"
             echo "Using releaserc at: $RELEASERC_PATH"
             ALLOWED_BRANCHES=$(jq -r '.branches[].name' $RELEASERC_PATH)
@@ -250,6 +243,8 @@ jobs:
           - name: Replace local environment variable in nuget config because cant provide it as a parameter
             run: |
               sed -i "s|%TEL_BLAZOR_PACKAGE_SOURCE%|$LOCAL_PACKAGES_PATH|g" nuget.config
+              sed -i "s|%GITHUB_USERNAME%|$GITHUB_USERNAME|g" nuget.config
+              sed -i "s|%TEL_GIT_PACKAGES_TOKEN%|$TEL_GIT_PACKAGES_TOKEN|g" nuget.config
        
           - name: Clean lock files because the newly generated package file will superseed the locks
             run: |
