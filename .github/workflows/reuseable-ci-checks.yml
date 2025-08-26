@@ -140,11 +140,13 @@ jobs:
         status: ${{ job.status }}
       runs-on: ubuntu-latest
       
-      # Checkout so can get access to the file
-      - name: Checkout repository
-        uses: actions/checkout@v4
+
       
       steps:
+        # Checkout so can get access to the file
+        - name: Checkout repository
+          uses: actions/checkout@v4
+      
         - name: Validate Branch Name
           run: |
             echo "📂 GITHUB_WORKSPACE is: $GITHUB_WORKSPACE"
