@@ -142,12 +142,24 @@ jobs:
       steps:
         - name: Validate Branch Name
           run: |
+            echo "📂 GITHUB_WORKSPACE is: $GITHUB_WORKSPACE"
+            echo "📂 Current working directory is: $(pwd)"
+            echo "📂 Listing files in current dir:"
+            ls -alh
+            echo "📂 Listing files in workspace root:"
+            ls -alh "$GITHUB_WORKSPACE"
+            
             #BRANCH_NAME="${GITHUB_HEAD_REF}"
             BRANCH_NAME="${GITHUB_HEAD_REF:-${GITHUB_REF_NAME}}"
             echo "Validating branch name: $BRANCH_NAME"
             
             # Read allowed branch patterns from .releaserc.json
-            ALLOWED_BRANCHES=$(jq -r '.branches[].name' "$GITHUB_WORKSPACE/.releaserc.json")
+            
+   
+            
+            RELEASERC_PATH="${{ github.workspace }}/.releaserc.json"
+            echo "Using releaserc at: $RELEASERC_PATH"
+            ALLOWED_BRANCHES=$(jq -r '.branches[].name' $RELEASERC_PATH)
 
             VALID=false
             for pattern in $ALLOWED_BRANCHES; do
