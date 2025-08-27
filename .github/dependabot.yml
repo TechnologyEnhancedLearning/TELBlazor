@@ -7,8 +7,11 @@ registries:
     type: nuget-feed
     # Dependabot needs access before it ignores, so still need to access TELBlazor despite ignoring it
     url: https://nuget.pkg.github.com/TechnologyEnhancedLearning/index.json
-    username: kevwhitt-hee
-    password: ${{ secrets.DEPENDABOT_GIT_PACKAGES_TOKEN }}
+    # not expected to work
+    username: Phil-NHS
+    password: ${{ secrets.NUGETKEY }}
+    ## username: kevwhitt-hee
+    ## password: ${{ secrets.DEPENDABOT_GIT_PACKAGES_TOKEN }}
     ## username: "kevin.whittaker"
     ## qqqq del
     ##     username: "kevin.whittaker" 
