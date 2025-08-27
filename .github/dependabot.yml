@@ -7,8 +7,7 @@ registries:
     type: nuget-feed
     url: https://nuget.pkg.github.com/TechnologyEnhancedLearning/index.json
     username: "kevin.whittaker" 
-    # Hoping this has the permissions
-    password: ${{ secrets.AZURE_DEVOPS_PAT }}
+    password: ${{ secrets.DEPENDABOT_GIT_PACKAGES_TOKEN }}
     
     # # Though we ignore the feed it will still need to know about it
     # # dependabot is more restrictive it needs a better key
