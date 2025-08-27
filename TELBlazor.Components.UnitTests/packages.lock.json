@@ -56,9 +56,9 @@
       },
       "Serilog": {
         "type": "Direct",
-        "requested": "[4.2.0, )",
-        "resolved": "4.2.0",
-        "contentHash": "gmoWVOvKgbME8TYR+gwMf7osROiWAURterc6Rt2dQyX7wtjZYpqFiA/pY6ztjGQKKV62GGCyOcmtP1UKMHgSmA=="
+        "requested": "[4.3.0, )",
+        "resolved": "4.3.0",
+        "contentHash": "+cDryFR0GRhsGOnZSKwaDzRRl4MupvJ42FhCE4zhQRVanX0Jpg6WuCBk59OVhVDPmab1bB+nRykAnykYELA9qQ=="
       },
       "Serilog.Expressions": {
         "type": "Direct",
@@ -111,20 +111,20 @@
       },
       "Serilog.Sinks.InMemory": {
         "type": "Direct",
-        "requested": "[0.14.0, )",
-        "resolved": "0.14.0",
-        "contentHash": "6xsQEkx1ZlH19/6id6rNTZyi5cXghji/NJke+Uu3GP9LlY28+RmR7C4kKWtvoH55eXVsZdLQz5j4uCaT+ceaRA==",
+        "requested": "[2.0.0, )",
+        "resolved": "2.0.0",
+        "contentHash": "4BbZBd8OBiMnNg4jFQ3YSC5CO0NaA1GBGwvI1Scoeq9zxZ8vQ6q2YLQuR3ndc0YzCfME2jtV8/IgvB5UaKGwGw==",
         "dependencies": {
-          "Serilog": "2.12.0"
+          "Serilog": "4.3.0"
         }
       },
       "Serilog.Sinks.InMemory.Assertions": {
         "type": "Direct",
-        "requested": "[0.14.0, )",
-        "resolved": "0.14.0",
-        "contentHash": "1Glb4GQyIsnxGO0u/P+jIkm6x6YKjvGOIOtG5zb8OX3XUJxjyrti7iojYEWSaCzXKchwSvuYdRb494Flfo5oYw==",
+        "requested": "[2.0.0, )",
+        "resolved": "2.0.0",
+        "contentHash": "sBSwTODz/hbSzHKgF5dwrrVLKqXHtzTGVL4GAtqG3n+7rCzrZwtV3VGteGAl5WkK2Vz2QzXx+R9s5Y0HJirkGA==",
         "dependencies": {
-          "Serilog.Sinks.InMemory": "0.14.0"
+          "Serilog.Sinks.InMemory": "2.0.0"
         }
       },
       "Serilog.Sinks.XUnit": {
@@ -137,6 +137,16 @@
           "Serilog": "2.9.0",
           "xunit.abstractions": "2.0.3",
           "xunit.core": "2.4.1"
+        }
+      },
+      "TELBlazor.Components": {
+        "type": "Direct",
+        "requested": "(, )",
+        "resolved": "1.0.0",
+        "contentHash": "mkjzSgfupUrrAp57hk/4MOkFZwJRgw8a5oYhjotD0/NyPBhUPZ51z0G2Zd9owZ+CruScSmRngAvBiBAMJS7HCw==",
+        "dependencies": {
+          "Microsoft.AspNetCore.Components.Web": "8.0.14",
+          "Microsoft.Extensions.Http": "8.0.0"
         }
       },
       "xunit": {
@@ -1664,24 +1674,6 @@
         "contentHash": "5ZTQZvmPLlBw6QzCOwM0KnMsZw6eGjbmC176QHZlcbQoMhGIeGcYzYwn5w9yXxf+4phtplMuVqTpTbFDQh2bqQ==",
         "dependencies": {
           "xunit.extensibility.core": "[2.9.0]"
-        }
-      },
-      "telblazor.components": {
-        "type": "Project",
-        "dependencies": {
-          "Blazored.LocalStorage": "[4.5.0, )",
-          "Microsoft.AspNetCore.Components.Web": "[8.0.14, )",
-          "Microsoft.Extensions.Http": "[8.0.1, )",
-          "Serilog": "[4.2.0, )"
-        }
-      },
-      "Blazored.LocalStorage": {
-        "type": "CentralTransitive",
-        "requested": "[4.5.0, )",
-        "resolved": "4.5.0",
-        "contentHash": "6nZuJwA7zNIKx83IsObiHXZb09ponJOpCClU3en+hI8ZFvrOKXeOw+H7TegQZQrvdR1n9fkrVkEBQZg8vx6ZTw==",
-        "dependencies": {
-          "Microsoft.AspNetCore.Components.Web": "8.0.0"
         }
       },
       "Microsoft.AspNetCore.Components.Web": {
