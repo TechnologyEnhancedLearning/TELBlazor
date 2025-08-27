@@ -9,7 +9,9 @@ registries:
     url: https://nuget.pkg.github.com/TechnologyEnhancedLearning/index.json
     # not expected to work
     username: Phil-NHS
-    password: ${{ secrets.NUGETKEY }}
+    password: ${{ secrets.DEPENDABOT_GIT_PACKAGES_TOKEN }}
+    
+    ## password: ${{ secrets.NUGETKEY }}# No access to the secret as expected
     ## username: kevwhitt-hee
     ## password: ${{ secrets.DEPENDABOT_GIT_PACKAGES_TOKEN }}
     ## username: "kevin.whittaker"
