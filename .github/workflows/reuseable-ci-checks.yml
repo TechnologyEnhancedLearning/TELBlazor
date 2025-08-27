@@ -143,8 +143,6 @@ jobs:
         status: ${{ job.status }}
       runs-on: ubuntu-latest
       
-
-      
       steps:
         # Checkout so can get access to the file
         - name: Checkout repository
@@ -207,11 +205,24 @@ jobs:
       outputs:
         status: ${{ job.status }}
       steps:
-        - uses: actions/checkout@v4
+        - name: Checkout repository
+          uses: actions/checkout@v4
           with:
             fetch-depth: 0
-        
-        - uses: wagoid/commitlint-github-action@v5
+
+        - name: Check branch and run commitlint
+          run: |
+            BRANCH_NAME="${GITHUB_HEAD_REF:-${GITHUB_REF_NAME}}"
+            echo "Branch name: $BRANCH_NAME"
+            if [[ "$BRANCH_NAME" =~ ^dependabot/ ]]; then
+              echo "✅ Branch is a dependabot branch - skipping commitlint"
+              exit 0
+            else
+              echo "Regular branch - will run commitlint in next step"
+            fi
+
+        - name: Run commitlint action
+          uses: wagoid/commitlint-github-action@v5
           with:
             configFile: .commitlintrc.json
             # Only set from/to if inputs are provided, otherwise let action use defaults
