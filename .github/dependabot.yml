@@ -3,11 +3,16 @@ registries:
   nuget-org:
     type: nuget-feed
     url: https://api.nuget.org/v3/index.json
-  # github-nuget-feed:
-    # type: nuget-feed
-    # url: https://nuget.pkg.github.com/TechnologyEnhancedLearning/index.json
+  github-nuget-feed:
+    type: nuget-feed
+    url: https://nuget.pkg.github.com/TechnologyEnhancedLearning/index.json
+    username: "kevin.whittaker" 
+    # Hoping this has the permissions
+    password: ${{ secrets.AZURE_DEVOPS_PAT }}
+    
     # # Though we ignore the feed it will still need to know about it
     # # dependabot is more restrictive it needs a better key
+    # # https://github.com/TechnologyEnhancedLearning/TELBlazor/network/updates
     # https://docs.github.com/en/code-security/dependabot/working-with-dependabot/configuring-access-to-private-registries-for-dependabot#adding-a-repository-secret-for-dependabot
     # token: ${{ secrets.NUGETKEY }}
 updates:
@@ -15,7 +20,7 @@ updates:
     directory: "/"
     registries:
       - nuget-org
-      # - github-nuget-feed
+      - github-nuget-feed
     schedule:
       interval: "daily"
     open-pull-requests-limit: 100
