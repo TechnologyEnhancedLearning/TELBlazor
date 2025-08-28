@@ -139,6 +139,16 @@
           "xunit.core": "2.4.1"
         }
       },
+      "TELBlazor.Components": {
+        "type": "Direct",
+        "requested": "(, )",
+        "resolved": "1.0.0",
+        "contentHash": "mkjzSgfupUrrAp57hk/4MOkFZwJRgw8a5oYhjotD0/NyPBhUPZ51z0G2Zd9owZ+CruScSmRngAvBiBAMJS7HCw==",
+        "dependencies": {
+          "Microsoft.AspNetCore.Components.Web": "8.0.14",
+          "Microsoft.Extensions.Http": "8.0.0"
+        }
+      },
       "xunit": {
         "type": "Direct",
         "requested": "[2.9.0, )",
@@ -152,9 +162,9 @@
       },
       "xunit.runner.visualstudio": {
         "type": "Direct",
-        "requested": "[2.5.4, )",
-        "resolved": "2.5.4",
-        "contentHash": "YUtEOBdArAISyb1cTWcHc6/bilSDB9q5lc8ughPQP1MqlAKSkxKMBqLQ+tiWMFRBd2o22E59nLD/4V5R3jfZxQ=="
+        "requested": "[3.1.4, )",
+        "resolved": "3.1.4",
+        "contentHash": "5mj99LvCqrq3CNi06xYdyIAXOEh+5b33F2nErCzI5zWiDdLHXiPXEWFSUAF8zlIv0ZWqjZNCwHTQeAPYbF3pCg=="
       },
       "AngleSharp": {
         "type": "Transitive",
@@ -1664,24 +1674,6 @@
         "contentHash": "5ZTQZvmPLlBw6QzCOwM0KnMsZw6eGjbmC176QHZlcbQoMhGIeGcYzYwn5w9yXxf+4phtplMuVqTpTbFDQh2bqQ==",
         "dependencies": {
           "xunit.extensibility.core": "[2.9.0]"
-        }
-      },
-      "telblazor.components": {
-        "type": "Project",
-        "dependencies": {
-          "Blazored.LocalStorage": "[4.5.0, )",
-          "Microsoft.AspNetCore.Components.Web": "[8.0.14, )",
-          "Microsoft.Extensions.Http": "[8.0.1, )",
-          "Serilog": "[4.2.0, )"
-        }
-      },
-      "Blazored.LocalStorage": {
-        "type": "CentralTransitive",
-        "requested": "[4.5.0, )",
-        "resolved": "4.5.0",
-        "contentHash": "6nZuJwA7zNIKx83IsObiHXZb09ponJOpCClU3en+hI8ZFvrOKXeOw+H7TegQZQrvdR1n9fkrVkEBQZg8vx6ZTw==",
-        "dependencies": {
-          "Microsoft.AspNetCore.Components.Web": "8.0.0"
         }
       },
       "Microsoft.AspNetCore.Components.Web": {
