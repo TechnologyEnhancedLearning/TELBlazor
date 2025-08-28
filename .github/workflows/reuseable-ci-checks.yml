@@ -210,7 +210,7 @@ jobs:
             fi
 
         - name: Run commitlint actio
-          if: steps.check-branch.outputs.skip != 'true'n
+          if: steps.check-branch.outputs.skip != 'true'
           uses: wagoid/commitlint-github-action@v5
           with:
             configFile: .commitlintrc.json
