@@ -7,22 +7,8 @@ registries:
     type: nuget-feed
     # Dependabot needs access before it ignores, so still need to access TELBlazor despite ignoring it
     url: https://nuget.pkg.github.com/TechnologyEnhancedLearning/index.json
-    # not expected to work
     token: ${{ secrets.DEPENDABOT_GIT_PACKAGES_TOKEN }}
-    # username: Phil-NHS
-    # password: ${{ secrets.DEPENDABOT_GIT_PACKAGES_TOKEN }}
-    
-    ## password: ${{ secrets.NUGETKEY }}# No access to the secret as expected
-    ## username: kevwhitt-hee <- should be this really kevin made the pat
-    ## password: ${{ secrets.DEPENDABOT_GIT_PACKAGES_TOKEN }}
-    ## username: "kevin.whittaker"
-    ## qqqq del
-    ##     username: "kevin.whittaker" 
-    # # Though we ignore the feed it will still need to know about it
-    # # dependabot is more restrictive it needs a better key
-    # # https://github.com/TechnologyEnhancedLearning/TELBlazor/network/updates
-    # https://docs.github.com/en/code-security/dependabot/working-with-dependabot/configuring-access-to-private-registries-for-dependabot#adding-a-repository-secret-for-dependabot
-    # token: ${{ secrets.NUGETKEY }}
+
 updates:
   - package-ecosystem: "nuget"
     directory: "/"
