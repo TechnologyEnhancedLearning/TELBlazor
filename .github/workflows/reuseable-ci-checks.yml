@@ -33,8 +33,7 @@ on:
         required: true
       TEL_GIT_PACKAGES_TOKEN:
         required: true
-
-        
+    
 env:
 
   # Permission
@@ -134,7 +133,6 @@ jobs:
               /p:UseTELBlazorComponentsProjectReference=$USE_TEL_BLAZOR_COMPONENTS_PROJECT_REFERENCE \
               /p:DisablePackageGeneration=true
 
-
     reuseable-ci-checks-branch-name-check:
       name: Check branch names
       if: success() || failure()
@@ -186,17 +184,6 @@ jobs:
               exit 1
             fi
         
-            # qqqq drop
-            # if [[ "$BRANCH_NAME" =~ ^(build|chore|ci|docs|feat|fix|perf|refactor|revert|style|test|sample|security|config|bugfix|hotfix)-[a-zA-Z0-9._/-]+$ ]] || [[ "$BRANCH_NAME" == "master" ]]; then
-              # echo "✅ Branch name is valid"
-            # else
-              # echo "❌ Invalid branch name: $BRANCH_NAME"
-              # echo "Branch names must follow one of the allowed prefixes:"
-              # echo "   build-*, feat-*, fix-*, bugfix-*, hotfix-*, build-*, chore-*, ci-*, docs-*, perf-*, refactor-*, revert-*, style-*, test-*, sample-*, security-*, config-*, bugfix-*, hotfix-*"
-              # exit 1
-            # fi
-  
-
     reuseable-ci-checks-commitlint:
       name: Check commit names
       runs-on: ubuntu-latest
@@ -313,7 +300,6 @@ jobs:
           - name: Ensure browsers are installed
             run: pwsh TELBlazor.Components.ShowCase.E2ETests/bin/Release/net8.0/playwright.ps1 install --with-deps  
 
-
           - name: Run tests with coverage threshold check
             id: unit_e2e_tests
             run: |
@@ -379,7 +365,6 @@ jobs:
                 echo "❌ One or more steps failed."
                 exit 1
             
-
     reuseable-ci-checks-check-for-failed-jobs:
       name: Check for failures
       if: ${{ inputs.runall }}

@@ -11,8 +11,32 @@ permissions:
   pull-requests: write
 
 jobs:
-# works alongside branch protection rules
+  # works alongside branch protection rules
   auto-merge-minor-and-patch:
+    runs-on: ubuntu-latest
+    if: ${{ github.actor == 'dependabot[bot]' }}
+    steps:
+      - name: extract update type
+        id: extract
+        run: |
+          pr_title="${{ github.event.pull_request.title }}"
+          if [[ $pr_title == *"(major)"* ]]; then
+            echo "update_type=major" >> $github_output
+          else
+            echo "update_type=minor_or_patch" >> $github_output
+          fi
+
+      - name: set up github cli
+        uses: cli/cli-action@v2
+
+      - name: auto-merge non-major updates
+        if: ${{ steps.extract.outputs.update_type == 'minor_or_patch' }}
+        run: gh pr merge --auto --merge "$pr_url"
+        env:
+          pr_url: ${{ github.event.pull_request.html_url }}
+          github_token: ${{ secrets.github_token }}
+    
+    auto-merge-major:
     runs-on: ubuntu-latest
     if: ${{ github.actor == 'dependabot[bot]' }}
     steps:
@@ -24,13 +48,11 @@ jobs:
             echo "update_type=major" >> $GITHUB_OUTPUT
           else
             echo "update_type=minor_or_patch" >> $GITHUB_OUTPUT
-          fi
-
       - name: Set up GitHub CLI
         uses: cli/cli-action@v2
-
-      - name: Auto-merge non-major updates
-        if: ${{ steps.extract.outputs.update_type == 'minor_or_patch' }}
+        
+      - name: Auto-merge major updates
+        if: ${{ steps.extract.outputs.update_type == 'major' }}
         run: gh pr merge --auto --merge "$PR_URL"
         env:
           PR_URL: ${{ github.event.pull_request.html_url }}
