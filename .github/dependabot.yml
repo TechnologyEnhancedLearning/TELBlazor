@@ -1,17 +1,33 @@
 version: 2
+registries:
+  nuget-org:
+    type: nuget-feed
+    url: https://api.nuget.org/v3/index.json
+  github-nuget-feed:
+    type: nuget-feed
+    # Dependabot needs access before it ignores, so still need to access TELBlazor despite ignoring it
+    url: https://nuget.pkg.github.com/TechnologyEnhancedLearning/index.json
+    token: ${{ secrets.DEPENDABOT_GIT_PACKAGES_TOKEN }}
+
 updates:
   - package-ecosystem: "nuget"
     directory: "/"
+    registries:
+      - nuget-org
+      - github-nuget-feed
     schedule:
       interval: "daily"
     open-pull-requests-limit: 100
     target-branch: "Automatic_version_update_dependabot"  
-    
+    rebase-strategy: "auto"
+    ignore:
+      # The cicd for TELBlazor manages the version to consume for showcase consuming the package
+      - dependency-name: "TELBlazor.Components"
+        versions: ["*"]
   - package-ecosystem: "npm"
     directory: "/"
     schedule:
       interval: "daily"
     open-pull-requests-limit: 100
     target-branch: "Automatic_version_update_dependabot"
-
-
+    rebase-strategy: "auto"
