@@ -29,6 +29,7 @@ jobs:
 
   dev-call-reusable-ci-checks-workflow:
     name: Dev Run CI checks
+    # Not using @master so it uses its own check rules
     uses: ./.github/workflows/reuseable-ci-checks.yml
     with:
       runall: true
