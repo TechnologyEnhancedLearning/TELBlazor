@@ -203,12 +203,14 @@ jobs:
             echo "Branch name: $BRANCH_NAME"
             if [[ "$BRANCH_NAME" =~ ^dependabot/ ]]; then
               echo "✅ Branch is a dependabot branch - skipping commitlint"
-              exit 0
+              echo "skip=true" >> $GITHUB_OUTPUT
             else
               echo "Regular branch - will run commitlint in next step"
+              echo "skip=false" >> $GITHUB_OUTPUT
             fi
 
-        - name: Run commitlint action
+        - name: Run commitlint actio
+          if: steps.check-branch.outputs.skip != 'true'n
           uses: wagoid/commitlint-github-action@v5
           with:
             configFile: .commitlintrc.json

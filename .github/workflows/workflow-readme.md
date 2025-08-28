@@ -84,3 +84,62 @@ The individual steps also automatically pass so can see if any error at the end 
 
 ## Versioning
 Via semantic release and recorded as a generate c# file used by a blazor component
+
+## Alternative Approaches
+
+```
+name: Pull Request Checks
+
+# ⚠️ pull_request_target is dangerous it allows secrets to be used by forks and bots, ⚠️ 
+# ⚠️ we want dependabot only to be using these secrets so addition logic requires an "if" for every job ⚠️
+# We will restrict it by making pull_request_target only for the Automatic_version_update_dependabot and then use
+# an if to ensure its only by dependabot
+
+on:
+  pull_request:
+    branches: ['**']                # Run on all branches
+    branches-ignore: ['dependabot/**']  # Skip Dependabot PRs
+  pull_request_target:
+    branches: ['Automatic_version_update_dependabot']  # Base branch for Dependabot PRs
+  workflow_dispatch:
+  
+jobs:
+  dummy:
+    if: |
+      (github.actor == 'dependabot[bot]' && 
+      startsWith(github.head_ref, 'dependabot/') &&
+      github.event_name == 'pull_request_target')
+      ||
+      (github.actor != 'dependabot[bot]' && github.event_name == 'pull_request')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Dummy Step
+        run: echo "This is a dummy job to allow workflow_dispatch"
+        
+  pull-request-call-reusable-ci-checks-workflow:
+    if: |
+      (github.actor == 'dependabot[bot]' && 
+      startsWith(github.head_ref, 'dependabot/') &&
+      github.event_name == 'pull_request_target')
+      ||
+      (github.actor != 'dependabot[bot]' && github.event_name == 'pull_request')
+    name: Pull Request run CI Checks
+    uses: ./.github/workflows/reuseable-ci-checks.yml
+    needs: dummy
+    with:
+      runall: true
+      
+    # could try secrets:inherit QQQQ
+    secrets:
+      UNITTESTS_APPSETTINGS_DEVELOPMENT: ${{ secrets.UNITTESTS_APPSETTINGS_DEVELOPMENT }}
+      WASMSTATICCLIENT_APPSETTINGS_DEVELOPMENT: ${{ secrets.WASMSTATICCLIENT_APPSETTINGS_DEVELOPMENT }}
+      WASMSERVERHOSTCLIENT_APPSETTINGS_DEVELOPMENT: ${{ secrets.WASMSERVERHOSTCLIENT_APPSETTINGS_DEVELOPMENT }}
+      WASMSERVERHOST_APPSETTINGS_DEVELOPMENT: ${{ secrets.WASMSERVERHOST_APPSETTINGS_DEVELOPMENT }}
+      TEL_GIT_PACKAGES_TOKEN: ${{secrets.NUGETKEY }}
+      
+      UNITTESTS_APPSETTINGS_PRODUCTION: ${{ secrets.UNITTESTS_APPSETTINGS_PRODUCTION }}
+      WASMSTATICCLIENT_APPSETTINGS_PRODUCTION: ${{ secrets.WASMSTATICCLIENT_APPSETTINGS_PRODUCTION }}
+      WASMSERVERHOSTCLIENT_APPSETTINGS_PRODUCTION: ${{ secrets.WASMSERVERHOSTCLIENT_APPSETTINGS_PRODUCTION }}
+      WASMSERVERHOST_APPSETTINGS_PRODUCTION: ${{ secrets.WASMSERVERHOST_APPSETTINGS_PRODUCTION }}
+
+```
