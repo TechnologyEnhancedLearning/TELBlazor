@@ -198,17 +198,20 @@ jobs:
             fetch-depth: 0
 
         - name: Check branch and run commitlint
+          id: check_branch_and_run_commitlint
           run: |
             BRANCH_NAME="${GITHUB_HEAD_REF:-${GITHUB_REF_NAME}}"
             echo "Branch name: $BRANCH_NAME"
             if [[ "$BRANCH_NAME" =~ ^dependabot/ ]]; then
-              echo "✅ Branch is a dependabot branch - skipping commitlint"
-              exit 0
+              echo "✅ Branch is a dependabot branch - skipping commitlint ✅"
+              echo "skip=true" >> $GITHUB_OUTPUT
             else
               echo "Regular branch - will run commitlint in next step"
+              echo "skip=false" >> $GITHUB_OUTPUT
             fi
 
         - name: Run commitlint action
+          if: steps.check_branch_and_run_commitlint.outputs.skip != 'true'
           uses: wagoid/commitlint-github-action@v5
           with:
             configFile: .commitlintrc.json
