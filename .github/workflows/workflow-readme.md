@@ -84,7 +84,7 @@ The individual steps also automatically pass so can see if any error at the end 
 - dependabot duplicates tokens using dependabot secrets including write so can run checks
 - autoverging is being tried for major and minor
 - branch checks must pass for merge on automated_version
-
+- checks required but overrideable for all workflows
 ## Versioning
 Via semantic release and recorded as a generate c# file used by a blazor component
 

@@ -1,6 +1,6 @@
 # This script seperate major and minor but we do merge them into the same branch. 
 # Having two steps allows us to easily turn off major changes in future and then script them to their own branch and pipeline.
-name: Auto-merge Dependabot PRs
+name: Auto-merge Dependabot PRs into collected branch
 on:
   pull_request:
     types: [opened, synchronize]
