@@ -4,6 +4,10 @@ on:
     branches-ignore:
       - 'main'
       - 'master'
+      # We currently dont intend to test the showcase per package bump so wont run for package bumps
+      # we will run on the collected bumps merging though
+      - 'dependabot/**'
+
   workflow_dispatch:
 
 permissions:
@@ -83,7 +87,7 @@ jobs:
           echo "Semantic Release packages installed."
           npm ls --depth=0 # Debug: List installed packages
 
-      #configured with .releaseserc
+      # Configured with .releaseserc
       # Dry run we are not versioning the repo
       - name: Run dev semantic version (None Blocking)
         id: detect_semantic_version
