@@ -74,6 +74,7 @@ the ability to produce static prerendered html. The prerendered html is written 
 		- enter the variable names and variable values as follows:
 			- GITHUB_USERNAME / [Your GitHub username]
 			- TEL_GIT_PACKAGES_TOKEN / [The copied token]
+			- LOCAL_PACKAGES_PATH / [Path to your local packages folder]
 		- then select **OK**
 		- select **OK** again to close all dialogs.
 - **Restore Nuget, Npm, Tooling, playwright and build:**
