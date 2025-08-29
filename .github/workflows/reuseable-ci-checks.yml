@@ -202,7 +202,7 @@ jobs:
           run: |
             BRANCH_NAME="${GITHUB_HEAD_REF:-${GITHUB_REF_NAME}}"
             echo "Branch name: $BRANCH_NAME"
-            if [[ "$BRANCH_NAME" =~ ^dependabot/ ]]; then
+            if [[ "$BRANCH_NAME" =~ ^dependabot/ ]] || [[ "$AUTHOR_NAME" == "dependabot[bot]" ]] || [[ "$COMMIT_MSG" =~ ^Bump ]]; then
               echo "✅ Branch is a dependabot branch - skipping commitlint ✅"
               echo "skip=true" >> $GITHUB_OUTPUT
             else
