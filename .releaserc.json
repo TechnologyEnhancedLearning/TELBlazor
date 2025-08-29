@@ -10,7 +10,7 @@
     },
     {
       "name": "Automatic_collected_dependabot_staging",
-      "prerelease": false
+      "prerelease": true
     },
     {
       "name": "feat-*",

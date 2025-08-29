@@ -94,8 +94,19 @@ jobs:
         run: |
 
           echo "running semantic-release"
-          SEMVER_OUTPUT_RAW=$(npx semantic-release --dry-run 2>&1)
+          # SEMVER_OUTPUT_RAW=$(npx semantic-release --dry-run 2>&1)
+          # STATUS=$?
+          
+          SEMVER_OUTPUT_RAW=$(npx semantic-release --dry-run 2> /tmp/semantic-release-errors.log)
           STATUS=$?
+
+          # Now you can check the status and log the error messages if an error occurred
+          if [ $STATUS -ne 0 ]; then
+            echo "Semantic release failed with exit code $STATUS."
+            echo "Error output:"
+            cat /tmp/semantic-release-errors.log
+          fi
+          
           echo "status = $STATUS"
           echo "$SEMVER_OUTPUT_RAW"          
           
