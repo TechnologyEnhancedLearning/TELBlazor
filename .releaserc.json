@@ -1,10 +1,10 @@
 {
   "branches": [
     {
-      "name": "master",
+      "name": "master"
     },
     {
-      "name": "Automatic_version_update_dependabot",
+      "name": "Automatic_version_update_dependabot"
     },
     {
       "name": "feat-*",
