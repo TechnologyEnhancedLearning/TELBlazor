@@ -1,16 +1,14 @@
 {
   "branches": [
     {
-      "name": "master",
-      "prerelease": false
+      "name": "master"
     },
     {
-      "name": "Automatic_version_update_dependabot",
-      "prerelease": false
+      "name": "Automatic_version_update_dependabot"
     },
     {
       "name": "Automatic_collected_dependabot_staging",
-      "prerelease": true
+      "prerelease": "dependabot-staging"
     },
     {
       "name": "feat-*",
