@@ -1,19 +1,38 @@
+# qqqq in development
 # This script seperate major and minor but we do merge them into the same branch. 
 # Having two steps allows us to easily turn off major changes in future and then script them to their own branch and pipeline.
 name: Auto-merge Dependabot PRs into collected branch
 on:
   pull_request:
-    types: [opened, synchronize]
+  # synchronize
+    types: [opened]
     branches: [Automatic_version_update_dependabot]  # Make sure this matches your actual branch name
-
+  check_suite:
+    types: [completed]    
+  workflow_dispatch:
 permissions:
   contents: write
   pull-requests: write
 
 jobs:
+  debug:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Debug info
+        run: |
+          echo "Actor: ${{ github.actor }}"
+          echo "PR Title: ${{ github.event.pull_request.title }}"
+          echo "Target Branch: ${{ github.event.pull_request.base.ref }}"
+          echo "Source Branch: ${{ github.event.pull_request.head.ref }}"
+          - name: Wait for other checks to start
+      - name: Delay for check
+        run: |
+          # drop later qqqq shouldnt need but its running before auto
+          echo "Waiting 4 minutes for other checks to start running..."
+          sleep 240
   auto-merge:
     runs-on: ubuntu-latest
-    if: github.actor == 'dependabot[bot]'
+    if: github.actor == 'dependabot[bot]' || github.event_name == 'workflow_dispatch'
     steps:
       - name: Extract update type
         id: extract
@@ -27,6 +46,7 @@ jobs:
           
       - name: Auto-merge minor and patch updates
         if: steps.extract.outputs.update_type == 'minor_or_patch'
+        # Auto should set the the request to merge once checks complete
         run: gh pr merge --auto --squash "${{ github.event.pull_request.html_url }}"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
