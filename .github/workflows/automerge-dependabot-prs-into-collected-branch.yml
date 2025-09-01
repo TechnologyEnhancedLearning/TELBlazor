@@ -25,13 +25,6 @@ jobs:
           echo "target branch: ${{ github.event.pull_request.base.ref }}"
           echo "source branch: ${{ github.event.pull_request.head.ref }}"
           echo "PR Number: ${{ github.event.pull_request.number }}"
-          
-      - name: Dump event payload
-        run: |
-          echo "==== EVENT NAME ===="
-          echo "${{ github.event_name }}"
-          echo "==== RAW PULL_REQUEST PAYLOAD ===="
-          echo '${{ toJson(github.event.pull_request) }}'
 
   # Branch rules ensure doesnt auto merge if shouldnt       
   auto-merge:
