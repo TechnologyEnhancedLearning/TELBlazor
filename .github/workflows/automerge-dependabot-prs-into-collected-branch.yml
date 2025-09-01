@@ -33,6 +33,15 @@ jobs:
           echo "Conclusion: ${{ github.event.check_suite.conclusion }}"
           echo "Target Branch: ${{ github.event.check_suite.pull_requests[0].base.ref }}"
           echo "PR Number: ${{ github.event.check_suite.pull_requests[0].number }}"
+          
+      - name: Dump event payload
+        run: |
+          echo "==== EVENT NAME ===="
+          echo "${{ github.event_name }}"
+          echo "==== RAW CHECK_SUITE PAYLOAD ===="
+          echo '${{ toJson(github.event.check_suite) }}'
+          echo "==== PRs in this check suite ===="
+          echo '${{ toJson(github.event.check_suite.pull_requests) }}'
 
           
   auto-merge:
@@ -58,7 +67,10 @@ jobs:
       - name: extract update type
         id: extract
         run: |
-          pr_title="${{ github.event.pull_request.title }}"
+          pr_number=${{ github.event.check_suite.pull_requests[0].number }}
+          # pr_title="${{ github.event.pull_request.title }}"
+          pr_title=$(gh pr view "$pr_number" --json title --jq .title)
+          echo "PR title: $pr_title"
           if [[ $pr_title == *"(major)"* ]]; then
             echo "update_type=major" >> $GITHUB_OUTPUT
           else
