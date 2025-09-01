@@ -1,12 +1,12 @@
 # qqqq in development
-# This script seperate major and minor but we do merge them into the same branch. 
-# Having two steps allows us to easily turn off major changes in future and then script them to their own branch and pipeline.
-name: Auto-merge Dependabot PRs into collected branch
+# this script seperate major and minor but we do merge them into the same branch. 
+# having two steps allows us to easily turn off major changes in future and then script them to their own branch and pipeline.
+name: auto-merge dependabot prs into collected branch
 on:
   pull_request:
   # synchronize
     types: [opened, synchronize]
-    branches: [Automatic_version_update_dependabot]  # Make sure this matches your actual branch name
+    branches: [automatic_version_update_dependabot]  # make sure this matches your actual branch name
   check_suite:
     types: [completed]    
   workflow_dispatch:
@@ -19,43 +19,45 @@ jobs:
   debug:
     runs-on: ubuntu-latest
     steps:
-      - name: Debug info
+      - name: debug info
         run: |
-          echo "Actor: ${{ github.actor }}"
-          echo "PR Title: ${{ github.event.pull_request.title }}"
-          echo "Target Branch: ${{ github.event.pull_request.base.ref }}"
-          echo "Source Branch: ${{ github.event.pull_request.head.ref }}"
-          - name: Wait for other checks to start
-      - name: Delay for check
+          echo "actor: ${{ github.actor }}"
+          echo "pr title: ${{ github.event.pull_request.title }}"
+          echo "target branch: ${{ github.event.pull_request.base.ref }}"
+          echo "source branch: ${{ github.event.pull_request.head.ref }}"
+          - name: wait for other checks to start
+      - name: delay for check
         run: |
           # drop later qqqq shouldnt need but its running before auto
-          echo "Waiting 4 minutes for other checks to start running..."
+          echo "waiting 4 minutes for other checks to start running..."
           sleep 240
   auto-merge:
     runs-on: ubuntu-latest
     # if dependabot and checks ran
     if: (github.actor == 'dependabot[bot]' || github.event_name == 'workflow_dispatch')&& (github.event_name != 'check_suite' || github.event.check_suite.conclusion == 'success')
     steps:
-      - name: Extract update type
+      - name: extract update type
         id: extract
         run: |
-          PR_TITLE="${{ github.event.pull_request.title }}"
-          if [[ $PR_TITLE == *"(major)"* ]]; then
-            echo "update_type=major" >> $GITHUB_OUTPUT
+          pr_title="${{ github.event.pull_request.title }}"
+          if [[ $pr_title == *"(major)"* ]]; then
+            echo "update_type=major" >> $github_output
           else
-            echo "update_type=minor_or_patch" >> $GITHUB_OUTPUT
+            echo "update_type=minor_or_patch" >> $github_output
           fi
           
-      - name: Auto-merge minor and patch updates
+      - name: auto-merge minor and patch updates
         if: steps.extract.outputs.update_type == 'minor_or_patch'
-        # Auto should set the the request to merge once checks complete
-        run: gh pr merge --auto --squash "${{ github.event.pull_request.html_url }}"
+        # auto should set the the request to merge once checks complete
+        # qqqq could squash for cleaner? --squash "${{ github.event.pull_request.html_url }}"
+        run: gh pr merge --auto 1
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
           
-      - name: Auto-merge major updates
+      - name: auto-merge major updates
         if: steps.extract.outputs.update_type == 'major'
-        # Auto should set the the request to merge once checks complete
-        run: gh pr merge --auto --squash "${{ github.event.pull_request.html_url }}"
+        # auto should set the the request to merge once checks complete
+        # qqqq could squash for cleaner? --squash "${{ github.event.pull_request.html_url }}"
+        run: gh pr merge --auto 1
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
