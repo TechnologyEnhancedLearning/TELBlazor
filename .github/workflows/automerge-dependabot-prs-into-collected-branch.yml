@@ -25,12 +25,13 @@ jobs:
           echo "pr title: ${{ github.event.pull_request.title }}"
           echo "target branch: ${{ github.event.pull_request.base.ref }}"
           echo "source branch: ${{ github.event.pull_request.head.ref }}"
-          - name: wait for other checks to start
+          
       - name: delay for check
         run: |
           # drop later qqqq shouldnt need but its running before auto
           echo "waiting 4 minutes for other checks to start running..."
           sleep 240
+          
   auto-merge:
     runs-on: ubuntu-latest
     # if dependabot and checks ran
