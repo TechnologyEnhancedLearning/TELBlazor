@@ -23,6 +23,8 @@ jobs:
         run: |
           echo "actor: ${{ github.actor }}"
           echo "pr title: ${{ github.event.pull_request.title }}"
+          echo "github event_name: ${{ github.event_name }}"
+          echo "github event_suite conlusion: ${{ github.event.check_suite.conclusion }}"
           echo "target branch: ${{ github.event.pull_request.base.ref }}"
           echo "source branch: ${{ github.event.pull_request.head.ref }}"
           
@@ -35,7 +37,8 @@ jobs:
   auto-merge:
     runs-on: ubuntu-latest
     # if dependabot and checks ran
-    if: (github.actor == 'dependabot[bot]' || github.event_name == 'workflow_dispatch')&& (github.event_name != 'check_suite' || github.event.check_suite.conclusion == 'success')
+    # if: (github.event_name != 'check_suite' || github.event.check_suite.conclusion == 'success')
+    # qqqq put back in later if: (github.actor == 'dependabot[bot]' || github.event_name == 'workflow_dispatch')&& (github.event_name != 'check_suite' || github.event.check_suite.conclusion == 'success')
     steps:
       - name: extract update type
         id: extract
