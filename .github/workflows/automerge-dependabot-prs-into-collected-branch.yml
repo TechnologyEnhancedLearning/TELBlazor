@@ -7,7 +7,7 @@ on:
   # pull_request:
   # synchronize
     # types: [opened, synchronize]
-    # branches: [automatic_version_update_dependabot]  # make sure this matches your actual branch name
+    # branches: [Automatic_version_update_dependabot]  # make sure this matches your actual branch name
   check_suite:
     types: [completed]    
   workflow_dispatch:
@@ -33,12 +33,7 @@ jobs:
           echo "Conclusion: ${{ github.event.check_suite.conclusion }}"
           echo "Target Branch: ${{ github.event.check_suite.pull_requests[0].base.ref }}"
           echo "PR Number: ${{ github.event.check_suite.pull_requests[0].number }}"
-          
-      - name: delay for check
-        run: |
-          # drop later qqqq shouldnt need but its running before auto
-          echo "waiting 4 minutes for other checks to start running..."
-          sleep 240
+
           
   auto-merge:
     runs-on: ubuntu-latest
@@ -46,6 +41,7 @@ jobs:
     # if dependabot and checks ran
     # if: (github.event_name != 'check_suite' || github.event.check_suite.conclusion == 'success')
     # qqqq put back in later if: (github.actor == 'dependabot[bot]' || github.event_name == 'workflow_dispatch')&& (github.event_name != 'check_suite' || github.event.check_suite.conclusion == 'success')
+    if:  github.event.check_suite.conclusion == 'success' && github.actor == 'dependabot[bot]' && github.event.check_suite.pull_requests[0].base.ref == 'Automatic_version_update_dependabot'
     steps:
       - name: Checkout the repository
         uses: actions/checkout@v3
