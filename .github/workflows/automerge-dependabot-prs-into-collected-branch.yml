@@ -69,14 +69,16 @@ jobs:
         if: steps.extract.outputs.update_type == 'minor_or_patch'
         # auto should set the the request to merge once checks complete
         # qqqq could squash for cleaner? --squash "${{ github.event.pull_request.html_url }}"
-        run: gh pr merge --auto 1
+        # run: gh pr merge --auto 1
+        run: gh pr merge --auto ${{ github.event.check_suite.pull_requests[0].number }}
         env:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           
       - name: auto-merge major updates
         if: steps.extract.outputs.update_type == 'major'
         # auto should set the the request to merge once checks complete
         # qqqq could squash for cleaner? --squash "${{ github.event.pull_request.html_url }}"
-        run: gh pr merge --auto 1
+        # run: gh pr merge --auto 1
+        run: gh pr merge --auto ${{ github.event.check_suite.pull_requests[0].number }}
         env:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
