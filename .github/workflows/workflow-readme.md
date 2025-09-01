@@ -85,12 +85,43 @@ The individual steps also automatically pass so can see if any error at the end 
 - autoverging is being tried for major and minor
 - branch checks must pass for merge on automated_version
 - checks required but overrideable for all workflows
+- dependabot secret names to match repos ones where need to share
+- dependabot not need to build package later brnch does
+
+## Dependabot Pipeline (AI generatated diag)
+
+```mermaid
+flowchart TD
+    %% Dependabot PR to initial branch
+    A[Dependabot PR] --> B[Automatic_version_update_dependabot]
+
+    %% Checks on the dependabot branch
+    B --> C[Run Checks]
+    C --> C1[Commit name check ❌ skipped]
+    C --> C2[Branch name check ❌ skipped]
+    C --> C3[Build as release]
+    C --> C4[Unit tests]
+    C --> C5[E2E tests]
+
+    %% Weekly merge to staging
+    B -->|Weekly merge via collected-dependabot-to-staging.yml| D[Automatic_collected_dependabot_staging]
+
+    %% Staging checks and dev build
+    D --> E[Run Checks & Dev Build]
+    E --> E1[Checks again]
+    E --> E2[Build dev package]
+    E --> E3[Showcase dev page]
+
+    %% Weekly merge to master
+    D -->|Weekly merge via collected-dependabot-staging-to-master.yml| F[Master]
+```
+
 ## Versioning
 Via semantic release and recorded as a generate c# file used by a blazor component
 
 ## Alternative Approaches
 
-```
+
 name: Pull Request Checks
 
 # ⚠️ pull_request_target is dangerous it allows secrets to be used by forks and bots, ⚠️ 

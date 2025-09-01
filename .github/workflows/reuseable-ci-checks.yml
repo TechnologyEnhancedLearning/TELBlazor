@@ -340,7 +340,9 @@ jobs:
               # Echo the entire artifact list for debugging purposes
               echo "Artifact List: $ARTIFACT_LIST"
               
-              ARTIFACT_URL=$(echo "$ARTIFACT_LIST" | jq -r '.artifacts[] | select(.name=="coverage-report") | .url')
+              #qqqq worked mostly ARTIFACT_URL=$(echo "$ARTIFACT_LIST" | jq -r '.artifacts[] | select(.name=="coverage-report") | .url')
+              ARTIFACT_URL=$(echo "$ARTIFACT_LIST" | jq -r '.artifacts | map(select(.name=="coverage-report")) | sort_by(.created_at) | last | .url')
+              
               
               # Echo the artifact URL to confirm
               echo "Artifact URL: $ARTIFACT_URL"
