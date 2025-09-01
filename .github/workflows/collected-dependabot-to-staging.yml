@@ -1,0 +1,45 @@
+name: Dependabot Collected Promotion To Staging
+# this logic will require branch ruleset checks of running the dev pipeline
+on:
+  schedule:
+    # Promotion from staging to release should be a week apart so alternating weeks (also live updates dangerous)
+    - cron: '0 9 1-7 * 1'   # First Monday of month
+    - cron: '0 9 15-21 * 1' # Third Monday of month
+  workflow_dispatch:  # Allow manual trigger
+
+jobs:
+  promote-to-automatic-collected-dependabot-staging:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check for changes
+        id: changes
+        run: |
+          git fetch origin Automatic_version_update_dependabot:Automatic_version_update_dependabot
+          git fetch origin Automatic_collected_dependabot_staging:Automatic_collected_dependabot_staging
+          
+          if git diff --quiet Automatic_collected_dependabot_staging Automatic_version_update_dependabot; then
+            echo "has_changes=false" >> $GITHUB_OUTPUT
+          else
+            echo "has_changes=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Create PR to Automatic_collected_dependabot_staging
+        if: steps.changes.outputs.has_changes == 'true'
+        run: |
+          gh pr create \
+            --base Automatic_collected_dependabot_staging \
+            --head Automatic_version_update_dependabot \
+            --title "Fortnightly dependabot collected to staging - $(date +%Y-%m-%d)" \
+            --body "Automated Fortnightly promotion of dependency updates from dependabot" \
+            --auto-merge \
+            --merge
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

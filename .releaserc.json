@@ -7,6 +7,10 @@
       "name": "Automatic_version_update_dependabot"
     },
     {
+      "name": "Automatic_collected_dependabot_staging",
+      "prerelease": "dependabot-staging"
+    },
+    {
       "name": "feat-*",
       "prerelease": true
     },
