@@ -1,0 +1,99 @@
+# qqqq this does add auto merge but seems to trigger on the first set of checks git guardian (it seems), 
+# also it calls for checks not specifically for out branch
+# so an approach based one the branch is likely better
+name: auto-merge dependabot prs into collected branch
+on:
+  # pull_request:
+  # synchronize
+    # types: [opened, synchronize]
+    # branches: [Automatic_version_update_dependabot]  # make sure this matches your actual branch name
+  check_suite:
+    types: [completed]    
+  workflow_dispatch:
+  
+permissions:
+  contents: write
+  pull-requests: write
+  checks: read
+
+jobs:
+  debug:
+    runs-on: ubuntu-latest
+    steps:
+      - name: debug info
+        run: |
+          echo "actor: ${{ github.actor }}"
+          echo "pr title: ${{ github.event.pull_request.title }}"
+          echo "github event_name: ${{ github.event_name }}"
+          echo "github event_suite conlusion: ${{ github.event.check_suite.conclusion }}"
+          echo "target branch: ${{ github.event.pull_request.base.ref }}"
+          echo "source branch: ${{ github.event.pull_request.head.ref }}"
+          echo "Check Suite ID: ${{ github.event.check_suite.id }}"
+          echo "Conclusion: ${{ github.event.check_suite.conclusion }}"
+          echo "Target Branch: ${{ github.event.check_suite.pull_requests[0].base.ref }}"
+          echo "PR Number: ${{ github.event.check_suite.pull_requests[0].number }}"
+          
+      - name: Dump event payload
+        run: |
+          echo "==== EVENT NAME ===="
+          echo "${{ github.event_name }}"
+          echo "==== RAW CHECK_SUITE PAYLOAD ===="
+          echo '${{ toJson(github.event.check_suite) }}'
+          echo "==== PRs in this check suite ===="
+          echo '${{ toJson(github.event.check_suite.pull_requests) }}'
+
+          
+  auto-merge:
+    runs-on: ubuntu-latest
+    # if: github.event.check_suite.pull_requests[0].base.ref == 'main'
+    # if dependabot and checks ran
+    # if: (github.event_name != 'check_suite' || github.event.check_suite.conclusion == 'success')
+    # qqqq put back in later if: (github.actor == 'dependabot[bot]' || github.event_name == 'workflow_dispatch')&& (github.event_name != 'check_suite' || github.event.check_suite.conclusion == 'success')
+    
+    
+    # qqqq add in after testing && github.actor == 'dependabot[bot]'
+    if:  github.event.check_suite.conclusion == 'success' && github.event.check_suite.pull_requests[0].base.ref == 'Automatic_version_update_dependabot'
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v3
+        
+      - name: Set up GitHub CLI
+        run: |
+          # Install GitHub CLI (gh)
+          sudo apt-get update
+          sudo apt-get install gh
+          
+      - name: extract update type
+        id: extract
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "get pr number"
+          pr_number=${{ github.event.check_suite.pull_requests[0].number }}
+          echo "PR title: $pr_number"
+          # pr_title="${{ github.event.pull_request.title }}"
+          pr_title=$(gh pr view "$pr_number" --json title --jq .title)
+          echo "PR title: $pr_title"
+          if [[ $pr_title == *"(major)"* ]]; then
+            echo "update_type=major" >> $GITHUB_OUTPUT
+          else
+            echo "update_type=minor_or_patch" >> $GITHUB_OUTPUT
+          fi
+          
+      - name: auto-merge minor and patch updates
+        if: steps.extract.outputs.update_type == 'minor_or_patch'
+        # auto should set the the request to merge once checks complete
+        # qqqq could squash for cleaner? --squash "${{ github.event.pull_request.html_url }}"
+        # run: gh pr merge --auto 1
+        run: gh pr merge --auto --merge ${{ github.event.check_suite.pull_requests[0].number }}
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          
+      - name: auto-merge major updates
+        if: steps.extract.outputs.update_type == 'major'
+        # auto should set the the request to merge once checks complete
+        # qqqq could squash for cleaner? --squash "${{ github.event.pull_request.html_url }}"
+        # run: gh pr merge --auto 1
+        run: gh pr merge --auto --merge ${{ github.event.check_suite.pull_requests[0].number }}
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
