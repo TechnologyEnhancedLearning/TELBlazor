@@ -5,7 +5,7 @@ name: auto-merge dependabot prs into collected branch
 on:
   pull_request:
     types: [opened, synchronize]
-    branches: [Automatic_version_update_dependabot]  # make sure this matches your actual branch name
+    branches: [Automatic_version_update_dependabot]
 
   
 permissions:
@@ -41,27 +41,26 @@ jobs:
       - name: Checkout the repository
         uses: actions/checkout@v4
         
-      # - name: Set up GitHub CLI
-        # run: |
-          # # Install GitHub CLI (gh)
-          # sudo apt-get update
-          # sudo apt-get install gh
-        
       - name: Set up GitHub CLI
-        uses: github/gh-cli@v2
+        run: |
+          # Install GitHub CLI (gh)
+          sudo apt-get update
+          sudo apt-get install gh
           
       - name: extract update type
         id: extract
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          echo "get pr number"
-          pr_title=${{ github.event.pull_request.title }}
+          echo "get pr title"
+          pr_title="${{ github.event.pull_request.title }}"
           echo "PR title: $pr_title"
-          if [[ $pr_title == *"(major)"* ]]; then
+          if [[ "$pr_title" == *"(major)"* ]]; then
             echo "update_type=major" >> $GITHUB_OUTPUT
+            echo "Detected major update"
           else
             echo "update_type=minor_or_patch" >> $GITHUB_OUTPUT
+            echo "Detected minor or patch update"
           fi
           
       - name: auto-merge minor and patch updates
