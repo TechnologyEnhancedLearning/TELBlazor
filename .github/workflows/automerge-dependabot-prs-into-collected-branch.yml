@@ -12,6 +12,7 @@ permissions:
   contents: write
   pull-requests: write
   checks: read
+  issues: write
 
 jobs:
   debug:
@@ -30,6 +31,7 @@ jobs:
   auto-merge:
     runs-on: ubuntu-latest
     # qqqq add in after testing, and harder checks for what it is doing if: github.actor == 'dependabot[bot]'
+    # if: github.event.pull_request.user.login == 'dependabot[bot]' && github.repository == 'TechnologyEnhancedLearning/TELBlazor'
     steps:
       - name: Checkout the repository
         uses: actions/checkout@v4
