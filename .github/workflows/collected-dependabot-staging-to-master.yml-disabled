@@ -1,3 +1,4 @@
+# qqqq in development
 name: Collected Dependabot Promotion From Staging To Master
 on:
   schedule:
@@ -22,7 +23,7 @@ jobs:
         id: changes
         run: |
           git fetch origin Automatic_collected_dependabot_staging:Automatic_collected_dependabot_staging
-          git fetch origin master:master  # or main/master - whatever your prod branch is
+          git fetch origin master:master
           
           if git diff --quiet master Automatic_collected_dependabot_staging; then
             echo "has_changes=false" >> $GITHUB_OUTPUT

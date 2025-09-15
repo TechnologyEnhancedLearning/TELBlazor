@@ -85,64 +85,41 @@ The individual steps also automatically pass so can see if any error at the end 
 - autoverging is being tried for major and minor
 - branch checks must pass for merge on automated_version
 - checks required but overrideable for all workflows
+- dependabot secret names to match repos ones where need to share
+- dependabot not need to build package later brnch does
+
+## Dependabot Pipeline (AI generatated diag)
+
+```mermaid
+flowchart TD
+    %% Dependabot PR to initial branch
+    A[Dependabot PR] --> B[Automatic_version_update_dependabot]
+
+    %% Checks on the dependabot branch
+    B --> C[Run Checks]
+    C --> C1[Commit name check ❌ skipped]
+    C --> C2[Branch name check ❌ skipped]
+    C --> C3[Build as release]
+    C --> C4[Unit tests]
+    C --> C5[E2E tests]
+
+    %% Weekly merge to staging
+    B -->|Weekly merge via collected-dependabot-to-staging.yml| D[Automatic_collected_dependabot_staging]
+
+    %% Staging checks and dev build
+    D --> E[Run Checks & Dev Build]
+    E --> E1[Checks again]
+    E --> E2[Build dev package]
+    E --> E3[Showcase dev page]
+
+    %% Weekly merge to master
+    D -->|Weekly merge via collected-dependabot-staging-to-master.yml| F[Master]
+```
+
 ## Versioning
 Via semantic release and recorded as a generate c# file used by a blazor component
 
 ## Alternative Approaches
 
-```
-name: Pull Request Checks
-
-# ⚠️ pull_request_target is dangerous it allows secrets to be used by forks and bots, ⚠️ 
-# ⚠️ we want dependabot only to be using these secrets so addition logic requires an "if" for every job ⚠️
-# We will restrict it by making pull_request_target only for the Automatic_version_update_dependabot and then use
-# an if to ensure its only by dependabot
-
-on:
-  pull_request:
-    branches: ['**']                # Run on all branches
-    branches-ignore: ['dependabot/**']  # Skip Dependabot PRs
-  pull_request_target:
-    branches: ['Automatic_version_update_dependabot']  # Base branch for Dependabot PRs
-  workflow_dispatch:
-  
-jobs:
-  dummy:
-    if: |
-      (github.actor == 'dependabot[bot]' && 
-      startsWith(github.head_ref, 'dependabot/') &&
-      github.event_name == 'pull_request_target')
-      ||
-      (github.actor != 'dependabot[bot]' && github.event_name == 'pull_request')
-    runs-on: ubuntu-latest
-    steps:
-      - name: Dummy Step
-        run: echo "This is a dummy job to allow workflow_dispatch"
-        
-  pull-request-call-reusable-ci-checks-workflow:
-    if: |
-      (github.actor == 'dependabot[bot]' && 
-      startsWith(github.head_ref, 'dependabot/') &&
-      github.event_name == 'pull_request_target')
-      ||
-      (github.actor != 'dependabot[bot]' && github.event_name == 'pull_request')
-    name: Pull Request run CI Checks
-    uses: ./.github/workflows/reuseable-ci-checks.yml
-    needs: dummy
-    with:
-      runall: true
-      
-    # could try secrets:inherit QQQQ
-    secrets:
-      UNITTESTS_APPSETTINGS_DEVELOPMENT: ${{ secrets.UNITTESTS_APPSETTINGS_DEVELOPMENT }}
-      WASMSTATICCLIENT_APPSETTINGS_DEVELOPMENT: ${{ secrets.WASMSTATICCLIENT_APPSETTINGS_DEVELOPMENT }}
-      WASMSERVERHOSTCLIENT_APPSETTINGS_DEVELOPMENT: ${{ secrets.WASMSERVERHOSTCLIENT_APPSETTINGS_DEVELOPMENT }}
-      WASMSERVERHOST_APPSETTINGS_DEVELOPMENT: ${{ secrets.WASMSERVERHOST_APPSETTINGS_DEVELOPMENT }}
-      TEL_GIT_PACKAGES_TOKEN: ${{secrets.NUGETKEY }}
-      
-      UNITTESTS_APPSETTINGS_PRODUCTION: ${{ secrets.UNITTESTS_APPSETTINGS_PRODUCTION }}
-      WASMSTATICCLIENT_APPSETTINGS_PRODUCTION: ${{ secrets.WASMSTATICCLIENT_APPSETTINGS_PRODUCTION }}
-      WASMSERVERHOSTCLIENT_APPSETTINGS_PRODUCTION: ${{ secrets.WASMSERVERHOSTCLIENT_APPSETTINGS_PRODUCTION }}
-      WASMSERVERHOST_APPSETTINGS_PRODUCTION: ${{ secrets.WASMSERVERHOST_APPSETTINGS_PRODUCTION }}
-
-```
+- dont use pull-request-target for security reasons if can avoid it and if do use ifs to control it based on what branch and who is calling the workflow
+- can use secrets inherits might have been better for reuseable checks which because triggered by other workflows can directly access repo secrets instead need them passing

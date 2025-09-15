@@ -1,38 +1,71 @@
-# This script seperate major and minor but we do merge them into the same branch. 
-# Having two steps allows us to easily turn off major changes in future and then script them to their own branch and pipeline.
-name: Auto-merge Dependabot PRs into collected branch
+# qqqq in development
+# this script seperate major and minor but we do merge them into the same branch. 
+# having two steps allows us to easily turn off major changes in future and then script them to their own branch and pipeline.
+name: auto-merge dependabot prs into collected branch
 on:
   pull_request:
     types: [opened, synchronize]
-    branches: [Automatic_version_update_dependabot]  # Make sure this matches your actual branch name
+    branches: [Automatic_version_update_dependabot]
 
+  
 permissions:
   contents: write
   pull-requests: write
+  checks: read
 
 jobs:
+  debug:
+    runs-on: ubuntu-latest
+    steps:
+      - name: debug info
+        run: |
+          echo "actor: ${{ github.actor }}"
+          echo "pr title: ${{ github.event.pull_request.title }}"
+          echo "github event_name: ${{ github.event_name }}"
+          echo "target branch: ${{ github.event.pull_request.base.ref }}"
+          echo "source branch: ${{ github.event.pull_request.head.ref }}"
+          echo "PR Number: ${{ github.event.pull_request.number }}"
+
+  # Branch rules ensure doesnt auto merge if shouldnt       
   auto-merge:
     runs-on: ubuntu-latest
-    if: github.actor == 'dependabot[bot]'
+    # qqqq add in after testing if: github.actor == 'dependabot[bot]'
     steps:
-      - name: Extract update type
-        id: extract
+      - name: Checkout the repository
+        uses: actions/checkout@v4
+        
+      - name: Set up GitHub CLI
         run: |
-          PR_TITLE="${{ github.event.pull_request.title }}"
-          if [[ $PR_TITLE == *"(major)"* ]]; then
+          # Install GitHub CLI (gh)
+          sudo apt-get update
+          sudo apt-get install gh
+          
+      - name: extract update type
+        id: extract
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "get pr title"
+          pr_title="${{ github.event.pull_request.title }}"
+          echo "PR title: $pr_title"
+          if [[ "$pr_title" == *"(major)"* ]]; then
             echo "update_type=major" >> $GITHUB_OUTPUT
+            echo "Detected major update"
           else
             echo "update_type=minor_or_patch" >> $GITHUB_OUTPUT
+            echo "Detected minor or patch update"
           fi
           
-      - name: Auto-merge minor and patch updates
+      - name: auto-merge minor and patch updates
         if: steps.extract.outputs.update_type == 'minor_or_patch'
-        run: gh pr merge --auto --squash "${{ github.event.pull_request.html_url }}"
+        run: |
+          gh pr merge --auto --merge "${{ github.event.pull_request.number }}"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           
-      - name: Auto-merge major updates
+      - name: auto-merge major updates
         if: steps.extract.outputs.update_type == 'major'
-        run: gh pr merge --auto --squash "${{ github.event.pull_request.html_url }}"
+        run: |
+          gh pr merge --auto --merge "${{ github.event.pull_request.number }}"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

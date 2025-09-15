@@ -48,6 +48,7 @@ the ability to produce static prerendered html. The prerendered html is written 
 - **Node.js 18+** and npm
 - **Git** configured with your credentials
 - **PowerShell 5.1+** 
+- **Longfile names enabled on the system**
 > ⚠️ **Important:** All commands in this guide require **PowerShell running as Administrator**
 
 ### Quick Setup ⚡
@@ -116,6 +117,10 @@ The project should now work. See other sections for what projects to run, and co
 
 > ⚠️ read the contribution section before creating a branch or commits ⚠️
 
+### Trouble Shooting
+- Longpaths may be required if E2E Client is not building.
+	- Follow [microsoft docs](https://learn.microsoft.com/en-us/windows/win32/fileio/maximum-file-path-limitation?tabs=registry)
+	- or Win + R -> type regedit -> path to the option HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\FileSystem  -> set LongPathsEnabled to 1
 
 ### Getting Started with the Project following Setup
 
