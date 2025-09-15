@@ -4,7 +4,7 @@
 name: auto-merge dependabot prs into collected branch
 on:
   pull_request:
-    types: [opened, synchronize]
+    # types: [opened, synchronize]
     branches: [Automatic_version_update_dependabot]
 
   
@@ -29,11 +29,12 @@ jobs:
   # Branch rules ensure doesnt auto merge if shouldnt       
   auto-merge:
     runs-on: ubuntu-latest
-    # qqqq add in after testing if: github.actor == 'dependabot[bot]'
+    # qqqq add in after testing, and harder checks for what it is doing if: github.actor == 'dependabot[bot]'
     steps:
       - name: Checkout the repository
         uses: actions/checkout@v4
         
+      # qqqq could use action
       - name: Set up GitHub CLI
         run: |
           # Install GitHub CLI (gh)
@@ -42,6 +43,7 @@ jobs:
           
       - name: extract update type
         id: extract
+        # Specific dependabot token qqqq?
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
