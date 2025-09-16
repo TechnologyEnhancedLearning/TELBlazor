@@ -26,6 +26,9 @@ jobs:
           echo "target branch: ${{ github.event.pull_request.base.ref }}"
           echo "source branch: ${{ github.event.pull_request.head.ref }}"
           echo "PR Number: ${{ github.event.pull_request.number }}"
+          echo "event type: ${{ github.event.pull_request.type || 'N/A' }}"
+          echo "Pull request user login: ${{ github.event.pull_request.user.login }}"
+          echo "Repository: ${{ github.repository }}"
 
   # Branch rules ensure doesnt auto merge if shouldnt       
   auto-merge:
@@ -36,7 +39,6 @@ jobs:
       - name: Checkout the repository
         uses: actions/checkout@v4
         
-      # qqqq could use action
       - name: Set up GitHub CLI
         run: |
           # Install GitHub CLI (gh)
@@ -45,7 +47,6 @@ jobs:
           
       - name: extract update type
         id: extract
-        # Specific dependabot token qqqq?
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
