@@ -23,14 +23,14 @@ on:
         required: true
       WASMSERVERHOST_APPSETTINGS_DEVELOPMENT:
         required: true
-      UNITTESTS_APPSETTINGS_PRODUCTION:
-        required: true
-      WASMSTATICCLIENT_APPSETTINGS_PRODUCTION:
-        required: true
-      WASMSERVERHOSTCLIENT_APPSETTINGS_PRODUCTION:
-        required: true
-      WASMSERVERHOST_APPSETTINGS_PRODUCTION:
-        required: true
+      # UNITTESTS_APPSETTINGS_PRODUCTION:
+        # required: true
+      # WASMSTATICCLIENT_APPSETTINGS_PRODUCTION:
+        # required: true
+      # WASMSERVERHOSTCLIENT_APPSETTINGS_PRODUCTION:
+        # required: true
+      # WASMSERVERHOST_APPSETTINGS_PRODUCTION:
+        # required: true
       TEL_GIT_PACKAGES_TOKEN:
         required: true
     
@@ -90,10 +90,11 @@ jobs:
             paths["./TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/TELBlazor.Components.ShowCase.E2ETests.WasmServerHost.Client/wwwroot/appsettings.Development.json"]='${{ secrets.WASMSERVERHOSTCLIENT_APPSETTINGS_DEVELOPMENT }}'
             paths["./TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/appsettings.Development.json"]='${{ secrets.WASMSERVERHOST_APPSETTINGS_DEVELOPMENT }}'
             
-            paths["./TELBlazor.Components.UnitTests/appsettings.Production.json"]='${{ secrets.UNITTESTS_APPSETTINGS_PRODUCTION }}'
-            paths["./TELBlazor.Components.ShowCase.WasmStaticClient/wwwroot/appsettings.Production.json"]='${{ secrets.WASMSTATICCLIENT_APPSETTINGS_PRODUCTION }}'
-            paths["./TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/TELBlazor.Components.ShowCase.E2ETests.WasmServerHost.Client/wwwroot/appsettings.Production.json"]='${{ secrets.WASMSERVERHOSTCLIENT_APPSETTINGS_PRODUCTION }}'
-            paths["./TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/appsettings.Production.json"]='${{ secrets.WASMSERVERHOST_APPSETTINGS_PRODUCTION }}'
+            # qqqq drop later            
+            # paths["./TELBlazor.Components.UnitTests/appsettings.Production.json"]='${{ secrets.UNITTESTS_APPSETTINGS_PRODUCTION }}'
+            # paths["./TELBlazor.Components.ShowCase.WasmStaticClient/wwwroot/appsettings.Production.json"]='${{ secrets.WASMSTATICCLIENT_APPSETTINGS_PRODUCTION }}'
+            # paths["./TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/TELBlazor.Components.ShowCase.E2ETests.WasmServerHost.Client/wwwroot/appsettings.Production.json"]='${{ secrets.WASMSERVERHOSTCLIENT_APPSETTINGS_PRODUCTION }}'
+            # paths["./TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/appsettings.Production.json"]='${{ secrets.WASMSERVERHOST_APPSETTINGS_PRODUCTION }}'
 
             for path in "${!paths[@]}"; do
               mkdir -p "$(dirname "$path")"
@@ -117,6 +118,8 @@ jobs:
           run: dotnet workload install wasm-tools --skip-manifest-update --source https://api.nuget.org/v3/index.json          
           
         - name: Build and create package locally
+          env:
+            ASPNETCORE_ENVIRONMENT: Development
           run: |
             dotnet build TELBlazor.Components -c Release \
               /p:TELBlazorPackageVersion=$TELBLAZOR_PACKAGE_VERSION \
@@ -126,6 +129,8 @@ jobs:
 
               
         - name: Build solution without generating new package
+          env:
+            ASPNETCORE_ENVIRONMENT: Development
           run: |
             dotnet build TELBlazor.sln -c Release \
               /p:TELBlazorPackageVersion=$TELBLAZOR_PACKAGE_VERSION \
@@ -259,10 +264,11 @@ jobs:
               paths["./TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/TELBlazor.Components.ShowCase.E2ETests.WasmServerHost.Client/wwwroot/appsettings.Development.json"]='${{ secrets.WASMSERVERHOSTCLIENT_APPSETTINGS_DEVELOPMENT }}'
               paths["./TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/appsettings.Development.json"]='${{ secrets.WASMSERVERHOST_APPSETTINGS_DEVELOPMENT }}'
 
-              paths["./TELBlazor.Components.UnitTests/appsettings.Production.json"]='${{ secrets.UNITTESTS_APPSETTINGS_PRODUCTION }}'
-              paths["./TELBlazor.Components.ShowCase.WasmStaticClient/wwwroot/appsettings.Production.json"]='${{ secrets.WASMSTATICCLIENT_APPSETTINGS_PRODUCTION }}'
-              paths["./TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/TELBlazor.Components.ShowCase.E2ETests.WasmServerHost.Client/wwwroot/appsettings.Production.json"]='${{ secrets.WASMSERVERHOSTCLIENT_APPSETTINGS_PRODUCTION }}'
-              paths["./TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/appsettings.Production.json"]='${{ secrets.WASMSERVERHOST_APPSETTINGS_PRODUCTION }}'
+              # qqqq drop
+              # paths["./TELBlazor.Components.UnitTests/appsettings.Production.json"]='${{ secrets.UNITTESTS_APPSETTINGS_PRODUCTION }}'
+              # paths["./TELBlazor.Components.ShowCase.WasmStaticClient/wwwroot/appsettings.Production.json"]='${{ secrets.WASMSTATICCLIENT_APPSETTINGS_PRODUCTION }}'
+              # paths["./TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/TELBlazor.Components.ShowCase.E2ETests.WasmServerHost.Client/wwwroot/appsettings.Production.json"]='${{ secrets.WASMSERVERHOSTCLIENT_APPSETTINGS_PRODUCTION }}'
+              # paths["./TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/appsettings.Production.json"]='${{ secrets.WASMSERVERHOST_APPSETTINGS_PRODUCTION }}'
 
               for path in "${!paths[@]}"; do
                 mkdir -p "$(dirname "$path")"
@@ -284,6 +290,8 @@ jobs:
             run: dotnet workload install wasm-tools --skip-manifest-update --source https://api.nuget.org/v3/index.json
 
           - name: Build and create package locally
+            env:
+              ASPNETCORE_ENVIRONMENT: Development
             run: |
               dotnet build TELBlazor.Components -c Release \
                 /p:TELBlazorPackageVersion=$TELBLAZOR_PACKAGE_VERSION \
@@ -292,6 +300,8 @@ jobs:
                 /p:DisablePackageGeneration=false
               
           - name: Build solution without generating new package
+            env:
+              ASPNETCORE_ENVIRONMENT: Development
             run: |
               dotnet build TELBlazor.sln -c Release \
                 /p:TELBlazorPackageVersion=$TELBLAZOR_PACKAGE_VERSION \
@@ -305,6 +315,8 @@ jobs:
 
           - name: Run tests with coverage threshold check
             id: unit_e2e_tests
+            env:
+              ASPNETCORE_ENVIRONMENT: Development
             run: |
               dotnet test --no-build --no-restore -c Release \
                 /p:TELBlazorPackageVersion=$TELBLAZOR_PACKAGE_VERSION \
