@@ -1572,7 +1572,7 @@
         "dependencies": {
           "Blazored.LocalStorage": "[4.5.0, )",
           "Microsoft.AspNetCore.Components.WebAssembly.Server": "[8.0.20, )",
-          "Newtonsoft.Json": "[13.0.1, )",
+          "Newtonsoft.Json": "[13.0.4, )",
           "Serilog": "[4.3.0, )",
           "Serilog.AspNetCore": "[8.0.0, )",
           "Serilog.Extensions.Logging": "[8.0.0, )",
@@ -1719,9 +1719,9 @@
       },
       "Newtonsoft.Json": {
         "type": "CentralTransitive",
-        "requested": "[13.0.1, )",
-        "resolved": "13.0.1",
-        "contentHash": "ppPFpBcvxdsfUonNcvITKqLl3bqxWbDCZIzDWHzjpdAHRFfZe0Dw9HmA0+za13IdyrgJwpkDTDA9fHaxOrt20A=="
+        "requested": "[13.0.4, )",
+        "resolved": "13.0.4",
+        "contentHash": "pdgNNMai3zv51W5aq268sujXUyx7SNdE2bj1wZcWjAQrKMFZV260lbqYop1d2GM67JI1huLRwxo9ZqnfF/lC6A=="
       },
       "Serilog": {
         "type": "CentralTransitive",
