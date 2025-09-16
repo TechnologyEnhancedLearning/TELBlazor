@@ -129,14 +129,14 @@
       },
       "Serilog.Sinks.XUnit": {
         "type": "Direct",
-        "requested": "[2.0.4, )",
-        "resolved": "2.0.4",
-        "contentHash": "L9R01Z3EzsNlr6iPozwSX1TekFHyg8YiaaUncXG+WWSvT/wQp/8jIsN1EmXYtTbPbfUgzNdTdU/lCveYPFtNlA==",
+        "requested": "[3.0.19, )",
+        "resolved": "3.0.19",
+        "contentHash": "TlibhWRbxB2fl+w5XEtRtzuxsceDF18bNJIXsmDiHqlK+KN6PSKDeDQq1rEa3V712q0ouvKbYAiVCE+5DOkYdQ==",
         "dependencies": {
-          "NETStandard.Library": "1.6.1",
-          "Serilog": "2.9.0",
+          "Serilog": "4.1.0",
           "xunit.abstractions": "2.0.3",
-          "xunit.core": "2.4.1"
+          "xunit.extensibility.core": "2.9.2",
+          "xunit.extensibility.execution": "2.9.2"
         }
       },
       "TELBlazor.Components": {
