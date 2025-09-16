@@ -43,7 +43,7 @@
     <PackageVersion Include="Serilog.Sinks.Debug" Version="3.0.0" />
     <PackageVersion Include="Serilog.Sinks.File" Version="6.0.0" />
     <!-- Testing - xUnit -->
-    <PackageVersion Include="xunit" Version="2.9.0" />
+    <PackageVersion Include="xunit" Version="2.9.3" />
     <PackageVersion Include="xunit.runner.visualstudio" Version="2.5.4" PrivateAssets="all" />
     <!-- Testing - General -->
     <PackageVersion Include="bunit" Version="1.34.0" />
