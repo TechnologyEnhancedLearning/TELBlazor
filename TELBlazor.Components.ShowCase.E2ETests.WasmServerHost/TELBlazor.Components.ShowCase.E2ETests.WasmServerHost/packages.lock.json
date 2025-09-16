@@ -13,9 +13,9 @@
       },
       "Microsoft.AspNetCore.Components.WebAssembly.Server": {
         "type": "Direct",
-        "requested": "[8.0.14, )",
-        "resolved": "8.0.14",
-        "contentHash": "WnDAlplRkNmp1tJAp4XVvT1Qpf9S+T3mDM82/uzFQTWe7d6QPAjv66OgAVD6aKwghiTprgS6NqRDvOXcxlTk9w=="
+        "requested": "[8.0.20, )",
+        "resolved": "8.0.20",
+        "contentHash": "62mssbAOmPf7kvahKOKIIikqJcYbbMPV8HuQsDwwY7b9WCwez8EwaRr9dXKVlXRHn3J52AqmEmd1n3SksDZEKg=="
       },
       "Newtonsoft.Json": {
         "type": "Direct",
