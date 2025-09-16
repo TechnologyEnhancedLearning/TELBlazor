@@ -29,12 +29,13 @@ jobs:
           echo "event type: ${{ github.event.pull_request.type || 'N/A' }}"
           echo "Pull request user login: ${{ github.event.pull_request.user.login }}"
           echo "Repository: ${{ github.repository }}"
+          echo "Event name: ${{ github.event_name }}"
+          echo "Event action: ${{ github.event.action }}
 
   # Branch rules ensure doesnt auto merge if shouldnt       
   auto-merge:
     runs-on: ubuntu-latest
-    # qqqq add in after testing, and harder checks for what it is doing if: github.actor == 'dependabot[bot]'
-    # if: github.event.pull_request.user.login == 'dependabot[bot]' && github.repository == 'TechnologyEnhancedLearning/TELBlazor'
+    if: ${{ github.event.pull_request.user.login == 'dependabot[bot]' && github.repository == 'TechnologyEnhancedLearning/TELBlazor' }}
     steps:
       - name: Checkout the repository
         uses: actions/checkout@v4
