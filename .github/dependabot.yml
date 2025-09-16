@@ -19,8 +19,7 @@ updates:
       interval: "daily"
     open-pull-requests-limit: 100
     target-branch: "Automatic_version_update_dependabot"  
-    # qqqq put back in once dependabot flowing automaticaly
-    # rebase-strategy: "auto"
+    rebase-strategy: "auto"
     ignore:
       # The cicd for TELBlazor manages the version to consume for showcase consuming the package
       - dependency-name: "TELBlazor.Components"
@@ -31,5 +30,4 @@ updates:
       interval: "daily"
     open-pull-requests-limit: 100
     target-branch: "Automatic_version_update_dependabot"
-    # qqqq put back in once dependabot flowing automaticaly
-    # rebase-strategy: "auto"
+    rebase-strategy: "auto"
