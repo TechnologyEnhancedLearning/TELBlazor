@@ -30,7 +30,7 @@ jobs:
           echo "Pull request user login: ${{ github.event.pull_request.user.login }}"
           echo "Repository: ${{ github.repository }}"
           echo "Event name: ${{ github.event_name }}"
-          echo "Event action: ${{ github.event.action }}
+          echo "Event action: ${{ github.event.action }}"
 
   # Branch rules ensure doesnt auto merge if shouldnt       
   auto-merge:
