@@ -40,15 +40,15 @@
       },
       "Microsoft.NET.ILLink.Tasks": {
         "type": "Direct",
-        "requested": "[8.0.19, )",
-        "resolved": "8.0.19",
-        "contentHash": "IhHf+zeZiaE5EXRyxILd4qM+Hj9cxV3sa8MpzZgeEhpvaG3a1VEGF6UCaPFLO44Kua3JkLKluE0SWVamS50PlA=="
+        "requested": "[8.0.20, )",
+        "resolved": "8.0.20",
+        "contentHash": "Rhcto2AjGvTO62+/VTmBpumBOmqIGp7nYEbTbmEXkCq4yPGxV8whju3/HsIA/bKyo2+DggaYk5+/8sxb1AbPTw=="
       },
       "Microsoft.NET.Sdk.WebAssembly.Pack": {
         "type": "Direct",
-        "requested": "[8.0.19, )",
-        "resolved": "8.0.19",
-        "contentHash": "Cm/sq4ET7XGU7jBSfSh+s+eV0faJ1RnErpImRYN7+d5loWISBwl22qsM6sn9StUWKJao+xGvF0IxgyPVnY20Vw=="
+        "requested": "[8.0.20, )",
+        "resolved": "8.0.20",
+        "contentHash": "T8IgvEg6M4INrHw9K89JjslxP0D6fHYiogFvarNPSjfusHdV/KvwJU4YC1+lNOIIgpjslkb4WWSW9IuNxHdPLg=="
       },
       "Serilog": {
         "type": "Direct",
@@ -305,30 +305,8 @@
           "System.Text.Encodings.Web": "8.0.0"
         }
       },
-      "telblazor.components": {
-        "type": "Project",
-        "dependencies": {
-          "Blazored.LocalStorage": "[4.5.0, )",
-          "Microsoft.AspNetCore.Components.Web": "[8.0.14, )",
-          "Microsoft.Extensions.Http": "[8.0.1, )",
-          "Serilog": "[4.2.0, )"
-        }
-      },
       "telblazor.components.showcase.shared": {
-        "type": "Project",
-        "dependencies": {
-          "Blazored.LocalStorage": "[4.5.0, )",
-          "Markdig": "[0.41.3, )",
-          "Microsoft.AspNetCore.Components.Web": "[8.0.14, )",
-          "Serilog": "[4.2.0, )",
-          "TELBlazor.Components": "[1.2.6-local, )"
-        }
-      },
-      "Markdig": {
-        "type": "CentralTransitive",
-        "requested": "[0.41.3, )",
-        "resolved": "0.41.3",
-        "contentHash": "i3vSTyGpBGWbJB04aJ3cPJs0T3BV2e1nduW3EUHK/i+xUupYbym75iZPss/XjqhS5JlBErwQYnx7ofK3Zcsozg=="
+        "type": "Project"
       },
       "Microsoft.AspNetCore.Components.Web": {
         "type": "CentralTransitive",
