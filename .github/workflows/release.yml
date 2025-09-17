@@ -79,10 +79,12 @@ jobs:
           set -e
           
           echo "running semantic-release"
-          SEMVER_OUTPUT_RAW=$(npx semantic-release 2>&1)
+          SEMVER_OUTPUT_RAW=$(npx semantic-release)
+          echo "semantic-release run"
+          echo "$SEMVER_OUTPUT_RAW"
           STATUS=$?
           echo "status = $STATUS"
-          echo "$SEMVER_OUTPUT_RAW"
+          
           
           # Check for no changes and set SEMVER_VERSION accordingly
           if echo "$SEMVER_OUTPUT_RAW" | grep -q 'There are no relevant changes'; then
