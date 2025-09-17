@@ -72,6 +72,7 @@ jobs:
           # Check if version bump expected
           elif echo "$SEMVER_OUTPUT_RAW" | grep -q 'Published release'; then
             # Extract the actual version, if it fails here we want to know
+            echo "Extract the actual version"
             SEMVER_VERSION=$(echo "$SEMVER_OUTPUT_RAW" | grep -oP 'Published release \K[\d.]+')
             echo "Version change detected - SEMVER_VERSION=$SEMVER_VERSION"
             echo "version change required true"
