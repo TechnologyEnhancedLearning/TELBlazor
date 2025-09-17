@@ -1,3 +1,25 @@
+# [2.0.0](https://github.com/TechnologyEnhancedLearning/TELBlazor/compare/v1.15.0...v2.0.0) (2025-09-17)
+
+
+### Features
+
+* **cicd:** cicd ([869f5d9](https://github.com/TechnologyEnhancedLearning/TELBlazor/commit/869f5d93c01f1cd7adae8d6e56295c861eb2a691))
+* **cicd:** versioning ([a7308e9](https://github.com/TechnologyEnhancedLearning/TELBlazor/commit/a7308e921d94404aa905fb03667bfa0d7b5b146d))
+* **majorvers:** big version ([bdee7ba](https://github.com/TechnologyEnhancedLearning/TELBlazor/commit/bdee7ba4197719f9e1c6087feccda2b24fedf5a7))
+* **newversion:** new version ([082d84b](https://github.com/TechnologyEnhancedLearning/TELBlazor/commit/082d84bce07558a24626a182d568c6b776ec2c52))
+* **versionmajor:** version update ([8a0a38a](https://github.com/TechnologyEnhancedLearning/TELBlazor/commit/8a0a38ab1264df1080e8c7e4c3280bc8298f4693))
+* **version:** new major ([b3238df](https://github.com/TechnologyEnhancedLearning/TELBlazor/commit/b3238df8d54567f45f3eef79082ca808072fe44f))
+
+
+### BREAKING CHANGES
+
+* **cicd:** feat inc
+* **cicd:** version update
+* **versionmajor:** version update
+* **majorvers:** squash and vers
+* **version:** inc version
+* **newversion:** new version
+
 # [1.15.0](https://github.com/TechnologyEnhancedLearning/TELBlazor/compare/v1.14.0...v1.15.0) (2025-08-21)
 
 
