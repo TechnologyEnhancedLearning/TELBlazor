@@ -82,8 +82,6 @@ jobs:
           SEMVER_OUTPUT_RAW=$(npx semantic-release)
           echo "semantic-release run"
           echo "$SEMVER_OUTPUT_RAW"
-          STATUS=$?
-          echo "status = $STATUS"
           
           
           # Check for no changes and set SEMVER_VERSION accordingly
