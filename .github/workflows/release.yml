@@ -79,7 +79,8 @@ jobs:
           set -e
           
           echo "running semantic-release"
-          echo "⚠️ Semver-release will not be able to make the change if branch checks havent run if they are required ⚠️" 
+          echo "⚠️ Semver-release will not be able to make the change if branch checks havent run if they are required ⚠️"
+          echo "⚠️ Or if gits own api fails ⚠️"           
           SEMVER_OUTPUT_RAW=$(npx semantic-release)
           echo "semantic-release run"
           echo "$SEMVER_OUTPUT_RAW"
