@@ -57,11 +57,34 @@ jobs:
         id: set_semantic_version
         run: |
           
+          echo "error catch run of semver first to get any error detail on config issues"
+          
+          set +e
+          SEMVER_OUTPUT_RAW_ERROR_CHECK=$(npx semantic-release --dry-run 2> /tmp/semantic-release-errors.log)
+          STATUS_ERROR_CHECK=$?
+          
+          echo $SEMVER_OUTPUT_RAW_ERROR_CHECK
+          echo "STATUS_ERROR_CHECK = $STATUS_ERROR_CHECK "
+          
+          # Now you can check the status and log the error messages if an error occurred
+          if [ $STATUS_ERROR_CHECK -ne 0 ]; then
+            echo "❌ Semantic release failed with exit code $STATUS_ERROR_CHECK."
+            echo "❌ Error output:"
+            cat /tmp/semantic-release-errors.log
+          else
+            echo "✅ Semantic Ouput success : $SEMVER_OUTPUT_RAW_ERROR_CHECK "
+            echo "✅ Error on success : $STATUS_ERROR_CHECK"
+          fi
+          
+          set -e
+          
           echo "running semantic-release"
-          SEMVER_OUTPUT_RAW=$(npx semantic-release 2>&1)
+          SEMVER_OUTPUT_RAW=$(npx semantic-release)
+          echo "semantic-release run"
+          echo "$SEMVER_OUTPUT_RAW"
           STATUS=$?
           echo "status = $STATUS"
-          echo "$SEMVER_OUTPUT_RAW"     
+          
           
           # Check for no changes and set SEMVER_VERSION accordingly
           if echo "$SEMVER_OUTPUT_RAW" | grep -q 'There are no relevant changes'; then

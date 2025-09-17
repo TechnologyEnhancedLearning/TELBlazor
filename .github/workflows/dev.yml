@@ -50,10 +50,10 @@ jobs:
       TEL_GIT_PACKAGES_TOKEN: ${{secrets.NUGETKEY }}
       
       # Prod
-      UNITTESTS_APPSETTINGS_PRODUCTION: ${{ secrets.UNITTESTS_APPSETTINGS_PRODUCTION }}
-      WASMSTATICCLIENT_APPSETTINGS_PRODUCTION: ${{ secrets.WASMSTATICCLIENT_APPSETTINGS_PRODUCTION }}
-      WASMSERVERHOSTCLIENT_APPSETTINGS_PRODUCTION: ${{ secrets.WASMSERVERHOSTCLIENT_APPSETTINGS_PRODUCTION }}
-      WASMSERVERHOST_APPSETTINGS_PRODUCTION: ${{ secrets.WASMSERVERHOST_APPSETTINGS_PRODUCTION }}
+      # UNITTESTS_APPSETTINGS_PRODUCTION: ${{ secrets.UNITTESTS_APPSETTINGS_PRODUCTION }}
+      # WASMSTATICCLIENT_APPSETTINGS_PRODUCTION: ${{ secrets.WASMSTATICCLIENT_APPSETTINGS_PRODUCTION }}
+      # WASMSERVERHOSTCLIENT_APPSETTINGS_PRODUCTION: ${{ secrets.WASMSERVERHOSTCLIENT_APPSETTINGS_PRODUCTION }}
+      # WASMSERVERHOST_APPSETTINGS_PRODUCTION: ${{ secrets.WASMSERVERHOST_APPSETTINGS_PRODUCTION }}
 
   # Now we've done due diligence
   # The checks have been allowed to run if the workflow fails so if there a multiple fails we know. 
@@ -92,10 +92,35 @@ jobs:
       - name: Run dev semantic version (None Blocking)
         id: detect_semantic_version
         run: |
+          echo "error catch run of semver first to get any error detail on config issues"
+          set +e
+          SEMVER_OUTPUT_RAW_ERROR_CHECK=$(npx semantic-release --dry-run 2> /tmp/semantic-release-errors.log)
+          STATUS_ERROR_CHECK=$?
+
+          # Now you can check the status and log the error messages if an error occurred
+          if [ $STATUS_ERROR_CHECK -ne 0 ]; then
+            echo "❌ Semantic release failed with exit code $STATUS_ERROR_CHECK."
+            echo "❌ Error output:"
+            cat /tmp/semantic-release-errors.log
+          else
+            echo "✅ Semantic Ouput success : $SEMVER_OUTPUT_RAW_ERROR_CHECK "
+            echo "✅ Error on success : $STATUS_ERROR_CHECK"
+          fi
+          
+          set -e
+
 
           echo "running semantic-release"
-          SEMVER_OUTPUT_RAW=$(npx semantic-release --dry-run 2>&1)
-          STATUS=$?
+          semver_output_raw=$(npx semantic-release --dry-run 2>&1)
+          status=$?
+
+          # Now you can check the status and log the error messages if an error occurred
+          if [ $STATUS -ne 0 ]; then
+            echo "Semantic release failed with exit code $STATUS."
+            echo "Error output:"
+            cat /tmp/semantic-release-errors.log
+          fi
+          
           echo "status = $STATUS"
           echo "$SEMVER_OUTPUT_RAW"          
           
@@ -362,4 +387,3 @@ jobs:
             -H "X-GitHub-Api-Version: 2022-11-28" \
             https://api.github.com/repos/$repo_owner/$repo_name/dispatches \
             -d "{\"event_type\": \"$event_type\", \"client_payload\": {\"artifact_url\": \"$artifact_url\"}}"      
-        

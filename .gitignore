@@ -236,3 +236,5 @@ TELBlazor.Components.ShowCase.E2ETests.WasmServerHost/Logs/*
 
 # Generated version info files
 TELBlazor.Components/TELBlazorPackageVersion/VersionInfo*.cs
+/.github/workflows/test.yml
+/Optimisation Notes.md
