@@ -1,3 +1,15 @@
+# [3.0.0](https://github.com/TechnologyEnhancedLearning/TELBlazor/compare/v2.0.0...v3.0.0) (2025-09-17)
+
+
+### Features
+
+* **cicd:** broke due to google api ([ccd3665](https://github.com/TechnologyEnhancedLearning/TELBlazor/commit/ccd3665e6093146a4a6fd0b74196948c97796ad9))
+
+
+### BREAKING CHANGES
+
+* **cicd:** google api
+
 # [2.0.0](https://github.com/TechnologyEnhancedLearning/TELBlazor/compare/v1.15.0...v2.0.0) (2025-09-17)
 
 
