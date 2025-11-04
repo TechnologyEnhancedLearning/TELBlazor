@@ -20,11 +20,11 @@
       },
       "Deque.AxeCore.Playwright": {
         "type": "Direct",
-        "requested": "[4.10.1, )",
-        "resolved": "4.10.1",
-        "contentHash": "LjgJj5kvNKFeN/6QlO3Z0+kr2ZKjTCjJ+XUbEHRM90PaCpaQIq6iU+xTvp3gljTUZWwgXVYXdrDcqbZkNr7x3Q==",
+        "requested": "[4.11.0, )",
+        "resolved": "4.11.0",
+        "contentHash": "lqpBLFENo9vtPookW/KfjXurPHWVtBCWiAVv3XF6qBmNzYf5S+qmt1k74yJh/AQoBLQaLcPA7vivd4yLOZprHQ==",
         "dependencies": {
-          "Deque.AxeCore.Commons": "4.10.1",
+          "Deque.AxeCore.Commons": "4.11.0",
           "Microsoft.Playwright": "1.20.2",
           "System.IO.Abstractions": "17.0.24"
         }
@@ -139,8 +139,8 @@
       },
       "Deque.AxeCore.Commons": {
         "type": "Transitive",
-        "resolved": "4.10.1",
-        "contentHash": "1pc8boHRvmbNjBYfP1DGsuahV0Kh7oE3q8UuSdkokeHH8WcJb3SnXO2QasU3M56cRhBZQI8h3nLBFSj4rW/YTg==",
+        "resolved": "4.11.0",
+        "contentHash": "lbRbo2HZ/RX4w+HyS/Z1wsWt3sIE2W6P/FhJ2pY6Bxpw+wyua7DQOd2uC6os4uNOrC9NncmIW3E1AMa3R5dRGg==",
         "dependencies": {
           "NewtonSoft.Json": "13.0.1"
         }
@@ -1583,7 +1583,7 @@
           "Serilog.Extensions.Logging": "[8.0.0, )",
           "Serilog.Formatting.Compact": "[3.0.0, )",
           "Serilog.Settings.Configuration": "[9.0.0, )",
-          "Serilog.Sinks.Console": "[6.0.0, )",
+          "Serilog.Sinks.Console": "[6.1.1, )",
           "Serilog.Sinks.Debug": "[3.0.0, )",
           "Serilog.Sinks.File": "[6.0.0, )",
           "TELBlazor.Components.ShowCase.E2ETests.WasmServerHost.Client": "[1.0.0, )",
@@ -1794,9 +1794,9 @@
       },
       "Serilog.Sinks.Console": {
         "type": "CentralTransitive",
-        "requested": "[6.0.0, )",
-        "resolved": "6.0.0",
-        "contentHash": "fQGWqVMClCP2yEyTXPIinSr5c+CBGUvBybPxjAGcf7ctDhadFhrQw03Mv8rJ07/wR5PDfFjewf2LimvXCDzpbA==",
+        "requested": "[6.1.1, )",
+        "resolved": "6.1.1",
+        "contentHash": "8jbqgjUyZlfCuSTaJk6lOca465OndqOz3KZP6Cryt/IqZYybyBu7GP0fE/AXBzrrQB3EBmQntBFAvMVz1COvAA==",
         "dependencies": {
           "Serilog": "4.0.0"
         }
