@@ -53,7 +53,7 @@
     <PackageVersion Include="FluentAssertions" Version="8.8.0" />
     <!-- Testing - Playwright -->
     <PackageVersion Include="Deque.AxeCore.Playwright" Version="4.11.0" />
-    <PackageVersion Include="Microsoft.Playwright" Version="1.55.0" />
+    <PackageVersion Include="Microsoft.Playwright" Version="1.56.0" />
     <PackageVersion Include="Microsoft.Playwright.MSTest" Version="1.55.0" />
     <PackageVersion Include="Microsoft.Playwright.Xunit" Version="1.55.0" />
     <PackageVersion Include="Verify.Playwright" Version="3.1.0" />
