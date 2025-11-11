@@ -71,9 +71,9 @@
       },
       "Microsoft.Playwright": {
         "type": "Direct",
-        "requested": "[1.55.0, )",
-        "resolved": "1.55.0",
-        "contentHash": "iPVHeRI5EZB1gK43MC/qnINvGUV3pYh/PJn5wNmeaiZ4ARlFAfK3azf46c7/kx/lmVaknZ5rSNT1F8SZgSaWSQ==",
+        "requested": "[1.56.0, )",
+        "resolved": "1.56.0",
+        "contentHash": "DswyjEbhkTkQSyGnx2x1xhzwAztu/ckfOPZsT/fCA0HZVGdLkEWmf2u1FmUBWdT61do02VoMzp0dvA+oq7hKDg==",
         "dependencies": {
           "Microsoft.Bcl.AsyncInterfaces": "6.0.0",
           "System.ComponentModel.Annotations": "5.0.0",
@@ -95,12 +95,12 @@
       },
       "Microsoft.Playwright.Xunit": {
         "type": "Direct",
-        "requested": "[1.55.0, )",
-        "resolved": "1.55.0",
-        "contentHash": "53mV7qimueHnIklgqg9MZRTkdFoTUmVp86TsZF1IB6Pa4GCrxq7hFmt9dAFY0Ae4chI45Lm2bCN8GizfzASZBg==",
+        "requested": "[1.56.0, )",
+        "resolved": "1.56.0",
+        "contentHash": "PwmJvbiOfwfYUv2qPA8LgEMok+LYgY8sbGAzeCrUJL0c96dLCkMaHGrFqJ/KZ2lXnDiOCUfMJS9eC47dNGwsFQ==",
         "dependencies": {
-          "Microsoft.Playwright": "1.55.0",
-          "Microsoft.Playwright.TestAdapter": "1.55.0",
+          "Microsoft.Playwright": "1.56.0",
+          "Microsoft.Playwright.TestAdapter": "1.56.0",
           "xunit.extensibility.core": "2.8.0"
         }
       },
@@ -169,40 +169,40 @@
       },
       "Microsoft.AspNetCore.Authorization": {
         "type": "Transitive",
-        "resolved": "8.0.21",
-        "contentHash": "ckniZ/HilMC311SNZM0Tb5+4f4IWmNniEy893pAmjVsN0veXIyegl9yDp6vn2iBooJB9qfxy4kVkFjEKEOFrng==",
+        "resolved": "8.0.22",
+        "contentHash": "D7GY8e30UCkjQO9z2cQ1XT/+T1CSAae+KxojcI5SRb8iKmhVjMrAyspdslGMVhS5zOnPgObUp1666BriQmzv3g==",
         "dependencies": {
-          "Microsoft.AspNetCore.Metadata": "8.0.21",
+          "Microsoft.AspNetCore.Metadata": "8.0.22",
           "Microsoft.Extensions.Logging.Abstractions": "8.0.3",
           "Microsoft.Extensions.Options": "8.0.2"
         }
       },
       "Microsoft.AspNetCore.Components": {
         "type": "Transitive",
-        "resolved": "8.0.21",
-        "contentHash": "O1UE1JgTFQKz0easeZ9rMg8sdsMC3Qois3oc4NNubLP7S4v25C602mCvnLjv1pF6mgXWEeGLpRQYQAqKx3ZcqQ==",
+        "resolved": "8.0.22",
+        "contentHash": "qlW2tz9umukb/XTA+D7p+OiOz6l10rtn0jwh2A46LN8VwikutX5HbCE3pdc1x7eG2LdSKb2OLOTpdhaDp4NB3g==",
         "dependencies": {
-          "Microsoft.AspNetCore.Authorization": "8.0.21",
-          "Microsoft.AspNetCore.Components.Analyzers": "8.0.21"
+          "Microsoft.AspNetCore.Authorization": "8.0.22",
+          "Microsoft.AspNetCore.Components.Analyzers": "8.0.22"
         }
       },
       "Microsoft.AspNetCore.Components.Analyzers": {
         "type": "Transitive",
-        "resolved": "8.0.21",
-        "contentHash": "rYzZWBgSBCtJSsqZTrXtSUY+vhJTRCL4+5fLZayPrXQjphQUUOpIyDT1hp3b8q5ytWwP0lUMCZH7lSBQ8C5tTw=="
+        "resolved": "8.0.22",
+        "contentHash": "Xf/+WuHI1obDwkxUb8w5P+JnaQJEau6r/fDkTvikUvTsMJOwsMAlaG67mJBx31z21jv2SGSPiOWLysBcLagcIQ=="
       },
       "Microsoft.AspNetCore.Components.Forms": {
         "type": "Transitive",
-        "resolved": "8.0.21",
-        "contentHash": "K+MgwgD95OGcEe57TdoHavQa3a+kxb2KqQ2fiIOvCX1UdCF3YA9gYzrOi1LLs8yRGl1wGbdGYl5du8NRj4fZVQ==",
+        "resolved": "8.0.22",
+        "contentHash": "QbuKgMz6oE2FR2kFvoYoXJljdp43IQoHXbqmILVPE9TJ80GlTvE6YLqqHdYInT8+gR7lP9r56AJg9n+RBGEhQA==",
         "dependencies": {
-          "Microsoft.AspNetCore.Components": "8.0.21"
+          "Microsoft.AspNetCore.Components": "8.0.22"
         }
       },
       "Microsoft.AspNetCore.Metadata": {
         "type": "Transitive",
-        "resolved": "8.0.21",
-        "contentHash": "3C7OfvuSY+ODBe/uOrX/S/7cjVGQSzduXamkpoFv1GTcHMoPttK7VmUXTNSiVWerC14v/OtT52zL6+U+T3gx4A=="
+        "resolved": "8.0.22",
+        "contentHash": "Ha5M7eC//ZyBzJTc7CmUs0RJkqfBRXc38xzewR8VqZov8jURWuyaSv2XNiokjt7H77cZjQ7sLL0I/RD5JnQ/nA=="
       },
       "Microsoft.AspNetCore.TestHost": {
         "type": "Transitive",
@@ -457,8 +457,8 @@
       },
       "Microsoft.JSInterop": {
         "type": "Transitive",
-        "resolved": "8.0.21",
-        "contentHash": "MrPSs3LgQPuvMFRoKfdmB4DztVsX6ASNek9XALz7hW4UmB8nVySlyuE2pDhZ47CICZqSHQvXet8w+sAiJDoY4A=="
+        "resolved": "8.0.22",
+        "contentHash": "RmReQAbsJXtJZjQEAo2XrpZDplNmvLtysMRGbcQlLwY6A/3/HZ3Y0kR1K6aq9PK5wyF6S5AwRNny09H+L997/Q=="
       },
       "Microsoft.JSInterop.WebAssembly": {
         "type": "Transitive",
@@ -480,10 +480,10 @@
       },
       "Microsoft.Playwright.TestAdapter": {
         "type": "Transitive",
-        "resolved": "1.55.0",
-        "contentHash": "iXK0fvP95i+M3JMj8aDK2sZ2z7bK8CG8L9V1utlkRgE82dDqtoiWUPJUk4n4cWyTUw7iTWy7GXqXPUQmIEYd9Q==",
+        "resolved": "1.56.0",
+        "contentHash": "PQSMgHM/VJCE3N3jAZ9lvZGhGfyR5jnDAClvTKEVWwesalW/nCadfKHkOGPkMQMWNawAqj6penJ4Sjcl8vd2sw==",
         "dependencies": {
-          "Microsoft.Playwright": "1.55.0",
+          "Microsoft.Playwright": "1.56.0",
           "Microsoft.TestPlatform.ObjectModel": "17.3.0"
         }
       },
@@ -1610,7 +1610,7 @@
         "dependencies": {
           "Blazored.LocalStorage": "[4.5.0, )",
           "Markdig": "[0.43.0, )",
-          "Microsoft.AspNetCore.Components.Web": "[8.0.21, )",
+          "Microsoft.AspNetCore.Components.Web": "[8.0.22, )",
           "Serilog": "[4.3.0, )",
           "TELBlazor.Components": "(, )"
         }
@@ -1632,15 +1632,15 @@
       },
       "Microsoft.AspNetCore.Components.Web": {
         "type": "CentralTransitive",
-        "requested": "[8.0.21, )",
-        "resolved": "8.0.21",
-        "contentHash": "cfQgbQ6+ETiA8zLj3lWhSXjwnV23C2ZyfxHuG0UEchlAoMMUzAbFooHlf1pBhjY9CZu5eKeFzi1NMMljWDjhHQ==",
+        "requested": "[8.0.22, )",
+        "resolved": "8.0.22",
+        "contentHash": "b/ik4mgmL7ncHw9//7mOWnx/BwKdrNO4DUyu3xZuzSt5ABmj1BVTElOCzjLBEewCOCwUIk0LmOqDpzaoXyG/NA==",
         "dependencies": {
-          "Microsoft.AspNetCore.Components": "8.0.21",
-          "Microsoft.AspNetCore.Components.Forms": "8.0.21",
+          "Microsoft.AspNetCore.Components": "8.0.22",
+          "Microsoft.AspNetCore.Components.Forms": "8.0.22",
           "Microsoft.Extensions.DependencyInjection": "8.0.1",
           "Microsoft.Extensions.Primitives": "8.0.0",
-          "Microsoft.JSInterop": "8.0.21",
+          "Microsoft.JSInterop": "8.0.22",
           "System.IO.Pipelines": "8.0.0"
         }
       },
