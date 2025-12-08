@@ -95,12 +95,12 @@
       },
       "Microsoft.Playwright.Xunit": {
         "type": "Direct",
-        "requested": "[1.56.0, )",
-        "resolved": "1.56.0",
-        "contentHash": "PwmJvbiOfwfYUv2qPA8LgEMok+LYgY8sbGAzeCrUJL0c96dLCkMaHGrFqJ/KZ2lXnDiOCUfMJS9eC47dNGwsFQ==",
+        "requested": "[1.57.0, )",
+        "resolved": "1.57.0",
+        "contentHash": "4pxvmRuD0ltDMRcPA+9cpUoMUEGcKraV3efpRhhdaDuA58ASPdePE8prlMkzdjVkOfxypNmfZK6ZSsYcdpF6qQ==",
         "dependencies": {
-          "Microsoft.Playwright": "1.56.0",
-          "Microsoft.Playwright.TestAdapter": "1.56.0",
+          "Microsoft.Playwright": "1.57.0",
+          "Microsoft.Playwright.TestAdapter": "1.57.0",
           "xunit.extensibility.core": "2.8.0"
         }
       },
