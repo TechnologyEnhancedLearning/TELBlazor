@@ -46,7 +46,7 @@
     <PackageVersion Include="xunit" Version="2.9.3" />
     <PackageVersion Include="xunit.runner.visualstudio" Version="2.5.4" PrivateAssets="all" />
     <!-- Testing - General -->
-    <PackageVersion Include="bunit" Version="1.34.0" />
+    <PackageVersion Include="bunit" Version="2.4.2" />
     <PackageVersion Include="coverlet.msbuild" Version="6.0.4" />
     <PackageVersion Include="AutoFixture" Version="4.18.1" />
     <PackageVersion Include="AutoFixture.AutoMoq" Version="4.18.1" />
