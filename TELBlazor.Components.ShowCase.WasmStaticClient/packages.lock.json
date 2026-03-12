@@ -26,9 +26,9 @@
       },
       "Microsoft.AspNetCore.Components.WebAssembly.DevServer": {
         "type": "Direct",
-        "requested": "[10.0.3, )",
-        "resolved": "10.0.3",
-        "contentHash": "BYWLabl3xbopAqRu1ZZaYiur0J9Hp9oRDq6AfmMI/Q8pVeTRXUhtJwzVpQdyc9e8PNO44xWM8imbe+L41zfB0Q=="
+        "requested": "[10.0.5, )",
+        "resolved": "10.0.5",
+        "contentHash": "tZwWmlI7WWT1KnDA/S5tkqHd2ZXxnYL0VLqbPAmDVppVlIqqQZLP3+OiW+IgcVSsAgi6WMlGcAd3DrhpFHw/uw=="
       },
       "Microsoft.Extensions.Hosting": {
         "type": "Direct",
@@ -76,15 +76,15 @@
       },
       "Microsoft.NET.ILLink.Tasks": {
         "type": "Direct",
-        "requested": "[8.0.22, )",
-        "resolved": "8.0.22",
-        "contentHash": "MhcMithKEiyyNkD2ZfbDZPmcOdi0GheGfg8saEIIEfD/fol3iHmcV8TsZkD4ZYz5gdUuoX4YtlVySUU7Sxl9SQ=="
+        "requested": "[8.0.24, )",
+        "resolved": "8.0.24",
+        "contentHash": "1gnadp//+DoGJvV4AFdzPqYPxkypaWYjYMCr7KAacV0iadsHz1nU+rrkoxBCna4FCmeKH49CisEwa7g94/MbEg=="
       },
       "Microsoft.NET.Sdk.WebAssembly.Pack": {
         "type": "Direct",
-        "requested": "[8.0.22, )",
-        "resolved": "8.0.22",
-        "contentHash": "GV/HnD1kutMd3pX6WqvL5ZhLATHWKTfWMKyWfLz50rJZ9iQzo3zr/F00tdk77/HDY0wpx028GpJ44YgKt1ML0A=="
+        "requested": "[8.0.24, )",
+        "resolved": "8.0.24",
+        "contentHash": "+yUq82k8/JYeOmQo2e1QDTNRSgsBksmvkfk/o4GYcRLY42ukFtvnvQb/9BoTkB4jbS8xKRnRIa7mT7mcfRC1CQ=="
       },
       "Serilog": {
         "type": "Direct",
@@ -464,7 +464,7 @@
         "type": "Project",
         "dependencies": {
           "Blazored.LocalStorage": "[4.5.0, )",
-          "Markdig": "[0.45.0, )",
+          "Markdig": "[1.1.1, )",
           "Microsoft.AspNetCore.Components.Web": "[8.0.24, )",
           "Serilog": "[4.3.0, )",
           "TELBlazor.Components": "(, )"
@@ -472,9 +472,9 @@
       },
       "Markdig": {
         "type": "CentralTransitive",
-        "requested": "[0.45.0, )",
-        "resolved": "0.45.0",
-        "contentHash": "ObNLcA1b+0lpNNoEg256g9faMeJZi35wZW0AnKJ4nGPJe+5qkwnV26kUvQTHuanFnSX9SdvPzOO41BVJ6XarAg=="
+        "requested": "[1.1.1, )",
+        "resolved": "1.1.1",
+        "contentHash": "wACpji8aLjtmghzdancNFRDUH66F2kS8QE0uywUXvLHgfbTD7LPNj7Vx43sTckpEQFtn5YndEoZvGqIHosBzGQ=="
       },
       "Microsoft.AspNetCore.Components.Web": {
         "type": "CentralTransitive",
