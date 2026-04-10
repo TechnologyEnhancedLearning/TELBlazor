@@ -82,15 +82,15 @@
       },
       "Microsoft.Playwright.MSTest": {
         "type": "Direct",
-        "requested": "[1.58.0, )",
-        "resolved": "1.58.0",
-        "contentHash": "skZ47kINo9xlfOgMNqqovX/OJU0xnTQScepFVGl+mtzg9MmLTpdEpd0iLvaqQ9PV0zH3Mw3t15I4KiDO94rUUA==",
+        "requested": "[1.59.0, )",
+        "resolved": "1.59.0",
+        "contentHash": "YUxaUOzL5fl/X6PEaZXbbBCdwk6VSZDhGetiJ1ZZA1JkS4GOoPLUQRH4+pb+edRMUwoeMjPHNM13xN8Oimc/XA==",
         "dependencies": {
           "MSTest.TestAdapter": "2.2.7",
           "MSTest.TestFramework": "2.2.7",
           "Microsoft.NET.Test.Sdk": "17.8.0",
-          "Microsoft.Playwright": "1.58.0",
-          "Microsoft.Playwright.TestAdapter": "1.58.0"
+          "Microsoft.Playwright": "1.59.0",
+          "Microsoft.Playwright.TestAdapter": "1.59.0"
         }
       },
       "Microsoft.Playwright.Xunit": {
