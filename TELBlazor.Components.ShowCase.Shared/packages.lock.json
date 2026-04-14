@@ -19,15 +19,15 @@
       },
       "Microsoft.AspNetCore.Components.Web": {
         "type": "Direct",
-        "requested": "[8.0.24, )",
-        "resolved": "8.0.24",
-        "contentHash": "aRKiktUct/Ps/DKBSADM4s5TiSYoZwNor7mgX7LSLyoxKwDLnw2xYYDVJTAys0PcfiCWKZmYIBPTy6/qIYkemQ==",
+        "requested": "[8.0.26, )",
+        "resolved": "8.0.26",
+        "contentHash": "acVElNi+Hf+z1HwL/+6hxTmtpd4nJGhv7tzoBqTS8sdDwcHCHoYJ3qd/nXOhc71vWCO9BaJZ+f7zThqyOx+apg==",
         "dependencies": {
-          "Microsoft.AspNetCore.Components": "8.0.24",
-          "Microsoft.AspNetCore.Components.Forms": "8.0.24",
+          "Microsoft.AspNetCore.Components": "8.0.26",
+          "Microsoft.AspNetCore.Components.Forms": "8.0.26",
           "Microsoft.Extensions.DependencyInjection": "8.0.1",
           "Microsoft.Extensions.Primitives": "8.0.0",
-          "Microsoft.JSInterop": "8.0.24",
+          "Microsoft.JSInterop": "8.0.26",
           "System.IO.Pipelines": "8.0.0"
         }
       },
@@ -49,40 +49,40 @@
       },
       "Microsoft.AspNetCore.Authorization": {
         "type": "Transitive",
-        "resolved": "8.0.24",
-        "contentHash": "HjcrmxQQOJES1Qqsxz9iaorJvwxFPatCkxTSnIrRkKh0qns5r6WhbEOxQi4eoaE3r+PtcTZzgL+p42807/wQzA==",
+        "resolved": "8.0.26",
+        "contentHash": "6ggoCjsWhDPVDSs7pG2jNdpvHJBMYgxwjZtHvEGGs1oNIvfzyYKxLGSRPJTTJbLjnFUemopvihuhqbt8n572YQ==",
         "dependencies": {
-          "Microsoft.AspNetCore.Metadata": "8.0.24",
+          "Microsoft.AspNetCore.Metadata": "8.0.26",
           "Microsoft.Extensions.Logging.Abstractions": "8.0.3",
           "Microsoft.Extensions.Options": "8.0.2"
         }
       },
       "Microsoft.AspNetCore.Components": {
         "type": "Transitive",
-        "resolved": "8.0.24",
-        "contentHash": "C9p1/7r100BgXoEbpSxrOG126FKIuQK/eUJCdENGuyamog5QEkUKTkojoO+koUX6owKa3mVAaQJ+O8bMPFrwyg==",
+        "resolved": "8.0.26",
+        "contentHash": "LNcDXLjEXnSHGWUDvpLmuRrmLAzGcwbV7DvrdHdgEhHqelTsJoKZfRr8gcj7zyKVZ9nLwjxBU8RjueKZOjYEeA==",
         "dependencies": {
-          "Microsoft.AspNetCore.Authorization": "8.0.24",
-          "Microsoft.AspNetCore.Components.Analyzers": "8.0.24"
+          "Microsoft.AspNetCore.Authorization": "8.0.26",
+          "Microsoft.AspNetCore.Components.Analyzers": "8.0.26"
         }
       },
       "Microsoft.AspNetCore.Components.Analyzers": {
         "type": "Transitive",
-        "resolved": "8.0.24",
-        "contentHash": "85WRkDrfLxJPQU8Apgnu93w6di2N8Kd+uxgKZM3Jldgme149zQ7ksuMkwyAtTwycbpLGvFyFW8paBNt2LL5Dng=="
+        "resolved": "8.0.26",
+        "contentHash": "wgA8zuiUsFd4dCcaDCp3+8dQHVVJXZJHlco4IGDnm/Z5/Sw/+YR9p4+Y8kic7OK3ym2rP1zfLfD0I5BWKb8qdw=="
       },
       "Microsoft.AspNetCore.Components.Forms": {
         "type": "Transitive",
-        "resolved": "8.0.24",
-        "contentHash": "Uj4kJdUUuCfhkpnR4xs7CuAcL9Ws5M+yEJtIF+IErfTpQi/7JNBVGVLzeV/E66iBmpKpqaknaubaFg/JVfWuOA==",
+        "resolved": "8.0.26",
+        "contentHash": "jLHnlLT+mRMnJD3qjN7tWbFvsV6dsea07akn1GuVntu5kyhKAZYdqRkcH1fnUMqs5i0YFaJJT/7IC5MJ/UZa7Q==",
         "dependencies": {
-          "Microsoft.AspNetCore.Components": "8.0.24"
+          "Microsoft.AspNetCore.Components": "8.0.26"
         }
       },
       "Microsoft.AspNetCore.Metadata": {
         "type": "Transitive",
-        "resolved": "8.0.24",
-        "contentHash": "qBKZwGIRZWtc471WhZWRDMWLuPOLleqEg2n1E6EZ6ot1vlka27iXrD7ClGDEMJZHijujvHfT8zPV3mHuzWTH1w=="
+        "resolved": "8.0.26",
+        "contentHash": "RJq8Z2nB/lmu9kr/7JqN5wsB2A3voD3SIsVr7V7WRrgMueVOhHV+Rey8kryvoBMB86RBEzn/+xkXIBa4CdZ3Fg=="
       },
       "Microsoft.Extensions.Configuration": {
         "type": "Transitive",
@@ -162,8 +162,8 @@
       },
       "Microsoft.JSInterop": {
         "type": "Transitive",
-        "resolved": "8.0.24",
-        "contentHash": "XtIa0+7nEcpOe3giLn/NHSYUePjqi0XuwDc5mYItd+bONEDn/cdaZtoWIFNu8DrGVUeQ5a7PgDMzf8APW+PjvA=="
+        "resolved": "8.0.26",
+        "contentHash": "d4lhVSx2U6vWABKyVdJRNT74Gl3RQT22YQduelzXF7rSYh1vfHHiM7bYhFT42FmIBLIoa7vWAu7k/B6QIOGBXA=="
       },
       "System.IO.Pipelines": {
         "type": "Transitive",
