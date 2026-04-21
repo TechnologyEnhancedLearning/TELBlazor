@@ -26,9 +26,9 @@
       },
       "Microsoft.AspNetCore.Components.WebAssembly.DevServer": {
         "type": "Direct",
-        "requested": "[10.0.6, )",
-        "resolved": "10.0.6",
-        "contentHash": "XuQG+YPThyn8F8EZCAnckdG2G2lMWDhJaEa1wk26aLGh3M86QsoJvvpNU/VuIeET3UiW7RA8SHU6CXbAxtvMVw=="
+        "requested": "[10.0.7, )",
+        "resolved": "10.0.7",
+        "contentHash": "VfFuuTIgLXbtFclhz5f/PQWlygaSaF9pwtiXJjpt8k3pjndlm+aUWZ26LtpbBWY0e+Punqr9Xy/ar6W0cdWlww=="
       },
       "Microsoft.Extensions.Hosting": {
         "type": "Direct",
@@ -464,7 +464,7 @@
         "type": "Project",
         "dependencies": {
           "Blazored.LocalStorage": "[4.5.0, )",
-          "Markdig": "[1.1.2, )",
+          "Markdig": "[1.1.3, )",
           "Microsoft.AspNetCore.Components.Web": "[8.0.26, )",
           "Serilog": "[4.3.0, )",
           "TELBlazor.Components": "(, )"
@@ -472,9 +472,9 @@
       },
       "Markdig": {
         "type": "CentralTransitive",
-        "requested": "[1.1.2, )",
-        "resolved": "1.1.2",
-        "contentHash": "mXh6Ah5p/jtryn7o96B2knDDJVgZ775HnFLObcVxuyWcfeHlsI95WUjiJH0m7ZOYGdCLvwRTwMhv023jUZoEAA=="
+        "requested": "[1.1.3, )",
+        "resolved": "1.1.3",
+        "contentHash": "wboYc6YToID7koq+onej7rjd/kv4urZaZ4QMiJoF/jXt/ZlXe2Af9gWG4nOe5tk654UaOPYvKL64iFum7qWEYA=="
       },
       "Microsoft.AspNetCore.Components.Web": {
         "type": "CentralTransitive",
