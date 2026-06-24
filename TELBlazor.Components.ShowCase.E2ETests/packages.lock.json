@@ -71,9 +71,9 @@
       },
       "Microsoft.Playwright": {
         "type": "Direct",
-        "requested": "[1.60.0, )",
-        "resolved": "1.60.0",
-        "contentHash": "RTwlxpmCsCMD8yCu8a9+/B+ce1axSVuRu3Ew4GI493g84bWxC323u69Tw8najJ/5uZ+cQVU3eDhB4GvubM9yHg==",
+        "requested": "[1.61.0, )",
+        "resolved": "1.61.0",
+        "contentHash": "VM149rQ2Pu+3xAzrO2gvh2WRgrWNbIl0jL9LG2oMC9xKUVYDnUrsh+E/5S+NQToVV4S+yhZ3NHsa6kf1PdHeag==",
         "dependencies": {
           "Microsoft.Bcl.AsyncInterfaces": "6.0.0",
           "System.ComponentModel.Annotations": "5.0.0",
@@ -82,15 +82,15 @@
       },
       "Microsoft.Playwright.MSTest": {
         "type": "Direct",
-        "requested": "[1.60.0, )",
-        "resolved": "1.60.0",
-        "contentHash": "OFPlbBH6EWCFcAncQBFZjfhpBGiQ0EgAPotOG8FT1euIEPltRGYzPDTXaF8p8J5mcmAZejORpwwb2ZZNoAKgiA==",
+        "requested": "[1.61.0, )",
+        "resolved": "1.61.0",
+        "contentHash": "lRLMH9zoLjGvEsfNIKRU7Qf9gkJJyR4/r0ZUncWDFoxWRlpB/b2BW0Y60PtEsDJSyz7L0mbV27UiLoU9aOS7gg==",
         "dependencies": {
           "MSTest.TestAdapter": "2.2.7",
           "MSTest.TestFramework": "2.2.7",
           "Microsoft.NET.Test.Sdk": "17.8.0",
-          "Microsoft.Playwright": "1.60.0",
-          "Microsoft.Playwright.TestAdapter": "1.60.0"
+          "Microsoft.Playwright": "1.61.0",
+          "Microsoft.Playwright.TestAdapter": "1.61.0"
         }
       },
       "Microsoft.Playwright.Xunit": {
@@ -481,10 +481,10 @@
       },
       "Microsoft.Playwright.TestAdapter": {
         "type": "Transitive",
-        "resolved": "1.60.0",
-        "contentHash": "CvyAsA5GSiYKCtkvXxBJ9TLfJJIRJbptqh8WafHXjN4/ZUUxovBl3D6ctkE9XA9thlHTjO907rdEBaDtwzDwGA==",
+        "resolved": "1.61.0",
+        "contentHash": "ExBrT7i3beXIEc44BeS0DvEPKhvazHqzRodh8+xW7AFH+i9I7thI9i0csi92qhXcBYQ1WuHxijylJtEvCuAOHg==",
         "dependencies": {
-          "Microsoft.Playwright": "1.60.0",
+          "Microsoft.Playwright": "1.61.0",
           "Microsoft.TestPlatform.ObjectModel": "17.3.0"
         }
       },
