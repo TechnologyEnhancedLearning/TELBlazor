@@ -120,11 +120,11 @@
       },
       "Serilog.Sinks.InMemory.Assertions": {
         "type": "Direct",
-        "requested": "[0.14.0, )",
-        "resolved": "0.14.0",
-        "contentHash": "1Glb4GQyIsnxGO0u/P+jIkm6x6YKjvGOIOtG5zb8OX3XUJxjyrti7iojYEWSaCzXKchwSvuYdRb494Flfo5oYw==",
+        "requested": "[2.0.0, )",
+        "resolved": "2.0.0",
+        "contentHash": "sBSwTODz/hbSzHKgF5dwrrVLKqXHtzTGVL4GAtqG3n+7rCzrZwtV3VGteGAl5WkK2Vz2QzXx+R9s5Y0HJirkGA==",
         "dependencies": {
-          "Serilog.Sinks.InMemory": "0.14.0"
+          "Serilog.Sinks.InMemory": "2.0.0"
         }
       },
       "Serilog.Sinks.XUnit": {
