@@ -1,7 +1,7 @@
 {
   "dependencies": {
     "nhse-tel-frontend": "^0.0.2",
-    "playwright": "^1.61.1"
+    "playwright": "^1.62.1"
   },
   "devDependencies": {
     "gulp": "^5.0.0",
