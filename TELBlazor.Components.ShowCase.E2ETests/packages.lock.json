@@ -71,9 +71,9 @@
       },
       "Microsoft.Playwright": {
         "type": "Direct",
-        "requested": "[1.61.0, )",
-        "resolved": "1.61.0",
-        "contentHash": "VM149rQ2Pu+3xAzrO2gvh2WRgrWNbIl0jL9LG2oMC9xKUVYDnUrsh+E/5S+NQToVV4S+yhZ3NHsa6kf1PdHeag==",
+        "requested": "[1.62.0, )",
+        "resolved": "1.62.0",
+        "contentHash": "cos6dmHPcMpS6bXw2WEgoXb8KXwMhs3c5L0P/cUf2rdUpjVA3g3u+KiSpVp2VCzsXymRpy2tFHqm+Wnz7s5VhQ==",
         "dependencies": {
           "Microsoft.Bcl.AsyncInterfaces": "6.0.0",
           "System.ComponentModel.Annotations": "5.0.0",
@@ -82,15 +82,15 @@
       },
       "Microsoft.Playwright.MSTest": {
         "type": "Direct",
-        "requested": "[1.61.0, )",
-        "resolved": "1.61.0",
-        "contentHash": "lRLMH9zoLjGvEsfNIKRU7Qf9gkJJyR4/r0ZUncWDFoxWRlpB/b2BW0Y60PtEsDJSyz7L0mbV27UiLoU9aOS7gg==",
+        "requested": "[1.62.0, )",
+        "resolved": "1.62.0",
+        "contentHash": "23l/fxKr2WizsgMi7mzlUIANjGjDcUOK0TlAAEcPlxqag+aiPbScek0JPjeKmCX/4uVKPkFb1SbM6RLzz4/MXw==",
         "dependencies": {
           "MSTest.TestAdapter": "2.2.7",
           "MSTest.TestFramework": "2.2.7",
           "Microsoft.NET.Test.Sdk": "17.8.0",
-          "Microsoft.Playwright": "1.61.0",
-          "Microsoft.Playwright.TestAdapter": "1.61.0"
+          "Microsoft.Playwright": "1.62.0",
+          "Microsoft.Playwright.TestAdapter": "1.62.0"
         }
       },
       "Microsoft.Playwright.Xunit": {
@@ -481,10 +481,10 @@
       },
       "Microsoft.Playwright.TestAdapter": {
         "type": "Transitive",
-        "resolved": "1.61.0",
-        "contentHash": "ExBrT7i3beXIEc44BeS0DvEPKhvazHqzRodh8+xW7AFH+i9I7thI9i0csi92qhXcBYQ1WuHxijylJtEvCuAOHg==",
+        "resolved": "1.62.0",
+        "contentHash": "sfBf7a9fJwsrYuYPyF/JoTUSExKHaQvtBbckVnoYGOuf6UwMRzg2h4txlGCqM+JudytTis+LavyWW6C43iAZ+A==",
         "dependencies": {
-          "Microsoft.Playwright": "1.61.0",
+          "Microsoft.Playwright": "1.62.0",
           "Microsoft.TestPlatform.ObjectModel": "17.3.0"
         }
       },
@@ -1579,7 +1579,7 @@
           "Blazored.LocalStorage": "[4.5.0, )",
           "Microsoft.AspNetCore.Components.WebAssembly.Server": "[8.0.25, )",
           "Newtonsoft.Json": "[13.0.4, )",
-          "Serilog": "[4.3.0, )",
+          "Serilog": "[4.4.0, )",
           "Serilog.AspNetCore": "[8.0.0, )",
           "Serilog.Extensions.Logging": "[8.0.0, )",
           "Serilog.Formatting.Compact": "[3.0.0, )",
@@ -1597,7 +1597,7 @@
           "Blazored.LocalStorage": "[4.5.0, )",
           "Microsoft.AspNetCore.Components.WebAssembly": "[8.0.28, )",
           "Microsoft.Extensions.Http": "[8.0.1, )",
-          "Serilog": "[4.3.0, )",
+          "Serilog": "[4.4.0, )",
           "Serilog.Extensions.Logging": "[8.0.0, )",
           "Serilog.Formatting.Compact": "[3.0.0, )",
           "Serilog.Settings.Configuration": "[10.0.1, )",
@@ -1612,7 +1612,7 @@
           "Blazored.LocalStorage": "[4.5.0, )",
           "Markdig": "[1.3.2, )",
           "Microsoft.AspNetCore.Components.Web": "[8.0.28, )",
-          "Serilog": "[4.3.0, )",
+          "Serilog": "[4.4.0, )",
           "TELBlazor.Components": "(, )"
         }
       },
@@ -1731,9 +1731,9 @@
       },
       "Serilog": {
         "type": "CentralTransitive",
-        "requested": "[4.3.0, )",
-        "resolved": "4.3.0",
-        "contentHash": "+cDryFR0GRhsGOnZSKwaDzRRl4MupvJ42FhCE4zhQRVanX0Jpg6WuCBk59OVhVDPmab1bB+nRykAnykYELA9qQ=="
+        "requested": "[4.4.0, )",
+        "resolved": "4.4.0",
+        "contentHash": "ZC6Le3rr4TVJJjS4KsQAesxeF1EhW9qcZmmG7eP5Y2G3+gTGkJEUXkq4+tZNPtyp05I0wWOxnIjwtxFweJsObw=="
       },
       "Serilog.AspNetCore": {
         "type": "CentralTransitive",
